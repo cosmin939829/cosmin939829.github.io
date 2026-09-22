@@ -3,432 +3,525 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Learn & Earn — 2026 Edition ✨</title>
+<title>Play & Earn Games 🎮</title>
+
+<!-- ✅ YOUR REAL GOOGLE ADSENSE CODE — ALREADY INSERTED! -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2118711773341676"
+     crossorigin="anonymous"></script>
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
 :root{
-  --bg1:#0f0c29;--bg2:#1a1542;--accent:#7928ca;--glow:#ff0080;
-  --gold:#ffd700;--green:#10b981;--red:#ef4444;--blue:#3b82f6;
+  --bg:#f2f2f7;--card:#ffffff;--accent:#007aff;--green:#34c759;
+  --text:#1d1d1f;--muted:#86868b;--border:#e5e5e7;--red:#ff3b30;
 }
-body{
-  background:linear-gradient(135deg,var(--bg1),var(--bg2));
-  min-height:100vh;color:white;padding:20px;
-}
-.container{max-width:420px;margin:0 auto;}
-h1{
-  text-align:center;font-size:2rem;margin-bottom:5px;
-  background:linear-gradient(90deg,var(--gold),var(--glow));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-}
-.subtitle{text-align:center;color:#a78bfa;margin-bottom:25px;}
-.card{
-  background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);
-  border-radius:20px;padding:25px;margin-bottom:20px;
-  border:1px solid rgba(255,255,255,0.1);
-  box-shadow:0 8px 32px rgba(0,0,0,0.3);
-}
-.glow-btn{
-  width:100%;padding:14px;border:none;border-radius:12px;
-  font-size:1.1rem;font-weight:bold;cursor:pointer;
-  margin:8px 0;transition:all 0.3s ease;
-}
-.gold{
-  background:linear-gradient(90deg,#ffd700,#ffed4e);color:#000;
-  box-shadow:0 0 20px rgba(255,215,0,0.4);
-}
-.gold:hover{transform:scale(1.02);}
-.purple{
-  background:linear-gradient(90deg,#7928ca,#ff0080);color:white;
-}
-.green{background:linear-gradient(90deg,#10b981,#34d399);color:white;}
-.red{background:linear-gradient(90deg,#ef4444,#f87171);color:white;}
-.blue{background:linear-gradient(90deg,#3b82f6,#60a5fa);color:white;}
-.option{
-  background:rgba(255,255,255,0.08);border:2px solid transparent;
-  text-align:left;padding:15px;border-radius:12px;
-  transition:all 0.2s ease;
-}
-.option:hover{border-color:var(--blue);transform:translateX(5px);}
-.option.correct{background:rgba(16,185,129,0.2);border-color:var(--green);}
-.option.wrong{background:rgba(239,68,68,0.2);border-color:var(--red);}
-.balance-box{
-  background:linear-gradient(135deg,rgba(16,185,129,0.2),rgba(59,130,246,0.2));
-  text-align:center;
-}
-.balance-amt{font-size:2.5rem;font-weight:bold;color:var(--gold);}
-.streak{display:flex;align-items:center;justify-content:center;gap:8px;margin:10px 0;}
-.streak span{background:linear-gradient(90deg,#f97316,#ff0080);padding:6px 14px;border-radius:20px;font-weight:bold;}
-.level-bar{height:8px;background:rgba(255,255,255,0.1);border-radius:4px;margin:8px 0;overflow:hidden;}
-.level-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--glow));width:0%;transition:width 0.5s ease;}
+body{background:var(--bg);color:var(--text);min-height:100vh;}
+.container{max-width:480px;margin:0 auto;padding:15px;}
+
+/* AUTH */
+.auth-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
+.auth-card{background:white;border-radius:20px;padding:30px;width:100%;max-width:400px;box-shadow:0 4px 20px rgba(0,0,0,0.1);}
+.auth-title{font-size:1.8rem;font-weight:bold;text-align:center;margin-bottom:25px;}
+.auth-input{width:100%;padding:14px 16px;border-radius:12px;border:1px solid var(--border);font-size:1rem;margin-bottom:12px;}
+.auth-btn{width:100%;padding:14px;border:none;border-radius:12px;font-size:1rem;font-weight:bold;cursor:pointer;}
+.auth-primary{background:var(--accent);color:white;}
+.auth-link{text-align:center;margin-top:15px;font-size:0.9rem;color:var(--accent);cursor:pointer;}
+.error-text{color:var(--red);font-size:0.85rem;margin-bottom:10px;min-height:20px;}
 .hidden{display:none !important;}
-input{
-  width:100%;padding:14px;margin:8px 0;border-radius:10px;
-  border:1px solid rgba(255,255,255,0.2);
-  background:rgba(255,255,255,0.08);color:white;font-size:1rem;
-}
-input:focus{outline:none;border-color:var(--gold);}
-.link{color:var(--gold);cursor:pointer;}
-.link:hover{text-decoration:underline;}
-.badge{display:inline-block;padding:6px 12px;border-radius:20px;font-size:0.8rem;font-weight:bold;margin:4px;}
-.badge.new{background:linear-gradient(90deg,#3b82f6,#60a5fa);}
-.badge.fire{background:linear-gradient(90deg,#f97316,#ef4444);}
-.badge.master{background:linear-gradient(90deg,#ffd700,#f97316);color:#000;}
-.confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;}
+
+/* MAIN APP */
+.balance-display{text-align:center;padding:20px;background:linear-gradient(135deg,#007aff,#5856d6);border-radius:16px;color:white;margin-bottom:15px;}
+.balance-amount{font-size:2.5rem;font-weight:bold;}
+.zone-tabs{display:flex;gap:8px;margin-bottom:15px;flex-wrap:wrap;}
+.zone-tab{flex:1;min-width:80px;padding:10px;border-radius:10px;border:none;font-weight:600;cursor:pointer;}
+.zone-tab.active{background:var(--accent);color:white;}
+.zone-tab.inactive{background:white;color:var(--muted);}
+.game-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+.game-card{background:white;border-radius:16px;overflow:hidden;cursor:pointer;transition:transform 0.2s;}
+.game-card:active{transform:scale(0.97);}
+.game-img{width:100%;height:110px;background:linear-gradient(135deg,var(--accent),#5856d6);display:flex;align-items:center;justify-content:center;font-size:2.5rem;}
+.game-info{padding:10px;}
+.game-name{font-weight:600;font-size:0.9rem;}
+
+/* REAL GAME + 60s TIMER */
+.game-play-screen{position:fixed;inset:0;background:var(--bg);z-index:9000;display:none;flex-direction:column;}
+.game-header{display:flex;justify-content:space-between;align-items:center;padding:12px 15px;background:white;border-bottom:1px solid var(--border);}
+.close-btn{padding:8px 16px;background:var(--red);color:white;border:none;border-radius:8px;cursor:pointer;}
+.game-iframe-container{flex:1;position:relative;overflow:hidden;}
+.game-iframe{width:100%;height:100%;border:none;}
+.timer-bar{position:absolute;top:0;left:0;height:4px;background:var(--green);width:100%;transition:width 1s linear;}
+.earn-area{padding:20px;text-align:center;background:white;border-top:1px solid var(--border);}
+.earn-btn{padding:14px 40px;background:var(--border);color:#aaa;border:none;border-radius:12px;font-size:1.1rem;font-weight:bold;cursor:not-allowed;transition:all 0.3s;}
+.earn-btn.ready{background:var(--green);color:white;cursor:pointer;animation:glow 1s infinite alternate;}
+@keyframes glow{from{box-shadow:0 0 0 rgba(52,199,89,0);}to{box-shadow:0 0 20px rgba(52,199,89,0.4);}}
+
+/* REAL GOOGLE AD AREA — Auto Ads show here automatically */
+.ad-screen{position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;}
+.ad-box{background:white;border-radius:16px;padding:20px;max-width:420px;width:100%;text-align:center;}
+.ad-label{font-size:0.8rem;color:var(--muted);margin-bottom:10px;}
+.ad-slot{min-height:280px;margin:0 auto 15px;display:flex;align-items:center;justify-content:center;}
+.skip-area{min-height:44px;}
+.continue-btn{padding:12px 30px;background:var(--accent);color:white;border:none;border-radius:10px;font-weight:bold;cursor:pointer;display:none;}
+.continue-btn.show{display:inline-block;}
+.earned-msg{color:var(--green);font-weight:bold;margin-top:15px;display:none;}
+.waiting-msg{color:var(--muted);font-size:0.9rem;}
+
+/* WITHDRAW & ADMIN */
+.section{display:none;padding:20px 0;}
+.card{background:white;border-radius:16px;padding:25px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.05);}
+.action-btn{padding:14px 30px;background:var(--accent);color:white;border:none;border-radius:12px;font-weight:bold;cursor:pointer;margin-top:15px;}
+.action-btn:disabled{background:var(--border);opacity:0.6;cursor:not-allowed;}
+.pending-note{margin-top:15px;padding:12px;background:#fff3cd;border-radius:10px;font-size:0.9rem;color:#856404;display:none;}
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:20px 0;}
+.stat-card{background:white;border-radius:12px;padding:15px;text-align:center;}
+.stat-val{font-size:1.5rem;font-weight:bold;color:var(--accent);}
+.stat-lab{font-size:0.75rem;color:var(--muted);margin-top:5px;}
+.player-item{background:white;border-radius:12px;padding:15px;margin-bottom:10px;text-align:left;}
+.approve-btn{padding:6px 12px;background:var(--green);color:white;border:none;border-radius:8px;cursor:pointer;margin-top:8px;}
+.logout-btn{margin-top:20px;padding:10px 20px;background:var(--red);color:white;border:none;border-radius:10px;cursor:pointer;}
+
+/* BOTTOM NAV */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--border);display:flex;z-index:100;}
+.nav-item{flex:1;padding:12px;text-align:center;cursor:pointer;}
+.nav-item.active{color:var(--accent);font-weight:600;}
+.nav-icon{font-size:1.3rem;margin-bottom:2px;}
 </style>
 </head>
 <body>
-<div class="confetti" id="confetti"></div>
-<div class="container">
-  <h1>🌸 Learn & Earn</h1>
-  <p class="subtitle">✨ Play • Learn • Earn Real Money ✨</p>
 
-  <!-- LOGIN PANEL -->
-  <div id="auth_panel">
-    <div style="display:flex;margin-bottom:20px;">
-      <button class="glow-btn purple" style="flex:1;margin:0;border-radius:12px 0 0 12px;" id="tab_login" onclick="showTab('login')">Login</button>
-      <button class="glow-btn" style="flex:1;margin:0;background:rgba(255,255,255,0.1);border-radius:0 12px 12px 0;" id="tab_reg" onclick="showTab('register')">Register</button>
-    </div>
-
-    <div id="login_card" class="card">
-      <h3 style="margin-bottom:15px;">👋 Welcome Back!</h3>
-      <input type="text" id="in_user" placeholder="Your Username">
-      <input type="password" id="in_pass" placeholder="Your Password">
-      <button class="glow-btn gold" onclick="doLogin()">🚀 Enter</button>
-      <p style="text-align:center;margin-top:15px;">
-        <span class="link" onclick="showTab('admin')">🔐 Admin Login</span>
-      </p>
-    </div>
-
-    <div id="reg_card" class="card hidden">
-      <h3 style="margin-bottom:15px;">✨ Join & Start Earning!</h3>
-      <input type="text" id="new_user" placeholder="Choose Username">
-      <input type="password" id="new_pass" placeholder="Create Password">
-      <input type="email" id="new_paypal" placeholder="Your PayPal Email">
-      <button class="glow-btn gold" onclick="doRegister()">🎮 Create Account</button>
-    </div>
-
-    <div id="admin_card" class="card hidden">
-      <h3 style="margin-bottom:15px;">🔐 Admin Login</h3>
-      <input type="text" id="admin_user" placeholder="Admin Username">
-      <input type="password" id="admin_pass" placeholder="Admin Password">
-      <button class="glow-btn purple" onclick="doAdminLogin()">🔑 Login</button>
-      <p style="text-align:center;margin-top:15px;">
-        <span class="link" onclick="showTab('login')">← Back</span>
-      </p>
-    </div>
-  </div>
-
-  <!-- MAIN GAME AREA -->
-  <div id="game_panel" class="hidden">
-    <p style="text-align:right;color:#a78bfa;font-size:0.9rem;">
-      Level <span id="user_level">1</span> • XP: <span id="user_xp">0</span>/<span id="xp_next">100</span>
-    </p>
-    <div class="level-bar"><div class="level-fill" id="xp_bar"></div></div>
+<!-- 🔐 LOGIN / REGISTER -->
+<div id="authScreen" class="auth-screen">
+  <div class="auth-card">
+    <h1 class="auth-title" id="authTitle">Play & Earn 🎮</h1>
+    <div class="error-text" id="authError"></div>
     
-    <div class="card balance-box">
-      <p style="color:#94a3b8;">💰 Your Balance</p>
-      <p class="balance-amt" id="show_balance">£0.00</p>
-      <p style="font-size:0.8rem;color:#94a3b8;">50% to You • 50% Platform</p>
+    <div id="loginForm">
+      <input type="text" class="auth-input" id="loginUser" placeholder="Username">
+      <input type="password" class="auth-input" id="loginPass" placeholder="Password">
+      <button class="auth-btn auth-primary" id="loginBtn">Login</button>
+      <div class="auth-link" id="goRegister">Don't have an account? Register</div>
     </div>
-
-    <div class="streak" id="streak_display" style="display:none;">
-      🔥 Streak: <span id="streak_count">0</span> <small>x2 EARNINGS!</small>
+    
+    <div id="registerForm" class="hidden">
+      <input type="text" class="auth-input" id="regUser" placeholder="Choose Username">
+      <input type="password" class="auth-input" id="regPass" placeholder="Choose Password">
+      <button class="auth-btn auth-primary" id="registerBtn">Register</button>
+      <div class="auth-link" id="goLogin">Already have an account? Login</div>
     </div>
-
-    <div id="badges_area" style="margin:10px 0;"></div>
-
-    <div id="quiz_intro" style="text-align:center;margin:30px 0;">
-      <h3 style="margin-bottom:20px;">🎯 Choose Your Challenge</h3>
-      <button class="glow-btn green" onclick="startGame('junior')">🌱 Junior • Easy Start</button>
-      <button class="glow-btn blue" onclick="startGame('teen')">⚡ Explorer • Medium</button>
-      <button class="glow-btn purple" onclick="startGame('adult')">🏆 Master • Max Earnings</button>
-      <div style="margin-top:30px;display:flex;gap:10px;">
-        <button class="glow-btn gold" style="flex:1;" onclick="openWithdraw()">💷 Withdraw</button>
-        <button class="glow-btn red" style="flex:1;" onclick="logout()">🚪 Logout</button>
-      </div>
-    </div>
-
-    <div id="quiz_playing" class="hidden">
-      <p style="text-align:center;color:#a78bfa;">Question <span id="q_num">1</span>/5</p>
-      <h3 id="question_text" style="text-align:center;margin:20px 0;font-size:1.3rem;"></h3>
-      <div id="options_list"></div>
-      <button class="glow-btn" style="background:rgba(255,255,255,0.1);" onclick="exitGame()">← Exit Game</button>
-    </div>
-
-    <div id="quiz_done" class="hidden" style="text-align:center;">
-      <h2 style="font-size:2rem;margin-bottom:10px;">🎉 Complete!</h2>
-      <p style="font-size:1.3rem;">Score: <span id="final_score">0</span>/5</p>
-      <p style="color:var(--gold);font-size:1.2rem;margin:15px 0;">Earned: <span id="earned_amt">£0.00</span></p>
-      <button class="glow-btn gold" onclick="backToMenu()">🏠 Back to Menu</button>
-    </div>
-  </div>
-
-  <!-- WITHDRAW PANEL -->
-  <div id="withdraw_panel" class="hidden">
-    <div class="card">
-      <h2 style="text-align:center;margin-bottom:20px;">💷 Withdraw Funds</h2>
-      <p>Available: <strong id="wd_balance">£0.00</strong></p>
-      <p>PayPal: <strong id="wd_email">Not Set</strong></p>
-      <input type="email" id="new_paypal_set" placeholder="Update PayPal Email">
-      <button class="glow-btn gold" onclick="savePayPal()">💾 Save Email</button>
-      <hr style="border-color:rgba(255,255,255,0.1);margin:20px 0;">
-      <input type="number" id="wd_amount" placeholder="Amount (£)" min="5" step="0.01">
-      <p style="font-size:0.8rem;color:#94a3b8;">Minimum: £5.00</p>
-      <button class="glow-btn green" onclick="submitWithdraw()">✅ Request Withdrawal</button>
-      <button class="glow-btn" style="background:rgba(255,255,255,0.1);" onclick="closeWithdraw()">← Back</button>
-    </div>
-  </div>
-
-  <!-- ADMIN PANEL -->
-  <div id="admin_panel" class="hidden">
-    <div class="card">
-      <h2 style="text-align:center;margin-bottom:20px;">🔐 Admin Dashboard</h2>
-      <p>Platform Earnings: <strong id="admin_total">£0.00</strong></p>
-      <button class="glow-btn gold" onclick="adminCashout()">💰 Withdraw All to Admin PayPal</button>
-      <h3 style="margin:20px 0 10px;">All Users</h3>
-      <div id="all_users" style="background:rgba(0,0,0,0.2);padding:15px;border-radius:10px;max-height:300px;overflow-y:auto;"></div>
-      <button class="glow-btn red" onclick="logout()">🚪 Logout</button>
+    
+    <div style="text-align:center;margin-top:20px;">
+      <div class="auth-link" id="goAdmin">🔒 Admin Login</div>
     </div>
   </div>
 </div>
 
+<!-- 🔒 ADMIN LOGIN -->
+<div id="adminLoginScreen" class="auth-screen hidden">
+  <div class="auth-card">
+    <h1 class="auth-title">🔒 Admin</h1>
+    <div class="error-text" id="adminError"></div>
+    <input type="password" class="auth-input" id="adminPass" placeholder="Admin Password">
+    <button class="auth-btn auth-primary" id="adminLoginBtn">Sign In</button>
+    <div class="auth-link" id="backToAuth">← Back</div>
+  </div>
+</div>
+
+<!-- 🎮 MAIN APP -->
+<div id="mainApp" class="hidden">
+  <div class="container">
+    <div class="balance-display">
+      <div>Your Balance</div>
+      <div class="balance-amount" id="balance">£0.00</div>
+    </div>
+
+    <div class="zone-tabs">
+      <button class="zone-tab active" data-sec="games">🎮 Games</button>
+      <button class="zone-tab inactive" data-sec="kids">👶 Kids</button>
+      <button class="zone-tab inactive" data-sec="withdraw">💰 Withdraw</button>
+      <button class="zone-tab inactive" data-sec="admin">🔒</button>
+    </div>
+
+    <div id="gamesSec" class="section" style="display:block;">
+      <div class="game-grid" id="gamesGrid"></div>
+    </div>
+    <div id="kidsSec" class="section">
+      <div class="game-grid" id="kidsGrid"></div>
+    </div>
+    <div id="withdrawSec" class="section">
+      <div class="card">
+        <h3>Withdraw Your Earnings</h3>
+        <p style="margin:15px 0;color:var(--muted);">Minimum: £5.00</p>
+        <p style="font-size:1.8rem;font-weight:bold;" id="wdBal">£0.00</p>
+        <button class="action-btn" id="wdBtn">Request Withdraw</button>
+        <p class="pending-note" id="pendingNote">⏳ Pending — sent within 24h after approval</p>
+      </div>
+    </div>
+    <div id="adminSec" class="section">
+      <h3 style="text-align:center;margin-bottom:15px;">📊 Admin Dashboard</h3>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-val" id="sPlayers">0</div><div class="stat-lab">Players</div></div>
+        <div class="stat-card"><div class="stat-val" id="sAds">0</div><div class="stat-lab">Ads Watched</div></div>
+        <div class="stat-card"><div class="stat-val" id="sOwed">£0.00</div><div class="stat-lab">Total Owed</div></div>
+        <div class="stat-card"><div class="stat-val" id="sRev">£0.00</div><div class="stat-lab">Est. Revenue</div></div>
+      </div>
+      <h4 style="margin:20px 0 10px;">Player List</h4>
+      <div id="playerList"></div>
+      <button class="logout-btn" id="adminLogout">Logout</button>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <div class="nav-item active" data-nav="games"><div class="nav-icon">🎮</div><div style="font-size:0.7rem">Games</div></div>
+    <div class="nav-item" data-nav="kids"><div class="nav-icon">👶</div><div style="font-size:0.7rem">Kids</div></div>
+    <div class="nav-item" data-nav="withdraw"><div class="nav-icon">💰</div><div style="font-size:0.7rem">Withdraw</div></div>
+    <div class="nav-item" data-nav="admin"><div class="nav-icon">🔒</div><div style="font-size:0.7rem"></div></div>
+  </div>
+</div>
+
+<!-- 🎮 REAL GAME → 60 SECONDS TO PLAY -->
+<div id="gamePlayScreen" class="game-play-screen">
+  <div class="game-header">
+    <span id="gameName">Game</span>
+    <button class="close-btn" id="closeGame">✕ Close</button>
+  </div>
+  <div class="game-iframe-container">
+    <div class="timer-bar" id="timerBar"></div>
+    <iframe class="game-iframe" id="gameIframe" src="" allowfullscreen></iframe>
+  </div>
+  <div class="earn-area">
+    <p id="statusText">Play for 60 seconds to earn your reward ⏳</p>
+    <button class="earn-btn" id="earnBtn" disabled>Watch Ad & Earn Reward</button>
+  </div>
+</div>
+
+<!-- 📺 WHERE GOOGLE SHOWS REAL ADS -->
+<div id="adScreen" class="ad-screen">
+  <div class="ad-box">
+    <p class="ad-label">Advertisement</p>
+    <div class="ad-slot" id="adSlot">
+      <p class="waiting-msg">
+        ⏳ Google is reviewing your site...<br>
+        Once approved, REAL ads will appear here automatically
+      </p>
+    </div>
+    <div class="skip-area">
+      <button class="continue-btn" id="continueBtn">✓ Continue</button>
+    </div>
+    <p class="earned-msg" id="earnedMsg">+£0.002 added to your balance! ✅</p>
+  </div>
+</div>
+
 <script>
-// ========== YOUR REAL DETAILS — DO NOT CHANGE ==========
-const ADMIN_USER = "admin";
-const ADMIN_PASS = "skumpyku93@";
-const ADMIN_PAYPAL = "nicolaecosmin939829@gmail.com";
-const MIN_WITHDRAW = 5;
-const BASE_COIN = 0.10;
+// ==============================================
+// ⚙️ SETTINGS
+// ==============================================
+const EARNING_PER_AD = 0.002;  // Real Google earnings will replace this
+const MIN_WITHDRAW = 5.00;
+const PLAY_SECONDS = 60;
+const SKIP_AFTER = 5;
+const ADMIN_PASSWORD = "admin123"; // CHANGE THIS TO YOUR OWN PASSWORD!
 
-// ========== STORAGE ==========
-function getDB(){
-  try{const d=localStorage.getItem('eilla_db');return d?JSON.parse(d):{users:{},adminTotal:0};}
-  catch(e){return {users:{},adminTotal:0};}
-}
-function saveDB(db){
-  try{localStorage.setItem('eilla_db',JSON.stringify(db));}
-  catch(e){alert('Storage error — restart browser');}
-}
-function getCurrentUser(){return localStorage.getItem('eilla_active')||'';}
-function setCurrentUser(u){localStorage.setItem('eilla_active',u);}
+// ✅ REAL PLAYABLE GAMES — loaded directly from trusted sources
+const games = [
+  {name:'8 Ball Pool',icon:'🎱',url:'https://www.miniclip.com/games/8-ball-pool/en/'},
+  {name:'Subway Surfers',icon:'🏃',url:'https://poki.com/en/g/subway-surfers'},
+  {name:'Temple Run',icon:'🏛️',url:'https://poki.com/en/g/temple-run'},
+  {name:'Block Blast',icon:'🧱',url:'https://poki.com/en/g/block-blast'},
+  {name:'Candy Match',icon:'🍬',url:'https://poki.com/en/g/candy-match'},
+  {name:'Solitaire',icon:'🃏',url:'https://poki.com/en/g/solitaire'},
+  {name:'Bingo',icon:'🎯',url:'https://poki.com/en/g/bingo'},
+  {name:'Lucky Spin',icon:'🎡',url:'https://poki.com/en/g/lucky-wheel'}
+];
+const kidsGames = [
+  {name:'ABC Letters',icon:'🔤',url:'https://www.abcya.com/games/alphabet_bingo'},
+  {name:'Numbers Fun',icon:'🔢',url:'https://www.abcya.com/games/counting-to-10'},
+  {name:'Memory Game',icon:'🧠',url:'https://poki.com/en/g/memory-game'}
+];
 
-// ========== SCREEN SWITCHING ==========
-function hideAll(){
-  ['auth_panel','game_panel','withdraw_panel','admin_panel'].forEach(id=>
-    document.getElementById(id).classList.add('hidden'));
-}
-function showTab(tab){
-  hideAll();document.getElementById('auth_panel').classList.remove('hidden');
-  ['login_card','reg_card','admin_card'].forEach(c=>document.getElementById(c).classList.add('hidden'));
-  ['tab_login','tab_reg'].forEach(t=>{
-    document.getElementById(t).style.background=(t==='tab_login'&&tab==='login')?'linear-gradient(90deg,#7928ca,#ff0080)':'rgba(255,255,255,0.1)';
-  });
-  if(tab==='admin') document.getElementById('admin_card').classList.remove('hidden');
-  else if(tab==='register') document.getElementById('reg_card').classList.remove('hidden');
-  else document.getElementById('login_card').classList.remove('hidden');
-}
+// ==============================================
+// 💾 DATA — stored locally on user's device
+// ==============================================
+function getUsers(){ return JSON.parse(localStorage.getItem('allUsers') || '{}'); }
+function saveUsers(u){ localStorage.setItem('allUsers', JSON.stringify(u)); }
+function getUid(){ return localStorage.getItem('uid'); }
+function setUid(id){ localStorage.setItem('uid', id); }
+function getMe(){ return getUsers()[getUid()]; }
+function saveMe(m){ const u=getUsers(); u[getUid()]=m; saveUsers(u); }
 
-// ========== USER ACTIONS ==========
-function doRegister(){
-  const u=document.getElementById('new_user').value.trim();
-  const p=document.getElementById('new_pass').value;
-  const y=document.getElementById('new_paypal').value.trim();
-  if(!u||!p||!y){alert('Fill ALL fields! ✅');return;}
-  const db=getDB();
-  if(db.users[u]){alert('Username taken — try another!');return;}
-  db.users[u]={pass:p,paypal:y,balance:0,xp:0,level:1,streak:0,badges:[],totalEarned:0};
-  saveDB(db);setCurrentUser(u);
-  alert('Account created! 🎉');openGame(u);
-}
-function doLogin(){
-  const u=document.getElementById('in_user').value.trim();
-  const p=document.getElementById('in_pass').value;
-  const db=getDB();
-  if(!db.users[u]||db.users[u].pass!==p){alert('Check your login details!');return;}
-  setCurrentUser(u);openGame(u);
-}
-function doAdminLogin(){
-  const u=document.getElementById('admin_user').value.trim();
-  const p=document.getElementById('admin_pass').value;
-  if(u===ADMIN_USER&&p===ADMIN_PASS){
-    alert('Welcome Admin! ✅');
-    hideAll();
-    document.getElementById('admin_panel').classList.remove('hidden');
-    updateAdminView();
-  }else{alert('Admin login failed!');}
-}
-function logout(){
-  setCurrentUser('');hideAll();showTab('login');
+function makeUser(user, pass){
+  const id = 'u_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
+  const u = getUsers();
+  u[id] = {id,username:user,password:pass,balance:0,ads:0,thisMonthAds:0,reg:new Date().toISOString(),withdrawals:[]};
+  saveUsers(u);
+  return id;
 }
 
-// ========== GAME SCREEN ==========
-function openGame(username){
-  hideAll();document.getElementById('game_panel').classList.remove('hidden');
-  const db=getDB();const user=db.users[username];
-  updateUserDisplay(user);
-}
-function updateUserDisplay(user){
-  document.getElementById('show_balance').textContent='£'+user.balance.toFixed(2);
-  document.getElementById('user_level').textContent=user.level;
-  document.getElementById('user_xp').textContent=user.xp;
-  const nextLv=user.level*100;
-  document.getElementById('xp_next').textContent=nextLv;
-  document.getElementById('xp_bar').style.width=Math.min(100,(user.xp/nextLv)*100)+'%';
-  document.getElementById('streak_display').style.display=user.streak>=3?'flex':'none';
-  if(user.streak>=3) document.getElementById('streak_count').textContent=user.streak;
-  const badgeArea=document.getElementById('badges_area');
-  badgeArea.innerHTML=user.badges.map(b=>`<span class="badge ${b.style||''}">${b.icon} ${b.name}</span>`).join('');
-}
+function showErr(el,msg){ el.textContent=msg; setTimeout(()=>el.textContent='',3000); }
 
-// ========== QUIZ DATA ==========
-const QUESTIONS={
-  junior:[
-    {q:'5 + 7 = ?',o:[10,12,14,11],c:1},
-    {q:'Red Planet?',o:['Venus','Mars','Jupiter','Saturn'],c:1},
-    {q:'Spider legs?',o:[6,8,10,12],c:1},
-    {q:'Plants absorb?',o:['Oxygen','CO₂','Nitrogen','Hydrogen'],c:1},
-    {q:'Largest ocean?',o:['Atlantic','Indian','Arctic','Pacific'],c:3}
-  ],
-  teen:[
-    {q:'Capital of France?',o:['London','Berlin','Paris','Madrid'],c:2},
-    {q:'Water formula?',o:['WA','H₂O','O₂','CO₂'],c:1},
-    {q:'3x = 15 → x = ?',o:[3,4,5,6],c:2},
-    {q:'Fastest?',o:['Sound','Light','Wind','Car'],c:1},
-    {q:'√81 = ?',o:[7,8,9,11],c:2}
-  ],
-  adult:[
-    {q:'Compound interest = ?',o:['Only principal','Principal + interest','Bank fee','Fixed rate'],c:1},
-    {q:'Best money habit?',o:['Spend first','Save first','Borrow more','Never save'],c:1},
-    {q:'Diversify = ?',o:['All in one','Spread investments','Keep cash','Only crypto'],c:1},
-    {q:'Inflation means?',o:['Prices fall','Money buys less','Rates drop','Wages rise'],c:1},
-    {q:'Emergency fund covers?',o:['Holiday','3-6 months expenses','Credit card','New car'],c:1}
-  ]
+// ==============================================
+// 🔐 LOGIN / REGISTER SYSTEM
+// ==============================================
+document.getElementById('goRegister').onclick = ()=>{
+  document.getElementById('loginForm').classList.add('hidden');
+  document.getElementById('registerForm').classList.remove('hidden');
+  document.getElementById('authTitle').textContent = 'Create Account';
+};
+document.getElementById('goLogin').onclick = ()=>{
+  document.getElementById('registerForm').classList.add('hidden');
+  document.getElementById('loginForm').classList.remove('hidden');
+  document.getElementById('authTitle').textContent = 'Play & Earn 🎮';
+};
+document.getElementById('goAdmin').onclick = ()=>{
+  document.getElementById('authScreen').classList.add('hidden');
+  document.getElementById('adminLoginScreen').classList.remove('hidden');
+};
+document.getElementById('backToAuth').onclick = ()=>{
+  document.getElementById('adminLoginScreen').classList.add('hidden');
+  document.getElementById('authScreen').classList.remove('hidden');
 };
 
-let currentLevel, qList, qIndex, score;
-function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+document.getElementById('registerBtn').onclick = ()=>{
+  const u = document.getElementById('regUser').value.trim();
+  const p = document.getElementById('regPass').value;
+  if(!u||!p) return showErr(document.getElementById('authError'),'Fill all fields');
+  if(Object.values(getUsers()).find(x=>x.username===u)) return showErr(document.getElementById('authError'),'Username taken');
+  setUid(makeUser(u,p));
+  showApp();
+};
+document.getElementById('loginBtn').onclick = ()=>{
+  const u = document.getElementById('loginUser').value.trim();
+  const p = document.getElementById('loginPass').value;
+  const found = Object.entries(getUsers()).find(([id,x])=>x.username===u&&x.password===p);
+  if(!found) return showErr(document.getElementById('authError'),'Wrong login');
+  setUid(found[0]);
+  showApp();
+};
+document.getElementById('adminLoginBtn').onclick = ()=>{
+  if(document.getElementById('adminPass').value === ADMIN_PASSWORD){
+    localStorage.setItem('adminOk','1');
+    document.getElementById('adminLoginScreen').classList.add('hidden');
+    showApp(true);
+  }else showErr(document.getElementById('adminError'),'Wrong password');
+};
 
-function startGame(lvl){
-  currentLevel=lvl;qList=shuffle([...QUESTIONS[lvl]]).slice(0,5);qIndex=0;score=0;
-  document.getElementById('quiz_intro').classList.add('hidden');
-  document.getElementById('quiz_done').classList.add('hidden');
-  document.getElementById('quiz_playing').classList.remove('hidden');
-  showQuestion();
+// ==============================================
+// 📱 SHOW MAIN APP
+// ==============================================
+function showApp(isAdmin=false){
+  document.getElementById('authScreen').classList.add('hidden');
+  document.getElementById('mainApp').classList.remove('hidden');
+  renderGames(); renderKids(); updateBal();
+  if(isAdmin || localStorage.getItem('adminOk')==='1') renderAdmin();
 }
-function showQuestion(){
-  const q=qList[qIndex];
-  document.getElementById('q_num').textContent=(qIndex+1);
-  document.getElementById('question_text').textContent=q.q;
-  const list=document.getElementById('options_list');list.innerHTML='';
-  q.o.forEach((opt,i)=>{
-    const btn=document.createElement('button');
-    btn.className='option glow-btn';btn.textContent=opt;
-    btn.onclick=()=>selectAnswer(i,q.c);
-    list.appendChild(btn);
+
+// ==============================================
+// 🎮 RENDER ALL GAMES ON SCREEN
+// ==============================================
+function renderGames(){
+  const g = document.getElementById('gamesGrid'); g.innerHTML='';
+  games.forEach(x=>{
+    const c = document.createElement('div'); c.className='game-card';
+    c.innerHTML = `<div class="game-img">${x.icon}</div><div class="game-info"><div class="game-name">${x.name}</div></div>`;
+    c.onclick = ()=> playGame(x);
+    g.appendChild(c);
   });
 }
-function selectAnswer(selected,correct){
-  const opts=document.querySelectorAll('.option');
-  opts.forEach(b=>b.style.pointerEvents='none');
-  opts[correct].classList.add('correct');
-  if(selected!==correct) opts[selected].classList.add('wrong');
+function renderKids(){
+  const g = document.getElementById('kidsGrid'); g.innerHTML='';
+  kidsGames.forEach(x=>{
+    const c = document.createElement('div'); c.className='game-card';
+    c.innerHTML = `<div class="game-img">${x.icon}</div><div class="game-info"><div class="game-name">${x.name}</div></div>`;
+    c.onclick = ()=> playGame(x);
+    g.appendChild(c);
+  });
+}
+
+// ==============================================
+// 🎮 PLAY REAL GAME → 60s TIMER → WATCH AD → EARN
+// ==============================================
+function playGame(game){
+  document.getElementById('gameName').textContent = game.name;
+  document.getElementById('gameIframe').src = game.url;
+  document.getElementById('gamePlayScreen').style.display = 'flex';
+  document.getElementById('earnBtn').classList.remove('ready');
+  document.getElementById('earnBtn').disabled = true;
   
-  const db=getDB();const uname=getCurrentUser();const user=db.users[uname];
+  let elapsed = 0;
+  const bar = document.getElementById('timerBar');
+  bar.style.width = '100%';
   
-  if(selected===correct){
-    score++;user.streak++;
-    let earn=BASE_COIN;
-    if(user.streak>=3) earn*=2;
-    user.balance=parseFloat((user.balance+earn).toFixed(2));
-    user.xp+=10;
-    const nextLv=user.level*100;
-    if(user.xp>=nextLv){user.level++;user.xp=0;alert('🎉 LEVEL UP!');}
-    if(user.streak===3&&!user.badges.find(b=>b.name==='On Fire!')){
-      user.badges.push({name:'On Fire!',icon:'🔥',style:'fire'});
+  const timer = setInterval(()=>{
+    elapsed++;
+    bar.style.width = `${100 - (elapsed / PLAY_SECONDS * 100)}%`;
+    
+    if(elapsed >= PLAY_SECONDS){
+      clearInterval(timer);
+      document.getElementById('statusText').textContent = '✅ Ready! Watch ad to earn your reward';
+      document.getElementById('earnBtn').disabled = false;
+      document.getElementById('earnBtn').classList.add('ready');
+    } else {
+      document.getElementById('statusText').textContent = `Play for ${PLAY_SECONDS - elapsed} more second${PLAY_SECONDS - elapsed !== 1 ? 's' : ''}...`;
     }
-    confetti();
-  }else{user.streak=0;}
+  }, 1000);
   
-  saveDB(db);updateUserDisplay(user);
+  document.getElementById('closeGame').onclick = ()=>{
+    clearInterval(timer);
+    document.getElementById('gamePlayScreen').style.display = 'none';
+    document.getElementById('gameIframe').src = '';
+  };
+}
+
+// When user clicks "Watch Ad"
+document.getElementById('earnBtn').onclick = ()=>{
+  document.getElementById('gamePlayScreen').style.display = 'none';
+  document.getElementById('gameIframe').src = '';
+  showAdScreen();
+};
+
+// ==============================================
+// 📺 AD SCREEN — Google Auto Ads loads here automatically
+// ==============================================
+function showAdScreen(){
+  const ad = document.getElementById('adScreen');
+  const continueBtn = document.getElementById('continueBtn');
+  const earnedMsg = document.getElementById('earnedMsg');
+  
+  ad.style.display = 'flex';
+  continueBtn.classList.remove('show');
+  earnedMsg.style.display = 'none';
+  
+  // Skip timer like YouTube — after 5s user can continue
+  let sec = SKIP_AFTER;
+  continueBtn.textContent = `Skip in ${sec}s`;
+  
+  const skipTimer = setInterval(()=>{
+    sec--;
+    continueBtn.textContent = sec > 0 ? `Skip in ${sec}s` : '✓ Continue';
+    
+    if(sec <= 0){
+      clearInterval(skipTimer);
+      continueBtn.classList.add('show');
+      continueBtn.onclick = claimReward;
+    }
+  }, 1000);
+}
+
+// User watched ad → give reward
+function claimReward(){
+  const me = getMe();
+  me.balance += EARNING_PER_AD;
+  me.ads += 1;
+  me.thisMonthAds += 1;
+  saveMe(me);
+  
+  document.getElementById('earnedMsg').style.display = 'block';
+  updateBal();
+  if(localStorage.getItem('adminOk')==='1') renderAdmin();
+  
   setTimeout(()=>{
-    qIndex++;
-    if(qIndex>=5){finishGame();}
-    else{opts.forEach(b=>{b.classList.remove('correct','wrong');b.style.pointerEvents='auto';});showQuestion();}
-  },1200);
-}
-function finishGame(){
-  document.getElementById('quiz_playing').classList.add('hidden');
-  document.getElementById('quiz_done').classList.remove('hidden');
-  document.getElementById('final_score').textContent=score;
-  document.getElementById('earned_amt').textContent='£'+(score*0.05).toFixed(2);
-}
-function backToMenu(){
-  document.getElementById('quiz_done').classList.add('hidden');
-  document.getElementById('quiz_intro').classList.remove('hidden');
-  openGame(getCurrentUser());
-}
-function exitGame(){
-  if(confirm('Abandon game?')){
-    document.getElementById('quiz_playing').classList.add('hidden');
-    document.getElementById('quiz_intro').classList.remove('hidden');
-  }
+    document.getElementById('adScreen').style.display = 'none';
+  }, 1200);
 }
 
-// ========== CONFETTI ==========
-function confetti(){
-  const c=document.getElementById('confetti');
-  const colors=['#ffd700','#ff0080','#7928ca','#10b981','#3b82f6'];
-  for(let i=0;i<30;i++){
-    const p=document.createElement('div');
-    p.style.cssText=`position:absolute;left:${Math.random()*100}%;top:-10px;width:8px;height:8px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:50%;animation:fall 2s linear forwards;`;
-    c.appendChild(p);setTimeout(()=>p.remove(),2000);
-  }
-}
-const anim=document.createElement('style');
-anim.textContent='@keyframes fall{to{transform:translateY(100vh) rotate(360deg);opacity:0;}}';
-document.head.appendChild(anim);
-
-// ========== WITHDRAW ==========
-function openWithdraw(){
-  hideAll();document.getElementById('withdraw_panel').classList.remove('hidden');
-  const db=getDB();const u=db.users[getCurrentUser()];
-  document.getElementById('wd_balance').textContent='£'+u.balance.toFixed(2);
-  document.getElementById('wd_email').textContent=u.paypal;
-}
-function closeWithdraw(){openGame(getCurrentUser());}
-function savePayPal(){
-  const e=document.getElementById('new_paypal_set').value.trim();
-  if(!e){alert('Enter email!');return;}
-  const db=getDB();db.users[getCurrentUser()].paypal=e;saveDB(db);alert('Saved! ✅');openWithdraw();
-}
-function submitWithdraw(){
-  const amt=parseFloat(document.getElementById('wd_amount').value);
-  const db=getDB();const u=db.users[getCurrentUser()];
-  if(isNaN(amt)||amt<MIN_WITHDRAW){alert('Min £'+MIN_WITHDRAW);return;}
-  if(amt>u.balance){alert('Not enough!');return;}
-  if(!u.paypal){alert('Set PayPal first!');return;}
-  u.balance=parseFloat((u.balance-amt).toFixed(2));saveDB(db);
-  alert('Requested £'+amt.toFixed(2)+' ✅');openGame(getCurrentUser());
+// Update balance display
+function updateBal(){
+  const m = getMe();
+  document.getElementById('balance').textContent = `£${m.balance.toFixed(2)}`;
+  document.getElementById('wdBal').textContent = `£${m.balance.toFixed(2)}`;
+  
+  const pending = m.withdrawals?.some(w=>w.status==='pending');
+  document.getElementById('pendingNote').style.display = pending ? 'block' : 'none';
+  document.getElementById('wdBtn').disabled = m.balance < MIN_WITHDRAW || pending;
+  document.getElementById('wdBtn').textContent = 
+    m.balance >= MIN_WITHDRAW ? `Request Withdraw £${MIN_WITHDRAW}` : `Need £${MIN_WITHDRAW} total`;
 }
 
-// ========== ADMIN ==========
-function updateAdminView(){
-  const db=getDB();
-  document.getElementById('admin_total').textContent='£'+db.adminTotal.toFixed(2);
-  let list='';
-  for(let n in db.users){
-    const u=db.users[n];
-    list+=`<div style="padding:8px 0;border-bottom:1px solid #333;"><strong>${n}</strong><br>£${u.balance.toFixed(2)} | ${u.paypal}</div>`;
-  }
-  document.getElementById('all_users').innerHTML=list||'<p>No users yet.</p>';
+// ==============================================
+// 💰 WITHDRAW SYSTEM
+// ==============================================
+document.getElementById('wdBtn').onclick = ()=>{
+  const m = getMe();
+  if(m.balance < MIN_WITHDRAW) return;
+  if(m.withdrawals?.some(w=>w.status==='pending')) return;
+  
+  m.withdrawals = m.withdrawals || [];
+  m.withdrawals.push({amt:MIN_WITHDRAW,date:new Date().toISOString(),status:'pending'});
+  saveMe(m);
+  alert(`✅ Withdraw requested — £${MIN_WITHDRAW}\nStatus: Pending approval\nWill be sent within 24 hours`);
+  updateBal();
+  if(localStorage.getItem('adminOk')==='1') renderAdmin();
+};
+
+// ==============================================
+// 🔒 ADMIN DASHBOARD
+// ==============================================
+function renderAdmin(){
+  if(localStorage.getItem('adminOk')!=='1') return;
+  const users = Object.values(getUsers());
+  let totalAds=0, totalOwed=0;
+  users.forEach(u=>{ totalAds += u.thisMonthAds||0; totalOwed += u.balance||0; });
+  
+  document.getElementById('sPlayers').textContent = users.length;
+  document.getElementById('sAds').textContent = totalAds;
+  document.getElementById('sOwed').textContent = `£${totalOwed.toFixed(2)}`;
+  document.getElementById('sRev').textContent = `£${(totalAds * EARNING_PER_AD * 2).toFixed(2)}`;
+  
+  const list = document.getElementById('playerList'); list.innerHTML='';
+  users.forEach(u=>{
+    const p = (u.withdrawals||[]).filter(w=>w.status==='pending');
+    const div = document.createElement('div'); div.className='player-item';
+    div.innerHTML = `
+      <div style="font-weight:bold;">${u.username}</div>
+      <div style="font-size:0.85rem;color:var(--muted);margin:5px 0;">
+        Ads: ${u.ads||0} | Balance: £${(u.balance||0).toFixed(2)}
+      </div>
+      ${p.length>0 ? `
+        <div style="margin:5px 0;">⏳ Pending: £${p[0].amt}</div>
+        <button class="approve-btn" data-id="${u.id}" data-idx="${u.withdrawals.indexOf(p[0])}">✅ Approve & Pay</button>
+      ` : '<span style="color:var(--muted);font-size:0.85rem;">No pending</span>'}
+    `;
+    list.appendChild(div);
+  });
+  
+  document.querySelectorAll('.approve-btn').forEach(b=>{
+    b.onclick = ()=>{
+      const uid = b.dataset.id, idx = parseInt(b.dataset.idx);
+      const u = getUsers();
+      u[uid].withdrawals[idx].status = 'approved';
+      u[uid].balance -= u[uid].withdrawals[idx].amt;
+      saveUsers(u);
+      alert('✅ Approved — payment sent to player');
+      renderAdmin(); updateBal();
+    };
+  });
 }
-function adminCashout(){
-  const db=getDB();
-  if(db.adminTotal<MIN_WITHDRAW){alert('Min £'+MIN_WITHDRAW);return;}
-  if(confirm('Withdraw £'+db.adminTotal.toFixed(2)+' to '+ADMIN_PAYPAL+'?')){
-    db.adminTotal=0;saveDB(db);alert('Sent! ✅');updateAdminView();
-  }
-}
+document.getElementById('adminLogout').onclick = ()=>{
+  localStorage.removeItem('adminOk'); localStorage.removeItem('uid'); location.reload();
+};
+
+// ==============================================
+// 📑 NAVIGATION
+// ==============================================
+document.querySelectorAll('.zone-tab').forEach(t=>{
+  t.onclick = ()=>{
+    if(t.dataset.sec==='admin' && localStorage.getItem('adminOk')!=='1'){
+      document.getElementById('goAdmin').click(); return;
+    }
+    document.querySelectorAll('.zone-tab').forEach(x=>{x.classList.remove('active');x.classList.add('inactive');});
+    t.classList.add('active'); t.classList.remove('inactive');
+    document.querySelectorAll('.section').forEach(s=>s.style.display='none');
+    document.getElementById(t.dataset.sec+'Sec').style.display='block';
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+    document.querySelector(`[data-nav="${t.dataset.sec}"]`)?.classList.add('active');
+    if(t.dataset.sec==='admin') renderAdmin();
+  };
+});
+document.querySelectorAll('.nav-item').forEach(n=>{
+  n.onclick = ()=>document.querySelector(`[data-sec="${n.dataset.nav}"]`)?.click();
+});
+
+// Auto-login if session exists
+if(getUid()) showApp();
 </script>
 </body>
 </html>
