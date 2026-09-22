@@ -16,27 +16,28 @@ body{background:var(--gray);min-height:100vh;padding:20px;}
 .tab.active{background:var(--blue);color:white;}
 .tab.inactive{background:white;color:var(--muted);}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
-.game{background:white;border-radius:16px;padding:25px;text-align:center;cursor:pointer;transition:transform 0.15s;}
+.game{background:white;border-radius:16px;padding:25px;text-align:center;cursor:pointer;transition:transform 0.15s;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
 .game:active{transform:scale(0.97);}
-.game-icon{font-size:2rem;margin-bottom:8px;}
-.game-name{font-weight:600;}
+.game-icon{font-size:2.5rem;margin-bottom:10px;}
+.game-name{font-weight:600;font-size:0.95rem;}
 .card{background:white;border-radius:16px;padding:25px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.05);margin-bottom:15px;}
 .hidden{display:none !important;}
-.play-screen{position:fixed;inset:0;background:white;z-index:1000;display:none;flex-direction:column;}
-.play-head{display:flex;justify-content:space-between;align-items:center;padding:15px;background:white;border-bottom:1px solid #ddd;}
-.close-btn{background:var(--red);color:white;border:none;padding:8px 16px;border-radius:8px;font-weight:bold;cursor:pointer;}
-.play-body{flex:1;display:flex;align-items:center;justify-content:center;padding:30px;text-align:center;}
-.progress-bar{width:100%;height:8px;background:#ddd;border-radius:4px;margin:30px 0;overflow:hidden;}
-.progress-fill{height:100%;background:var(--green);border-radius:4px;width:100%;transition:width 1s linear;}
-.earn-btn{width:100%;padding:16px;border:none;border-radius:12px;font-size:1rem;font-weight:bold;cursor:not-allowed;background:#ddd;color:#888;}
-.earn-btn.ready{background:var(--green);color:white;cursor:pointer;animation:pulse 1s infinite alternate;}
-@keyframes pulse{from{box-shadow:0 0 0 rgba(52,199,89,0);}to{box-shadow:0 0 20px rgba(52,199,89,0.4);}}
-.ad-screen{position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;}
-.ad-box{background:white;border-radius:16px;padding:30px;max-width:360px;width:100%;text-align:center;}
-.ad-note{color:var(--muted);font-size:0.9rem;margin:15px 0;}
-.continue-btn{background:var(--blue);color:white;border:none;padding:12px 30px;border-radius:10px;font-size:1rem;font-weight:bold;cursor:pointer;display:none;}
-.continue-btn.show{display:inline-block;}
-.earned-msg{color:var(--green);font-weight:bold;margin-top:20px;display:none;font-size:1.1rem;}
+
+/* Full-Screen Game Player */
+.game-player{position:fixed;inset:0;background:#000;z-index:1000;display:none;flex-direction:column;}
+.game-top{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:#111;color:white;}
+.back-btn{background:var(--red);color:white;border:none;padding:8px 16px;border-radius:8px;font-weight:bold;cursor:pointer;font-size:0.9rem;}
+.game-frame{flex:1;border:none;width:100%;background:#fff;}
+
+/* Ad Popup */
+.ad-popup{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;}
+.ad-card{background:white;border-radius:20px;padding:35px 25px;max-width:360px;width:100%;text-align:center;}
+.ad-title{font-size:1.3rem;font-weight:bold;margin-bottom:10px;}
+.ad-text{color:var(--muted);margin-bottom:20px;line-height:1.5;}
+.ad-continue{background:var(--blue);color:white;border:none;padding:14px 30px;border-radius:12px;font-size:1rem;font-weight:bold;cursor:pointer;display:none;width:100%;}
+.ad-continue.show{display:block;}
+.ad-earned{color:var(--green);font-weight:bold;margin-top:15px;display:none;font-size:1.1rem;}
+
 input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bottom:12px;font-size:1rem;}
 .btn-primary{background:var(--blue);color:white;border:none;padding:14px;border-radius:10px;font-size:1rem;font-weight:bold;cursor:pointer;}
 .btn-link{background:none;color:var(--blue);border:none;padding:10px;cursor:pointer;font-size:1rem;}
@@ -46,7 +47,7 @@ input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bo
 <body>
 
 <!-- Login/Register -->
-<div id="authScreen" class="container" style="margin-top:100px;">
+<div id="authScreen" class="container" style="margin-top:80px;">
   <div class="card">
     <h1 style="margin-bottom:25px;">Play & Earn 🎮</h1>
     <div class="error" id="authErr"></div>
@@ -79,20 +80,38 @@ input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bo
   
   <div id="gamesView" style="display:block;">
     <div class="grid">
-      <div class="game" onclick="startGame('8 Ball Pool 🎱')"><div class="game-icon">🎱</div><div class="game-name">8 Ball Pool</div></div>
-      <div class="game" onclick="startGame('Subway Surfers 🏃')"><div class="game-icon">🏃</div><div class="game-name">Subway Surfers</div></div>
-      <div class="game" onclick="startGame('Block Blast 🧱')"><div class="game-icon">🧱</div><div class="game-name">Block Blast</div></div>
-      <div class="game" onclick="startGame('Solitaire 🃏')"><div class="game-icon">🃏</div><div class="game-name">Solitaire</div></div>
-      <div class="game" onclick="startGame('Candy Match 🍬')"><div class="game-icon">🍬</div><div class="game-name">Candy Match</div></div>
-      <div class="game" onclick="startGame('Lucky Spin 🎡')"><div class="game-icon">🎡</div><div class="game-name">Lucky Spin</div></div>
+      <div class="game" onclick="openGame('8 Ball Pool', 'https://cdn.htmlgames.com/8BallPool/')">
+        <div class="game-icon">🎱</div><div class="game-name">8 Ball Pool</div>
+      </div>
+      <div class="game" onclick="openGame('Subway Surfers', 'https://cdn.htmlgames.com/SubwaySurfers/')">
+        <div class="game-icon">🏃</div><div class="game-name">Subway Surfers</div>
+      </div>
+      <div class="game" onclick="openGame('Block Blast', 'https://cdn.htmlgames.com/BlockBlast/')">
+        <div class="game-icon">🧱</div><div class="game-name">Block Blast</div>
+      </div>
+      <div class="game" onclick="openGame('Solitaire', 'https://cdn.htmlgames.com/ClassicSolitaire/')">
+        <div class="game-icon">🃏</div><div class="game-name">Solitaire</div>
+      </div>
+      <div class="game" onclick="openGame('Candy Match', 'https://cdn.htmlgames.com/CandyMatch3/')">
+        <div class="game-icon">🍬</div><div class="game-name">Candy Match</div>
+      </div>
+      <div class="game" onclick="openGame('Lucky Spin', 'https://cdn.htmlgames.com/LuckySpin/')">
+        <div class="game-icon">🎡</div><div class="game-name">Lucky Spin</div>
+      </div>
     </div>
   </div>
   
   <div id="kidsView" class="hidden">
     <div class="grid">
-      <div class="game" onclick="startGame('ABC Letters 🔤')"><div class="game-icon">🔤</div><div class="game-name">ABC Letters</div></div>
-      <div class="game" onclick="startGame('Numbers Fun 🔢')"><div class="game-icon">🔢</div><div class="game-name">Numbers Fun</div></div>
-      <div class="game" onclick="startGame('Colors 🎨')"><div class="game-icon">🎨</div><div class="game-name">Colors</div></div>
+      <div class="game" onclick="openGame('ABC Letters', 'https://cdn.htmlgames.com/ABCGame/')">
+        <div class="game-icon">🔤</div><div class="game-name">ABC Letters</div>
+      </div>
+      <div class="game" onclick="openGame('Numbers Fun', 'https://cdn.htmlgames.com/NumberGame/')">
+        <div class="game-icon">🔢</div><div class="game-name">Numbers Fun</div>
+      </div>
+      <div class="game" onclick="openGame('Colors', 'https://cdn.htmlgames.com/ColorMatch/')">
+        <div class="game-icon">🎨</div><div class="game-name">Colors</div>
+      </div>
     </div>
   </div>
   
@@ -106,32 +125,26 @@ input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bo
   </div>
 </div>
 
-<!-- Play Screen -->
-<div id="playScreen" class="play-screen">
-  <div class="play-head">
+<!-- Full-Screen Real Game Player -->
+<div id="gamePlayer" class="game-player">
+  <div class="game-top">
     <h3 id="gameTitle">Game</h3>
-    <button class="close-btn" onclick="closeGame()">✕ Close & Back</button>
+    <button class="back-btn" onclick="closeGame()">✕ Close & Back</button>
   </div>
-  <div class="play-body">
-    <div style="width:100%;max-width:320px;">
-      <p style="font-size:1.1rem;" id="timerText">Play for 60 seconds to earn reward</p>
-      <div class="progress-bar"><div class="progress-fill" id="progressBar"></div></div>
-      <button class="earn-btn" id="earnBtn" disabled>⏳ Wait... Watch Ad & Earn</button>
-    </div>
-  </div>
+  <iframe id="gameFrame" class="game-frame" allow="autoplay; fullscreen"></iframe>
 </div>
 
-<!-- Ad Screen -->
-<div id="adScreen" class="ad-screen">
-  <div class="ad-box">
-    <h3>📺 Advertisement</h3>
-    <p class="ad-note">
+<!-- Ad Popup (Auto-shows after 60s) -->
+<div id="adPopup" class="ad-popup">
+  <div class="ad-card">
+    <h3 class="ad-title">📺 Watch Ad & Earn Reward</h3>
+    <p class="ad-text" id="adMessage">
       ⏳ Google AdSense is reviewing your site<br>
-      Once approved → REAL ADS will appear here automatically ✅
+      Once approved → REAL ADS appear here automatically ✅<br><br>
+      Reward: <strong>£0.002</strong> added to your balance
     </p>
-    <p class="ad-note">You earn: £0.002 per completed session</p>
-    <button class="continue-btn" id="continueBtn">✓ Continue</button>
-    <p class="earned-msg" id="earnedMsg">✅ +£0.002 added to your balance!</p>
+    <button class="ad-continue" id="adContinueBtn">Please wait...</button>
+    <p class="ad-earned" id="adEarned">✅ +£0.002 added!</p>
   </div>
 </div>
 
@@ -141,8 +154,9 @@ document.addEventListener('DOMContentLoaded', function(){
 
 const EARN_RATE = 0.002;
 const MIN_WITHDRAW = 5.00;
-const PLAY_SECONDS = 60;
-let gameTimer = null;
+const PLAY_TIME = 60;
+let sessionTimer = null;
+let adCountdown = null;
 
 // Storage helpers
 function getUsers(){try{return JSON.parse(localStorage.getItem('allUsers')||'{}');}catch{return {};}}
@@ -167,7 +181,7 @@ document.getElementById('regBtn').onclick=()=>{
   const user=document.getElementById('regUser').value.trim();
   const pass=document.getElementById('regPass').value;
   if(!user||!pass)return showError('Fill all fields');
-  if(Object.values(getUsers()).find(x=>x.username===user))return showError('Username already taken');
+  if(Object.values(getUsers()).find(x=>x.username===user))return showError('Username taken');
   const uid='u_'+Date.now();
   const users=getUsers();
   users[uid]={username:user,password:pass,balance:0,ads:0};
@@ -178,7 +192,7 @@ document.getElementById('loginBtn').onclick=()=>{
   const user=document.getElementById('user').value.trim();
   const pass=document.getElementById('pass').value;
   const found=Object.entries(getUsers()).find(([_,x])=>x.username===user&&x.password===pass);
-  if(!found)return showError('Wrong username or password');
+  if(!found)return showError('Wrong login');
   setUID(found[0]);showMain();
 };
 
@@ -195,72 +209,69 @@ function updateBalance(){
   document.getElementById('wdBtn').disabled=me.balance<MIN_WITHDRAW;
 }
 
-// Game Functions
-window.startGame=function(name){
-  if(gameTimer)clearInterval(gameTimer);
+// ✅ OPEN REAL GAME — timer runs in background, NO countdown shown!
+window.openGame=function(name, gameUrl){
+  if(sessionTimer)clearTimeout(sessionTimer);
+  if(adCountdown)clearInterval(adCountdown);
   
   document.getElementById('gameTitle').textContent=name;
-  document.getElementById('playScreen').style.display='flex';
-  document.getElementById('earnBtn').classList.remove('ready');
-  document.getElementById('earnBtn').disabled=true;
+  document.getElementById('gameFrame').src=gameUrl;
+  document.getElementById('gamePlayer').style.display='flex';
   
-  let elapsed=0;
-  gameTimer=setInterval(()=>{
-    elapsed++;
-    const remaining=PLAY_SECONDS-elapsed;
-    document.getElementById('timerText').textContent=`Play for ${remaining} more second${remaining!==1?'s':''}...`;
-    document.getElementById('progressBar').style.width=`${(remaining/PLAY_SECONDS)*100}%`;
-    
-    if(elapsed>=PLAY_SECONDS){
-      clearInterval(gameTimer);gameTimer=null;
-      document.getElementById('timerText').textContent='✅ Ready! Watch ad to claim reward';
-      document.getElementById('earnBtn').disabled=false;
-      document.getElementById('earnBtn').classList.add('ready');
-      document.getElementById('earnBtn').textContent='📺 Watch Ad & Earn';
-    }
-  },1000);
+  // ⏳ Timer runs SILENTLY in background — user just plays!
+  sessionTimer=setTimeout(()=>{
+    showAdPopup();
+  }, PLAY_TIME*1000);
 };
 
+// ✅ CLOSE GAME — stop timer
 window.closeGame=function(){
-  if(gameTimer)clearInterval(gameTimer);gameTimer=null;
-  document.getElementById('playScreen').style.display='none';
+  if(sessionTimer)clearTimeout(sessionTimer);
+  if(adCountdown)clearInterval(adCountdown);
+  sessionTimer=null;
+  document.getElementById('gameFrame').src='';
+  document.getElementById('gamePlayer').style.display='none';
 };
 
-document.getElementById('earnBtn').onclick=function(){
-  closeGame();
-  showAdScreen();
-};
-
-function showAdScreen(){
-  document.getElementById('adScreen').style.display='flex';
-  document.getElementById('continueBtn').classList.remove('show');
-  document.getElementById('earnedMsg').style.display='none';
+// ✅ AUTO-SHOW AD AFTER 60 SECONDS
+function showAdPopup(){
+  // Pause game visually
+  document.getElementById('gamePlayer').style.opacity='0.6';
   
-  let skipWait=5;
-  const skipInterval=setInterval(()=>{
-    skipWait--;
-    if(skipWait<=0){
-      clearInterval(skipInterval);
-      document.getElementById('continueBtn').classList.add('show');
-      document.getElementById('continueBtn').textContent='✓ I Finished Watching';
-      document.getElementById('continueBtn').onclick=claimReward;
+  document.getElementById('adPopup').style.display='flex';
+  document.getElementById('adContinueBtn').classList.remove('show');
+  document.getElementById('adEarned').style.display='none';
+  
+  let waitSec=5;
+  document.getElementById('adContinueBtn').textContent=`Please wait ${waitSec}s...`;
+  
+  adCountdown=setInterval(()=>{
+    waitSec--;
+    if(waitSec<=0){
+      clearInterval(adCountdown);
+      document.getElementById('adContinueBtn').textContent='✓ Continue & Get Reward';
+      document.getElementById('adContinueBtn').classList.add('show');
+      document.getElementById('adContinueBtn').onclick=claimReward;
     }else{
-      document.getElementById('continueBtn').textContent=`Wait ${skipWait}s...`;
+      document.getElementById('adContinueBtn').textContent=`Please wait ${waitSec}s...`;
     }
   },1000);
 }
 
+// ✅ ADD MONEY TO BALANCE
 function claimReward(){
   const me=getMe();
   me.balance+=EARN_RATE;
   me.ads=(me.ads||0)+1;
   saveMe(me);
   
-  document.getElementById('earnedMsg').style.display='block';
+  document.getElementById('adEarned').style.display='block';
   updateBalance();
   
   setTimeout(()=>{
-    document.getElementById('adScreen').style.display='none';
+    document.getElementById('adPopup').style.display='none';
+    document.getElementById('gamePlayer').style.opacity='1';
+    // Game stays open — user can keep playing!
   },1500);
 }
 
@@ -268,7 +279,7 @@ function claimReward(){
 document.getElementById('wdBtn').onclick=function(){
   const me=getMe();
   if(me.balance<MIN_WITHDRAW)return alert(`Need £${MIN_WITHDRAW} minimum`);
-  alert(`✅ Withdraw request sent!\n£${MIN_WITHDRAW} will be processed within 24 hours`);
+  alert(`✅ Withdraw requested!\n£${MIN_WITHDRAW} will be sent within 24 hours`);
   me.balance-=MIN_WITHDRAW;
   saveMe(me);
   updateBalance();
