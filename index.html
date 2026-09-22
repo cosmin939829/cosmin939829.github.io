@@ -1,197 +1,91 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Play & Learn UK - original browser games and educational activities for children.">
 <title>Play & Learn UK 🎮</title>
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+:root{
+  --blue:#1769e0;
+  --dark:#12203a;
+  --bg:#f3f6fb;
+  --card:#fff;
+  --muted:#667085;
 }
 
-:root{
-  --blue:#007aff;
-  --purple:#5856d6;
-  --green:#34c759;
-  --red:#ff3b30;
-  --orange:#ff9500;
-  --gray:#f2f2f7;
-  --muted:#86868b;
-  --card:#ffffff;
-  --dark:#111111;
+*{
+  box-sizing:border-box;
 }
 
 body{
-  background:var(--gray);
-  min-height:100vh;
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:var(--bg);
+  color:var(--dark);
+}
+
+header{
+  background:linear-gradient(135deg,#0d47a1,#2384ff);
+  color:#fff;
+  text-align:center;
+  padding:25px 15px;
+}
+
+header h1{
+  margin:0 0 6px;
+  font-size:30px;
+}
+
+header p{
+  margin:0;
+}
+
+main{
+  max-width:1050px;
+  margin:auto;
   padding:18px;
 }
 
-.container{
-  max-width:900px;
-  margin:auto;
-}
-
-.hidden{
-  display:none!important;
-}
-
-.center{
-  text-align:center;
-}
-
-/* AUTH */
-
-.auth{
-  max-width:430px;
-  margin:70px auto;
-}
-
-.card{
-  background:white;
-  border-radius:20px;
-  padding:25px;
-  box-shadow:0 4px 20px rgba(0,0,0,.06);
+.notice{
+  background:#fff8d9;
+  border:1px solid #eed36a;
+  padding:12px;
+  border-radius:12px;
   margin-bottom:18px;
 }
 
-.logo{
-  text-align:center;
-  font-size:2rem;
-  font-weight:800;
-  margin-bottom:8px;
+.tabs{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
 }
 
-.subtitle{
-  text-align:center;
-  color:var(--muted);
-  margin-bottom:25px;
-}
-
-input{
-  width:100%;
-  padding:14px;
-  border:1px solid #ddd;
-  border-radius:12px;
-  font-size:1rem;
-  margin-bottom:12px;
-}
-
-button{
+.tab,.btn,.choice{
+  border:0;
+  border-radius:11px;
+  padding:11px 15px;
+  font-weight:700;
   cursor:pointer;
 }
 
-.btn{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:12px;
-  font-size:1rem;
-  font-weight:700;
+.tab{
+  background:#fff;
 }
 
-.btn-blue{
+.tab.active,.btn{
   background:var(--blue);
-  color:white;
+  color:#fff;
 }
 
-.btn-green{
-  background:var(--green);
-  color:white;
+.panel{
+  display:none;
 }
 
-.btn-purple{
-  background:var(--purple);
-  color:white;
-}
-
-.btn-link{
-  width:100%;
-  border:none;
-  background:none;
-  color:var(--blue);
-  padding:12px;
-  font-size:1rem;
-}
-
-/* HEADER */
-
-.header{
-  background:linear-gradient(135deg,#007aff,#5856d6);
-  color:white;
-  padding:25px;
-  border-radius:20px;
-  margin-bottom:18px;
-}
-
-.header h1{
-  font-size:2rem;
-}
-
-.header p{
-  opacity:.9;
-  margin-top:5px;
-}
-
-/* NAV */
-
-.nav{
-  display:flex;
-  gap:8px;
-  margin-bottom:18px;
-  overflow-x:auto;
-}
-
-.nav button{
-  flex:1;
-  min-width:130px;
-  border:none;
-  padding:12px;
-  border-radius:12px;
-  background:white;
-  font-weight:700;
-}
-
-.nav button.active{
-  background:var(--blue);
-  color:white;
-}
-
-/* ADS */
-
-.ad-box{
-  background:white;
-  min-height:120px;
-  border-radius:16px;
-  padding:20px;
-  margin:20px 0;
-  text-align:center;
-  border:1px solid #ddd;
-}
-
-.ad-label{
-  color:var(--muted);
-  font-size:.8rem;
-  margin-bottom:10px;
-}
-
-/*
- IMPORTANT:
- Keep Google ads away from game controls.
- The actual Google ad will appear here after
- you replace the client ID with your approved ID.
-*/
-
-/* GAME GRID */
-
-.section-title{
-  font-size:1.3rem;
-  margin:25px 0 12px;
+.panel.active{
+  display:block;
 }
 
 .grid{
@@ -200,203 +94,218 @@ button{
   gap:14px;
 }
 
-.game{
-  background:white;
+.card{
+  background:#fff;
+  padding:18px;
   border-radius:18px;
-  padding:20px;
-  min-height:130px;
+  box-shadow:0 3px 14px #0001;
+  min-height:165px;
   display:flex;
   flex-direction:column;
-  justify-content:center;
+}
+
+.card.kids{
+  border-top:5px solid #7c4dff;
+}
+
+.icon{
+  font-size:38px;
+}
+
+.card h3{
+  margin:8px 0;
+}
+
+.card p{
+  color:var(--muted);
+  flex:1;
+  margin:0 0 14px;
+}
+
+.ad{
+  max-width:728px;
+  min-height:100px;
+  margin:28px auto;
+  border:1px dashed #9aa6b8;
+  border-radius:14px;
+  background:#fff;
+  display:flex;
   align-items:center;
+  justify-content:center;
   text-align:center;
-  box-shadow:0 3px 12px rgba(0,0,0,.05);
-  transition:.15s;
+  color:#697386;
 }
 
-.game:hover{
-  transform:translateY(-2px);
+.ad b{
+  display:block;
+  color:#445064;
+  margin-bottom:5px;
 }
 
-.game-icon{
-  font-size:2.5rem;
-  margin-bottom:8px;
+footer{
+  text-align:center;
+  padding:28px;
+  color:#697386;
 }
 
-.game-name{
+.adminLink{
+  text-decoration:underline;
+  cursor:pointer;
+  font-size:13px;
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#0009;
+  z-index:10;
+  padding:15px;
+  align-items:center;
+  justify-content:center;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.box{
+  background:#fff;
+  border-radius:18px;
+  padding:20px;
+  max-width:720px;
+  width:100%;
+  max-height:90vh;
+  overflow:auto;
+  position:relative;
+}
+
+.close{
+  position:absolute;
+  right:12px;
+  top:10px;
+  border:0;
+  border-radius:50%;
+  width:38px;
+  height:38px;
+  font-size:22px;
+  cursor:pointer;
+}
+
+.area{
+  background:#0d1728;
+  color:#fff;
+  border-radius:14px;
+  min-height:300px;
+  padding:18px;
+  text-align:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+}
+
+.big{
+  font-size:40px;
   font-weight:800;
 }
 
-.game-type{
-  color:var(--muted);
-  font-size:.8rem;
-  margin-top:4px;
-}
-
-/* GAME PLAYER */
-
-#gameScreen{
-  position:fixed;
-  inset:0;
-  background:#111;
-  z-index:1000;
-  display:none;
-  flex-direction:column;
-}
-
-.game-header{
-  background:#181818;
-  color:white;
-  padding:12px 16px;
+.choices{
   display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.close-game{
-  background:var(--red);
-  color:white;
-  border:none;
-  border-radius:10px;
-  padding:10px 15px;
-  font-weight:700;
-}
-
-.game-area{
-  flex:1;
-  background:white;
-  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
   justify-content:center;
-  align-items:center;
-  padding:20px;
-  overflow:auto;
+  margin:12px;
 }
 
-/* SIMPLE GAMES */
-
-.play-box{
-  width:100%;
-  max-width:600px;
-  text-align:center;
+.choice{
+  background:#e6ebf3;
 }
 
-.big-number{
-  font-size:4rem;
-  font-weight:900;
-  margin:20px;
-}
-
-.game-btn{
-  padding:15px 20px;
-  border:none;
-  border-radius:12px;
-  background:var(--blue);
-  color:white;
-  font-weight:700;
-  margin:5px;
-}
-
-.game-result{
-  margin-top:15px;
-  font-weight:700;
-  font-size:1.1rem;
-}
-
-/* TIC TAC TOE */
-
-.ttt{
-  display:grid;
-  grid-template-columns:repeat(3,90px);
-  gap:6px;
-  justify-content:center;
-}
-
-.ttt button{
-  width:90px;
-  height:90px;
-  font-size:2rem;
-  border:none;
+.input{
+  padding:11px;
   border-radius:10px;
-  background:#eee;
+  border:1px solid #cbd5e1;
+  font-size:16px;
 }
 
-/* MEMORY */
-
-.memory{
-  display:grid;
-  grid-template-columns:repeat(4,70px);
-  gap:8px;
-  justify-content:center;
-}
-
-.memory button{
-  width:70px;
-  height:70px;
-  font-size:1.5rem;
-  border:none;
-  border-radius:10px;
-  background:#ddd;
-}
-
-/* ADMIN */
-
-.stats{
+.statgrid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:12px;
 }
 
 .stat{
-  background:white;
-  border-radius:16px;
-  padding:20px;
-  text-align:center;
-}
-
-.stat-number{
-  font-size:1.7rem;
-  font-weight:900;
-}
-
-.stat-label{
-  color:var(--muted);
-  font-size:.85rem;
-}
-
-.user-row{
-  background:white;
+  background:#fff;
   padding:15px;
-  border-radius:12px;
-  margin-bottom:8px;
-  display:flex;
-  justify-content:space-between;
+  border-radius:14px;
 }
 
-/* FOOTER */
+.stat b{
+  font-size:28px;
+  display:block;
+  color:var(--blue);
+}
 
-footer{
-  text-align:center;
+table{
+  width:100%;
+  background:#fff;
+  border-collapse:collapse;
+  margin-top:15px;
+}
+
+th,td{
+  padding:10px;
+  border-bottom:1px solid #e5e7eb;
+  text-align:left;
+}
+
+.small{
+  font-size:12px;
   color:var(--muted);
-  padding:30px 10px;
-  font-size:.85rem;
 }
 
-@media(max-width:600px){
+.admin{
+  display:none;
+}
 
-  body{
-    padding:12px;
-  }
+.admin.show{
+  display:block;
+}
 
+.playgrid{
+  display:grid;
+  grid-template-columns:repeat(4,65px);
+  gap:8px;
+}
+
+.tile{
+  width:65px;
+  height:65px;
+  border:0;
+  border-radius:10px;
+  background:#475569;
+  color:#fff;
+  font-size:25px;
+  cursor:pointer;
+}
+
+@media(max-width:700px){
   .grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .stats{
     grid-template-columns:1fr;
   }
 
-  .header h1{
-    font-size:1.6rem;
+  .statgrid{
+    grid-template-columns:1fr;
+  }
+
+  .playgrid{
+    grid-template-columns:repeat(4,55px);
+  }
+
+  .tile{
+    width:55px;
+    height:55px;
   }
 }
 </style>
@@ -404,1395 +313,1920 @@ footer{
 
 <body>
 
-<!-- ================= AUTH ================= -->
+<header>
+  <h1>Play & Learn UK 🎮</h1>
+  <p>Free games and educational activities</p>
+</header>
 
-<div id="authScreen" class="auth">
+<main id="app">
 
-  <div class="card">
+<div class="notice">
+  <b>Advertising:</b>
+  This version contains clearly marked ad placeholders.
+  Add your approved Google ad code only after approval;
+  never ask users to click ads.
+</div>
 
-    <div class="logo">
-      Play & Learn UK 🎮
-    </div>
+<div class="tabs">
 
-    <div class="subtitle">
-      Games, learning and fun
-    </div>
+<button class="tab active" data-tab="games">
+🎮 Games
+</button>
 
-    <div id="loginView">
-
-      <input id="loginUser"
-             type="text"
-             placeholder="Username">
-
-      <input id="loginPass"
-             type="password"
-             placeholder="Password">
-
-      <button class="btn btn-blue"
-              onclick="login()">
-        Login
-      </button>
-
-      <button class="btn-link"
-              onclick="showRegister()">
-        Don't have an account? Register
-      </button>
-
-      <button class="btn-link"
-              onclick="showAdminLogin()">
-        🔐 Admin Login
-      </button>
-
-      <p id="loginError"
-         style="color:red;text-align:center;margin-top:10px;">
-      </p>
-
-    </div>
-
-
-    <div id="registerView" class="hidden">
-
-      <input id="registerUser"
-             type="text"
-             placeholder="Choose username">
-
-      <input id="registerPass"
-             type="password"
-             placeholder="Choose password">
-
-      <button class="btn btn-green"
-              onclick="register()">
-        Create Account
-      </button>
-
-      <button class="btn-link"
-              onclick="showLogin()">
-        ← Back to Login
-      </button>
-
-    </div>
-
-
-    <div id="adminLoginView" class="hidden">
-
-      <h3 class="center">
-        🔐 Admin Login
-      </h3>
-
-      <br>
-
-      <input id="adminUser"
-             type="text"
-             placeholder="Admin username">
-
-      <input id="adminPass"
-             type="password"
-             placeholder="Admin password">
-
-      <button class="btn btn-purple"
-              onclick="adminLogin()">
-        Enter Admin
-      </button>
-
-      <button class="btn-link"
-              onclick="showLogin()">
-        ← Back
-      </button>
-
-      <p id="adminError"
-         style="color:red;text-align:center;">
-      </p>
-
-    </div>
-
-  </div>
+<button class="tab" data-tab="kids">
+🧒 Kids Education
+</button>
 
 </div>
 
+<section id="games" class="panel active">
 
-<!-- ================= MAIN APP ================= -->
+<h2>🎮 Games</h2>
 
-<div id="mainApp" class="container hidden">
+<p class="small">
+These are original mini-games built into the website,
+so they do not depend on broken external game links.
+</p>
 
-  <div class="header">
+<div class="grid" id="gameGrid"></div>
 
-    <h1>
-      Play & Learn UK 🎮
-    </h1>
+<div class="ad">
+<div>
+<b>Advertisement</b>
+Approved advertising can appear here.
+</div>
+</div>
 
-    <p>
-      Games for everyone • Educational games for children
-    </p>
+</section>
 
-  </div>
+<section id="kids" class="panel">
 
+<h2>🧒 Kids Education</h2>
 
-  <div class="nav">
+<p class="small">
+Counting, alphabet, colours, maths, spelling,
+shapes, memory and general knowledge.
+</p>
 
-    <button id="navGames"
-            class="active"
-            onclick="showSection('games')">
-      🎮 Games
-    </button>
+<div class="grid" id="kidGrid"></div>
 
-    <button id="navKids"
-            onclick="showSection('kids')">
-      👶 Kids Learning
-    </button>
+<div class="ad">
+<div>
+<b>Advertisement</b>
+For child-directed content, configure the applicable
+Google child-ad protections before serving ads.
+</div>
+</div>
 
-    <button onclick="logout()">
-      🚪 Logout
-    </button>
+</section>
 
-  </div>
+</main>
 
+<section id="admin"
+class="admin"
+style="max-width:1050px;margin:auto;padding:18px">
 
-  <!-- SAFE AD LOCATION -->
+<div class="tabs">
 
-  <div class="ad-box">
+<button class="tab active">
+🔐 Admin Dashboard
+</button>
 
-    <div class="ad-label">
-      ADVERTISEMENT
-    </div>
-
-    <!--
-    GOOGLE ADSENSE
-
-    Replace YOUR_CLIENT_ID with your real
-    approved AdSense client ID.
-
-    Example:
-
-    ca-pub-1234567890123456
-
-    Do not change Google's generated ad code.
-    -->
-
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-         data-ad-slot="XXXXXXXXXX"
-         data-ad-format="auto"
-         data-full-width-responsive="true">
-    </ins>
-
-  </div>
-
-
-  <!-- ================= GAMES ================= -->
-
-  <section id="gamesSection">
-
-    <h2 class="section-title">
-      🎮 Popular Games
-    </h2>
-
-    <div class="grid">
-
-      <div class="game"
-           onclick="startGame('Snake')">
-        <div class="game-icon">🐍</div>
-        <div class="game-name">Snake</div>
-        <div class="game-type">Arcade</div>
-      </div>
-
-      <div class="game"
-           onclick="startGame('2048')">
-        <div class="game-icon">🔢</div>
-        <div class="game-name">2048</div>
-        <div class="game-type">Puzzle</div>
-      </div>
-
-      <div class="game"
-           onclick="startGame('Tic Tac Toe')">
-        <div class="game-icon">⭕</div>
-        <div class="game-name">Tic Tac Toe</div>
-        <div class="game-type">Strategy</div>
-      </div>
-
-      <div class="game"
-           onclick="startGame('Memory')">
-        <div class="game-icon">🧠</div>
-        <div class="game-name">Memory</div>
-        <div class="game-type">Puzzle</div>
-      </div>
-
-      <div class="game"
-           onclick="startGame('Pong')">
-        <div class="game-icon">🏓</div>
-        <div class="game-name">Pong</div>
-        <div class="game-type">Arcade</div>
-      </div>
-
-      <div class="game"
-           onclick="startGame('Breakout')">
-        <div class="game-icon">🧱</div>
-        <div class="game-name">Breakout</div>
-        <div class="game-type">Arcade</div>
-      </div>
-
-      <div class="game"
-           onclick="startGame('Minesweeper')">
-        <div class="game-icon">💣</div>
-        <div class="game-name">Minesweeper</div>
-        <div class="game-type">Puzzle</div>
-      </div>
-
-      <div class="game"
-           onclick="startGame('Sudoku')">
-        <div class="game-icon">🔲</div>
-        <div class="game-name">Sudoku</div>
-        <div class="game-type">Brain</div>
-      </div>
-
-      <div class="game"
-           onclick="startGame('Solitaire')">
-        <div class="game-icon">🃏</div>
-        <div class="game-name">Solitaire</div>
-        <div class="game-type">Cards</div>
-      </div>
-
-      <div class="game"
-           onclick="startGame('Chess')">
-        <div class="game-icon">♟️</div>
-        <div class="game-name">Chess</div>
-        <div class="game-type">Strategy</div>
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- ================= KIDS ================= -->
-
-  <section id="kidsSection" class="hidden">
-
-    <h2 class="section-title">
-      👶 Educational Games
-    </h2>
-
-    <div class="grid">
-
-      <div class="game"
-           onclick="startGame('Math Quiz')">
-        <div class="game-icon">➕</div>
-        <div class="game-name">Math Quiz</div>
-        <div class="game-type">Mathematics</div>
-      </div>
-
-      <div class="game"
-           onclick="startGame('Times Tables')">
-        <div class="game-icon">✖️</div>
-        <div class="game-name">Times Tables</div>
-        <div class="game-type">Maths</div>
-      </div>
-
-      <div class="game"
-           onclick="startGame('Spelling')">
-        <div class="game-icon">🔤</div>
-        <div class="game-name">Spelling</div>
-        <div class="game-type">English</div>
-      </div>
-
-      <div class="game"
-           onclick="startGame('Word Match')">
-        <div class="game-icon">📚</div>
-        <div class="game-name">Word Match</div>
-        <div class="game-type">Vocabulary</div>
-      </div>
-
-      <div class="game"
-           onclick="startGame('Geography')">
-        <div class="game-icon">🌍</div>
-        <div class="game-name">Geography</div>
-        <div class="game-type">World</div>
-      </div>
-
-      <div class="game"
-           onclick="startGame('Science Quiz')">
-        <div class="game-icon">🔬</div>
-        <div class="game-name">Science Quiz</div>
-        <div class="game-type">Science</div>
-      </div>
-
-      <div class="game"
-           onclick="startGame('Shapes')">
-        <div class="game-icon">🔺</div>
-        <div class="game-name">Shapes</div>
-        <div class="game-type">Early Learning</div>
-      </div>
-
-      <div class="game"
-           onclick="startGame('Fractions')">
-        <div class="game-icon">🍕</div>
-        <div class="game-name">Fractions</div>
-        <div class="game-type">Mathematics</div>
-      </div>
-
-      <div class="game"
-           onclick="startGame('Memory Words')">
-        <div class="game-icon">🧠</div>
-        <div class="game-name">Memory Words</div>
-        <div class="game-type">Learning</div>
-      </div>
-
-      <div class="game"
-           onclick="startGame('Coding Basics')">
-        <div class="game-icon">💻</div>
-        <div class="game-name">Coding Basics</div>
-        <div class="game-type">Technology</div>
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- SECOND AD LOCATION -->
-
-  <div class="ad-box">
-
-    <div class="ad-label">
-      ADVERTISEMENT
-    </div>
-
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-         data-ad-slot="XXXXXXXXXX"
-         data-ad-format="auto"
-         data-full-width-responsive="true">
-    </ins>
-
-  </div>
-
-
-  <footer>
-
-    © 2026 Play & Learn UK<br>
-    Games and educational content
-
-  </footer>
+<button class="tab" onclick="closeAdmin()">
+← Back
+</button>
 
 </div>
 
+<div class="statgrid">
 
-<!-- ================= GAME WINDOW ================= -->
+<div class="stat">
+Visitors
+<b id="visitors">0</b>
+</div>
 
-<div id="gameScreen">
+<div class="stat">
+Game launches
+<b id="gameLaunches">0</b>
+</div>
 
-  <div class="game-header">
-
-    <strong id="gameTitle">
-      Game
-    </strong>
-
-    <button class="close-game"
-            onclick="closeGame()">
-      ✕ Exit Game
-    </button>
-
-  </div>
-
-  <div class="game-area"
-       id="gameArea">
-  </div>
+<div class="stat">
+Kids launches
+<b id="kidLaunches">0</b>
+</div>
 
 </div>
 
+<h3>Game activity</h3>
 
-<!-- GOOGLE ADSENSE -->
+<table>
 
-<script async
-src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
-crossorigin="anonymous">
-</script>
+<thead>
+<tr>
+<th>Game</th>
+<th>Type</th>
+<th>Launches</th>
+</tr>
+</thead>
+
+<tbody id="activity"></tbody>
+
+</table>
+
+<p class="small">
+This dashboard is a browser-only demo.
+GitHub Pages cannot securely store a real multi-user
+admin database. A real production dashboard will need
+a backend.
+</p>
+
+<button class="tab" onclick="resetStats()">
+Reset demo statistics
+</button>
+
+</section>
+
+<footer>
+
+<span class="adminLink" onclick="adminLogin()">
+🔒 Admin
+</span>
+
+</footer>
+
+<div id="modal" class="modal">
+
+<div class="box">
+
+<button class="close" onclick="closeGame()">
+×
+</button>
+
+<h2 id="title"></h2>
+
+<p id="desc" class="small"></p>
+
+<div id="area" class="area"></div>
+
+</div>
+
+</div>
 
 <script>
 
-/* =====================================================
-   USER SYSTEM
-===================================================== */
+const games=[
 
-const ADMIN_USER = "admin";
-const ADMIN_PASS = "skumpyku93@";
+["tap","⚡","Speed Tap",
+"Tap the target for 20 seconds."],
 
-let currentUser = null;
+["memory","🧠","Memory Match",
+"Find all matching pairs."],
 
-function getUsers(){
+["math","➕","Math Rush",
+"Solve quick sums for 30 seconds."],
 
-  try{
-    return JSON.parse(
-      localStorage.getItem("playLearnUsers") || "{}"
-    );
-  }
+["colour","🎨","Colour Match",
+"Choose the correct colour."],
 
-  catch(e){
-    return {};
-  }
+["typing","⌨️","Typing Sprint",
+"Type the word correctly."],
 
+["reaction","🟢","Reaction Test",
+"Wait for green and react quickly."],
+
+["guess","🔢","Number Guess",
+"Guess the secret number."],
+
+["snake","🐍","Snake Challenge",
+"Collect food without hitting the wall."],
+
+["catch","⭐","Catch the Stars",
+"Move the basket and catch stars."],
+
+["bricks","🧱","Brick Breaker",
+"Break the bricks with the ball."]
+];
+
+const kids=[
+
+["count","🔢","Learn to Count",
+"Count the objects."],
+
+["alphabet","🔤","Learn the Alphabet",
+"Learn letters and simple words."],
+
+["colours","🌈","Learn Colours",
+"Learn basic colours."],
+
+["add","➕","Do Maths",
+"Practise addition."],
+
+["subtract","➖","Subtraction",
+"Practise subtraction."],
+
+["shapes","🔺","Learn Shapes",
+"Identify common shapes."],
+
+["spell","📝","Spelling",
+"Choose the correct spelling."],
+
+["kmemory","🧩","Picture Memory",
+"Match the pictures."],
+
+["bigsmall","🐘","Big or Small?",
+"Compare numbers."],
+
+["general","🌍","General Knowledge",
+"Simple questions about the world."]
+];
+
+let stats=JSON.parse(
+localStorage.getItem("plukStats") ||
+'{"visitors":0,"games":0,"kids":0,"items":{}}'
+);
+
+if(!sessionStorage.getItem("seen")){
+  stats.visitors++;
+  sessionStorage.setItem("seen","1");
+  save();
 }
 
-function saveUsers(users){
-
+function save(){
   localStorage.setItem(
-    "playLearnUsers",
-    JSON.stringify(users)
+    "plukStats",
+    JSON.stringify(stats)
   );
+}
+
+function cards(list,id,type){
+
+document.getElementById(id).innerHTML=list.map(x=>`
+
+<div class="card ${type==="kids"?"kids":""}">
+
+<div class="icon">${x[1]}</div>
+
+<h3>${x[2]}</h3>
+
+<p>${x[3]}</p>
+
+<button class="btn"
+onclick="openGame('${x[0]}','${type}')">
+▶ Play
+</button>
+
+</div>
+
+`).join("");
 
 }
 
+cards(games,"gameGrid","game");
+cards(kids,"kidGrid","kids");
 
-/* =====================================================
-   AUTH
-===================================================== */
+document.querySelectorAll("[data-tab]").forEach(b=>{
 
-function showLogin(){
+b.onclick=()=>{
 
-  document.getElementById("loginView")
-    .classList.remove("hidden");
+document.querySelectorAll("[data-tab]")
+.forEach(x=>x.classList.remove("active"));
 
-  document.getElementById("registerView")
-    .classList.add("hidden");
+document.querySelectorAll(".panel")
+.forEach(x=>x.classList.remove("active"));
 
-  document.getElementById("adminLoginView")
-    .classList.add("hidden");
+b.classList.add("active");
 
-}
+document.getElementById(
+b.dataset.tab
+).classList.add("active");
 
-function showRegister(){
+};
 
-  document.getElementById("loginView")
-    .classList.add("hidden");
+});
 
-  document.getElementById("registerView")
-    .classList.remove("hidden");
+const all=[
+...games.map(x=>({...x,type:"game"})),
+...kids.map(x=>({...x,type:"kids"}))
+];
 
-}
+function openGame(id,type){
 
-function showAdminLogin(){
+const x=all.find(
+q=>q[0]===id && q.type===type
+);
 
-  document.getElementById("loginView")
-    .classList.add("hidden");
+stats[type==="game"?"games":"kids"]++;
 
-  document.getElementById("registerView")
-    .classList.add("hidden");
+stats.items[id]=(stats.items[id]||0)+1;
 
-  document.getElementById("adminLoginView")
-    .classList.remove("hidden");
+save();
 
-}
+document.getElementById("title").textContent=
+x[1]+" "+x[2];
 
+document.getElementById("desc").textContent=
+x[3];
 
-function register(){
+document.getElementById("modal")
+.classList.add("show");
 
-  const username =
-    document.getElementById("registerUser")
-    .value.trim();
-
-  const password =
-    document.getElementById("registerPass")
-    .value;
-
-  if(!username || !password){
-
-    alert("Please fill in all fields.");
-
-    return;
-  }
-
-  if(username.toLowerCase() === "admin"){
-
-    alert("That username is reserved.");
-
-    return;
-  }
-
-  const users = getUsers();
-
-  if(users[username]){
-
-    alert("Username already exists.");
-
-    return;
-  }
-
-  users[username] = {
-
-    username:username,
-
-    password:password,
-
-    joined:new Date().toISOString(),
-
-    gamesPlayed:0,
-
-    sessions:0
-
-  };
-
-  saveUsers(users);
-
-  currentUser = username;
-
-  localStorage.setItem(
-    "playLearnCurrentUser",
-    username
-  );
-
-  showApp();
+start(id);
 
 }
-
-
-function login(){
-
-  const username =
-    document.getElementById("loginUser")
-    .value.trim();
-
-  const password =
-    document.getElementById("loginPass")
-    .value;
-
-  const users = getUsers();
-
-  if(
-    !users[username] ||
-    users[username].password !== password
-  ){
-
-    document.getElementById("loginError")
-      .textContent =
-      "Wrong username or password.";
-
-    return;
-  }
-
-  currentUser = username;
-
-  localStorage.setItem(
-    "playLearnCurrentUser",
-    username
-  );
-
-  showApp();
-
-}
-
-
-function showApp(){
-
-  document.getElementById("authScreen")
-    .classList.add("hidden");
-
-  document.getElementById("mainApp")
-    .classList.remove("hidden");
-
-}
-
-
-function logout(){
-
-  currentUser = null;
-
-  localStorage.removeItem(
-    "playLearnCurrentUser"
-  );
-
-  document.getElementById("mainApp")
-    .classList.add("hidden");
-
-  document.getElementById("authScreen")
-    .classList.remove("hidden");
-
-}
-
-
-/* =====================================================
-   ADMIN
-===================================================== */
-
-function adminLogin(){
-
-  const user =
-    document.getElementById("adminUser")
-    .value.trim();
-
-  const pass =
-    document.getElementById("adminPass")
-    .value;
-
-  if(
-    user === ADMIN_USER &&
-    pass === ADMIN_PASS
-  ){
-
-    showAdminDashboard();
-
-  }
-
-  else{
-
-    document.getElementById("adminError")
-      .textContent =
-      "Wrong admin username or password.";
-
-  }
-
-}
-
-
-function showAdminDashboard(){
-
-  const users = getUsers();
-
-  let totalGames = 0;
-  let totalSessions = 0;
-
-  Object.values(users).forEach(user => {
-
-    totalGames += user.gamesPlayed || 0;
-
-    totalSessions += user.sessions || 0;
-
-  });
-
-  document.getElementById("authScreen")
-    .innerHTML = `
-
-    <div class="card">
-
-      <div class="logo">
-        🔐 Admin Dashboard
-      </div>
-
-      <div class="stats">
-
-        <div class="stat">
-
-          <div class="stat-number">
-            ${Object.keys(users).length}
-          </div>
-
-          <div class="stat-label">
-            Registered Players
-          </div>
-
-        </div>
-
-        <div class="stat">
-
-          <div class="stat-number">
-            ${totalGames}
-          </div>
-
-          <div class="stat-label">
-            Games Played
-          </div>
-
-        </div>
-
-        <div class="stat">
-
-          <div class="stat-number">
-            ${totalSessions}
-          </div>
-
-          <div class="stat-label">
-            Game Sessions
-          </div>
-
-        </div>
-
-      </div>
-
-      <br>
-
-      <h3>
-        Registered Players
-      </h3>
-
-      <br>
-
-      <div id="adminUsers"></div>
-
-      <button
-        class="btn btn-blue"
-        onclick="location.reload()">
-        Back to App
-      </button>
-
-    </div>
-  `;
-
-
-  const list =
-    document.getElementById("adminUsers");
-
-  Object.values(users).forEach(user => {
-
-    const row =
-      document.createElement("div");
-
-    row.className = "user-row";
-
-    row.innerHTML = `
-
-      <div>
-
-        <strong>
-          ${escapeHtml(user.username)}
-        </strong>
-
-        <br>
-
-        <small>
-          Joined:
-          ${new Date(user.joined)
-            .toLocaleDateString()}
-        </small>
-
-      </div>
-
-      <div style="text-align:right">
-
-        🎮 ${user.gamesPlayed || 0}
-        games
-
-        <br>
-
-        📊 ${user.sessions || 0}
-        sessions
-
-      </div>
-    `;
-
-    list.appendChild(row);
-
-  });
-
-}
-
-
-/* =====================================================
-   SECTIONS
-===================================================== */
-
-function showSection(section){
-
-  document
-    .getElementById("gamesSection")
-    .classList.add("hidden");
-
-  document
-    .getElementById("kidsSection")
-    .classList.add("hidden");
-
-  document
-    .getElementById("navGames")
-    .classList.remove("active");
-
-  document
-    .getElementById("navKids")
-    .classList.remove("active");
-
-
-  if(section === "games"){
-
-    document
-      .getElementById("gamesSection")
-      .classList.remove("hidden");
-
-    document
-      .getElementById("navGames")
-      .classList.add("active");
-
-  }
-
-  else{
-
-    document
-      .getElementById("kidsSection")
-      .classList.remove("hidden");
-
-    document
-      .getElementById("navKids")
-      .classList.add("active");
-
-  }
-
-}
-
-
-/* =====================================================
-   GAME SYSTEM
-===================================================== */
-
-function startGame(name){
-
-  document.getElementById("gameTitle")
-    .textContent = name;
-
-  document.getElementById("gameScreen")
-    .style.display = "flex";
-
-  const area =
-    document.getElementById("gameArea");
-
-  area.innerHTML = "";
-
-  createGame(name);
-
-  recordGame(name);
-
-}
-
 
 function closeGame(){
 
-  document.getElementById("gameScreen")
-    .style.display = "none";
+document.getElementById("modal")
+.classList.remove("show");
 
-  document.getElementById("gameArea")
-    .innerHTML = "";
-
-}
-
-
-function recordGame(name){
-
-  const users = getUsers();
-
-  if(!currentUser || !users[currentUser])
-    return;
-
-  users[currentUser].gamesPlayed =
-    (users[currentUser].gamesPlayed || 0) + 1;
-
-  users[currentUser].sessions =
-    (users[currentUser].sessions || 0) + 1;
-
-  saveUsers(users);
+document.getElementById("area")
+.innerHTML="";
 
 }
 
+function choice(text,fn){
 
-/* =====================================================
-   GAME CREATOR
-===================================================== */
+let b=document.createElement("button");
 
-function createGame(name){
+b.className="choice";
 
-  const area =
-    document.getElementById("gameArea");
+b.textContent=text;
 
+b.onclick=fn;
 
-  /* MATH QUIZ */
-
-  if(name === "Math Quiz"){
-
-    let a =
-      Math.floor(Math.random()*10)+1;
-
-    let b =
-      Math.floor(Math.random()*10)+1;
-
-    area.innerHTML = `
-
-      <div class="play-box">
-
-        <h1>
-          Math Quiz
-        </h1>
-
-        <div class="big-number">
-          ${a} + ${b} = ?
-        </div>
-
-        <input
-          id="answer"
-          type="number"
-          placeholder="Your answer">
-
-        <button
-          class="game-btn"
-          onclick="checkMath(${a+b})">
-          Check Answer
-        </button>
-
-        <div
-          id="result"
-          class="game-result">
-        </div>
-
-      </div>
-    `;
-
-    return;
-  }
-
-
-  /* TIMES TABLES */
-
-  if(name === "Times Tables"){
-
-    let a =
-      Math.floor(Math.random()*12)+1;
-
-    let b =
-      Math.floor(Math.random()*12)+1;
-
-    area.innerHTML = `
-
-      <div class="play-box">
-
-        <h1>
-          Times Tables
-        </h1>
-
-        <div class="big-number">
-          ${a} × ${b} = ?
-        </div>
-
-        <input
-          id="answer"
-          type="number"
-          placeholder="Your answer">
-
-        <button
-          class="game-btn"
-          onclick="checkMath(${a*b})">
-          Check
-        </button>
-
-        <div
-          id="result"
-          class="game-result">
-        </div>
-
-      </div>
-    `;
-
-    return;
-  }
-
-
-  /* TIC TAC TOE */
-
-  if(name === "Tic Tac Toe"){
-
-    area.innerHTML = `
-
-      <div class="play-box">
-
-        <h1>
-          Tic Tac Toe
-        </h1>
-
-        <br>
-
-        <div
-          class="ttt"
-          id="tttBoard">
-
-        </div>
-
-        <div
-          id="tttResult"
-          class="game-result">
-        </div>
-
-      </div>
-    `;
-
-    createTTT();
-
-    return;
-  }
-
-
-  /* MEMORY */
-
-  if(name === "Memory" ||
-     name === "Memory Words"){
-
-    area.innerHTML = `
-
-      <div class="play-box">
-
-        <h1>
-          ${name}
-        </h1>
-
-        <br>
-
-        <div
-          class="memory"
-          id="memoryBoard">
-        </div>
-
-        <div
-          id="memoryResult"
-          class="game-result">
-        </div>
-
-      </div>
-    `;
-
-    createMemory();
-
-    return;
-  }
-
-
-  /* OTHER GAME TYPES */
-
-  const descriptions = {
-
-    "Snake":
-      "Classic Snake — collect the food and grow!",
-
-    "2048":
-      "Combine matching numbers to reach 2048.",
-
-    "Pong":
-      "Classic paddle and ball game.",
-
-    "Breakout":
-      "Break the blocks with the ball.",
-
-    "Minesweeper":
-      "Find the safe squares and avoid the mines.",
-
-    "Sudoku":
-      "Complete the number grid.",
-
-    "Solitaire":
-      "Classic card puzzle.",
-
-    "Chess":
-      "Classic strategy board game.",
-
-    "Spelling":
-      "Practice spelling common English words.",
-
-    "Word Match":
-      "Match words and meanings.",
-
-    "Geography":
-      "Learn about countries and the world.",
-
-    "Science Quiz":
-      "Answer interesting science questions.",
-
-    "Shapes":
-      "Learn basic shapes.",
-
-    "Fractions":
-      "Practice fractions.",
-
-    "Coding Basics":
-      "Learn basic programming concepts."
-
-  };
-
-  area.innerHTML = `
-
-    <div class="play-box">
-
-      <div style="font-size:5rem">
-        🎮
-      </div>
-
-      <h1>
-        ${name}
-      </h1>
-
-      <p style="margin:15px;color:#666">
-        ${descriptions[name] ||
-        "Game coming soon."}
-      </p>
-
-      <button
-        class="game-btn"
-        onclick="alert('This game will be added in the next version.')">
-        ▶ Start
-      </button>
-
-    </div>
-  `;
+return b;
 
 }
 
+function start(id){
 
-/* =====================================================
-   MATH
-===================================================== */
+let a=document.getElementById("area");
 
-function checkMath(correct){
+a.innerHTML="";
 
-  const answer =
-    Number(
-      document.getElementById("answer").value
-    );
+({
 
-  const result =
-    document.getElementById("result");
+tap:tap,
+memory:memory,
+math:math,
+colour:colour,
+typing:typing,
+reaction:reaction,
+guess:guess,
+snake:snake,
+catch:catchStars,
+bricks:bricks,
 
-  if(answer === correct){
+count:count,
+alphabet:alphabet,
+colours:kidColours,
+add:add,
+subtract:subtract,
+shapes:shapes,
+spell:spell,
+kmemory:()=>memory(true),
+bigsmall:bigsmall,
+general:general
 
-    result.textContent =
-      "✅ Correct!";
-
-  }
-
-  else{
-
-    result.textContent =
-      "❌ Try again!";
-
-  }
-
-}
-
-
-/* =====================================================
-   TIC TAC TOE
-===================================================== */
-
-let tttBoard = [];
-let tttTurn = "X";
-
-function createTTT(){
-
-  tttBoard =
-    ["","","","","","","","",""];
-
-  tttTurn = "X";
-
-  const board =
-    document.getElementById("tttBoard");
-
-  board.innerHTML = "";
-
-  tttBoard.forEach((cell,index)=>{
-
-    const btn =
-      document.createElement("button");
-
-    btn.onclick =
-      ()=>tttMove(index);
-
-    board.appendChild(btn);
-
-  });
+}[id])(a);
 
 }
 
-function tttMove(index){
+/* GAME 1 */
 
-  if(tttBoard[index])
-    return;
+function tap(a){
 
-  tttBoard[index] =
-    tttTurn;
+let s=0,t=20;
 
-  const buttons =
-    document.querySelectorAll(".ttt button");
+a.innerHTML=`
 
-  buttons[index].textContent =
-    tttTurn;
+<div>
+Time:
+<b id="tm">20</b>
+|
+Score:
+<b id="sc">0</b>
+</div>
 
-  if(checkWinner(tttTurn)){
+<button id="target"
+class="btn"
+style="padding:30px 45px;margin:25px">
+TAP!
+</button>
 
-    document.getElementById("tttResult")
-      .textContent =
-      "🎉 " + tttTurn + " wins!";
+`;
 
-    return;
+let b=a.querySelector("#target");
 
-  }
+b.onclick=()=>{
 
-  if(tttBoard.every(Boolean)){
+if(t>0){
 
-    document.getElementById("tttResult")
-      .textContent =
-      "🤝 Draw!";
+s++;
 
-    return;
+sc.textContent=s;
 
-  }
-
-  tttTurn =
-    tttTurn === "X" ? "O" : "X";
-
-}
-
-
-function checkWinner(player){
-
-  const wins = [
-
-    [0,1,2],
-    [3,4,5],
-    [6,7,8],
-    [0,3,6],
-    [1,4,7],
-    [2,5,8],
-    [0,4,8],
-    [2,4,6]
-
-  ];
-
-  return wins.some(combo =>
-    combo.every(i =>
-      tttBoard[i] === player
-    )
-  );
+b.style.transform=
+`translate(${Math.random()*100-50}px,
+${Math.random()*80-40}px)`;
 
 }
 
+};
 
-/* =====================================================
-   MEMORY
-===================================================== */
+let iv=setInterval(()=>{
 
-function createMemory(){
+tm.textContent=--t;
 
-  const emojis = [
-    "🍎","🍎",
-    "🐶","🐶",
-    "🚗","🚗",
-    "⭐","⭐",
-    "🍕","🍕",
-    "🐱","🐱",
-    "⚽","⚽",
-    "🌈","🌈"
-  ];
+if(t<=0){
 
-  emojis.sort(
-    ()=>Math.random()-.5
-  );
+clearInterval(iv);
 
-  let first = null;
-  let second = null;
-  let lock = false;
-  let matches = 0;
+b.disabled=true;
 
-  const board =
-    document.getElementById("memoryBoard");
+a.insertAdjacentHTML(
+"beforeend",
+`<div class=big>Score ${s}</div>`
+);
 
-  board.innerHTML = "";
+}
 
-  emojis.forEach((emoji,index)=>{
+},1000);
 
-    const btn =
-      document.createElement("button");
+}
 
-    btn.textContent = "?";
+/* GAME 2 + KIDS MEMORY */
 
-    btn.onclick = ()=>{
+function memory(kidsMode=false){
 
-      if(lock ||
-         btn.textContent !== "?")
-        return;
+let v=kidsMode
+?["🐶","🐱","🐰","🐸","🦁","🐼"]
+:["🍎","🚗","⭐","🎵","⚽","🚀"];
 
-      btn.textContent = emoji;
+let arr=[
+...v,
+...v
+].sort(()=>Math.random()-.5);
 
-      if(first === null){
+let open=[];
+let pairs=0;
 
-        first = {
-          btn,
-          emoji
-        };
+area.innerHTML=`
 
-        return;
+<div>
+Pairs:
+<b id="pairs">0</b>/${v.length}
+</div>
+
+<div class="playgrid" id="mg"></div>
+
+`;
+
+arr.forEach(x=>{
+
+let b=document.createElement("button");
+
+b.className="tile";
+
+b.textContent="?";
+
+b.onclick=()=>{
+
+if(b.dataset.open || open.length===2)
+return;
+
+b.dataset.open=1;
+
+b.textContent=x;
+
+open.push({b,x});
+
+if(open.length===2){
+
+if(open[0].x===open[1].x){
+
+open.forEach(
+q=>q.b.style.background="#16a34a"
+);
+
+pairs++;
+
+pairsEl.textContent=pairs;
+
+open=[];
+
+if(pairs===v.length){
+
+area.insertAdjacentHTML(
+"beforeend",
+"<div class=big>Great job! 🎉</div>"
+);
+
+}
+
+}else{
+
+setTimeout(()=>{
+
+open.forEach(q=>{
+
+q.b.textContent="?";
+
+delete q.b.dataset.open;
+
+});
+
+open=[];
+
+},600);
+
+}
+
+}
+
+};
+
+mg.appendChild(b);
+
+});
+
+}
+
+/* GAME 3 */
+
+function math(a){
+
+let s=0,t=30;
+
+a.innerHTML=`
+
+<div>
+Time:
+<b id="mt">30</b>
+|
+Score:
+<b id="ms">0</b>
+</div>
+
+<div id="mq" class=big></div>
+
+<div id="mo" class=choices></div>
+
+`;
+
+function next(){
+
+let x=1+Math.floor(Math.random()*20);
+let y=1+Math.floor(Math.random()*20);
+let z=x+y;
+
+mq.textContent=`${x} + ${y} = ?`;
+
+mo.innerHTML="";
+
+[z,z+1,z-1,z+3]
+.sort(()=>Math.random()-.5)
+.forEach(n=>
+
+  mo.appendChild(
+    choice(n,()=>{
+
+      if(n===z){
+
+        s++;
+
+        ms.textContent=s;
 
       }
 
-      second = {
-        btn,
-        emoji
-      };
+      next();
 
-      lock = true;
+    })
+  )
 
-      if(first.emoji === second.emoji){
-
-        matches++;
-
-        first = null;
-        second = null;
-        lock = false;
-
-        if(matches === 8){
-
-          document.getElementById(
-            "memoryResult"
-          ).textContent =
-            "🎉 You found them all!";
-
-        }
-
-      }
-
-      else{
-
-        setTimeout(()=>{
-
-          first.btn.textContent = "?";
-          second.btn.textContent = "?";
-
-          first = null;
-          second = null;
-          lock = false;
-
-        },800);
-
-      }
-
-    };
-
-    board.appendChild(btn);
-
-  });
+);
 
 }
 
+next();
 
-/* =====================================================
-   SECURITY
-===================================================== */
+let iv=setInterval(()=>{
 
-function escapeHtml(text){
+mt.textContent=--t;
 
-  const div =
-    document.createElement("div");
+if(t<=0){
 
-  div.textContent = text;
+clearInterval(iv);
 
-  return div.innerHTML;
+a.insertAdjacentHTML(
+"beforeend",
+`<div class=big>Score ${s}</div>`
+);
 
 }
 
+},1000);
 
-/* =====================================================
-   START
-===================================================== */
+}
 
-const savedUser =
-  localStorage.getItem(
-    "playLearnCurrentUser"
-  );
+/* GAME 4 */
 
-if(savedUser &&
-   getUsers()[savedUser]){
+function colour(a){
 
-  currentUser = savedUser;
+let c=[
+["RED","#ef4444"],
+["BLUE","#3b82f6"],
+["GREEN","#22c55e"],
+["YELLOW","#eab308"],
+["PURPLE","#a855f7"]
+];
 
-  showApp();
+let s=0,t=30;
+
+a.innerHTML=`
+
+<div>
+Time:
+<b id="ct">30</b>
+|
+Score:
+<b id="cs">0</b>
+</div>
+
+<div id="cq" class=big></div>
+
+<div id="co" class=choices></div>
+
+`;
+
+function next(){
+
+let x=c[
+Math.floor(Math.random()*c.length)
+];
+
+cq.textContent=x[0];
+
+cq.style.color=x[1];
+
+co.innerHTML="";
+
+c.forEach(q=>
+
+co.appendChild(
+choice(q[0],()=>{
+
+if(q[0]===x[0])
+s++;
+
+cs.textContent=s;
+
+next();
+
+})
+)
+
+);
+
+}
+
+next();
+
+let iv=setInterval(()=>{
+
+ct.textContent=--t;
+
+if(t<=0){
+
+clearInterval(iv);
+
+a.insertAdjacentHTML(
+"beforeend",
+`<div class=big>Score ${s}</div>`
+);
+
+}
+
+},1000);
+
+}
+
+/* GAME 5 */
+
+function typing(a){
+
+let words=[
+"house",
+"garden",
+"school",
+"football",
+"window",
+"computer",
+"rainbow",
+"friend"
+];
+
+let s=0,t=30,w="";
+
+a.innerHTML=`
+
+<div>
+Time:
+<b id="tt">30</b>
+|
+Score:
+<b id="ts">0</b>
+</div>
+
+<div id="word" class=big></div>
+
+<input id="inp"
+class=input>
+
+<button id="submit"
+class=btn>
+Submit
+</button>
+
+`;
+
+function next(){
+
+w=words[
+Math.floor(Math.random()*words.length)
+];
+
+word.textContent=w;
+
+inp.value="";
+
+inp.focus();
+
+}
+
+submit.onclick=()=>{
+
+if(inp.value.toLowerCase()===w){
+
+s++;
+
+ts.textContent=s;
+
+}
+
+next();
+
+};
+
+next();
+
+let iv=setInterval(()=>{
+
+tt.textContent=--t;
+
+if(t<=0){
+
+clearInterval(iv);
+
+submit.disabled=true;
+
+a.insertAdjacentHTML(
+"beforeend",
+`<div class=big>Score ${s}</div>`
+);
+
+}
+
+},1000);
+
+}
+
+/* GAME 6 */
+
+function reaction(a){
+
+a.innerHTML=`
+
+<p>
+Wait until the button turns green.
+</p>
+
+<button id="react"
+class=btn
+style="width:240px;height:140px">
+WAIT…
+</button>
+
+<p id="result"></p>
+
+`;
+
+let ready=false;
+let start;
+
+let t=setTimeout(()=>{
+
+react.style.background="#16a34a";
+
+react.textContent="CLICK!";
+
+ready=true;
+
+start=performance.now();
+
+},1000+Math.random()*3000);
+
+react.onclick=()=>{
+
+if(!ready){
+
+clearTimeout(t);
+
+result.textContent=
+"Too early — try again.";
+
+}else{
+
+result.textContent=
+"Reaction: "+
+Math.round(
+performance.now()-start
+)+
+" ms";
+
+react.disabled=true;
+
+}
+
+};
+
+}
+
+/* GAME 7 */
+
+function guess(a){
+
+let secret=
+1+Math.floor(Math.random()*50);
+
+let tries=0;
+
+a.innerHTML=`
+
+<p>Guess 1–50.</p>
+
+<input id="num"
+class=input
+type=number>
+
+<button id="guessBtn"
+class=btn>
+Guess
+</button>
+
+<p id="hint"></p>
+
+`;
+
+guessBtn.onclick=()=>{
+
+let n=+num.value;
+
+tries++;
+
+if(n===secret){
+
+hint.textContent=
+`Correct! ${tries} guesses. 🎉`;
+
+guessBtn.disabled=true;
+
+}else{
+
+hint.textContent=
+n<secret
+?"Too low!"
+:"Too high!";
+
+}
+
+};
+
+}
+
+/* GAME 8 */
+
+let snakeState=null;
+
+function snake(a){
+
+a.innerHTML=`
+
+<canvas
+id="snakeCanvas"
+width="320"
+height="320"
+style="background:#07111f;border-radius:10px;max-width:100%">
+</canvas>
+
+<div class=choices>
+
+<button class=choice
+onclick="sd(0,-1)">
+⬆️
+</button>
+
+<button class=choice
+onclick="sd(-1,0)">
+⬅️
+</button>
+
+<button class=choice
+onclick="sd(1,0)">
+➡️
+</button>
+
+<button class=choice
+onclick="sd(0,1)">
+⬇️
+</button>
+
+</div>
+
+<p id="snakeScore">
+Score: 0
+</p>
+
+`;
+
+let c=snakeCanvas;
+let ctx=c.getContext("2d");
+
+snakeState={
+
+body:[{x:8,y:8}],
+
+dir:{x:1,y:0},
+
+food:{x:12,y:8},
+
+score:0,
+
+over:false
+
+};
+
+clearInterval(window.snakeTimer);
+
+function place(){
+
+snakeState.food={
+x:Math.floor(Math.random()*16),
+y:Math.floor(Math.random()*16)
+};
+
+}
+
+window.snakeTimer=setInterval(()=>{
+
+let z=snakeState;
+
+if(z.over)return;
+
+let h={
+
+x:z.body[0].x+z.dir.x,
+
+y:z.body[0].y+z.dir.y
+
+};
+
+if(
+h.x<0||
+h.y<0||
+h.x>=16||
+h.y>=16||
+z.body.some(
+p=>p.x===h.x&&p.y===h.y
+)
+){
+
+z.over=true;
+
+return;
+
+}
+
+z.body.unshift(h);
+
+if(
+h.x===z.food.x&&
+h.y===z.food.y
+){
+
+z.score++;
+
+snakeScore.textContent=
+"Score: "+z.score;
+
+place();
+
+}else{
+
+z.body.pop();
+
+}
+
+ctx.clearRect(
+0,
+0,
+320,
+320
+);
+
+ctx.fillStyle="#ef4444";
+
+ctx.fillRect(
+z.food.x*20,
+z.food.y*20,
+19,
+19
+);
+
+ctx.fillStyle="#22c55e";
+
+z.body.forEach(p=>
+
+ctx.fillRect(
+p.x*20,
+p.y*20,
+19,
+19
+)
+
+);
+
+},130);
+
+}
+
+function sd(x,y){
+
+if(
+snakeState &&
+!snakeState.over
+)
+
+snakeState.dir={x,y};
+
+}
+
+/* GAME 9 */
+
+function catchStars(a){
+
+a.innerHTML=`
+
+<canvas
+id="catchCanvas"
+width="420"
+height="300"
+style="background:#10233b;border-radius:10px;max-width:100%">
+</canvas>
+
+<p>
+Move your mouse or finger to catch ⭐
+</p>
+
+`;
+
+let c=catchCanvas;
+let ctx=c.getContext("2d");
+
+let basket={x:180};
+let stars=[];
+let score=0;
+
+c.onmousemove=e=>
+basket.x=
+Math.max(
+0,
+Math.min(
+360,
+e.offsetX-30
+)
+);
+
+c.ontouchmove=e=>{
+
+let r=c.getBoundingClientRect();
+
+basket.x=
+Math.max(
+0,
+Math.min(
+360,
+e.touches[0].clientX-r.left-30
+)
+);
+
+};
+
+setInterval(()=>
+
+stars.push({
+x:Math.random()*390,
+y:-10,
+v:2+Math.random()*3
+})
+
+,500);
+
+function loop(){
+
+ctx.clearRect(
+0,
+0,
+420,
+300
+);
+
+ctx.fillStyle="#38bdf8";
+
+ctx.fillRect(
+basket.x,
+270,
+60,
+14
+);
+
+ctx.font="24px sans-serif";
+
+stars.forEach(s=>{
+
+s.y+=s.v;
+
+ctx.fillText(
+"⭐",
+s.x,
+s.y
+);
+
+if(
+s.y>250&&
+s.x>basket.x-15&&
+s.x<basket.x+65
+){
+
+s.y=999;
+
+score++;
+
+}
+
+});
+
+ctx.fillStyle="#fff";
+
+ctx.font="16px Arial";
+
+ctx.fillText(
+"Score: "+score,
+10,
+20
+);
+
+requestAnimationFrame(loop);
+
+}
+
+loop();
+
+}
+
+/* GAME 10 */
+
+function bricks(a){
+
+a.innerHTML=`
+
+<canvas
+id="brickCanvas"
+width="500"
+height="320"
+style="background:#07111f;border-radius:10px;max-width:100%">
+</canvas>
+
+<p>
+Move the mouse/finger.
+Tap the game to start.
+</p>
+
+`;
+
+let c=brickCanvas;
+let ctx=c.getContext("2d");
+
+let p={x:210};
+
+let ball={
+x:250,
+y:270,
+dx:3,
+dy:-3
+};
+
+let bs=[];
+
+for(let r=0;r<4;r++)
+
+for(let q=0;q<7;q++)
+
+bs.push({
+x:20+q*67,
+y:30+r*24,
+on:true
+});
+
+c.onmousemove=e=>
+
+p.x=
+Math.max(
+0,
+Math.min(
+420,
+e.offsetX-40
+)
+);
+
+c.ontouchmove=e=>{
+
+let r=c.getBoundingClientRect();
+
+p.x=
+Math.max(
+0,
+Math.min(
+420,
+e.touches[0].clientX-r.left-40
+)
+);
+
+};
+
+let run=false;
+
+c.onclick=()=>run=true;
+
+function loop(){
+
+ctx.clearRect(
+0,
+0,
+500,
+320
+);
+
+ctx.fillStyle="#3b82f6";
+
+ctx.fillRect(
+p.x,
+300,
+80,
+12
+);
+
+ctx.fillStyle="#fbbf24";
+
+ctx.beginPath();
+
+ctx.arc(
+ball.x,
+ball.y,
+7,
+0,
+7
+);
+
+ctx.fill();
+
+ctx.fillStyle="#ef4444";
+
+bs.forEach(b=>{
+
+if(b.on)
+
+ctx.fillRect(
+b.x,
+b.y,
+60,
+16
+);
+
+});
+
+if(run){
+
+ball.x+=ball.dx;
+ball.y+=ball.dy;
+
+if(
+ball.x<7||
+ball.x>493
+)
+
+ball.dx*=-1;
+
+if(ball.y<7)
+ball.dy*=-1;
+
+if(ball.y>300){
+
+run=false;
+
+ball.x=250;
+ball.y=270;
+
+}
+
+if(
+ball.y>292&&
+ball.x>p.x&&
+ball.x<p.x+80
+)
+
+ball.dy=-Math.abs(ball.dy);
+
+bs.forEach(b=>{
+
+if(
+b.on&&
+ball.x>b.x&&
+ball.x<b.x+60&&
+ball.y>b.y&&
+ball.y<b.y+16
+){
+
+b.on=false;
+
+ball.dy*=-1;
+
+}
+
+});
+
+}
+
+requestAnimationFrame(loop);
+
+}
+
+loop();
+
+}
+
+/* KIDS */
+
+function count(a){
+
+let n=
+2+Math.floor(Math.random()*8);
+
+let opts=[
+n,
+n+1,
+n-1,
+n+2
+].sort(
+()=>Math.random()-.5
+);
+
+a.innerHTML=`
+
+<div class=big>
+${"🍎".repeat(n)}
+</div>
+
+<p>How many apples?</p>
+
+<div class=choices id=opts></div>
+
+`;
+
+opts.forEach(
+x=>optsEl(x,n)
+);
+
+}
+
+function optsEl(x,n){
+
+let b=choice(
+x,
+()=>
+area.insertAdjacentHTML(
+"beforeend",
+`<p>${
+x===n
+?"Correct! 🌟"
+:"Try again!"
+}</p>`
+)
+);
+
+document.getElementById("opts")
+.appendChild(b);
+
+}
+
+function alphabet(a){
+
+let d=[
+["A","Apple"],
+["B","Ball"],
+["C","Cat"],
+["D","Dog"],
+["E","Egg"],
+["F","Fish"],
+["G","Grape"],
+["H","House"],
+["I","Ice"],
+["J","Juice"]
+];
+
+let i=0;
+
+a.innerHTML=`
+
+<div id=letter class=big></div>
+
+<div id=letterChoices
+class=choices></div>
+
+`;
+
+function n(){
+
+let q=d[i%d.length];
+
+letter.textContent=
+q[0]+" is for "+q[1];
+
+letterChoices.innerHTML="";
+
+[q[0],q[1][0]].forEach(
+x=>
+letterChoices.appendChild(
+choice(x,()=>{
+i++;
+n();
+})
+)
+);
+
+}
+
+n();
+
+}
+
+function kidColours(a){
+
+let d=[
+["RED","#ef4444"],
+["BLUE","#3b82f6"],
+["GREEN","#22c55e"],
+["YELLOW","#eab308"],
+["PURPLE","#a855f7"]
+];
+
+let i=0;
+
+a.innerHTML=`
+
+<div id=colourBox
+style="width:170px;height:170px;border-radius:30px">
+</div>
+
+<p>Which colour?</p>
+
+<div id=colourChoices
+class=choices></div>
+
+`;
+
+function n(){
+
+let q=d[i%d.length];
+
+colourBox.style.background=q[1];
+
+colourChoices.innerHTML="";
+
+d.forEach(
+x=>
+colourChoices.appendChild(
+choice(x[0],()=>{
+i++;
+n();
+})
+)
+);
+
+}
+
+n();
+
+}
+
+function add(a){
+kidMath(a,"+");
+}
+
+function subtract(a){
+kidMath(a,"-");
+}
+
+function kidMath(a,op){
+
+let x=
+1+Math.floor(Math.random()*9);
+
+let y=
+1+Math.floor(Math.random()*9);
+
+if(op==="-"&&y>x)
+[x,y]=[y,x];
+
+let ans=
+op==="+"?
+x+y:
+x-y;
+
+a.innerHTML=`
+
+<div class=big>
+${x} ${op} ${y} = ?
+</div>
+
+<div id=mathChoices
+class=choices></div>
+
+`;
+
+[
+ans,
+ans+1,
+Math.max(0,ans-1),
+ans+2
+]
+.sort(()=>Math.random()-.5)
+.forEach(
+n=>
+mathChoices.appendChild(
+choice(n,()=>
+area.insertAdjacentHTML(
+"beforeend",
+`<p>${
+n===ans
+?"Correct! 🎉"
+:"Try again!"
+}</p>`
+)
+)
+)
+);
+
+}
+
+function shapes(a){
+
+let d=[
+["🔺","Triangle"],
+["⚪","Circle"],
+["⬛","Square"],
+["⭐","Star"],
+["❤️","Heart"]
+];
+
+let i=0;
+
+a.innerHTML=`
+
+<div id=shape class=big></div>
+
+<p>What shape?</p>
+
+<div id=shapeChoices
+class=choices></div>
+
+`;
+
+function n(){
+
+let q=d[i%d.length];
+
+shape.textContent=q[0];
+
+shapeChoices.innerHTML="";
+
+d.forEach(
+x=>
+shapeChoices.appendChild(
+choice(x[1],()=>{
+i++;
+n();
+})
+)
+);
+
+}
+
+n();
+
+}
+
+function spell(a){
+
+let d=[
+["c_t","cat"],
+["d_g","dog"],
+["s_n","sun"],
+["b_ll","ball"],
+["f_sh","fish"],
+["h_t","hat"]
+];
+
+let i=0;
+
+a.innerHTML=`
+
+<div id=spelling class=big></div>
+
+<p>Choose the word.</p>
+
+<div id=spellChoices
+class=choices></div>
+
+`;
+
+function n(){
+
+let q=d[i%d.length];
+
+spelling.textContent=q[0];
+
+spellChoices.innerHTML="";
+
+[
+q[1],
+q[1]+"s",
+q[1]==="cat"?"cot":"cat"
+]
+.forEach(
+x=>
+spellChoices.appendChild(
+choice(x,()=>{
+i++;
+n();
+})
+)
+);
+
+}
+
+n();
+
+}
+
+function bigsmall(a){
+
+let x=
+1+Math.floor(Math.random()*10);
+
+let y=
+1+Math.floor(Math.random()*10);
+
+while(x===y)
+y=1+Math.floor(Math.random()*10);
+
+let ans=
+x>y?
+"Bigger":
+"Smaller";
+
+a.innerHTML=`
+
+<div class=big>
+${x} &nbsp; ${y}
+</div>
+
+<p>
+Is the first number bigger or smaller?
+</p>
+
+<div id=bsChoices
+class=choices></div>
+
+`;
+
+[
+"Bigger",
+"Smaller"
+]
+.forEach(
+x=>
+bsChoices.appendChild(
+choice(x,()=>
+area.insertAdjacentHTML(
+"beforeend",
+`<p>${
+x===ans
+?"Correct! 🌟"
+:"Try again!"
+}</p>`
+)
+)
+)
+);
+
+}
+
+function general(a){
+
+let q=[
+
+[
+"How many days are in a week?",
+["7","5","10"],
+"7"
+],
+
+[
+"What colour is grass?",
+["Green","Blue","Purple"],
+"Green"
+],
+
+[
+"How many legs does a dog have?",
+["4","2","6"],
+"4"
+],
+
+[
+"Which animal says moo?",
+["Cow","Cat","Fish"],
+"Cow"
+]
+
+];
+
+let i=0;
+
+a.innerHTML=`
+
+<div id=gq class=big></div>
+
+<div id=go class=choices></div>
+
+`;
+
+function n(){
+
+let z=q[i%q.length];
+
+gq.textContent=z[0];
+
+go.innerHTML="";
+
+z[1].forEach(
+x=>
+go.appendChild(
+choice(x,()=>{
+i++;
+n();
+})
+)
+);
+
+}
+
+n();
+
+}
+
+function adminLogin(){
+
+let u=prompt(
+"Admin username:"
+);
+
+let p=prompt(
+"Admin password:"
+);
+
+if(
+u==="admin" &&
+p==="Admin2026!"
+){
+
+app.style.display="none";
+
+admin.classList.add("show");
+
+renderAdmin();
+
+alert(
+"Admin login successful."
+);
+
+}else{
+
+alert(
+"Wrong username or password."
+);
+
+}
+
+}
+
+function renderAdmin(){
+
+visitors.textContent=
+stats.visitors;
+
+gameLaunches.textContent=
+stats.games;
+
+kidLaunches.textContent=
+stats.kids;
+
+activity.innerHTML=
+Object.entries(stats.items)
+.sort((a,b)=>b[1]-a[1])
+.map(([id,n])=>{
+
+let x=
+all.find(
+q=>q[0]===id
+);
+
+return `
+
+<tr>
+
+<td>
+${x?x[1]+" "+x[2]:id}
+</td>
+
+<td>
+${x?.type||""}
+</td>
+
+<td>
+${n}
+</td>
+
+</tr>
+
+`;
+
+})
+.join("")
+||
+"<tr><td colspan=3>No activity yet.</td></tr>";
+
+}
+
+function closeAdmin(){
+
+admin.classList.remove("show");
+
+app.style.display="block";
+
+scrollTo(0,0);
+
+}
+
+function resetStats(){
+
+if(
+confirm(
+"Reset demo statistics?"
+)
+){
+
+stats.visitors=0;
+stats.games=0;
+stats.kids=0;
+stats.items={};
+
+save();
+
+renderAdmin();
+
+}
 
 }
 
