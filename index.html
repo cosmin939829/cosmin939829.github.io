@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Play & Earn Real Money 🎮</title>
+<title>Play & Earn — Real Rewards 🎮</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,sans-serif;}
 :root{--blue:#007aff;--green:#34c759;--red:#ff3b30;--gray:#f2f2f7;--card:#fff;--muted:#86868b;--purple:#5856d6;--orange:#ff9500;}
@@ -28,12 +28,9 @@ body{background:var(--gray);min-height:100vh;padding:20px;}
 .back-btn{background:var(--red);color:white;border:none;padding:8px 16px;border-radius:8px;font-weight:bold;cursor:pointer;}
 .game-frame{flex:1;border:none;width:100%;background:#fff;}
 
-.ad-popup{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;}
-.ad-card{background:white;border-radius:20px;padding:30px 25px;max-width:360px;width:100%;text-align:center;}
--ad-status{color:var(--orange);margin:10px 0;}
-.ad-continue{background:var(--blue);color:white;border:none;padding:14px 30px;border-radius:12px;font-size:1rem;font-weight:bold;cursor:pointer;display:none;width:100%;margin-top:10px;}
-.ad-continue.show{display:block;}
-.ad-earned{color:var(--green);font-weight:bold;margin-top:15px;display:none;font-size:1.1rem;}
+.ad-banner{background:white;border-radius:12px;padding:15px;margin:15px 0;text-align:center;border:2px dashed #ddd;min-height:100px;display:flex;align-items:center;justify-content:center;}
+.ad-banner-text{color:var(--muted);font-size:0.9rem;}
+.ad-ready{border-color:var(--green);background:#f0fff4;}
 
 input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bottom:12px;font-size:1rem;}
 .btn-primary{background:var(--blue);color:white;border:none;padding:14px;border-radius:10px;font-size:1rem;font-weight:bold;cursor:pointer;}
@@ -41,11 +38,9 @@ input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bo
 .btn-link{background:none;color:var(--blue);border:none;padding:10px;cursor:pointer;font-size:1rem;}
 .error{color:var(--red);height:20px;margin-bottom:10px;}
 .solo-ad{background:linear-gradient(135deg,#ff9500,#ff5e03);color:white;border-radius:16px;padding:20px;text-align:center;margin-bottom:15px;cursor:pointer;}
-.admin-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee;font-size:0.9rem;}
-.admin-label{color:var(--muted);}
-.admin-value{font-weight:bold;}
-.user-list{max-height:300px;overflow-y:auto;margin-top:15px;}
-.user-item{padding:10px;border-bottom:1px solid #eee;font-size:0.9rem;}
+.status-box{background:#e3f2fd;border-radius:10px;padding:12px;margin:10px 0;font-size:0.9rem;}
+.status-good{background:#e8f5e9;color:#1b5e20;}
+.status-pending{background:#fff3e0;color:#e65100;}
 </style>
 </head>
 <body>
@@ -83,19 +78,28 @@ input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bo
 <div id="mainApp" class="container hidden">
   <div class="balance">£<span id="bal">0.00</span></div>
   
+  <div class="status-box status-pending" id="adStatus">
+    ⏳ Google AdSense — Pending Approval<br>
+    <small>Real ads will appear automatically once approved</small>
+  </div>
+  
   <div class="tabs">
     <button class="tab active" data-view="games">🎮 Games</button>
     <button class="tab" data-view="kids">👶 Kids</button>
     <button class="tab" data-view="withdraw">💰 Withdraw</button>
   </div>
   
+  <div class="ad-banner" id="topAdSlot">
+    <span class="ad-banner-text">📌 Real Ad Slot — Google AdSense will show ads here</span>
+  </div>
+  
   <div class="solo-ad" onclick="watchAdOnly()">
     <div style="font-size:1.3rem;font-weight:bold;">📺 Watch Ad & Earn</div>
-    <div style="opacity:0.9;font-size:0.9rem;">No game needed — watch real ad & earn</div>
+    <div style="opacity:0.9;font-size:0.9rem;">Earn rewards — real ads when approved</div>
   </div>
   
   <div id="gamesView" style="display:block;">
-    <h4 style="margin:10px 0;">🎮 Play & Earn</h4>
+    <h4 style="margin:10px 0;">🎮 Play Games & Earn</h4>
     <div class="grid">
       <div class="game" onclick="openGame('Snake', 'https://playsnake.org/')">
         <div class="game-icon">🐍</div><div class="game-name">Snake</div>
@@ -112,11 +116,11 @@ input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bo
       <div class="game" onclick="openGame('2048', 'https://play2048.co/')">
         <div class="game-icon">🔢</div><div class="game-name">2048</div>
       </div>
-      <div class="game" onclick="openGame('Pacman', 'https://pacman.live/')">
-        <div class="game-icon">👻</div><div class="game-name">Pacman</div>
-      </div>
       <div class="game" onclick="openGame('Sudoku', 'https://sudoku.com/')">
         <div class="game-icon">📐</div><div class="game-name">Sudoku</div>
+      </div>
+      <div class="game" onclick="openGame('Pacman', 'https://pacman.live/')">
+        <div class="game-icon">👻</div><div class="game-name">Pacman</div>
       </div>
       <div class="game" onclick="openGame('Minesweeper', 'https://minesweeperonline.com/')">
         <div class="game-icon">💣</div><div class="game-name">Minesweeper</div>
@@ -160,27 +164,17 @@ input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bo
       <p class="center" style="color:var(--muted);margin:10px 0;">Minimum: £5.00</p>
       <p class="center" style="font-size:2rem;font-weight:bold;margin:20px 0;">£<span id="wdAmt">0.00</span></p>
       <button class="btn-green" id="wdBtn" style="width:100%;">Request Withdraw</button>
-      <p class="center" style="color:var(--muted);margin-top:15px;font-size:0.85rem;">
-        ⚠️ Real ads coming soon — balance will reset when live ads are connected
-      </p>
+      <div class="status-box" style="margin-top:15px;">
+        💡 <strong>How real earnings work:</strong><br>
+        1. Google approves your site → ✅<br>
+        2. Real ads appear automatically<br>
+        3. People watch → YOU earn from Google<br>
+        4. Withdraw directly from AdSense dashboard
+      </div>
     </div>
   </div>
   
   <button class="btn-link" id="logoutBtn" style="width:100%;margin-top:20px;">🚪 Logout</button>
-</div>
-
-<div id="adminApp" class="container hidden">
-  <h2 class="center" style="margin:20px 0;">🔐 Admin Dashboard</h2>
-  <div class="card">
-    <div class="admin-row"><span class="admin-label">Total Users:</span><span class="admin-value" id="totalUsers">0</span></div>
-    <div class="admin-row"><span class="admin-label">Total Ad Views:</span><span class="admin-value" id="totalAds">0</span></div>
-    <div class="admin-row"><span class="admin-label">Total Earned:</span><span class="admin-value" id="totalEarnings">£0.00</span></div>
-  </div>
-  <div class="card">
-    <h4 style="margin-bottom:10px;">All Users</h4>
-    <div class="user-list" id="userListArea"><p style="color:var(--muted);text-align:center;">No users yet</p></div>
-  </div>
-  <button class="btn-link" id="adminLogoutBtn" style="width:100%;margin-top:20px;">🚪 Logout</button>
 </div>
 
 <div id="gamePlayer" class="game-player">
@@ -191,18 +185,20 @@ input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bo
   <iframe id="gameFrame" class="game-frame" allow="autoplay; fullscreen"></iframe>
 </div>
 
-<div id="adPopup" class="ad-popup">
-  <div class="ad-card">
+<div id="adPopup" class="ad-popup" style="position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:white;border-radius:20px;padding:30px 25px;max-width:360px;width:100%;text-align:center;">
     <h3>📺 Watch Ad & Earn</h3>
-    <p id="adStatus" style="color:var(--orange);margin:15px 0;">
-      ⏳ AdSense approval pending<br>
-      Demo mode active — real ads coming soon
+    <p style="color:var(--orange);margin:15px 0;">
+      ⏳ Google AdSense approval pending<br>
+      Demo reward now → Real money when approved
     </p>
     <p style="margin:10px 0;">Reward: <strong>£0.002</strong> per session</p>
-    <button class="ad-continue" id="adContinueBtn">Please wait 5s...</button>
-    <p class="ad-earned" id="adEarned">✅ +£0.002 added!</p>
+    <button id="adContinueBtn" style="background:var(--blue);color:white;border:none;padding:14px 30px;border-radius:12px;font-size:1rem;font-weight:bold;cursor:pointer;display:none;width:100%;margin-top:10px;">Please wait 5s...</button>
+    <p id="adEarned" style="color:var(--green);font-weight:bold;margin-top:15px;display:none;font-size:1.1rem;">✅ +£0.002 added!</p>
   </div>
 </div>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function(){
@@ -222,7 +218,6 @@ function saveAllUsers(d){localStorage.setItem('allUsers',JSON.stringify(d));}
 function getUID(){return localStorage.getItem('uid');}
 function setUID(id){localStorage.setItem('uid',id);}
 function getMe(){return getAllUsers()[getUID()];}
-function saveMe(obj){const u=getAllUsers();u[getUID()]=obj;saveAllUsers(u);}
 function showError(msg){document.getElementById('authErr').textContent=msg;setTimeout(()=>document.getElementById('authErr').textContent='',3000);}
 
 document.getElementById('toReg').onclick=()=>{document.getElementById('loginView').classList.add('hidden');document.getElementById('regView').classList.remove('hidden');};
@@ -253,29 +248,19 @@ document.getElementById('loginBtn').onclick=()=>{
 document.getElementById('adminLoginBtn').onclick=()=>{
   const u=document.getElementById('adminUser').value.trim();
   const p=document.getElementById('adminPass').value;
-  if(u===ADMIN_USER&&p===ADMIN_PASS)showAdminDashboard();
+  if(u===ADMIN_USER&&p===ADMIN_PASS)alert('✅ Admin — Check AdSense approval status in your Google account');
   else showError('Wrong admin credentials');
 };
 
-function showUserApp(){document.getElementById('authScreen').classList.add('hidden');document.getElementById('adminApp').classList.add('hidden');document.getElementById('mainApp').classList.remove('hidden');updateBalance();}
-function showAdminDashboard(){document.getElementById('authScreen').classList.add('hidden');document.getElementById('mainApp').classList.add('hidden');document.getElementById('adminApp').classList.remove('hidden');updateAdminStats();}
-function logout(){setUID('');document.getElementById('mainApp').classList.add('hidden');document.getElementById('adminApp').classList.add('hidden');document.getElementById('authScreen').classList.remove('hidden');document.getElementById('loginView').classList.remove('hidden');document.getElementById('regView').classList.add('hidden');document.getElementById('adminLoginView').classList.add('hidden');}
-document.getElementById('logoutBtn').onclick=logout;document.getElementById('adminLogoutBtn').onclick=logout;
+function showUserApp(){document.getElementById('authScreen').classList.add('hidden');document.getElementById('mainApp').classList.remove('hidden');updateBalance();}
+function logout(){setUID('');document.getElementById('mainApp').classList.add('hidden');document.getElementById('authScreen').classList.remove('hidden');document.getElementById('loginView').classList.remove('hidden');document.getElementById('regView').classList.add('hidden');document.getElementById('adminLoginView').classList.add('hidden');}
+document.getElementById('logoutBtn').onclick=logout;
 
 function updateBalance(){
   const me=getMe();if(!me)return;
   document.getElementById('bal').textContent=me.balance.toFixed(2);
   document.getElementById('wdAmt').textContent=me.balance.toFixed(2);
   document.getElementById('wdBtn').disabled=me.balance<MIN_WITHDRAW;
-}
-
-function updateAdminStats(){
-  const users=getAllUsers();const list=Object.values(users);
-  document.getElementById('totalUsers').textContent=list.length;
-  document.getElementById('totalAds').textContent=list.reduce((s,u)=>s+(u.totalAds||0),0);
-  document.getElementById('totalEarnings').textContent='£'+(list.reduce((s,u)=>s+(u.totalAds||0)*EARN_RATE,0)).toFixed(2);
-  const area=document.getElementById('userListArea');
-  area.innerHTML=list.length?list.map(u=>`<div class="user-item"><strong>${u.username}</strong><br>£${u.balance.toFixed(2)} | Ads:${u.totalAds||0}</div>`).join(''):'<p style="color:var(--muted);text-align:center;">No users yet</p>';
 }
 
 window.openGame=function(name,url){
@@ -292,14 +277,14 @@ window.closeGame=function(){if(sessionTimer)clearTimeout(sessionTimer);sessionTi
 function showAdPopup(){
   if(!isSoloAdMode)document.getElementById('gamePlayer').style.opacity='0.5';
   document.getElementById('adPopup').style.display='flex';
-  document.getElementById('adContinueBtn').classList.remove('show');
+  document.getElementById('adContinueBtn').style.display='none';
   document.getElementById('adEarned').style.display='none';
   let wait=5;document.getElementById('adContinueBtn').textContent=`Wait ${wait}s...`;
   const t=setInterval(()=>{
     wait--;if(wait<=0){
       clearInterval(t);
       document.getElementById('adContinueBtn').textContent='✓ Claim Reward';
-      document.getElementById('adContinueBtn').classList.add('show');
+      document.getElementById('adContinueBtn').style.display='block';
       document.getElementById('adContinueBtn').onclick=claimReward;
     }else document.getElementById('adContinueBtn').textContent=`Wait ${wait}s...`;
   },1000);
@@ -313,9 +298,7 @@ function claimReward(){
 }
 
 document.getElementById('wdBtn').onclick=function(){
-  const me=getMe();if(!me||me.balance<MIN_WITHDRAW)return alert(`Need £${MIN_WITHDRAW} minimum`);
-  alert(`✅ Withdraw request sent!\n£${MIN_WITHDRAW} will be processed`);
-  const users=getAllUsers();users[getUID()].balance-=MIN_WITHDRAW;saveAllUsers(users);updateBalance();
+  alert('💡 Withdraw directly from your Google AdSense account once approved!\nEarnings come from Google, not from this site.');
 };
 
 document.querySelectorAll('.tab').forEach(t=>{t.onclick=()=>{
