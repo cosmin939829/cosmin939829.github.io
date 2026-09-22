@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Play & Earn Games 🎮</title>
-<script defer src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2118711773341676" crossorigin="anonymous"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,sans-serif;}
 :root{--blue:#007aff;--green:#34c759;--red:#ff3b30;--gray:#f2f2f7;--card:#fff;--muted:#86868b;--purple:#5856d6;--orange:#ff9500;}
@@ -24,20 +23,17 @@ body{background:var(--gray);min-height:100vh;padding:20px;}
 .hidden{display:none !important;}
 .center{text-align:center;}
 
-/* Game Player */
 .game-player{position:fixed;inset:0;background:#000;z-index:1000;display:none;flex-direction:column;}
 .game-top{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:#111;color:white;}
 .back-btn{background:var(--red);color:white;border:none;padding:8px 16px;border-radius:8px;font-weight:bold;cursor:pointer;}
 .game-frame{flex:1;border:none;width:100%;background:#fff;}
 
-/* Ad Popup */
 .ad-popup{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;}
 .ad-card{background:white;border-radius:20px;padding:30px 25px;max-width:360px;width:100%;text-align:center;}
 .ad-continue{background:var(--blue);color:white;border:none;padding:14px 30px;border-radius:12px;font-size:1rem;font-weight:bold;cursor:pointer;display:none;width:100%;margin-top:10px;}
 .ad-continue.show{display:block;}
 .ad-earned{color:var(--green);font-weight:bold;margin-top:15px;display:none;font-size:1.1rem;}
 
-/* Admin */
 .admin-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee;font-size:0.9rem;}
 .admin-label{color:var(--muted);}
 .admin-value{font-weight:bold;}
@@ -55,7 +51,6 @@ input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bo
 </head>
 <body>
 
-<!-- Login Screen -->
 <div id="authScreen" class="container" style="margin-top:80px;">
   <div class="card">
     <h1 class="center" style="margin-bottom:25px;">Play & Earn 🎮</h1>
@@ -86,7 +81,6 @@ input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bo
   </div>
 </div>
 
-<!-- Main User App -->
 <div id="mainApp" class="container hidden">
   <div class="balance">£<span id="bal">0.00</span></div>
   
@@ -96,15 +90,13 @@ input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bo
     <button class="tab" data-view="withdraw">💰 Withdraw</button>
   </div>
   
-  <!-- Solo Ad Option -->
   <div class="solo-ad" onclick="watchAdOnly()">
     <div style="font-size:1.3rem;font-weight:bold;">📺 Watch Ad & Earn</div>
     <div style="opacity:0.9;font-size:0.9rem;">No game needed — just watch & get £0.002</div>
   </div>
   
-  <!-- 10 Adult Games -->
   <div id="gamesView" style="display:block;">
-    <h4 style="margin:10px 0;">🎮 18+ Games</h4>
+    <h4 style="margin:10px 0;">🎮 Games</h4>
     <div class="grid">
       <div class="game" onclick="openGame('8 Ball Pool', 'https://cdn.htmlgames.com/8BallPool/')">
         <div class="game-icon">🎱</div><div class="game-name">8 Ball Pool</div>
@@ -124,7 +116,7 @@ input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bo
       <div class="game" onclick="openGame('Lucky Spin', 'https://cdn.htmlgames.com/LuckySpin/')">
         <div class="game-icon">🎡</div><div class="game-name">Lucky Spin</div>
       </div>
-      <div class="game" onclick="openGame('Puzzle', 'https://cdn.htmlgames.com/JigsawPuzzle/')">
+      <div class="game" onclick="openGame('Jigsaw Puzzle', 'https://cdn.htmlgames.com/JigsawPuzzle/')">
         <div class="game-icon">🧩</div><div class="game-name">Jigsaw Puzzle</div>
       </div>
       <div class="game" onclick="openGame('Basketball', 'https://cdn.htmlgames.com/Basketball/')">
@@ -139,7 +131,6 @@ input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bo
     </div>
   </div>
   
-  <!-- 10 Kids Games -->
   <div id="kidsView" class="hidden">
     <h4 style="margin:10px 0;">👶 Kids Games</h4>
     <div class="grid">
@@ -167,7 +158,7 @@ input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bo
       <div class="game" onclick="openGame('Animals', 'https://cdn.htmlgames.com/AnimalMatch/')">
         <div class="game-icon">🐾</div><div class="game-name">Animals</div>
       </div>
-      <div class="game" onclick="openGame('Puzzle Kids', 'https://cdn.htmlgames.com/KidsPuzzle/')">
+      <div class="game" onclick="openGame('Kid Puzzle', 'https://cdn.htmlgames.com/KidsPuzzle/')">
         <div class="game-icon">🧸</div><div class="game-name">Kid Puzzle</div>
       </div>
       <div class="game" onclick="openGame('Music', 'https://cdn.htmlgames.com/MusicMaker/')">
@@ -188,7 +179,6 @@ input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bo
   <button class="btn-link" id="logoutBtn" style="width:100%;margin-top:20px;">🚪 Logout</button>
 </div>
 
-<!-- Admin Dashboard -->
 <div id="adminApp" class="container hidden">
   <h2 class="center" style="margin:20px 0;">🔐 Admin Dashboard</h2>
   
@@ -221,7 +211,6 @@ input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bo
   <button class="btn-link" id="adminLogoutBtn" style="width:100%;margin-top:20px;">🚪 Admin Logout</button>
 </div>
 
-<!-- Game Player -->
 <div id="gamePlayer" class="game-player">
   <div class="game-top">
     <h3 id="gameTitle">Game</h3>
@@ -230,12 +219,10 @@ input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bo
   <iframe id="gameFrame" class="game-frame" allow="autoplay; fullscreen"></iframe>
 </div>
 
-<!-- Ad Popup -->
 <div id="adPopup" class="ad-popup">
   <div class="ad-card">
     <h3>📺 Watch Ad & Earn Reward</h3>
     <p style="color:var(--muted);margin:15px 0;">
-      ⏳ Google AdSense reviewing — real ads appear once approved ✅<br>
       Reward: <strong>£0.002</strong> per session
     </p>
     <button class="ad-continue" id="adContinueBtn">Please wait...</button>
@@ -247,18 +234,16 @@ input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bo
 document.addEventListener('DOMContentLoaded', function(){
 "use strict";
 
-// ⚙️ SETTINGS
 const EARN_RATE = 0.002;
 const MIN_WITHDRAW = 5.00;
 const PLAY_TIME = 60;
 const ADMIN_USER = "admin";
-const ADMIN_PASS = "skumpyku93@"; // ✅ YOUR ADMIN PASSWORD
+const ADMIN_PASS = "skumpyku93@";
 
 let sessionTimer = null;
 let adCountdown = null;
 let isSoloAdMode = false;
 
-// ========== STORAGE HELPERS ==========
 function getAllUsers(){try{return JSON.parse(localStorage.getItem('allUsers')||'{}');}catch{return {};}}
 function saveAllUsers(d){localStorage.setItem('allUsers',JSON.stringify(d));}
 function getUID(){return localStorage.getItem('uid');}
@@ -267,7 +252,6 @@ function getMe(){return getAllUsers()[getUID()];}
 function saveMe(obj){const u=getAllUsers();u[getUID()]=obj;saveAllUsers(u);}
 function showError(msg){document.getElementById('authErr').textContent=msg;setTimeout(()=>document.getElementById('authErr').textContent='',3000);}
 
-// ========== LOGIN/REGISTER ==========
 document.getElementById('toReg').onclick=()=>{
   document.getElementById('loginView').classList.add('hidden');
   document.getElementById('regView').classList.remove('hidden');
@@ -286,7 +270,6 @@ document.getElementById('toLoginFromAdmin').onclick=()=>{
   document.getElementById('loginView').classList.remove('hidden');
 };
 
-// Register
 document.getElementById('regBtn').onclick=()=>{
   const user=document.getElementById('regUser').value.trim();
   const pass=document.getElementById('regPass').value;
@@ -309,7 +292,6 @@ document.getElementById('regBtn').onclick=()=>{
   showUserApp();
 };
 
-// User Login
 document.getElementById('loginBtn').onclick=()=>{
   const user=document.getElementById('user').value.trim();
   const pass=document.getElementById('pass').value;
@@ -319,7 +301,6 @@ document.getElementById('loginBtn').onclick=()=>{
   showUserApp();
 };
 
-// Admin Login
 document.getElementById('adminLoginBtn').onclick=()=>{
   const u=document.getElementById('adminUser').value.trim();
   const p=document.getElementById('adminPass').value;
@@ -330,7 +311,6 @@ document.getElementById('adminLoginBtn').onclick=()=>{
   }
 };
 
-// ========== SHOW SCREENS ==========
 function showUserApp(){
   document.getElementById('authScreen').classList.add('hidden');
   document.getElementById('adminApp').classList.add('hidden');
@@ -358,14 +338,13 @@ function logout(){
 document.getElementById('logoutBtn').onclick=logout;
 document.getElementById('adminLogoutBtn').onclick=logout;
 
-// ========== BALANCE ==========
 function updateBalance(){
   const me=getMe();
+  if(!me)return;
   document.getElementById('bal').textContent=me.balance.toFixed(2);
   document.getElementById('wdAmt').textContent=me.balance.toFixed(2);
   document.getElementById('wdBtn').disabled=me.balance<MIN_WITHDRAW;
   
-  // Update last active
   const users=getAllUsers();
   if(users[getUID()]){
     users[getUID()].lastActive=new Date().toLocaleDateString();
@@ -373,7 +352,6 @@ function updateBalance(){
   }
 }
 
-// ========== ADMIN STATS ==========
 function updateAdminStats(){
   const users=getAllUsers();
   const userList=Object.values(users);
@@ -388,7 +366,6 @@ function updateAdminStats(){
   document.getElementById('totalEarnings').textContent='£'+totalEarn;
   document.getElementById('activeToday').textContent=activeToday;
   
-  // User list
   const listArea=document.getElementById('userListArea');
   if(userList.length===0){
     listArea.innerHTML='<p style="color:var(--muted);text-align:center;">No users yet</p>';
@@ -403,7 +380,6 @@ function updateAdminStats(){
   }
 }
 
-// ========== GAME FUNCTIONS ==========
 window.openGame=function(name, gameUrl){
   isSoloAdMode=false;
   if(sessionTimer)clearTimeout(sessionTimer);
@@ -412,7 +388,6 @@ window.openGame=function(name, gameUrl){
   document.getElementById('gameFrame').src=gameUrl;
   document.getElementById('gamePlayer').style.display='flex';
   
-  // ⏳ Silent timer — NO text shown!
   sessionTimer=setTimeout(()=>{
     showAdPopup();
   }, PLAY_TIME*1000);
@@ -430,7 +405,6 @@ window.closeGame=function(){
   document.getElementById('gamePlayer').style.display='none';
 };
 
-// ========== AD POPUP ==========
 function showAdPopup(){
   if(!isSoloAdMode){
     document.getElementById('gamePlayer').style.opacity='0.6';
@@ -477,10 +451,9 @@ function claimReward(){
   },1500);
 }
 
-// ========== WITHDRAW ==========
 document.getElementById('wdBtn').onclick=function(){
   const me=getMe();
-  if(me.balance<MIN_WITHDRAW)return alert(`Need £${MIN_WITHDRAW} minimum`);
+  if(!me||me.balance<MIN_WITHDRAW)return alert(`Need £${MIN_WITHDRAW} minimum`);
   alert(`✅ Withdraw request sent!\n£${MIN_WITHDRAW} will be processed within 24 hours`);
   const users=getAllUsers();
   users[getUID()].balance-=MIN_WITHDRAW;
@@ -488,7 +461,6 @@ document.getElementById('wdBtn').onclick=function(){
   updateBalance();
 };
 
-// ========== TABS ==========
 document.querySelectorAll('.tab').forEach(tab=>{
   tab.onclick=()=>{
     document.querySelectorAll('.tab').forEach(t=>{t.classList.remove('active');t.classList.add('inactive');});
@@ -501,7 +473,6 @@ document.querySelectorAll('.tab').forEach(tab=>{
   };
 });
 
-// Auto-login
 if(getUID()&&getAllUsers()[getUID()])showUserApp();
 });
 </script>
