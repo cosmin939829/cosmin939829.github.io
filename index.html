@@ -4,174 +4,119 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Play & Earn Games 🎮</title>
-
-<!-- ✅ FIXED: AdSense loads in background, does NOT block page -->
-<script defer src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2118711773341676"
-     crossorigin="anonymous"></script>
-
+<script defer src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2118711773341676" crossorigin="anonymous"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
-:root{--accent:#007aff;--green:#34c759;--red:#ff3b30;--muted:#86868b;--border:#e5e5e7;--bg:#f2f2f7;--card:#fff;}
-body{background:var(--bg);min-height:100vh;}
-.container{max-width:420px;margin:0 auto;padding:20px;}
-
-/* Auth */
-.auth{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
-.auth-card{background:white;border-radius:20px;padding:30px;width:100%;max-width:380px;box-shadow:0 4px 20px rgba(0,0,0,0.08);}
-.auth-title{font-size:1.7rem;font-weight:bold;text-align:center;margin-bottom:25px;}
-input{width:100%;padding:14px 16px;border-radius:12px;border:1px solid var(--border);font-size:1rem;margin-bottom:12px;}
-button{width:100%;padding:14px;border:none;border-radius:12px;font-size:1rem;font-weight:bold;cursor:pointer;}
-.btn-primary{background:var(--accent);color:white;}
-.btn-link{background:none;color:var(--accent);padding:8px;margin-top:5px;}
-.hidden{display:none !important;}
-.error{color:var(--red);font-size:0.85rem;height:20px;margin-bottom:10px;}
-
-/* Main */
-.balance{background:linear-gradient(135deg,#007aff,#5856d6);color:white;border-radius:16px;padding:25px;text-align:center;margin-bottom:20px;}
-.balance-amt{font-size:2.5rem;font-weight:bold;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,sans-serif;}
+:root{--blue:#007aff;--green:#34c759;--red:#ff3b30;--gray:#f2f2f7;--card:#fff;--muted:#86868b;}
+body{background:var(--gray);min-height:100vh;padding:20px;}
+.container{max-width:420px;margin:0 auto;}
+.balance{background:linear-gradient(135deg,#007aff,#5856d6);color:white;text-align:center;padding:25px;border-radius:16px;font-size:2rem;font-weight:bold;margin-bottom:20px;}
 .tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;}
-.tab{flex:1;min-width:70px;padding:10px;border-radius:10px;border:none;font-weight:600;cursor:pointer;}
-.tab.active{background:var(--accent);color:white;}
+.tab{flex:1;min-width:70px;padding:10px;border-radius:10px;border:none;cursor:pointer;font-weight:600;}
+.tab.active{background:var(--blue);color:white;}
 .tab.inactive{background:white;color:var(--muted);}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
-.game{background:white;border-radius:16px;padding:20px;text-align:center;cursor:pointer;transition:transform 0.15s;}
+.game{background:white;border-radius:16px;padding:25px;text-align:center;cursor:pointer;transition:transform 0.15s;}
 .game:active{transform:scale(0.97);}
 .game-icon{font-size:2rem;margin-bottom:8px;}
-.game-name{font-weight:600;font-size:0.9rem;}
-
-/* Game Play */
-.play-screen{position:fixed;inset:0;background:white;z-index:1000;display:none;flex-direction:column;}
-.play-head{display:flex;justify-content:space-between;align-items:center;padding:15px;background:white;border-bottom:1px solid var(--border);}
-.close{background:var(--red);color:white;padding:8px 16px;border-radius:8px;border:none;}
-.play-body{flex:1;display:flex;align-items:center;justify-content:center;padding:30px;text-align:center;}
-.timer-text{font-size:1.2rem;margin-bottom:20px;}
-.progress-bar{width:100%;height:6px;background:var(--border);border-radius:3px;margin-bottom:30px;overflow:hidden;}
-.progress-fill{height:100%;background:var(--green);border-radius:3px;width:100%;transition:width 1s linear;}
-.earn-btn{background:var(--border);color:#aaa;cursor:not-allowed;}
-.earn-btn.ready{background:var(--green);color:white;cursor:pointer;animation:pulse 1s infinite alternate;}
-@keyframes pulse{from{box-shadow:0 0 0 rgba(52,199,89,0);}to{box-shadow:0 0 15px rgba(52,199,89,0.4);}}
-
-/* Ad Screen */
-.ad-screen{position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;}
-.ad-box{background:white;border-radius:16px;padding:25px;max-width:380px;width:100%;text-align:center;}
-.ad-placeholder{padding:40px 20px;color:var(--muted);}
-.continue-btn{background:var(--accent);color:white;padding:12px 30px;border-radius:10px;margin-top:15px;display:none;}
-.continue-btn.show{display:inline-block;}
-.earned{color:var(--green);font-weight:bold;margin-top:15px;display:none;}
-
-/* Withdraw & Admin */
+.game-name{font-weight:600;}
 .card{background:white;border-radius:16px;padding:25px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.05);margin-bottom:15px;}
-.section{display:none;}
-.withdraw-amt{font-size:2rem;font-weight:bold;margin:15px 0;}
-.pending-note{background:#fff3cd;color:#856404;padding:12px;border-radius:10px;margin-top:15px;display:none;}
-.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:20px 0;}
-.stat{background:white;border-radius:12px;padding:15px;text-align:center;}
-.stat-val{font-size:1.4rem;font-weight:bold;color:var(--accent);}
-.player{background:white;border-radius:12px;padding:15px;margin-bottom:10px;text-align:left;}
-.approve{background:var(--green);color:white;padding:6px 12px;border-radius:8px;border:none;margin-top:8px;cursor:pointer;}
-.logout{background:var(--red);color:white;padding:10px 20px;border-radius:10px;border:none;margin-top:20px;}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--border);display:flex;z-index:100;}
-.nav-item{flex:1;padding:12px;text-align:center;cursor:pointer;}
-.nav-item.active{color:var(--accent);font-weight:600;}
+.hidden{display:none !important;}
+.play-screen{position:fixed;inset:0;background:white;z-index:1000;display:none;flex-direction:column;}
+.play-head{display:flex;justify-content:space-between;align-items:center;padding:15px;background:white;border-bottom:1px solid #ddd;}
+.close-btn{background:var(--red);color:white;border:none;padding:8px 16px;border-radius:8px;font-weight:bold;cursor:pointer;}
+.play-body{flex:1;display:flex;align-items:center;justify-content:center;padding:30px;text-align:center;}
+.progress-bar{width:100%;height:8px;background:#ddd;border-radius:4px;margin:30px 0;overflow:hidden;}
+.progress-fill{height:100%;background:var(--green);border-radius:4px;width:100%;transition:width 1s linear;}
+.earn-btn{width:100%;padding:16px;border:none;border-radius:12px;font-size:1rem;font-weight:bold;cursor:not-allowed;background:#ddd;color:#888;}
+.earn-btn.ready{background:var(--green);color:white;cursor:pointer;animation:pulse 1s infinite alternate;}
+@keyframes pulse{from{box-shadow:0 0 0 rgba(52,199,89,0);}to{box-shadow:0 0 20px rgba(52,199,89,0.4);}}
+.ad-screen{position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;}
+.ad-box{background:white;border-radius:16px;padding:30px;max-width:360px;width:100%;text-align:center;}
+.ad-note{color:var(--muted);font-size:0.9rem;margin:15px 0;}
+.continue-btn{background:var(--blue);color:white;border:none;padding:12px 30px;border-radius:10px;font-size:1rem;font-weight:bold;cursor:pointer;display:none;}
+.continue-btn.show{display:inline-block;}
+.earned-msg{color:var(--green);font-weight:bold;margin-top:20px;display:none;font-size:1.1rem;}
+input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bottom:12px;font-size:1rem;}
+.btn-primary{background:var(--blue);color:white;border:none;padding:14px;border-radius:10px;font-size:1rem;font-weight:bold;cursor:pointer;}
+.btn-link{background:none;color:var(--blue);border:none;padding:10px;cursor:pointer;font-size:1rem;}
+.error{color:var(--red);height:20px;margin-bottom:10px;}
 </style>
 </head>
 <body>
 
-<!-- Auth Screen -->
-<div id="authScreen" class="auth">
-  <div class="auth-card">
-    <h1 class="auth-title" id="authTitle">Play & Earn 🎮</h1>
+<!-- Login/Register -->
+<div id="authScreen" class="container" style="margin-top:100px;">
+  <div class="card">
+    <h1 style="margin-bottom:25px;">Play & Earn 🎮</h1>
     <div class="error" id="authErr"></div>
     
     <div id="loginView">
       <input type="text" id="user" placeholder="Username">
       <input type="password" id="pass" placeholder="Password">
       <button class="btn-primary" id="loginBtn">Login</button>
-      <button class="btn-link" id="toReg">Don't have an account? Register</button>
-      <button class="btn-link" id="toAdmin">🔒 Admin Login</button>
+      <button class="btn-link" id="toReg">Don't have account? Register</button>
     </div>
     
     <div id="regView" class="hidden">
       <input type="text" id="regUser" placeholder="Choose Username">
       <input type="password" id="regPass" placeholder="Choose Password">
-      <button class="btn-primary" id="regBtn">Register</button>
-      <button class="btn-link" id="toLogin">Already have account? Login</button>
-    </div>
-    
-    <div id="adminView" class="hidden">
-      <input type="password" id="adminPass" placeholder="Admin Password">
-      <button class="btn-primary" id="adminBtn">Sign In</button>
-      <button class="btn-link" id="backAuth">← Back</button>
+      <button class="btn-primary" id="regBtn">Create Account</button>
+      <button class="btn-link" id="toLogin">← Back to Login</button>
     </div>
   </div>
 </div>
 
 <!-- Main App -->
-<div id="mainApp" class="hidden">
-  <div class="container">
-    <div class="balance">
-      <div>Your Balance</div>
-      <div class="balance-amt" id="bal">£0.00</div>
-    </div>
-    
-    <div class="tabs">
-      <button class="tab active" data-view="games">🎮 Games</button>
-      <button class="tab inactive" data-view="kids">👶 Kids</button>
-      <button class="tab inactive" data-view="withdraw">💰 Withdraw</button>
-      <button class="tab inactive" data-view="admin">🔒</button>
-    </div>
-    
-    <div id="gamesView" class="section" style="display:block;">
-      <div class="grid" id="gamesGrid"></div>
-    </div>
-    
-    <div id="kidsView" class="section">
-      <div class="grid" id="kidsGrid"></div>
-    </div>
-    
-    <div id="withdrawView" class="section">
-      <div class="card">
-        <h3>Withdraw Earnings</h3>
-        <p style="color:var(--muted);margin:10px 0;">Minimum: £5.00</p>
-        <div class="withdraw-amt" id="wdAmt">£0.00</div>
-        <button class="btn-primary" id="wdBtn">Request Withdraw</button>
-        <p class="pending-note" id="pendingNote">⏳ Pending — sent within 24h</p>
-      </div>
-    </div>
-    
-    <div id="adminViewMain" class="section">
-      <h3 style="text-align:center;margin-bottom:15px;">📊 Admin Dashboard</h3>
-      <div class="stats">
-        <div class="stat"><div class="stat-val" id="pCount">0</div><div>Players</div></div>
-        <div class="stat"><div class="stat-val" id="aCount">0</div><div>Ads</div></div>
-        <div class="stat"><div class="stat-val" id="oTotal">£0.00</div><div>Owed</div></div>
-        <div class="stat"><div class="stat-val" id="eTotal">£0.00</div><div>Est. Earned</div></div>
-      </div>
-      <h4 style="margin:20px 0 10px;">Players</h4>
-      <div id="playerList"></div>
-      <button class="logout" id="adminLogout">Logout</button>
+<div id="mainApp" class="container hidden">
+  <div class="balance">£<span id="bal">0.00</span></div>
+  
+  <div class="tabs">
+    <button class="tab active" data-view="games">🎮 Games</button>
+    <button class="tab" data-view="kids">👶 Kids</button>
+    <button class="tab" data-view="withdraw">💰 Withdraw</button>
+  </div>
+  
+  <div id="gamesView" style="display:block;">
+    <div class="grid">
+      <div class="game" onclick="startGame('8 Ball Pool 🎱')"><div class="game-icon">🎱</div><div class="game-name">8 Ball Pool</div></div>
+      <div class="game" onclick="startGame('Subway Surfers 🏃')"><div class="game-icon">🏃</div><div class="game-name">Subway Surfers</div></div>
+      <div class="game" onclick="startGame('Block Blast 🧱')"><div class="game-icon">🧱</div><div class="game-name">Block Blast</div></div>
+      <div class="game" onclick="startGame('Solitaire 🃏')"><div class="game-icon">🃏</div><div class="game-name">Solitaire</div></div>
+      <div class="game" onclick="startGame('Candy Match 🍬')"><div class="game-icon">🍬</div><div class="game-name">Candy Match</div></div>
+      <div class="game" onclick="startGame('Lucky Spin 🎡')"><div class="game-icon">🎡</div><div class="game-name">Lucky Spin</div></div>
     </div>
   </div>
   
-  <div class="bottom-nav">
-    <div class="nav-item active" data-nav="games">🎮 Games</div>
-    <div class="nav-item" data-nav="kids">👶 Kids</div>
-    <div class="nav-item" data-nav="withdraw">💰 Withdraw</div>
-    <div class="nav-item" data-nav="admin">🔒</div>
+  <div id="kidsView" class="hidden">
+    <div class="grid">
+      <div class="game" onclick="startGame('ABC Letters 🔤')"><div class="game-icon">🔤</div><div class="game-name">ABC Letters</div></div>
+      <div class="game" onclick="startGame('Numbers Fun 🔢')"><div class="game-icon">🔢</div><div class="game-name">Numbers Fun</div></div>
+      <div class="game" onclick="startGame('Colors 🎨')"><div class="game-icon">🎨</div><div class="game-name">Colors</div></div>
+    </div>
+  </div>
+  
+  <div id="withdrawView" class="hidden">
+    <div class="card">
+      <h3>Withdraw Earnings</h3>
+      <p style="color:var(--muted);margin:10px 0;">Minimum: £5.00</p>
+      <p style="font-size:2rem;font-weight:bold;margin:20px 0;">£<span id="wdAmt">0.00</span></p>
+      <button class="btn-primary" id="wdBtn">Request £5.00 Withdraw</button>
+    </div>
   </div>
 </div>
 
-<!-- Game Play Screen -->
+<!-- Play Screen -->
 <div id="playScreen" class="play-screen">
   <div class="play-head">
     <h3 id="gameTitle">Game</h3>
-    <button class="close" id="closePlay">✕ Close</button>
+    <button class="close-btn" onclick="closeGame()">✕ Close & Back</button>
   </div>
   <div class="play-body">
     <div style="width:100%;max-width:320px;">
-      <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
-      <p class="timer-text" id="timerText">Play for 60 seconds to earn</p>
-      <button class="earn-btn" id="earnBtn" disabled>Watch Ad & Earn Reward</button>
+      <p style="font-size:1.1rem;" id="timerText">Play for 60 seconds to earn reward</p>
+      <div class="progress-bar"><div class="progress-fill" id="progressBar"></div></div>
+      <button class="earn-btn" id="earnBtn" disabled>⏳ Wait... Watch Ad & Earn</button>
     </div>
   </div>
 </div>
@@ -179,296 +124,172 @@ button{width:100%;padding:14px;border:none;border-radius:12px;font-size:1rem;fon
 <!-- Ad Screen -->
 <div id="adScreen" class="ad-screen">
   <div class="ad-box">
-    <p style="color:var(--muted);font-size:0.9rem;">Advertisement</p>
-    <div class="ad-placeholder">
-      ⏳ Google reviewing your site...<br>
-      Approved → REAL ADS appear here
-    </div>
+    <h3>📺 Advertisement</h3>
+    <p class="ad-note">
+      ⏳ Google AdSense is reviewing your site<br>
+      Once approved → REAL ADS will appear here automatically ✅
+    </p>
+    <p class="ad-note">You earn: £0.002 per completed session</p>
     <button class="continue-btn" id="continueBtn">✓ Continue</button>
-    <p class="earned" id="earnedMsg">+£0.002 added! ✅</p>
+    <p class="earned-msg" id="earnedMsg">✅ +£0.002 added to your balance!</p>
   </div>
 </div>
 
 <script>
-// ✅ CODE PROTECTED — waits for page to fully load first
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function(){
 "use strict";
 
-// Settings
 const EARN_RATE = 0.002;
-const MIN_WD = 5.00;
-const PLAY_TIME = 60;
-const ADMIN_PASS = "admin123"; // Change this!
-let activeTimer = null; // Prevent duplicate timers
-
-// Games list
-const games = [
-  {name:'8 Ball Pool',icon:'🎱'},
-  {name:'Subway Surfers',icon:'🏃'},
-  {name:'Block Blast',icon:'🧱'},
-  {name:'Solitaire',icon:'🃏'},
-  {name:'Candy Match',icon:'🍬'},
-  {name:'Bingo',icon:'🎯'},
-  {name:'Lucky Spin',icon:'🎡'},
-  {name:'Memory',icon:'🧠'}
-];
-const kids = [
-  {name:'ABC Letters',icon:'🔤'},
-  {name:'Numbers Fun',icon:'🔢'},
-  {name:'Colors',icon:'🎨'}
-];
+const MIN_WITHDRAW = 5.00;
+const PLAY_SECONDS = 60;
+let gameTimer = null;
 
 // Storage helpers
 function getUsers(){try{return JSON.parse(localStorage.getItem('allUsers')||'{}');}catch{return {};}}
 function saveUsers(d){localStorage.setItem('allUsers',JSON.stringify(d));}
-function uid(){return localStorage.getItem('uid');}
-function setUid(id){localStorage.setItem('uid',id);}
-function me(){return getUsers()[uid()]||null;}
-function saveMe(m){const u=getUsers();u[uid()]=m;saveUsers(u);}
-function showErr(el,t){el.textContent=t;setTimeout(()=>el.textContent='',3000);}
+function getUID(){return localStorage.getItem('uid');}
+function setUID(id){localStorage.setItem('uid',id);}
+function getMe(){return getUsers()[getUID()];}
+function saveMe(obj){const u=getUsers();u[getUID()]=obj;saveUsers(u);}
+function showError(msg){document.getElementById('authErr').textContent=msg;setTimeout(()=>document.getElementById('authErr').textContent='',3000);}
 
-// Auth flow
+// Auth
 document.getElementById('toReg').onclick=()=>{
   document.getElementById('loginView').classList.add('hidden');
   document.getElementById('regView').classList.remove('hidden');
-  document.getElementById('authTitle').textContent='Create Account';
 };
 document.getElementById('toLogin').onclick=()=>{
   document.getElementById('regView').classList.add('hidden');
   document.getElementById('loginView').classList.remove('hidden');
-  document.getElementById('authTitle').textContent='Play & Earn 🎮';
-};
-document.getElementById('toAdmin').onclick=()=>{
-  document.getElementById('loginView').classList.add('hidden');
-  document.getElementById('adminView').classList.remove('hidden');
-  document.getElementById('authTitle').textContent='🔒 Admin';
-};
-document.getElementById('backAuth').onclick=()=>{
-  document.getElementById('adminView').classList.add('hidden');
-  document.getElementById('loginView').classList.remove('hidden');
-  document.getElementById('authTitle').textContent='Play & Earn 🎮';
 };
 
 document.getElementById('regBtn').onclick=()=>{
-  const u=document.getElementById('regUser').value.trim();
-  const p=document.getElementById('regPass').value;
-  if(!u||!p)return showErr(document.getElementById('authErr'),'Fill all fields');
-  if(Object.values(getUsers()).find(x=>x.username===u))return showErr(document.getElementById('authErr'),'Username taken');
-  const id='u_'+Date.now()+Math.random().toString(36).slice(2,8);
+  const user=document.getElementById('regUser').value.trim();
+  const pass=document.getElementById('regPass').value;
+  if(!user||!pass)return showError('Fill all fields');
+  if(Object.values(getUsers()).find(x=>x.username===user))return showError('Username already taken');
+  const uid='u_'+Date.now();
   const users=getUsers();
-  users[id]={id,username:u,password:p,balance:0,ads:0,reg:new Date().toISOString(),withdrawals:[]};
-  saveUsers(users);setUid(id);showMain();
+  users[uid]={username:user,password:pass,balance:0,ads:0};
+  saveUsers(users);setUID(uid);showMain();
 };
 
 document.getElementById('loginBtn').onclick=()=>{
-  const u=document.getElementById('user').value.trim();
-  const p=document.getElementById('pass').value;
-  const found=Object.entries(getUsers()).find(([_,x])=>x.username===u&&x.password===p);
-  if(!found)return showErr(document.getElementById('authErr'),'Wrong login');
-  setUid(found[0]);showMain();
+  const user=document.getElementById('user').value.trim();
+  const pass=document.getElementById('pass').value;
+  const found=Object.entries(getUsers()).find(([_,x])=>x.username===user&&x.password===pass);
+  if(!found)return showError('Wrong username or password');
+  setUID(found[0]);showMain();
 };
 
-document.getElementById('adminBtn').onclick=()=>{
-  if(document.getElementById('adminPass').value===ADMIN_PASS){
-    localStorage.setItem('adminOk','1');showMain(true);
-  }else showErr(document.getElementById('authErr'),'Wrong password');
-};
-
-// Show main app
-function showMain(isAdmin=false){
+function showMain(){
   document.getElementById('authScreen').classList.add('hidden');
   document.getElementById('mainApp').classList.remove('hidden');
-  renderGames();renderKids();updateBalance();
-  if(isAdmin||localStorage.getItem('adminOk')==='1')renderAdmin();
+  updateBalance();
 }
 
-// Render games
-function renderGames(){
-  const g=document.getElementById('gamesGrid');g.innerHTML='';
-  games.forEach(x=>{
-    const c=document.createElement('div');c.className='game';
-    c.innerHTML=`<div class="game-icon">${x.icon}</div><div class="game-name">${x.name}</div>`;
-    c.onclick=()=>startPlay(x);
-    g.appendChild(c);
-  });
-}
-function renderKids(){
-  const g=document.getElementById('kidsGrid');g.innerHTML='';
-  kids.forEach(x=>{
-    const c=document.createElement('div');c.className='game';
-    c.innerHTML=`<div class="game-icon">${x.icon}</div><div class="game-name">${x.name}</div>`;
-    c.onclick=()=>startPlay(x);
-    g.appendChild(c);
-  });
+function updateBalance(){
+  const me=getMe();
+  document.getElementById('bal').textContent=me.balance.toFixed(2);
+  document.getElementById('wdAmt').textContent=me.balance.toFixed(2);
+  document.getElementById('wdBtn').disabled=me.balance<MIN_WITHDRAW;
 }
 
-// Start game → 60s timer → earn — FIXED: only ONE timer at a time
-function startPlay(game){
-  // Stop any existing timer first
-  if(activeTimer){clearInterval(activeTimer);activeTimer=null;}
+// Game Functions
+window.startGame=function(name){
+  if(gameTimer)clearInterval(gameTimer);
   
-  document.getElementById('gameTitle').textContent=game.name;
+  document.getElementById('gameTitle').textContent=name;
   document.getElementById('playScreen').style.display='flex';
   document.getElementById('earnBtn').classList.remove('ready');
   document.getElementById('earnBtn').disabled=true;
   
-  let sec=0;
-  const total=PLAY_TIME;
-  document.getElementById('progress').style.width='100%';
-  
-  activeTimer=setInterval(()=>{
-    sec++;
-    const left=total-sec;
-    document.getElementById('progress').style.width=`${Math.max(0,(left/total)*100)}%`;
-    document.getElementById('timerText').textContent=`Play for ${left} more second${left!==1?'s':''}...`;
+  let elapsed=0;
+  gameTimer=setInterval(()=>{
+    elapsed++;
+    const remaining=PLAY_SECONDS-elapsed;
+    document.getElementById('timerText').textContent=`Play for ${remaining} more second${remaining!==1?'s':''}...`;
+    document.getElementById('progressBar').style.width=`${(remaining/PLAY_SECONDS)*100}%`;
     
-    if(sec>=total){
-      clearInterval(activeTimer);activeTimer=null;
-      document.getElementById('timerText').textContent='✅ Ready! Watch ad to earn';
+    if(elapsed>=PLAY_SECONDS){
+      clearInterval(gameTimer);gameTimer=null;
+      document.getElementById('timerText').textContent='✅ Ready! Watch ad to claim reward';
       document.getElementById('earnBtn').disabled=false;
       document.getElementById('earnBtn').classList.add('ready');
+      document.getElementById('earnBtn').textContent='📺 Watch Ad & Earn';
     }
   },1000);
-  
-  document.getElementById('closePlay').onclick=()=>{
-    if(activeTimer){clearInterval(activeTimer);activeTimer=null;}
-    document.getElementById('playScreen').style.display='none';
-  };
-}
-
-// Watch ad → claim reward
-document.getElementById('earnBtn').onclick=()=>{
-  document.getElementById('playScreen').style.display='none';
-  showAd();
 };
 
-function showAd(){
+window.closeGame=function(){
+  if(gameTimer)clearInterval(gameTimer);gameTimer=null;
+  document.getElementById('playScreen').style.display='none';
+};
+
+document.getElementById('earnBtn').onclick=function(){
+  closeGame();
+  showAdScreen();
+};
+
+function showAdScreen(){
   document.getElementById('adScreen').style.display='flex';
   document.getElementById('continueBtn').classList.remove('show');
   document.getElementById('earnedMsg').style.display='none';
   
-  let skip=5;
-  document.getElementById('continueBtn').textContent=`Skip in ${skip}s`;
-  
-  const skipTimer=setInterval(()=>{
-    skip--;
-    document.getElementById('continueBtn').textContent=skip>0?`Skip in ${skip}s`:'✓ Continue';
-    if(skip<=0){
-      clearInterval(skipTimer);
+  let skipWait=5;
+  const skipInterval=setInterval(()=>{
+    skipWait--;
+    if(skipWait<=0){
+      clearInterval(skipInterval);
       document.getElementById('continueBtn').classList.add('show');
-      document.getElementById('continueBtn').onclick=claim;
+      document.getElementById('continueBtn').textContent='✓ I Finished Watching';
+      document.getElementById('continueBtn').onclick=claimReward;
+    }else{
+      document.getElementById('continueBtn').textContent=`Wait ${skipWait}s...`;
     }
   },1000);
 }
 
-function claim(){
-  const m=me();
-  if(!m)return;
-  m.balance+=EARN_RATE;
-  m.ads=(m.ads||0)+1;
-  saveMe(m);
+function claimReward(){
+  const me=getMe();
+  me.balance+=EARN_RATE;
+  me.ads=(me.ads||0)+1;
+  saveMe(me);
   
   document.getElementById('earnedMsg').style.display='block';
   updateBalance();
-  if(localStorage.getItem('adminOk')==='1')renderAdmin();
   
-  setTimeout(()=>{document.getElementById('adScreen').style.display='none';},1200);
-}
-
-function updateBalance(){
-  const m=me();if(!m)return;
-  document.getElementById('bal').textContent=`£${m.balance.toFixed(2)}`;
-  document.getElementById('wdAmt').textContent=`£${m.balance.toFixed(2)}`;
-  
-  const pending=(m.withdrawals||[]).some(w=>w.status==='pending');
-  document.getElementById('pendingNote').style.display=pending?'block':'none';
-  document.getElementById('wdBtn').disabled=m.balance<MIN_WD||pending;
-  document.getElementById('wdBtn').textContent=
-    m.balance>=MIN_WD?`Request Withdraw £${MIN_WD}`:`Need £${MIN_WD} total`;
+  setTimeout(()=>{
+    document.getElementById('adScreen').style.display='none';
+  },1500);
 }
 
 // Withdraw
-document.getElementById('wdBtn').onclick=()=>{
-  const m=me();if(!m||m.balance<MIN_WD)return;
-  if((m.withdrawals||[]).some(w=>w.status==='pending'))return;
-  
-  m.withdrawals=m.withdrawals||[];
-  m.withdrawals.push({amt:MIN_WD,date:new Date().toISOString(),status:'pending'});
-  saveMe(m);
-  alert(`✅ Withdraw requested — £${MIN_WD}\nStatus: Pending approval`);
+document.getElementById('wdBtn').onclick=function(){
+  const me=getMe();
+  if(me.balance<MIN_WITHDRAW)return alert(`Need £${MIN_WITHDRAW} minimum`);
+  alert(`✅ Withdraw request sent!\n£${MIN_WITHDRAW} will be processed within 24 hours`);
+  me.balance-=MIN_WITHDRAW;
+  saveMe(me);
   updateBalance();
-  if(localStorage.getItem('adminOk')==='1')renderAdmin();
 };
 
-// Admin
-function renderAdmin(){
-  if(localStorage.getItem('adminOk')!=='1')return;
-  const users=Object.values(getUsers());
-  let totalAds=0,totalOwed=0;
-  users.forEach(u=>{totalAds+=u.ads||0;totalOwed+=u.balance||0;});
-  
-  document.getElementById('pCount').textContent=users.length;
-  document.getElementById('aCount').textContent=totalAds;
-  document.getElementById('oTotal').textContent=`£${totalOwed.toFixed(2)}`;
-  document.getElementById('eTotal').textContent=`£${(totalAds*EARN_RATE*2).toFixed(2)}`;
-  
-  const list=document.getElementById('playerList');list.innerHTML='';
-  users.forEach(u=>{
-    const p=(u.withdrawals||[]).filter(w=>w.status==='pending');
-    const div=document.createElement('div');div.className='player';
-    div.innerHTML=`
-      <div style="font-weight:bold;">${u.username}</div>
-      <div style="font-size:0.85rem;color:var(--muted);margin:5px 0;">
-        Ads: ${u.ads||0} | Balance: £${(u.balance||0).toFixed(2)}
-      </div>
-      ${p.length>0?`
-        <div style="margin:5px 0;">⏳ Pending: £${p[0].amt}</div>
-        <button class="approve" data-id="${u.id}" data-idx="${u.withdrawals.indexOf(p[0])}">✅ Approve</button>
-      `:'<span style="color:var(--muted);font-size:0.85rem;">No pending</span>'}
-    `;
-    list.appendChild(div);
-  });
-  
-  document.querySelectorAll('.approve').forEach(b=>{
-    b.onclick=()=>{
-      const uid=b.dataset.id,idx=parseInt(b.dataset.idx);
-      const u=getUsers();
-      u[uid].withdrawals[idx].status='approved';
-      u[uid].balance-=u[uid].withdrawals[idx].amt;
-      saveUsers(u);alert('✅ Approved');renderAdmin();updateBalance();
-    };
-  });
-}
-document.getElementById('adminLogout').onclick=()=>{
-  localStorage.removeItem('adminOk');localStorage.removeItem('uid');location.reload();
-};
-
-// Navigation
-document.querySelectorAll('.tab').forEach(t=>{
-  t.onclick=()=>{
-    if(t.dataset.view==='admin'&&localStorage.getItem('adminOk')!=='1'){
-      document.getElementById('toAdmin').click();return;
-    }
-    document.querySelectorAll('.tab').forEach(x=>{x.classList.remove('active');x.classList.add('inactive');});
-    t.classList.add('active');t.classList.remove('inactive');
-    document.querySelectorAll('.section').forEach(s=>s.style.display='none');
-    document.getElementById(t.dataset.view+'View').style.display='block';
-    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-    document.querySelector(`[data-nav="${t.dataset.view}"]`)?.classList.add('active');
-    if(t.dataset.view==='admin')renderAdmin();
+// Tabs
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.onclick=()=>{
+    document.querySelectorAll('.tab').forEach(t=>{t.classList.remove('active');t.classList.add('inactive');});
+    tab.classList.add('active');tab.classList.remove('inactive');
+    
+    document.getElementById('gamesView').classList.add('hidden');
+    document.getElementById('kidsView').classList.add('hidden');
+    document.getElementById('withdrawView').classList.add('hidden');
+    document.getElementById(tab.dataset.view+'View').classList.remove('hidden');
   };
 });
-document.querySelectorAll('.nav-item').forEach(n=>{
-  n.onclick=()=>document.querySelector(`[data-view="${n.dataset.nav}"]`)?.click();
+
+// Auto-login
+if(getUID())showMain();
 });
-
-// Auto login
-if(uid())showMain();
-
-}); // ✅ END — All code protected inside DOMContentLoaded
-
-// If page still frozen, this helps recover
-window.addEventListener('unload',()=>{if(activeTimer)clearInterval(activeTimer);});
 </script>
 </body>
 </html>
