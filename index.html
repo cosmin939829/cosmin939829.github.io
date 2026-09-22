@@ -7,68 +7,86 @@
 <script defer src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2118711773341676" crossorigin="anonymous"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,sans-serif;}
-:root{--blue:#007aff;--green:#34c759;--red:#ff3b30;--gray:#f2f2f7;--card:#fff;--muted:#86868b;}
+:root{--blue:#007aff;--green:#34c759;--red:#ff3b30;--gray:#f2f2f7;--card:#fff;--muted:#86868b;--purple:#5856d6;--orange:#ff9500;}
 body{background:var(--gray);min-height:100vh;padding:20px;}
 .container{max-width:420px;margin:0 auto;}
 .balance{background:linear-gradient(135deg,#007aff,#5856d6);color:white;text-align:center;padding:25px;border-radius:16px;font-size:2rem;font-weight:bold;margin-bottom:20px;}
 .tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;}
-.tab{flex:1;min-width:70px;padding:10px;border-radius:10px;border:none;cursor:pointer;font-weight:600;}
+.tab{flex:1;min-width:70px;padding:10px;border-radius:10px;border:none;cursor:pointer;font-weight:600;font-size:0.9rem;}
 .tab.active{background:var(--blue);color:white;}
 .tab.inactive{background:white;color:var(--muted);}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
-.game{background:white;border-radius:16px;padding:25px;text-align:center;cursor:pointer;transition:transform 0.15s;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
+.game{background:white;border-radius:16px;padding:20px;text-align:center;cursor:pointer;transition:transform 0.15s;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
 .game:active{transform:scale(0.97);}
-.game-icon{font-size:2.5rem;margin-bottom:10px;}
-.game-name{font-weight:600;font-size:0.95rem;}
-.card{background:white;border-radius:16px;padding:25px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.05);margin-bottom:15px;}
+.game-icon{font-size:2rem;margin-bottom:6px;}
+.game-name{font-weight:600;font-size:0.9rem;}
+.card{background:white;border-radius:16px;padding:25px;box-shadow:0 2px 10px rgba(0,0,0,0.05);margin-bottom:15px;}
 .hidden{display:none !important;}
+.center{text-align:center;}
 
-/* Full-Screen Game Player */
+/* Game Player */
 .game-player{position:fixed;inset:0;background:#000;z-index:1000;display:none;flex-direction:column;}
 .game-top{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:#111;color:white;}
-.back-btn{background:var(--red);color:white;border:none;padding:8px 16px;border-radius:8px;font-weight:bold;cursor:pointer;font-size:0.9rem;}
+.back-btn{background:var(--red);color:white;border:none;padding:8px 16px;border-radius:8px;font-weight:bold;cursor:pointer;}
 .game-frame{flex:1;border:none;width:100%;background:#fff;}
 
 /* Ad Popup */
 .ad-popup{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;}
-.ad-card{background:white;border-radius:20px;padding:35px 25px;max-width:360px;width:100%;text-align:center;}
-.ad-title{font-size:1.3rem;font-weight:bold;margin-bottom:10px;}
-.ad-text{color:var(--muted);margin-bottom:20px;line-height:1.5;}
-.ad-continue{background:var(--blue);color:white;border:none;padding:14px 30px;border-radius:12px;font-size:1rem;font-weight:bold;cursor:pointer;display:none;width:100%;}
+.ad-card{background:white;border-radius:20px;padding:30px 25px;max-width:360px;width:100%;text-align:center;}
+.ad-continue{background:var(--blue);color:white;border:none;padding:14px 30px;border-radius:12px;font-size:1rem;font-weight:bold;cursor:pointer;display:none;width:100%;margin-top:10px;}
 .ad-continue.show{display:block;}
 .ad-earned{color:var(--green);font-weight:bold;margin-top:15px;display:none;font-size:1.1rem;}
 
+/* Admin */
+.admin-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee;font-size:0.9rem;}
+.admin-label{color:var(--muted);}
+.admin-value{font-weight:bold;}
+.user-list{max-height:300px;overflow-y:auto;margin-top:15px;}
+.user-item{padding:10px;border-bottom:1px solid #eee;font-size:0.9rem;}
+
 input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bottom:12px;font-size:1rem;}
 .btn-primary{background:var(--blue);color:white;border:none;padding:14px;border-radius:10px;font-size:1rem;font-weight:bold;cursor:pointer;}
+.btn-green{background:var(--green);color:white;border:none;padding:14px;border-radius:10px;font-size:1rem;font-weight:bold;cursor:pointer;}
+.btn-orange{background:var(--orange);color:white;border:none;padding:14px;border-radius:10px;font-size:1rem;font-weight:bold;cursor:pointer;}
 .btn-link{background:none;color:var(--blue);border:none;padding:10px;cursor:pointer;font-size:1rem;}
 .error{color:var(--red);height:20px;margin-bottom:10px;}
+.solo-ad{background:linear-gradient(135deg,#ff9500,#ff5e03);color:white;border-radius:16px;padding:20px;text-align:center;margin-bottom:15px;cursor:pointer;}
 </style>
 </head>
 <body>
 
-<!-- Login/Register -->
+<!-- Login Screen -->
 <div id="authScreen" class="container" style="margin-top:80px;">
   <div class="card">
-    <h1 style="margin-bottom:25px;">Play & Earn 🎮</h1>
+    <h1 class="center" style="margin-bottom:25px;">Play & Earn 🎮</h1>
     <div class="error" id="authErr"></div>
     
     <div id="loginView">
       <input type="text" id="user" placeholder="Username">
       <input type="password" id="pass" placeholder="Password">
-      <button class="btn-primary" id="loginBtn">Login</button>
-      <button class="btn-link" id="toReg">Don't have account? Register</button>
+      <button class="btn-primary" id="loginBtn" style="width:100%;">Login</button>
+      <button class="btn-link" id="toReg" style="width:100%;">Don't have account? Register</button>
+      <button class="btn-link" id="toAdmin" style="width:100%;color:var(--purple);">🔐 Admin Login</button>
     </div>
     
     <div id="regView" class="hidden">
       <input type="text" id="regUser" placeholder="Choose Username">
       <input type="password" id="regPass" placeholder="Choose Password">
-      <button class="btn-primary" id="regBtn">Create Account</button>
-      <button class="btn-link" id="toLogin">← Back to Login</button>
+      <button class="btn-primary" id="regBtn" style="width:100%;">Create Account</button>
+      <button class="btn-link" id="toLogin" style="width:100%;">← Back to Login</button>
+    </div>
+    
+    <div id="adminLoginView" class="hidden">
+      <h3 class="center" style="margin-bottom:15px;">🔐 Admin Access</h3>
+      <input type="text" id="adminUser" placeholder="Admin Username">
+      <input type="password" id="adminPass" placeholder="Admin Password">
+      <button class="btn-primary" id="adminLoginBtn" style="width:100%;">Enter Admin</button>
+      <button class="btn-link" id="toLoginFromAdmin" style="width:100%;">← Back</button>
     </div>
   </div>
 </div>
 
-<!-- Main App -->
+<!-- Main User App -->
 <div id="mainApp" class="container hidden">
   <div class="balance">£<span id="bal">0.00</span></div>
   
@@ -78,7 +96,15 @@ input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bo
     <button class="tab" data-view="withdraw">💰 Withdraw</button>
   </div>
   
+  <!-- Solo Ad Option -->
+  <div class="solo-ad" onclick="watchAdOnly()">
+    <div style="font-size:1.3rem;font-weight:bold;">📺 Watch Ad & Earn</div>
+    <div style="opacity:0.9;font-size:0.9rem;">No game needed — just watch & get £0.002</div>
+  </div>
+  
+  <!-- 10 Adult Games -->
   <div id="gamesView" style="display:block;">
+    <h4 style="margin:10px 0;">🎮 18+ Games</h4>
     <div class="grid">
       <div class="game" onclick="openGame('8 Ball Pool', 'https://cdn.htmlgames.com/8BallPool/')">
         <div class="game-icon">🎱</div><div class="game-name">8 Ball Pool</div>
@@ -98,10 +124,24 @@ input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bo
       <div class="game" onclick="openGame('Lucky Spin', 'https://cdn.htmlgames.com/LuckySpin/')">
         <div class="game-icon">🎡</div><div class="game-name">Lucky Spin</div>
       </div>
+      <div class="game" onclick="openGame('Puzzle', 'https://cdn.htmlgames.com/JigsawPuzzle/')">
+        <div class="game-icon">🧩</div><div class="game-name">Jigsaw Puzzle</div>
+      </div>
+      <div class="game" onclick="openGame('Basketball', 'https://cdn.htmlgames.com/Basketball/')">
+        <div class="game-icon">🏀</div><div class="game-name">Basketball</div>
+      </div>
+      <div class="game" onclick="openGame('Chess', 'https://cdn.htmlgames.com/Chess/')">
+        <div class="game-icon">♟️</div><div class="game-name">Chess</div>
+      </div>
+      <div class="game" onclick="openGame('Snake', 'https://cdn.htmlgames.com/SnakeGame/')">
+        <div class="game-icon">🐍</div><div class="game-name">Snake</div>
+      </div>
     </div>
   </div>
   
+  <!-- 10 Kids Games -->
   <div id="kidsView" class="hidden">
+    <h4 style="margin:10px 0;">👶 Kids Games</h4>
     <div class="grid">
       <div class="game" onclick="openGame('ABC Letters', 'https://cdn.htmlgames.com/ABCGame/')">
         <div class="game-icon">🔤</div><div class="game-name">ABC Letters</div>
@@ -112,20 +152,76 @@ input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bo
       <div class="game" onclick="openGame('Colors', 'https://cdn.htmlgames.com/ColorMatch/')">
         <div class="game-icon">🎨</div><div class="game-name">Colors</div>
       </div>
+      <div class="game" onclick="openGame('Memory', 'https://cdn.htmlgames.com/MemoryGame/')">
+        <div class="game-icon">🧠</div><div class="game-name">Memory</div>
+      </div>
+      <div class="game" onclick="openGame('Shapes', 'https://cdn.htmlgames.com/ShapeMatch/')">
+        <div class="game-icon">🔷</div><div class="game-name">Shapes</div>
+      </div>
+      <div class="game" onclick="openGame('Counting', 'https://cdn.htmlgames.com/CountingGame/')">
+        <div class="game-icon">✌️</div><div class="game-name">Counting</div>
+      </div>
+      <div class="game" onclick="openGame('Drawing', 'https://cdn.htmlgames.com/DrawingPad/')">
+        <div class="game-icon">🎨</div><div class="game-name">Drawing</div>
+      </div>
+      <div class="game" onclick="openGame('Animals', 'https://cdn.htmlgames.com/AnimalMatch/')">
+        <div class="game-icon">🐾</div><div class="game-name">Animals</div>
+      </div>
+      <div class="game" onclick="openGame('Puzzle Kids', 'https://cdn.htmlgames.com/KidsPuzzle/')">
+        <div class="game-icon">🧸</div><div class="game-name">Kid Puzzle</div>
+      </div>
+      <div class="game" onclick="openGame('Music', 'https://cdn.htmlgames.com/MusicMaker/')">
+        <div class="game-icon">🎵</div><div class="game-name">Music</div>
+      </div>
     </div>
   </div>
   
   <div id="withdrawView" class="hidden">
     <div class="card">
-      <h3>Withdraw Earnings</h3>
-      <p style="color:var(--muted);margin:10px 0;">Minimum: £5.00</p>
-      <p style="font-size:2rem;font-weight:bold;margin:20px 0;">£<span id="wdAmt">0.00</span></p>
-      <button class="btn-primary" id="wdBtn">Request £5.00 Withdraw</button>
+      <h3 class="center">Withdraw Earnings</h3>
+      <p class="center" style="color:var(--muted);margin:10px 0;">Minimum: £5.00</p>
+      <p class="center" style="font-size:2rem;font-weight:bold;margin:20px 0;">£<span id="wdAmt">0.00</span></p>
+      <button class="btn-green" id="wdBtn" style="width:100%;">Request £5.00 Withdraw</button>
     </div>
   </div>
+  
+  <button class="btn-link" id="logoutBtn" style="width:100%;margin-top:20px;">🚪 Logout</button>
 </div>
 
-<!-- Full-Screen Real Game Player -->
+<!-- Admin Dashboard -->
+<div id="adminApp" class="container hidden">
+  <h2 class="center" style="margin:20px 0;">🔐 Admin Dashboard</h2>
+  
+  <div class="card">
+    <div class="admin-row">
+      <span class="admin-label">Total Registered Users:</span>
+      <span class="admin-value" id="totalUsers">0</span>
+    </div>
+    <div class="admin-row">
+      <span class="admin-label">Total Ad Views:</span>
+      <span class="admin-value" id="totalAds">0</span>
+    </div>
+    <div class="admin-row">
+      <span class="admin-label">Total Earnings Generated:</span>
+      <span class="admin-value" id="totalEarnings">£0.00</span>
+    </div>
+    <div class="admin-row">
+      <span class="admin-label">Active Users Today:</span>
+      <span class="admin-value" id="activeToday">0</span>
+    </div>
+  </div>
+  
+  <div class="card">
+    <h4 style="margin-bottom:10px;">👤 All Users</h4>
+    <div class="user-list" id="userListArea">
+      <p style="color:var(--muted);text-align:center;">No users yet</p>
+    </div>
+  </div>
+  
+  <button class="btn-link" id="adminLogoutBtn" style="width:100%;margin-top:20px;">🚪 Admin Logout</button>
+</div>
+
+<!-- Game Player -->
 <div id="gamePlayer" class="game-player">
   <div class="game-top">
     <h3 id="gameTitle">Game</h3>
@@ -134,17 +230,16 @@ input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bo
   <iframe id="gameFrame" class="game-frame" allow="autoplay; fullscreen"></iframe>
 </div>
 
-<!-- Ad Popup (Auto-shows after 60s) -->
+<!-- Ad Popup -->
 <div id="adPopup" class="ad-popup">
   <div class="ad-card">
-    <h3 class="ad-title">📺 Watch Ad & Earn Reward</h3>
-    <p class="ad-text" id="adMessage">
-      ⏳ Google AdSense is reviewing your site<br>
-      Once approved → REAL ADS appear here automatically ✅<br><br>
-      Reward: <strong>£0.002</strong> added to your balance
+    <h3>📺 Watch Ad & Earn Reward</h3>
+    <p style="color:var(--muted);margin:15px 0;">
+      ⏳ Google AdSense reviewing — real ads appear once approved ✅<br>
+      Reward: <strong>£0.002</strong> per session
     </p>
     <button class="ad-continue" id="adContinueBtn">Please wait...</button>
-    <p class="ad-earned" id="adEarned">✅ +£0.002 added!</p>
+    <p class="ad-earned" id="adEarned">✅ +£0.002 added to your balance!</p>
   </div>
 </div>
 
@@ -152,91 +247,194 @@ input{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;margin-bo
 document.addEventListener('DOMContentLoaded', function(){
 "use strict";
 
+// ⚙️ SETTINGS
 const EARN_RATE = 0.002;
 const MIN_WITHDRAW = 5.00;
 const PLAY_TIME = 60;
+const ADMIN_USER = "admin";
+const ADMIN_PASS = "skumpyku93@"; // ✅ YOUR ADMIN PASSWORD
+
 let sessionTimer = null;
 let adCountdown = null;
+let isSoloAdMode = false;
 
-// Storage helpers
-function getUsers(){try{return JSON.parse(localStorage.getItem('allUsers')||'{}');}catch{return {};}}
-function saveUsers(d){localStorage.setItem('allUsers',JSON.stringify(d));}
+// ========== STORAGE HELPERS ==========
+function getAllUsers(){try{return JSON.parse(localStorage.getItem('allUsers')||'{}');}catch{return {};}}
+function saveAllUsers(d){localStorage.setItem('allUsers',JSON.stringify(d));}
 function getUID(){return localStorage.getItem('uid');}
 function setUID(id){localStorage.setItem('uid',id);}
-function getMe(){return getUsers()[getUID()];}
-function saveMe(obj){const u=getUsers();u[getUID()]=obj;saveUsers(u);}
+function getMe(){return getAllUsers()[getUID()];}
+function saveMe(obj){const u=getAllUsers();u[getUID()]=obj;saveAllUsers(u);}
 function showError(msg){document.getElementById('authErr').textContent=msg;setTimeout(()=>document.getElementById('authErr').textContent='',3000);}
 
-// Auth
+// ========== LOGIN/REGISTER ==========
 document.getElementById('toReg').onclick=()=>{
   document.getElementById('loginView').classList.add('hidden');
   document.getElementById('regView').classList.remove('hidden');
 };
 document.getElementById('toLogin').onclick=()=>{
   document.getElementById('regView').classList.add('hidden');
+  document.getElementById('adminLoginView').classList.add('hidden');
+  document.getElementById('loginView').classList.remove('hidden');
+};
+document.getElementById('toAdmin').onclick=()=>{
+  document.getElementById('loginView').classList.add('hidden');
+  document.getElementById('adminLoginView').classList.remove('hidden');
+};
+document.getElementById('toLoginFromAdmin').onclick=()=>{
+  document.getElementById('adminLoginView').classList.add('hidden');
   document.getElementById('loginView').classList.remove('hidden');
 };
 
+// Register
 document.getElementById('regBtn').onclick=()=>{
   const user=document.getElementById('regUser').value.trim();
   const pass=document.getElementById('regPass').value;
   if(!user||!pass)return showError('Fill all fields');
-  if(Object.values(getUsers()).find(x=>x.username===user))return showError('Username taken');
+  if(user.toLowerCase()==='admin')return showError('Username reserved');
+  if(Object.values(getAllUsers()).find(x=>x.username===user))return showError('Username taken');
+  
   const uid='u_'+Date.now();
-  const users=getUsers();
-  users[uid]={username:user,password:pass,balance:0,ads:0};
-  saveUsers(users);setUID(uid);showMain();
+  const users=getAllUsers();
+  users[uid]={
+    username:user,
+    password:pass,
+    balance:0,
+    totalAds:0,
+    joined:new Date().toLocaleDateString(),
+    lastActive:new Date().toLocaleDateString()
+  };
+  saveAllUsers(users);
+  setUID(uid);
+  showUserApp();
 };
 
+// User Login
 document.getElementById('loginBtn').onclick=()=>{
   const user=document.getElementById('user').value.trim();
   const pass=document.getElementById('pass').value;
-  const found=Object.entries(getUsers()).find(([_,x])=>x.username===user&&x.password===pass);
-  if(!found)return showError('Wrong login');
-  setUID(found[0]);showMain();
+  const found=Object.entries(getAllUsers()).find(([_,x])=>x.username===user&&x.password===pass);
+  if(!found)return showError('Wrong username or password');
+  setUID(found[0]);
+  showUserApp();
 };
 
-function showMain(){
+// Admin Login
+document.getElementById('adminLoginBtn').onclick=()=>{
+  const u=document.getElementById('adminUser').value.trim();
+  const p=document.getElementById('adminPass').value;
+  if(u===ADMIN_USER&&p===ADMIN_PASS){
+    showAdminDashboard();
+  }else{
+    showError('Wrong admin credentials');
+  }
+};
+
+// ========== SHOW SCREENS ==========
+function showUserApp(){
   document.getElementById('authScreen').classList.add('hidden');
+  document.getElementById('adminApp').classList.add('hidden');
   document.getElementById('mainApp').classList.remove('hidden');
   updateBalance();
 }
 
+function showAdminDashboard(){
+  document.getElementById('authScreen').classList.add('hidden');
+  document.getElementById('mainApp').classList.add('hidden');
+  document.getElementById('adminApp').classList.remove('hidden');
+  updateAdminStats();
+}
+
+function logout(){
+  setUID('');
+  document.getElementById('mainApp').classList.add('hidden');
+  document.getElementById('adminApp').classList.add('hidden');
+  document.getElementById('authScreen').classList.remove('hidden');
+  document.getElementById('loginView').classList.remove('hidden');
+  document.getElementById('regView').classList.add('hidden');
+  document.getElementById('adminLoginView').classList.add('hidden');
+}
+
+document.getElementById('logoutBtn').onclick=logout;
+document.getElementById('adminLogoutBtn').onclick=logout;
+
+// ========== BALANCE ==========
 function updateBalance(){
   const me=getMe();
   document.getElementById('bal').textContent=me.balance.toFixed(2);
   document.getElementById('wdAmt').textContent=me.balance.toFixed(2);
   document.getElementById('wdBtn').disabled=me.balance<MIN_WITHDRAW;
+  
+  // Update last active
+  const users=getAllUsers();
+  if(users[getUID()]){
+    users[getUID()].lastActive=new Date().toLocaleDateString();
+    saveAllUsers(users);
+  }
 }
 
-// ✅ OPEN REAL GAME — timer runs in background, NO countdown shown!
+// ========== ADMIN STATS ==========
+function updateAdminStats(){
+  const users=getAllUsers();
+  const userList=Object.values(users);
+  const totalUsers=userList.length;
+  const totalAds=userList.reduce((sum,u)=>sum+(u.totalAds||0),0);
+  const totalEarn=(totalAds*EARN_RATE).toFixed(2);
+  const today=new Date().toLocaleDateString();
+  const activeToday=userList.filter(u=>u.lastActive===today).length;
+  
+  document.getElementById('totalUsers').textContent=totalUsers;
+  document.getElementById('totalAds').textContent=totalAds;
+  document.getElementById('totalEarnings').textContent='£'+totalEarn;
+  document.getElementById('activeToday').textContent=activeToday;
+  
+  // User list
+  const listArea=document.getElementById('userListArea');
+  if(userList.length===0){
+    listArea.innerHTML='<p style="color:var(--muted);text-align:center;">No users yet</p>';
+  }else{
+    listArea.innerHTML=userList.map(u=>`
+      <div class="user-item">
+        <strong>${u.username}</strong><br>
+        Balance: £${u.balance.toFixed(2)} | Ads: ${u.totalAds||0}<br>
+        Joined: ${u.joined} | Last: ${u.lastActive}
+      </div>
+    `).join('');
+  }
+}
+
+// ========== GAME FUNCTIONS ==========
 window.openGame=function(name, gameUrl){
+  isSoloAdMode=false;
   if(sessionTimer)clearTimeout(sessionTimer);
-  if(adCountdown)clearInterval(adCountdown);
   
   document.getElementById('gameTitle').textContent=name;
   document.getElementById('gameFrame').src=gameUrl;
   document.getElementById('gamePlayer').style.display='flex';
   
-  // ⏳ Timer runs SILENTLY in background — user just plays!
+  // ⏳ Silent timer — NO text shown!
   sessionTimer=setTimeout(()=>{
     showAdPopup();
   }, PLAY_TIME*1000);
 };
 
-// ✅ CLOSE GAME — stop timer
+window.watchAdOnly=function(){
+  isSoloAdMode=true;
+  showAdPopup();
+};
+
 window.closeGame=function(){
   if(sessionTimer)clearTimeout(sessionTimer);
-  if(adCountdown)clearInterval(adCountdown);
   sessionTimer=null;
   document.getElementById('gameFrame').src='';
   document.getElementById('gamePlayer').style.display='none';
 };
 
-// ✅ AUTO-SHOW AD AFTER 60 SECONDS
+// ========== AD POPUP ==========
 function showAdPopup(){
-  // Pause game visually
-  document.getElementById('gamePlayer').style.opacity='0.6';
+  if(!isSoloAdMode){
+    document.getElementById('gamePlayer').style.opacity='0.6';
+  }
   
   document.getElementById('adPopup').style.display='flex';
   document.getElementById('adContinueBtn').classList.remove('show');
@@ -258,34 +456,39 @@ function showAdPopup(){
   },1000);
 }
 
-// ✅ ADD MONEY TO BALANCE
 function claimReward(){
-  const me=getMe();
-  me.balance+=EARN_RATE;
-  me.ads=(me.ads||0)+1;
-  saveMe(me);
+  const uid=getUID();
+  const users=getAllUsers();
+  if(!users[uid])return;
+  
+  users[uid].balance+=EARN_RATE;
+  users[uid].totalAds=(users[uid].totalAds||0)+1;
+  users[uid].lastActive=new Date().toLocaleDateString();
+  saveAllUsers(users);
   
   document.getElementById('adEarned').style.display='block';
   updateBalance();
   
   setTimeout(()=>{
     document.getElementById('adPopup').style.display='none';
-    document.getElementById('gamePlayer').style.opacity='1';
-    // Game stays open — user can keep playing!
+    if(!isSoloAdMode){
+      document.getElementById('gamePlayer').style.opacity='1';
+    }
   },1500);
 }
 
-// Withdraw
+// ========== WITHDRAW ==========
 document.getElementById('wdBtn').onclick=function(){
   const me=getMe();
   if(me.balance<MIN_WITHDRAW)return alert(`Need £${MIN_WITHDRAW} minimum`);
-  alert(`✅ Withdraw requested!\n£${MIN_WITHDRAW} will be sent within 24 hours`);
-  me.balance-=MIN_WITHDRAW;
-  saveMe(me);
+  alert(`✅ Withdraw request sent!\n£${MIN_WITHDRAW} will be processed within 24 hours`);
+  const users=getAllUsers();
+  users[getUID()].balance-=MIN_WITHDRAW;
+  saveAllUsers(users);
   updateBalance();
 };
 
-// Tabs
+// ========== TABS ==========
 document.querySelectorAll('.tab').forEach(tab=>{
   tab.onclick=()=>{
     document.querySelectorAll('.tab').forEach(t=>{t.classList.remove('active');t.classList.add('inactive');});
@@ -299,7 +502,7 @@ document.querySelectorAll('.tab').forEach(tab=>{
 });
 
 // Auto-login
-if(getUID())showMain();
+if(getUID()&&getAllUsers()[getUID()])showUserApp();
 });
 </script>
 </body>
