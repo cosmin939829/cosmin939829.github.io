@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta name="google-adsense-account" content="ca-pub-2118711773341676">
-    <meta name="google-adsense-account" content="ca-pub-2118711773341676">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2118717733341676" crossorigin="anonymous"></script>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🧠 Learn & Earn</title>
+    <meta name="google-adsense-account" content="ca-pub-2118717733341676">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2118717733341676" crossorigin="anonymous"></script>
+    <title>Learn & Earn</title>
     <style>
         *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
         body{background:linear-gradient(135deg,#1a1a40,#2d2d70);min-height:100vh;padding:20px;color:white;}
@@ -14,316 +14,387 @@
         .balance-card{background:rgba(0,0,0,0.3);border-radius:16px;padding:20px;text-align:center;margin-bottom:20px;}
         .balance-amount{font-size:36px;font-weight:bold;color:#ffd700;}
         .note{margin-top:8px;font-size:13px;color:#90ee90;}
-        .age-select{display:flex;flex-direction:column;gap:12px;margin-bottom:20px;}
-        .age-btn{border:none;border-radius:12px;padding:18px;font-size:17px;font-weight:bold;cursor:pointer;transition:transform 0.2s;}
+        .age-select{display:flex;flex-direction:column;gap:12px;margin:20px 0;}
+        .age-btn{border:none;border-radius:12px;padding:15px;font-size:17px;font-weight:bold;cursor:pointer;transition:transform 0.2s;}
         .age-btn:hover{transform:scale(1.03);}
-        .btn-5-12{background:linear-gradient(135deg,#2ecc71,#27ae60);color:white;}
-        .btn-13-17{background:linear-gradient(135deg,#3498db,#2980b9);color:white;}
-        .btn-18plus{background:linear-gradient(135deg,#f39c12,#e67e22);color:white;}
+        .btn-5-12{background:linear-gradient(135deg,#34d399,#29b989);color:white;}
+        .btn-13-17{background:linear-gradient(135deg,#60a5fa,#3b82f6);color:white;}
+        .btn-18plus{background:linear-gradient(135deg,#f97316,#fb923c);color:white;}
         .hidden{display:none !important;}
-        .card{background:rgba(255,255,255,0.08);border-radius:16px;padding:20px;margin-bottom:20px;}
+        .card{background:rgba(255,255,255,0.08);border-radius:16px;padding:20px;margin:15px 0;}
         .quiz-question{font-size:20px;margin-bottom:20px;text-align:center;}
         .quiz-options{display:flex;flex-direction:column;gap:10px;}
-        .quiz-option{border:none;border-radius:10px;padding:14px;font-size:16px;background:rgba(255,255,255,0.1);color:white;cursor:pointer;text-align:left;transition:background 0.2s;}
-        .quiz-option:hover{background:rgba(255,255,255,0.2);}
-        .correct{background:#2ecc71 !important;}
+        .quiz-option{border-radius:10px;padding:14px;font-size:16px;cursor:pointer;}
+        .quiz-option:hover{background:rgba(255,255,255,0.14);}
+        .correct{background:#4ade80 !important;}
         .wrong{background:#e74c3c !important;}
-        
-        /* === AD DISPLAY AREA === */
-        .ad-container{background:#fff;border-radius:12px;padding:20px;text-align:center;color:#333;margin:10px 0;}
-        .ad-label{background:#ffd700;color:#000;font-weight:bold;font-size:12px;padding:4px 10px;border-radius:20px;display:inline-block;margin-bottom:10px;}
-        .ad-title{font-size:18px;font-weight:bold;margin-bottom:8px;color:#1a1a40;}
-        .ad-text{font-size:14px;color:#555;margin-bottom:10px;}
-        .ad-reward{color:green;font-weight:bold;}
+        .progress-bar{height:8px;background:rgba(255,255,255,0.2);border-radius:4px;margin:15px 0;overflow:hidden;}
+        .progress-fill{height:100%;background:linear-gradient(90deg,#ffd700,#ffaa00);width:0%;transition:width 1s linear;}
         .timer-number{font-size:48px;font-weight:bold;color:#ffd700;text-align:center;margin:10px 0;}
-        .progress-bar{height:8px;background:rgba(255,255,255,0.1);border-radius:4px;margin:10px 0;overflow:hidden;}
-        .progress-fill{height:100%;background:linear-gradient(90deg,#ffd700,#ffaa00);border-radius:4px;width:0%;transition:width 1s linear;}
-        .status-text{text-align:center;color:#aaa;}
-        .withdraw-section{text-align:center;margin-top:10px;}
-        .withdraw-btn{border:none;border-radius:12px;padding:14px 30px;font-size:16px;font-weight:bold;background:#003087;color:white;cursor:pointer;}
-        .withdraw-btn:disabled{opacity:0.4;cursor:not-allowed;}
-        .nav-links{text-align:center;margin-top:15px;}
-        .nav-btn{background:none;border:none;color:#888;cursor:pointer;}
+        .btn{border:none;border-radius:10px;padding:12px 30px;font-size:16px;cursor:pointer;font-weight:bold;}
+        .btn-primary{background:#ffd700;color:#000;}
+        .btn-secondary{background:#3b82f6;color:white;}
+        .btn-danger{background:#ef4444;color:white;}
+        .input-field{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:none;background:rgba(255,255,255,0.1);color:white;font-size:16px;}
+        .nav-links{display:flex;justify-content:space-between;margin-top:20px;}
+        .nav-btn{color:#888;text-decoration:none;}
+        .admin-badge{background:#ef4444;color:white;padding:4px 8px;border-radius:4px;font-size:12px;}
+        .split-info{background:rgba(34,197,94,0.1);border:1px solid #22c55e;border-radius:8px;padding:12px;margin:15px 0;text-align:center;}
+        .tab-container{display:flex;gap:10px;margin-bottom:20px;}
+        .tab{flex:1;padding:10px;border:none;border-radius:8px;cursor:pointer;background:rgba(255,255,255,0.1);color:white;}
+        .tab.active{background:#3b82f6;}
     </style>
 </head>
 <body>
-<div class="container">
-    <!-- WELCOME SCREEN -->
-    <div id="screen-welcome">
-        <div class="header">
-            <h1>🧠 Learn & Earn</h1>
-            <p>Knowledge is powerful — and now it pays! ✨</p>
-        </div>
-        <div class="balance-card">
-            <div style="font-size:16px;margin-bottom:8px;">💰 Your Balance</div>
-            <div class="balance-amount" id="display-balance">£0.0000</div>
-            <div class="note">✅ Never pay anything — always FREE!</div>
-        </div>
-        <h3 style="text-align:center;margin-bottom:15px;">Who is playing?</h3>
-        <div class="age-select">
-            <button class="age-btn btn-5-12" onclick="startGame('kids')">😊 5–12 Years — Fun & Simple!</button>
-            <button class="age-btn btn-13-17" onclick="startGame('teen')">🧑‍🎓 13–17 Years — Learn & Grow!</button>
-            <button class="age-btn btn-18plus" onclick="startGame('adult')">💼 18+ Years — Real Life Skills!</button>
-        </div>
-    </div>
-
-    <!-- GAME SCREEN -->
-    <div id="screen-game" class="hidden">
-        <div class="balance-card" style="padding:15px;">
-            <div class="balance-amount" style="font-size:28px;" id="game-balance">£0.0000</div>
-            <div style="font-size:13px;color:#aaa;margin-top:5px;">Level <span id="player-level">1</span> • Streak: <span id="streak">0</span>🔥</div>
-            <div class="note" style="font-size:12px;margin-top:5px;">✅ Never pay anything — always FREE!</div>
-        </div>
-
-        <!-- QUIZ AREA -->
-        <div class="card">
-            <div class="quiz-question" id="question-text"></div>
-            <div class="quiz-options" id="options-box"></div>
-        </div>
-
-        <!-- AD + TIMER AREA -->
-        <div class="card">
-            <div id="ad-display-area">
-                <div class="ad-container">
-                    <span class="ad-label">📢 SPONSORED</span>
-                    <div class="ad-title" id="ad-title">Loading...</div>
-                    <div class="ad-text" id="ad-text">Getting next content...</div>
-                    <div class="ad-reward" id="ad-reward-text">Earn: £0.00025</div>
-                </div>
+    <div class="container">
+        <div id="auth-screen">
+            <div class="header">
+                <h1>🌸 Learn & Earn</h1>
+                <p>Knowledge is powerful — and now it pays! ✨</p>
             </div>
-            
-            <div class="status-text" id="timer-status">⏳ Watch to earn reward...</div>
-            <div class="timer-number" id="countdown">45</div>
-            <div class="progress-bar"><div class="progress-fill" id="progress-bar"></div></div>
+            <div class="tab-container">
+                <button class="tab active" id="login-tab" onclick="showTab('login')">Login</button>
+                <button class="tab" id="register-tab" onclick="showTab('register')">Register</button>
+            </div>
+            <div id="login-form">
+                <h3 style="text-align:center;margin-bottom:15px;">Welcome Back!</h3>
+                <input type="text" id="login-username" class="input-field" placeholder="Your Username">
+                <input type="password" id="login-password" class="input-field" placeholder="Your Password">
+                <button class="btn btn-primary" style="width:100%;margin-top:10px;" onclick="login()">Login</button>
+                <p style="text-align:center;margin-top:15px;font-size:13px;color:#888;">Admin? <a href="#" onclick="showTab('admin-login')" style="color:#ffd700;">Click here</a></p>
+            </div>
+            <div id="register-form" class="hidden">
+                <h3 style="text-align:center;margin-bottom:15px;">Join & Start Earning!</h3>
+                <input type="text" id="reg-username" class="input-field" placeholder="Choose Username">
+                <input type="password" id="reg-password" class="input-field" placeholder="Choose Password">
+                <input type="email" id="reg-paypal" class="input-field" placeholder="Your PayPal Email (for withdrawals)">
+                <button class="btn btn-primary" style="width:100%;margin-top:10px;" onclick="register()">Create Account</button>
+            </div>
+            <div id="admin-login-form" class="hidden">
+                <h3 style="text-align:center;margin-bottom:15px;">🔐 Admin Login</h3>
+                <input type="text" id="admin-username" class="input-field" placeholder="Admin Username">
+                <input type="password" id="admin-password" class="input-field" placeholder="Admin Password">
+                <button class="btn btn-danger" style="width:100%;margin-top:10px;" onclick="adminLogin()">Login as Admin</button>
+                <p style="text-align:center;margin-top:15px;font-size:13px;color:#888;"><a href="#" onclick="showTab('login')" style="color:#ffd700;">← Back</a></p>
+            </div>
         </div>
-
-        <!-- WITHDRAW SECTION -->
-        <div class="withdraw-section">
-            <p style="color:#aaa;font-size:14px;">Minimum withdrawal: <strong>£1.00</strong> → PayPal</p>
-            <button class="withdraw-btn" id="withdraw-btn" onclick="withdraw()" disabled>💸 Withdraw to PayPal</button>
+        <div id="main-screen" class="hidden">
+            <div class="header">
+                <h1>🌸 Learn & Earn</h1>
+                <p id="user-greeting"></p>
+            </div>
+            <div class="balance-card">
+                <h3>💰 Your Balance</h3>
+                <p class="balance-amount" id="user-balance">£0.00</p>
+                <p class="note">50% to you • 50% to platform</p>
+            </div>
+            <div class="split-info">
+                <p>Total Earned: <strong id="total-earned">£0.00</strong></p>
+                <p>Your Share (50%): <strong id="user-share">£0.00</strong></p>
+                <p>Platform Share (50%): <strong id="admin-share">£0.00</strong></p>
+            </div>
+            <div id="age-selection" class="age-select">
+                <h3 style="text-align:center;margin-bottom:10px;">Who is playing?</h3>
+                <button class="age-btn btn-5-12" onclick="startGame('5-12')">👦 5–12 Years — Fun & Simple!</button>
+                <button class="age-btn btn-13-17" onclick="startGame('13-17')">🧠 13–17 Years — Learn & Grow!</button>
+                <button class="age-btn btn-18plus" onclick="startGame('18+')">💼 18+ Years — Real Life Skills!</button>
+            </div>
+            <div id="quiz-area" class="hidden">
+                <div class="progress-bar"><div class="progress-fill" id="progress-bar"></div></div>
+                <p class="timer-number" id="timer">30</p>
+                <h3 class="quiz-question" id="question-text"></h3>
+                <div class="quiz-options" id="options-container"></div>
+            </div>
+            <div class="nav-links">
+                <button class="nav-btn" onclick="showWithdraw()">💷 Withdraw</button>
+                <button class="nav-btn" onclick="logout()">🚪 Logout</button>
+            </div>
         </div>
-
-        <div class="nav-links">
-            <button class="nav-btn" onclick="goHome()">🏠 Home</button>
+        <div id="withdraw-screen" class="hidden">
+            <div class="header"><h2>💷 Withdraw Your Earnings</h2></div>
+            <div class="card">
+                <p>Your Balance: <strong id="withdraw-balance">£0.00</strong></p>
+                <p>PayPal Account: <strong id="paypal-email-notset" style="color:#ef4444;">Not Set</strong><span id="paypal-email-set" class="hidden"></span></p>
+                <input type="email" id="new-paypal" class="input-field" placeholder="Enter PayPal Email">
+                <button class="btn btn-primary" style="width:100%;margin-top:5px;" onclick="savePayPal()">Save PayPal</button>
+                <hr style="border:none;border-top:1px solid #444;margin:15px 0;">
+                <input type="number" id="withdraw-amount" class="input-field" placeholder="Amount to withdraw (£)" step="0.01" min="5">
+                <p style="font-size:12px;color:#888;">Minimum withdrawal: £5.00</p>
+                <button class="btn btn-primary" style="width:100%;margin-top:5px;" onclick="requestWithdraw()">Request Withdrawal</button>
+                <button class="btn btn-secondary" style="width:100%;margin-top:10px;" onclick="backToMain()">← Back</button>
+            </div>
+        </div>
+        <div id="admin-screen" class="hidden">
+            <div class="header">
+                <h2>🔐 Admin Panel</h2>
+                <p class="admin-badge">Admin Mode</p>
+            </div>
+            <div class="card">
+                <h3>Platform Earnings (50% Share)</h3>
+                <p class="balance-amount" id="admin-total">£0.00</p>
+                <p style="font-size:13px;color:#90ee90;">This is YOUR share from all players</p>
+                <button class="btn btn-primary" style="width:100%;margin-top:10px;" onclick="adminWithdraw()">Withdraw All Admin Funds</button>
+            </div>
+            <div class="card">
+                <h3>All Players</h3>
+                <div id="all-users-list"></div>
+            </div>
+            <button class="btn btn-secondary" style="width:100%;margin-top:10px;" onclick="logout()">Logout</button>
         </div>
     </div>
-</div>
 
-<script>
-// ==============================================
-// ✅ SETTINGS
-// ==============================================
-let player = {
-    balance: 0,
-    level: 1,
-    streak: 0,
-    ageGroup: null,
-    timerActive: false
-};
+    <script>
+        // ==============================================
+        // ✅ YOUR DETAILS — ALL SET!
+        // ==============================================
+        const ADMIN_USERNAME = "admin";
+        const ADMIN_PASSWORD = "skumpyku93@";
+        const ADMIN_PAYPAL = "nicolaecosmin939829@gmail.com";
 
-const FULL_REWARD = 0.0005;
-const USER_GETS = 0.5;        // Player gets 50%
-const COOLDOWN = 45;          // ⏳ 45 seconds
-const MIN_WITHDRAW = 1.00;    // 💸 £1 minimum
+        function getUsers() { return JSON.parse(localStorage.getItem('learnAndEarn_users') || '{}'); }
+        function saveUsers(users) { localStorage.setItem('learnAndEarn_users', JSON.stringify(users)); }
+        function getCurrentUser() { return localStorage.getItem('learnAndEarn_currentUser'); }
+        function setCurrentUser(username) { localStorage.setItem('learnAndEarn_currentUser', username); }
+        function getAdminTotal() { return parseFloat(localStorage.getItem('learnAndEarn_adminTotal') || '0'); }
+        function setAdminTotal(amount) { localStorage.setItem('learnAndEarn_adminTotal', amount.toFixed(2)); }
 
-// ==============================================
-// ✅ AD CONTENT — Rotates Automatically
-// ==============================================
-const adContent = [
-    {title:"💡 Did You Know?", text:"The human brain has about 86 billion neurons!"},
-    {title:"🌍 Fact of the Day", text:"Lightning is 5x hotter than the surface of the Sun!"},
-    {title:"📚 Learn Something", text:"Octopuses have 3 hearts and blue blood!"},
-    {title:"💬 Wise Words", text:"'Education is the most powerful weapon to change the world.' — Nelson Mandela"},
-    {title:"🔬 Science Fun", text:"Water can boil and freeze at the same temperature!"},
-    {title:"🌟 Amazing Fact", text:"A day on Venus is longer than its year!"},
-    {title:"🧠 Keep Learning", text:"Your brain uses about 20% of your body's total energy!"},
-    {title:"✨ Inspiration", text:"Small progress is still progress — keep going!"},
-    {title:"🌏 World Facts", text:"There are more trees on Earth than stars in the Milky Way galaxy!"},
-    {title:"💪 You Can Do It!", text:"Every expert was once a beginner — never stop learning!"}
-];
-
-let currentAdIndex = 0;
-
-// ==============================================
-// ✅ QUIZZES
-// ==============================================
-const quizzes = {
-    kids: [
-        {q:"What is 2 + 3?", a:["4","5","6","7"], correct:1},
-        {q:"How many legs does a cat have?", a:["2","4","6","8"], correct:1},
-        {q:"Color of sky on sunny day?", a:["Blue","Green","Purple","Orange"], correct:0},
-        {q:"Which is largest animal?", a:["Elephant","Whale","Giraffe","Lion"], correct:1}
-    ],
-    teen: [
-        {q:"Capital of France?", a:["London","Berlin","Paris","Madrid"], correct:2},
-        {q:"Water chemical symbol?", a:["WA","H2O","O2","HO"], correct:1},
-        {q:"How many continents?", a:["5","6","7","8"], correct:2},
-        {q:"Planet closest to Sun?", a:["Venus","Mars","Mercury","Earth"], correct:2}
-    ],
-    adult: [
-        {q:"What is Bitcoin?", a:["A country","A cryptocurrency","A bank","A game"], correct:1},
-        {q:"What is inflation?", a:["Rise in prices","Fall in prices","No change","Free money"], correct:0},
-        {q:"What is diversification?", a:["Buy 1 stock","Spread investments","Trade daily","Sell all"], correct:1},
-        {q:"Compound interest means?", a:["Interest once","Interest on interest","Fixed bonus","One-time pay"], correct:1}
-    ]
-};
-
-let currentQuiz = [], quizIndex = 0;
-let timerInterval = null;
-
-// ==============================================
-// ✅ START GAME
-// ==============================================
-function startGame(ageGroup){
-    player.ageGroup = ageGroup;
-    currentQuiz = [...quizzes[ageGroup]].sort(()=>Math.random()-0.5);
-    quizIndex = 0;
-    currentAdIndex = 0;
-    
-    document.getElementById('screen-welcome').classList.add('hidden');
-    document.getElementById('screen-game').classList.remove('hidden');
-    updateDisplay();
-    showQuestion();
-    startAutoTimer();
-}
-
-// ==============================================
-// ✅ SHOW AD CONTENT
-// ==============================================
-function showNextAd(){
-    const ad = adContent[currentAdIndex];
-    document.getElementById('ad-title').textContent = ad.title;
-    document.getElementById('ad-text').textContent = ad.text;
-    document.getElementById('ad-reward-text').textContent = "Earn: £" + (FULL_REWARD * USER_GETS).toFixed(4);
-    currentAdIndex = (currentAdIndex + 1) % adContent.length;
-}
-
-// ==============================================
-// ✅ QUIZ SYSTEM
-// ==============================================
-function showQuestion(){
-    if(quizIndex >= currentQuiz.length){
-        currentQuiz = [...quizzes[player.ageGroup]].sort(()=>Math.random()-0.5);
-        quizIndex = 0;
-    }
-    const q = currentQuiz[quizIndex]; quizIndex++;
-    
-    document.getElementById('question-text').textContent = q.q;
-    const box = document.getElementById('options-box');
-    box.innerHTML = '';
-    
-    q.a.forEach((opt, i)=>{
-        const btn = document.createElement('button');
-        btn.className = 'quiz-option';
-        btn.textContent = opt;
-        btn.onclick = ()=>selectAnswer(i, q.correct, btn);
-        box.appendChild(btn);
-    });
-}
-
-function selectAnswer(selected, correct, btn){
-    document.querySelectorAll('.quiz-option').forEach(b=>b.disabled=true);
-    
-    if(selected === correct){
-        btn.classList.add('correct');
-        player.streak++;
-        player.balance += FULL_REWARD * USER_GETS;
-    }else{
-        btn.classList.add('wrong');
-        player.streak = 0;
-    }
-    
-    player.level = Math.floor(player.balance * 1000) + 1;
-    updateDisplay();
-    setTimeout(showQuestion, 1200);
-}
-
-// ==============================================
-// ✅ AUTO TIMER — WITH AD DISPLAY + AUTO-RESTART
-// ==============================================
-function startAutoTimer(){
-    if(player.timerActive) return;
-    player.timerActive = true;
-    
-    showNextAd(); // ✅ Show fresh ad every cycle
-    
-    let timeLeft = COOLDOWN;
-    const timerEl = document.getElementById('countdown');
-    const statusEl = document.getElementById('timer-status');
-    const progressBar = document.getElementById('progress-bar');
-    
-    statusEl.textContent = "👀 Watch content to earn...";
-    timerEl.textContent = timeLeft;
-    progressBar.style.width = '0%';
-    
-    timerInterval = setInterval(()=>{
-        timeLeft--;
-        timerEl.textContent = timeLeft;
-        progressBar.style.width = `${((COOLDOWN - timeLeft)/COOLDOWN)*100}%`;
-        
-        if(timeLeft <= 0){
-            clearInterval(timerInterval);
-            
-            // ✅ Add reward to player
-            player.balance += FULL_REWARD * USER_GETS;
-            player.streak++;
-            player.level = Math.floor(player.balance * 1000) + 1;
-            updateDisplay();
-            
-            statusEl.textContent = "✅ Reward added! Next content in 2s...";
-            
-            // ✅ Auto-restart with NEW ad — forever!
-            setTimeout(()=>{
-                player.timerActive = false;
-                startAutoTimer();
-            }, 2000);
+        function showTab(tab) {
+            document.getElementById('login-form').classList.add('hidden');
+            document.getElementById('register-form').classList.add('hidden');
+            document.getElementById('admin-login-form').classList.add('hidden');
+            document.getElementById('login-tab').classList.remove('active');
+            document.getElementById('register-tab').classList.remove('active');
+            if(tab === 'login') { document.getElementById('login-form').classList.remove('hidden'); document.getElementById('login-tab').classList.add('active'); }
+            else if(tab === 'register') { document.getElementById('register-form').classList.remove('hidden'); document.getElementById('register-tab').classList.add('active'); }
+            else if(tab === 'admin-login') { document.getElementById('admin-login-form').classList.remove('hidden'); }
         }
-    }, 1000);
-}
 
-// ==============================================
-// ✅ WITHDRAW — £1 → PayPal
-// ==============================================
-function withdraw(){
-    if(player.balance < MIN_WITHDRAW){
-        alert(`Need £${MIN_WITHDRAW.toFixed(2)} minimum to withdraw.\nYou have: £${player.balance.toFixed(4)}`);
-        return;
-    }
-    
-    const confirmWithdraw = confirm(
-        `Withdraw £${player.balance.toFixed(4)} to PayPal?`
-    );
-    
-    if(confirmWithdraw){
-        alert("✅ Withdrawal request submitted!\n\nFunds will be sent to your PayPal account.");
-        player.balance = 0;
-        player.streak = 0;
-        updateDisplay();
-    }
-}
+        function register() {
+            const username = document.getElementById('reg-username').value.trim();
+            const password = document.getElementById('reg-password').value;
+            const paypal = document.getElementById('reg-paypal').value.trim();
+            if(!username || !password || !paypal) { alert('Please fill in ALL fields!'); return; }
+            const users = getUsers();
+            if(users[username]) { alert('Username already taken! Try another.'); return; }
+            users[username] = { password, paypal, balance: 0, totalEarned: 0, joined: new Date().toISOString() };
+            saveUsers(users);
+            setCurrentUser(username);
+            alert('Account created successfully! 🎉');
+            showMainScreen(username);
+        }
 
-// ==============================================
-// ✅ UPDATE DISPLAY
-// ==============================================
-function updateDisplay(){
-    const balStr = '£' + player.balance.toFixed(4);
-    document.getElementById('display-balance').textContent = balStr;
-    document.getElementById('game-balance').textContent = balStr;
-    document.getElementById('player-level').textContent = player.level;
-    document.getElementById('streak').textContent = player.streak;
-    
-    const withdrawBtn = document.getElementById('withdraw-btn');
-    withdrawBtn.disabled = player.balance < MIN_WITHDRAW;
-}
+        function login() {
+            const username = document.getElementById('login-username').value.trim();
+            const password = document.getElementById('login-password').value;
+            const users = getUsers();
+            if(!users[username] || users[username].password !== password) { alert('Incorrect username or password!'); return; }
+            setCurrentUser(username);
+            showMainScreen(username);
+        }
 
-function goHome(){
-    if(timerInterval) clearInterval(timerInterval);
-    player.timerActive = false;
-    if(confirm('Go back home? Progress saved.')){
-        document.getElementById('screen-game').classList.add('hidden');
-        document.getElementById('screen-welcome').classList.remove('hidden');
-    }
-}
-</script>
+        function adminLogin() {
+            const user = document.getElementById('admin-username').value.trim();
+            const pass = document.getElementById('admin-password').value;
+            if(user === ADMIN_USERNAME && pass === ADMIN_PASSWORD) { showAdminScreen(); }
+            else { alert('Admin login failed!'); }
+        }
+
+        function showMainScreen(username) {
+            document.getElementById('auth-screen').classList.add('hidden');
+            document.getElementById('withdraw-screen').classList.add('hidden');
+            document.getElementById('admin-screen').classList.add('hidden');
+            document.getElementById('main-screen').classList.remove('hidden');
+            const users = getUsers();
+            const u = users[username];
+            document.getElementById('user-greeting').innerHTML = `Welcome, <strong>${username}</strong>! 🌟`;
+            updateBalanceDisplay(u);
+        }
+
+        function updateBalanceDisplay(user) {
+            document.getElementById('user-balance').textContent = `£${user.balance.toFixed(2)}`;
+            document.getElementById('total-earned').textContent = `£${user.totalEarned.toFixed(2)}`;
+            document.getElementById('user-share').textContent = `£${(user.totalEarned / 2).toFixed(2)}`;
+            document.getElementById('admin-share').textContent = `£${(user.totalEarned / 2).toFixed(2)}`;
+        }
+
+        function showAdminScreen() {
+            document.getElementById('auth-screen').classList.add('hidden');
+            document.getElementById('main-screen').classList.add('hidden');
+            document.getElementById('admin-screen').classList.remove('hidden');
+            document.getElementById('admin-total').textContent = `£${getAdminTotal().toFixed(2)}`;
+            const users = getUsers();
+            let html = '';
+            for(let uname in users) {
+                html += `<div style="padding:10px;border-bottom:1px solid #333;"><strong>${uname}</strong><br>Balance: £${users[uname].balance.toFixed(2)}<br>PayPal: ${users[uname].paypal}</div>`;
+            }
+            document.getElementById('all-users-list').innerHTML = html || '<p>No registered users yet.</p>';
+        }
+
+        function adminWithdraw() {
+            const total = getAdminTotal();
+            if(total < 5) { alert(`Minimum withdrawal is £5.00. You currently have £${total.toFixed(2)}`); return; }
+            if(confirm(`Withdraw ALL £${total.toFixed(2)} to ${ADMIN_PAYPAL}?`)) {
+                setAdminTotal(0);
+                alert('Admin withdrawal recorded! ✅');
+                showAdminScreen();
+            }
+        }
+
+        function showWithdraw() {
+            const username = getCurrentUser();
+            if(!username) return;
+            const users = getUsers();
+            const u = users[username];
+            document.getElementById('main-screen').classList.add('hidden');
+            document.getElementById('withdraw-screen').classList.remove('hidden');
+            document.getElementById('withdraw-balance').textContent = `£${u.balance.toFixed(2)}`;
+            if(u.paypal) {
+                document.getElementById('paypal-email-notset').classList.add('hidden');
+                document.getElementById('paypal-email-set').classList.remove('hidden');
+                document.getElementById('paypal-email-set').textContent = u.paypal;
+            } else {
+                document.getElementById('paypal-email-notset').classList.remove('hidden');
+                document.getElementById('paypal-email-set').classList.add('hidden');
+            }
+        }
+
+        function savePayPal() {
+            const email = document.getElementById('new-paypal').value.trim();
+            if(!email) { alert('Please enter a PayPal email!'); return; }
+            const username = getCurrentUser();
+            const users = getUsers();
+            users[username].paypal = email;
+            saveUsers(users);
+            alert('PayPal email saved! ✅');
+            showWithdraw();
+        }
+
+        function requestWithdraw() {
+            const amount = parseFloat(document.getElementById('withdraw-amount').value);
+            const username = getCurrentUser();
+            const users = getUsers();
+            const u = users[username];
+            if(isNaN(amount) || amount < 5) { alert('Minimum withdrawal is £5.00'); return; }
+            if(amount > u.balance) { alert(`You only have £${u.balance.toFixed(2)} available!`); return; }
+            if(!u.paypal) { alert('Please set your PayPal email first!'); return; }
+            if(confirm(`Withdraw £${amount.toFixed(2)} to ${u.paypal}?`)) {
+                u.balance = parseFloat((u.balance - amount).toFixed(2));
+                saveUsers(users);
+                alert(`Withdrawal of £${amount.toFixed(2)} requested! ✅`);
+                backToMain();
+            }
+        }
+
+        function backToMain() { showMainScreen(getCurrentUser()); }
+
+        let currentQuestion = 0, score = 0, timer, timeLeft, currentCategory = '';
+        const questions = {
+            '5-12': [
+                {q:"What is 2 + 3?", opts:[4,5,6,7], correct:1},
+                {q:"Which planet is closest to the Sun?", opts:["Venus","Mercury","Earth","Mars"], correct:1},
+                {q:"How many days in one week?", opts:[5,6,7,8], correct:2},
+                {q:"What color is the sky on a sunny day?", opts:["Blue","Green","Purple","Orange"], correct:0},
+                {q:"10 × 2 = ?", opts:[12,20,25,5], correct:1}
+            ],
+            '13-17': [
+                {q:"What is the capital of France?", opts:["London","Berlin","Paris","Madrid"], correct:2},
+                {q:"What is the chemical symbol for water?", opts:["WA","H2O","O2","CO2"], correct:1},
+                {q:"Solve: 3x = 15 → x = ?", opts:[3,4,5,6], correct:2},
+                {q:"Which gas do plants absorb?", opts:["Oxygen","Nitrogen","Carbon Dioxide","Hydrogen"], correct:2},
+                {q:"What is √81?", opts:[7,8,9,10], correct:2}
+            ],
+            '18+': [
+                {q:"What is compound interest?", opts:["Interest on principal only","Interest on principal + accumulated interest","Fixed rate only","Bank fee"], correct:1},
+                {q:"Which is a healthy financial habit?", opts:["Spend first save later","Save first spend what's left","Borrow everything","Never budget"], correct:1},
+                {q:"What is diversification in investing?", opts:["Put all money in one stock","Spread investments across different assets","Keep all money in cash","Buy only crypto"], correct:1},
+                {q:"What is an emergency fund?", opts:["Money for holidays","3–6 months of expenses saved","Credit card limit","Savings for a car"], correct:1},
+                {q:"Inflation means...", opts:["Prices go down over time","Money buys less over time","Interest rates fall","Wages always rise"], correct:1}
+            ]
+        };
+
+        function startGame(category) {
+            currentCategory = category;
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('age-selection').classList.add('hidden');
+            document.getElementById('quiz-area').classList.remove('hidden');
+            nextQuestion();
+        }
+
+        function nextQuestion() {
+            const qs = questions[currentCategory];
+            if(currentQuestion >= qs.length) { endGame(); return; }
+            const q = qs[currentQuestion];
+            document.getElementById('question-text').textContent = q.q;
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            q.opts.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-option';
+                btn.textContent = opt;
+                btn.onclick = () => selectAnswer(idx, q.correct);
+                container.appendChild(btn);
+            });
+            timeLeft = 30;
+            document.getElementById('timer').textContent = timeLeft;
+            document.getElementById('progress-bar').style.width = '0%';
+            currentQuestion++;
+            clearInterval(timer);
+            timer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').textContent = timeLeft;
+                document.getElementById('progress-bar').style.width = `${((30-timeLeft)/30)*100}%`;
+                if(timeLeft <= 0) { clearInterval(timer); selectAnswer(-1, -1); }
+            }, 1000);
+        }
+
+        function selectAnswer(selectedIdx, correctIdx) {
+            clearInterval(timer);
+            const buttons = document.querySelectorAll('.quiz-option');
+            buttons.forEach((btn, idx) => {
+                btn.style.pointerEvents = 'none';
+                if(idx === correctIdx) btn.classList.add('correct');
+                else if(idx === selectedIdx && selectedIdx !== correctIdx) btn.classList.add('wrong');
+            });
+            if(selectedIdx === correctIdx) {
+                score++;
+                const earnedAmount = 0.10;
+                const userShare = earnedAmount / 2;
+                const adminShare = earnedAmount / 2;
+                const username = getCurrentUser();
+                const users = getUsers();
+                users[username].balance += userShare;
+                users[username].totalEarned += earnedAmount;
+                saveUsers(users);
+                setAdminTotal(getAdminTotal() + adminShare);
+            }
+            setTimeout(() => {
+                buttons.forEach(btn => { btn.classList.remove('correct','wrong'); btn.style.pointerEvents = 'auto'; });
+                nextQuestion();
+            }, 1200);
+        }
+
+        function endGame() {
+            document.getElementById('quiz-area').classList.add('hidden');
+            document.getElementById('age-selection').classList.remove('hidden');
+            const username = getCurrentUser();
+            if(username) { const users = getUsers(); updateBalanceDisplay(users[username]); }
+            alert(`Game Over!\n\nScore: ${score}/5\n\nYou earned £${(score * 0.05).toFixed(2)} added to your balance! 🎉`);
+        }
+
+        function logout() {
+            localStorage.removeItem('learnAndEarn_currentUser');
+            document.getElementById('auth-screen').classList.remove('hidden');
+            document.getElementById('main-screen').classList.add('hidden');
+            document.getElementById('withdraw-screen').classList.add('hidden');
+            document.getElementById('admin-screen').classList.add('hidden');
+            showTab('login');
+        }
+
+        window.onload = function() {
+            const user = getCurrentUser();
+            if(user && getUsers()[user]) { showMainScreen(user); }
+        };
+    </script>
 </body>
 </html>
