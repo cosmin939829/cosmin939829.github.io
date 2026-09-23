@@ -1,1608 +1,1071 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>Play & Learn UK 🎓</title>
+<title>Learn & Grow</title>
 
 <style>
-
-*{
-box-sizing:border-box
+* {
+    box-sizing: border-box;
 }
 
-body{
-margin:0;
-font-family:system-ui,-apple-system,Segoe UI,sans-serif;
-background:#f3f5fa;
-color:#172033
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    color: #172033;
 }
 
-header{
-background:linear-gradient(135deg,#1769e0,#5b42d6);
-color:#fff;
-padding:22px 16px;
-position:sticky;
-top:0;
-z-index:5
+header {
+    background: linear-gradient(135deg, #075bea, #173bbd);
+    color: white;
+    padding: 25px;
+    text-align: center;
 }
 
-header h1{
-margin:0 0 5px;
-font-size:28px
+header h1 {
+    margin: 0;
+    font-size: 30px;
 }
 
-header p{
-margin:0;
-opacity:.92
+header p {
+    margin: 8px 0 0;
+    opacity: .9;
 }
 
-nav{
-display:flex;
-gap:8px;
-flex-wrap:wrap;
-margin-top:15px
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 25px;
 }
 
-nav button{
-border:0;
-border-radius:999px;
-padding:10px 16px;
-background:#fff;
-color:#2456bb;
-font-weight:900;
-cursor:pointer
+.section-title {
+    margin-top: 20px;
+    margin-bottom: 15px;
 }
 
-main{
-max-width:1200px;
-margin:22px auto;
-padding:0 14px
+.section-title h2 {
+    margin-bottom: 5px;
 }
 
-.section{
-display:none
+.section-title p {
+    color: #64748b;
 }
 
-.section.active{
-display:block
+.lesson-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 18px;
 }
 
-.grid{
-display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(250px,1fr));
-gap:14px
+.lesson-card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 18px rgba(0,0,0,.08);
+    border: 1px solid #e4e9f2;
 }
 
-.card{
-background:#fff;
-border-radius:18px;
-padding:18px;
-box-shadow:0 4px 18px #00000010;
-border-top:4px solid #315fd4
+.lesson-icon {
+    font-size: 35px;
+    margin-bottom: 10px;
 }
 
-.card h3{
-margin:8px 0
+.lesson-card h3 {
+    margin: 5px 0 10px;
 }
 
-.card p{
-color:#647084;
-min-height:55px
+.lesson-card p {
+    color: #667085;
+    min-height: 55px;
 }
 
-.play{
-width:100%;
-border:0;
-background:#1467dc;
-color:#fff;
-border-radius:10px;
-padding:12px;
-font-weight:900;
-cursor:pointer
+.learn-btn {
+    width: 100%;
+    border: 0;
+    background: #1261e8;
+    color: white;
+    padding: 13px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
 }
 
-.play:hover{
-background:#0c55bb
+.learn-btn:hover {
+    background: #084dcc;
 }
 
-/* MODAL */
+/* LESSON MODAL */
 
-.modal{
-position:fixed;
-inset:0;
-background:#0009;
-display:none;
-align-items:center;
-justify-content:center;
-padding:15px;
-z-index:20
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.75);
+    z-index: 1000;
+    padding: 20px;
+    overflow-y: auto;
 }
 
-.modal.show{
-display:flex
+.modal-box {
+    max-width: 850px;
+    margin: 20px auto;
+    background: linear-gradient(135deg,#075bea,#1745c5);
+    border-radius: 18px;
+    color: white;
+    padding: 25px;
+    position: relative;
 }
 
-.panel{
-width:min(900px,100%);
-max-height:94vh;
-overflow:auto;
-background:#fff;
-border-radius:22px;
-padding:22px;
-position:relative
+.close-btn {
+    position: absolute;
+    right: 15px;
+    top: 12px;
+    border: 0;
+    background: white;
+    color: #111;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    font-size: 22px;
+    cursor: pointer;
 }
 
-.close{
-position:absolute;
-right:15px;
-top:10px;
-border:0;
-background:none;
-font-size:30px;
-cursor:pointer;
-z-index:3
+.lesson-number {
+    display: inline-block;
+    background: rgba(255,255,255,.2);
+    padding: 7px 15px;
+    border-radius: 20px;
+    font-weight: bold;
 }
 
-.lesson{
-background:linear-gradient(135deg,#243c8d,#164fa8);
-color:#fff;
-border-radius:18px;
-padding:25px;
-text-align:center
+.progress {
+    height: 9px;
+    background: rgba(255,255,255,.25);
+    border-radius: 10px;
+    margin: 18px 0;
+    overflow: hidden;
 }
 
-.lesson-icon{
-font-size:55px;
-margin-bottom:5px
+.progress-bar {
+    height: 100%;
+    background: white;
+    width: 50%;
 }
 
-.lesson h2{
-margin:8px 0
+.lesson-content {
+    background: rgba(255,255,255,.12);
+    padding: 18px;
+    border-radius: 13px;
+    margin-top: 15px;
 }
 
-.explanation{
-background:#ffffff14;
-padding:18px;
-border-radius:15px;
-text-align:left;
-line-height:1.6;
-margin-top:15px
+.video-btn {
+    display: block;
+    margin: 18px auto;
+    background: #ff1744;
+    color: white;
+    border: 0;
+    padding: 14px 25px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-.video-button{
-display:inline-block;
-margin-top:15px;
-padding:13px 20px;
-border-radius:12px;
-background:#ff304f;
-color:#fff;
-text-decoration:none;
-font-weight:900
+/* VIDEO MODAL */
+
+.video-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: rgba(0,0,0,.9);
+    padding: 20px;
 }
 
-.video-button:hover{
-background:#d91f3b
+.video-box {
+    max-width: 900px;
+    margin: 30px auto;
+    background: #111;
+    border-radius: 15px;
+    padding: 15px;
+    position: relative;
 }
 
-.quiz{
-margin-top:20px;
-background:#ffffff14;
-padding:18px;
-border-radius:15px
+.video-box iframe {
+    width: 100%;
+    height: 500px;
+    border: 0;
+    border-radius: 10px;
 }
 
-.answers{
-display:flex;
-gap:10px;
-justify-content:center;
-flex-wrap:wrap;
-margin-top:18px
+.video-close {
+    position: absolute;
+    right: 10px;
+    top: -45px;
+    background: white;
+    color: black;
+    border: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    font-size: 22px;
+    cursor: pointer;
 }
 
-.answer{
-border:0;
-border-radius:12px;
-padding:12px 18px;
-cursor:pointer;
-font-weight:900;
-background:#fff;
-color:#26344d
+/* QUIZ */
+
+.quiz {
+    background: rgba(255,255,255,.12);
+    padding: 20px;
+    border-radius: 14px;
+    margin-top: 20px;
 }
 
-.answer:hover{
-transform:translateY(-1px)
+.answer-btn {
+    background: white;
+    color: #172033;
+    border: 0;
+    padding: 11px 18px;
+    margin: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
 }
 
-.answer:disabled{
-opacity:.55;
-cursor:default
+.answer-btn:hover {
+    background: #e7efff;
 }
 
-.feedback{
-min-height:38px;
-margin-top:16px;
-font-size:20px;
-font-weight:900
+.feedback {
+    margin-top: 15px;
+    font-weight: bold;
 }
 
-.correct{
-color:#39e07b
+/* AD */
+
+.ad-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.8);
+    z-index: 3000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
 }
 
-.wrong{
-color:#ff7168
+.ad-box {
+    background: white;
+    color: #222;
+    width: 100%;
+    max-width: 500px;
+    min-height: 300px;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
 }
 
-.next{
-margin-top:15px;
-border:0;
-border-radius:10px;
-padding:11px 20px;
-font-weight:900;
-display:none;
-cursor:pointer
+.ad-label {
+    color: #888;
+    font-size: 12px;
+    margin-bottom: 15px;
 }
 
-.progress{
-height:12px;
-background:#ffffff30;
-border-radius:20px;
-overflow:hidden;
-margin:15px 0
+.ad-space {
+    min-height: 170px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f4f4f4;
+    border-radius: 10px;
+    margin-bottom: 20px;
 }
 
-.progress i{
-display:block;
-height:100%;
-background:#39e07b;
-width:0%
+.continue-btn {
+    border: 0;
+    background: #1261e8;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-.badge{
-display:inline-block;
-padding:6px 12px;
-border-radius:999px;
-background:#ffffff20;
-font-weight:900;
-margin-bottom:10px
+@media(max-width:700px) {
+
+    .modal-box {
+        margin: 5px auto;
+        padding: 18px;
+    }
+
+    .video-box iframe {
+        height: 250px;
+    }
+
+    header h1 {
+        font-size: 24px;
+    }
 }
-
-/* ADVERTISEMENT */
-
-.ad-overlay{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.78);
-display:none;
-align-items:center;
-justify-content:center;
-padding:15px;
-z-index:100
-}
-
-.ad-overlay.show{
-display:flex
-}
-
-.ad-box{
-width:min(500px,95%);
-background:#fff;
-border-radius:22px;
-padding:25px;
-text-align:center;
-box-shadow:0 20px 70px #000
-}
-
-.ad-label{
-font-size:12px;
-color:#888;
-margin-bottom:8px
-}
-
-.ad-title{
-font-size:24px;
-font-weight:900;
-margin:10px 0
-}
-
-.ad-space{
-min-height:250px;
-border:2px dashed #ccd4e2;
-border-radius:15px;
-display:flex;
-align-items:center;
-justify-content:center;
-color:#8993a4;
-margin:18px 0;
-padding:20px
-}
-
-.continue{
-border:0;
-background:#1467dc;
-color:#fff;
-padding:13px 25px;
-border-radius:12px;
-font-weight:900;
-cursor:pointer
-}
-
-.continue:disabled{
-opacity:.5;
-cursor:not-allowed
-}
-
-.timer{
-font-weight:900;
-color:#1467dc;
-margin-top:10px
-}
-
-footer{
-text-align:center;
-padding:35px 15px;
-color:#687386
-}
-
-.small{
-font-size:13px;
-opacity:.85
-}
-
-.home-info{
-background:#fff;
-border-radius:18px;
-padding:20px;
-margin-bottom:20px;
-box-shadow:0 4px 18px #00000010
-}
-
-.warning{
-background:#fff7df;
-border-left:5px solid #e3aa16;
-padding:15px;
-border-radius:10px;
-margin-top:15px;
-color:#594500
-}
-
 </style>
-
 </head>
 
 <body>
 
 <header>
-
-<h1>🎓 Play & Learn UK</h1>
-
-<p>
-Learn through games, lessons, explanations and videos.
-</p>
-
-<nav>
-
-<button onclick="showSection('kids')">
-🧒 Kids Learning
-</button>
-
-<button onclick="showSection('adults')">
-🧑 Adult Learning
-</button>
-
-</nav>
-
+    <h1>📚 Learn & Grow</h1>
+    <p>Learn useful skills through lessons, videos and quizzes</p>
 </header>
 
+<div class="container">
 
-<main>
+    <!-- ADULT SECTION -->
 
-<!-- ================= KIDS ================= -->
+    <div class="section-title">
+        <h2>🧑 Adult Learning</h2>
+        <p>Learn practical skills for business, money and personal development.</p>
+    </div>
 
-<section id="kids" class="section active">
-
-<div class="home-info">
-
-<h2>🧒 Kids Learning Academy</h2>
-
-<p>
-Fun school-style lessons designed to help children
-learn important subjects through questions,
-explanations and interactive challenges.
-</p>
-
-</div>
-
-<div id="kidsGrid" class="grid"></div>
-
-</section>
+    <div class="lesson-grid" id="adultLessons"></div>
 
 
-<!-- ================= ADULTS ================= -->
+    <!-- KIDS SECTION -->
 
-<section id="adults" class="section">
+    <div class="section-title">
+        <h2>👦 Kids Education</h2>
+        <p>Fun educational lessons to help children learn.</p>
+    </div>
 
-<div class="home-info">
-
-<h2>🧑 Adult Learning Academy</h2>
-
-<p>
-Learn practical skills step by step — from
-understanding money and trading to starting
-and growing a business.
-</p>
-
-<div class="warning">
-
-<strong>📚 Educational content:</strong>
-
-Trading and finance lessons are for education only.
-They do not provide personal financial advice
-and do not connect to a broker or exchange.
-
-</div>
-
-</div>
-
-<div id="adultGrid" class="grid"></div>
-
-</section>
-
-</main>
-
-
-<footer>
-
-🎓 Play & Learn UK
-
-<br>
-
-<span class="small">
-Learn • Practice • Improve
-</span>
-
-</footer>
-
-
-<!-- ================= LESSON MODAL ================= -->
-
-<div id="modal" class="modal">
-
-<div class="panel">
-
-<button class="close" onclick="closeLesson()">×</button>
-
-<div id="lessonContent"></div>
-
-</div>
+    <div class="lesson-grid" id="kidsLessons"></div>
 
 </div>
 
 
-<!-- ================= ADVERTISEMENT ================= -->
+<!-- LESSON MODAL -->
 
-<div id="adOverlay" class="ad-overlay">
+<div class="modal" id="lessonModal">
 
-<div class="ad-box">
+    <div class="modal-box">
 
-<div class="ad-label">
-ADVERTISEMENT
-</div>
+        <button class="close-btn" onclick="closeLesson()">×</button>
 
-<div class="ad-title">
-🎮 Thanks for learning!
-</div>
+        <div class="lesson-number" id="lessonNumber">
+            Lesson 1 of 10
+        </div>
 
-<div class="ad-space">
+        <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
 
-<!--
-====================================================
-REAL AD GOES HERE
-====================================================
+        <h1 id="lessonTitle"></h1>
 
-When you receive your real advertising-network code,
-replace this area with the provider's official ad code.
+        <div class="lesson-content">
+            <h3>📖 Learn:</h3>
 
-Do NOT invent an ad-network ID.
+            <p id="lessonText"></p>
+        </div>
 
-====================================================
--->
+        <button class="video-btn" onclick="openVideo()">
+            ▶ Watch Video Explanation
+        </button>
 
-Advertisement
+        <div class="quiz">
 
-<br>
+            <h3>🧠 Check What You Learned</h3>
 
-Your advertisement will appear here.
+            <p id="question"></p>
 
-</div>
+            <div id="answers"></div>
 
-<button
-id="continueButton"
-class="continue"
-onclick="closeAd()"
-disabled>
+            <div class="feedback" id="feedback"></div>
 
-Please wait...
+        </div>
 
-</button>
-
-<div
-id="adCountdown"
-class="timer">
-
-Advertisement loading...
+    </div>
 
 </div>
 
+
+<!-- VIDEO MODAL -->
+
+<div class="video-modal" id="videoModal">
+
+    <div class="video-box">
+
+        <button class="video-close" onclick="closeVideo()">×</button>
+
+        <iframe
+            id="videoFrame"
+            src=""
+            title="Learning Video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+        </iframe>
+
+    </div>
+
 </div>
+
+
+<!-- AD MODAL -->
+
+<div class="ad-modal" id="adModal">
+
+    <div class="ad-box">
+
+        <div class="ad-label">
+            Advertisement
+        </div>
+
+        <h2>📚 Keep Learning!</h2>
+
+        <div class="ad-space">
+
+            <!--
+            PUT YOUR REAL AD CODE HERE.
+
+            Example:
+
+            <div id="your-ad-code">
+                YOUR AD NETWORK CODE
+            </div>
+            -->
+
+            <span>Your advertisement will appear here.</span>
+
+        </div>
+
+        <button class="continue-btn" onclick="closeAd()">
+            Continue Learning ▶
+        </button>
+
+    </div>
 
 </div>
 
 
 <script>
 
-/* =====================================================
-   LEARNING COURSES
-===================================================== */
+/* =========================================================
+   ADULT LESSONS
+========================================================= */
 
-
-/* ================= KIDS ================= */
-
-const kids=[
+const adultLessons = [
 
 {
-id:'kidsMath',
-icon:'🔢',
-title:'Math Master',
-description:'Learn addition, subtraction, multiplication and division.',
-video:'https://www.youtube.com/results?search_query=kids+math+addition+subtraction+multiplication',
-lessons:[
-{
-title:'Addition',
-text:'Addition means putting numbers together. For example, 2 + 3 = 5. Start by counting objects and then learn to add bigger numbers.',
-question:'What is 7 + 5?',
-answers:['10','12','14'],
-correct:1
-},
-{
-title:'Multiplication',
-text:'Multiplication is repeated addition. 3 × 4 means three groups of four, which gives 12.',
-question:'What is 3 × 4?',
-answers:['7','10','12'],
-correct:2
-}
-]
+    title: "How Trading Works",
+    icon: "📈",
+    description: "Understand buying, selling, price movements and risk.",
+    text: "Trading means buying and selling an asset with the aim of benefiting from price movements. Prices can rise or fall, and losses are possible.",
+    question: "What can happen to a traded asset price?",
+    answers: [
+        "It can only rise",
+        "It can only fall",
+        "It can rise or fall"
+    ],
+    correct: 2,
+
+    /* Replace this video ID with your own video */
+    video: "VIDEO_ID_1"
 },
 
 {
-id:'kidsEnglish',
-icon:'📖',
-title:'English Explorer',
-description:'Learn grammar, sentences, reading and vocabulary.',
-video:'https://www.youtube.com/results?search_query=kids+English+grammar+lesson',
-lessons:[
-{
-title:'Nouns',
-text:'A noun is a person, place, animal or thing. Examples include teacher, London, dog and book.',
-question:'Which word is a noun?',
-answers:['Run','Apple','Quickly'],
-correct:1
-},
-{
-title:'Verbs',
-text:'A verb is an action or state. Examples include run, jump, read, write and sleep.',
-question:'Which word is a verb?',
-answers:['Jump','Blue','House'],
-correct:0
-}
-]
+    title: "Understanding Trading Charts",
+    icon: "📊",
+    description: "Learn candles, trends, support and resistance.",
+    text: "Charts show how prices have moved over time. Candlesticks can help traders study price movements and identify possible trends.",
+    question: "What does a chart show?",
+    answers: [
+        "Price information",
+        "Only the weather",
+        "Nothing useful"
+    ],
+    correct: 0,
+    video: "VIDEO_ID_2"
 },
 
 {
-id:'kidsAlphabet',
-icon:'🔤',
-title:'Alphabet & Spelling',
-description:'Learn letters, sounds and spelling.',
-video:'https://www.youtube.com/results?search_query=alphabet+phonics+for+kids',
-lessons:[
-{
-title:'Letter Sounds',
-text:'Letters represent sounds. Learning the sound of each letter helps children read and spell words.',
-question:'Which word starts with B?',
-answers:['Ball','Apple','Orange'],
-correct:0
-},
-{
-title:'Spelling',
-text:'Breaking a word into sounds can make spelling easier. Say the word slowly and listen to each sound.',
-question:'Which spelling is correct?',
-answers:['Skool','School','Scool'],
-correct:1
-}
-]
+    title: "Risk Management",
+    icon: "🛡️",
+    description: "Learn why protecting your money matters.",
+    text: "Risk management means deciding how much money you are willing to risk before entering a trade. Never assume a trade is guaranteed to make money.",
+    question: "Why is risk management important?",
+    answers: [
+        "To eliminate every loss",
+        "To control potential losses",
+        "To guarantee profit"
+    ],
+    correct: 1,
+    video: "VIDEO_ID_3"
 },
 
 {
-id:'kidsScience',
-icon:'🔬',
-title:'Science Explorer',
-description:'Learn about animals, space, plants, Earth and science.',
-video:'https://www.youtube.com/results?search_query=science+for+kids+space+animals+plants',
-lessons:[
-{
-title:'The Solar System',
-text:'The Solar System contains the Sun and the objects that orbit it, including planets, moons, asteroids and comets.',
-question:'Which planet is known as the Red Planet?',
-answers:['Mars','Venus','Jupiter'],
-correct:0
-},
-{
-title:'Plants',
-text:'Plants need water, light and suitable nutrients to grow. Leaves help plants use sunlight to make food.',
-question:'What do plants need from sunlight?',
-answers:['Energy','Shoes','Sound'],
-correct:0
-}
-]
+    title: "How to Start a Business",
+    icon: "💼",
+    description: "Learn how to start a business from scratch.",
+    text: "Starting a business begins with identifying a problem, creating a useful solution, understanding customers and planning how the business will make money.",
+    question: "What should you understand before starting a business?",
+    answers: [
+        "Your customers and their needs",
+        "Only your logo",
+        "Only your business name"
+    ],
+    correct: 0,
+    video: "VIDEO_ID_4"
 },
 
 {
-id:'kidsGeography',
-icon:'🌍',
-title:'Geography Explorer',
-description:'Learn countries, cities, continents and oceans.',
-video:'https://www.youtube.com/results?search_query=geography+for+kids+continents+oceans',
-lessons:[
-{
-title:'Continents',
-text:'Earth is commonly divided into seven continents: Africa, Antarctica, Asia, Europe, North America, South America and Australia.',
-question:'Which continent is the UK in?',
-answers:['Europe','Asia','Africa'],
-correct:0
-},
-{
-title:'Oceans',
-text:'Oceans cover most of Earth. The Pacific Ocean is the largest ocean.',
-question:'Which is the largest ocean?',
-answers:['Atlantic','Pacific','Indian'],
-correct:1
-}
-]
+    title: "Creating a Business Plan",
+    icon: "📝",
+    description: "Learn how to plan your business step by step.",
+    text: "A business plan can describe your product or service, customers, costs, pricing, marketing and financial goals.",
+    question: "What can a business plan contain?",
+    answers: [
+        "Only a logo",
+        "Customers, costs and goals",
+        "Only your address"
+    ],
+    correct: 1,
+    video: "VIDEO_ID_5"
 },
 
 {
-id:'kidsLogic',
-icon:'🧠',
-title:'Logic & Problem Solving',
-description:'Train your brain with patterns and reasoning.',
-video:'https://www.youtube.com/results?search_query=logic+puzzles+for+kids',
-lessons:[
-{
-title:'Number Patterns',
-text:'A pattern follows a rule. Look at how the numbers change and use the same rule to find the next number.',
-question:'2, 4, 6, 8, ?',
-answers:['9','10','12'],
-correct:1
-},
-{
-title:'Thinking',
-text:'Good problem solving means understanding the question, finding useful information and testing possible answers.',
-question:'Which comes next? 5, 10, 15, 20, ?',
-answers:['21','25','30'],
-correct:1
-}
-]
+    title: "How Money Works",
+    icon: "💰",
+    description: "Understand income, spending, saving and budgeting.",
+    text: "Managing money starts with understanding how much you earn, how much you spend and how much you can save.",
+    question: "What is a budget useful for?",
+    answers: [
+        "Tracking income and spending",
+        "Guaranteeing wealth",
+        "Avoiding all expenses"
+    ],
+    correct: 0,
+    video: "VIDEO_ID_6"
 },
 
 {
-id:'kidsMoney',
-icon:'💷',
-title:'Money Basics',
-description:'Learn coins, notes, saving and spending.',
-video:'https://www.youtube.com/results?search_query=money+skills+for+kids+saving+spending',
-lessons:[
-{
-title:'Saving',
-text:'Saving means keeping some money for later instead of spending it immediately.',
-question:'What does saving mean?',
-answers:[
-'Spending everything',
-'Keeping money for later',
-'Losing money'
-],
-correct:1
-},
-{
-title:'Needs and Wants',
-text:'A need is something important for living, such as food. A want is something you would like but may not need.',
-question:'Which is usually a need?',
-answers:['Food','Video game','Toy'],
-correct:0
-}
-]
+    title: "Online Business",
+    icon: "🌐",
+    description: "Learn websites, online services and customers.",
+    text: "An online business can sell products or provide services through the internet. Understanding your target customers is important.",
+    question: "What can an online business provide?",
+    answers: [
+        "Products or services",
+        "Only games",
+        "Nothing"
+    ],
+    correct: 0,
+    video: "VIDEO_ID_7"
 },
 
 {
-id:'kidsComputers',
-icon:'💻',
-title:'Computer Basics',
-description:'Learn keyboards, files, browsers and online safety.',
-video:'https://www.youtube.com/results?search_query=computer+basics+for+kids',
-lessons:[
-{
-title:'Keyboard',
-text:'A keyboard lets you type letters, numbers and commands into a computer.',
-question:'Which key creates a space?',
-answers:['Spacebar','Shift','Escape'],
-correct:0
-},
-{
-title:'Online Safety',
-text:'Never share passwords or private information with strangers online. Ask a trusted adult if something online makes you uncomfortable.',
-question:'Should you share your password with a stranger?',
-answers:['Yes','No','Only sometimes'],
-correct:1
-}
-]
+    title: "Digital Marketing",
+    icon: "📱",
+    description: "Learn how businesses find customers online.",
+    text: "Digital marketing can include websites, social media, email and online advertising. The goal is to communicate with potential customers.",
+    question: "What is digital marketing used for?",
+    answers: [
+        "Finding and communicating with customers",
+        "Only playing games",
+        "Turning off the internet"
+    ],
+    correct: 0,
+    video: "VIDEO_ID_8"
 },
 
 {
-id:'kidsTime',
-icon:'🕐',
-title:'Time & Clocks',
-description:'Learn hours, minutes, days and planning.',
-video:'https://www.youtube.com/results?search_query=learn+time+clock+for+kids',
-lessons:[
-{
-title:'Minutes',
-text:'There are 60 minutes in one hour. The minute hand moves around the clock once every hour.',
-question:'How many minutes are in one hour?',
-answers:['30','60','100'],
-correct:1
-},
-{
-title:'Days',
-text:'There are seven days in a week.',
-question:'How many days are in a week?',
-answers:['5','6','7'],
-correct:2
-}
-]
+    title: "Building a Brand",
+    icon: "⭐",
+    description: "Learn how businesses create a recognisable identity.",
+    text: "A brand includes how customers recognise and experience a business. Consistent quality and communication can help build trust.",
+    question: "What can help build a brand?",
+    answers: [
+        "Consistent customer experience",
+        "Changing everything every day",
+        "Ignoring customers"
+    ],
+    correct: 0,
+    video: "VIDEO_ID_9"
 },
 
 {
-id:'kidsKnowledge',
-icon:'📚',
-title:'General Knowledge',
-description:'Learn interesting facts about the world.',
-video:'https://www.youtube.com/results?search_query=general+knowledge+for+kids',
-lessons:[
-{
-title:'Animals',
-text:'Different animals have different adaptations that help them survive in their environments.',
-question:'Which animal is known for having a long trunk?',
-answers:['Elephant','Tiger','Penguin'],
-correct:0
-},
-{
-title:'Earth',
-text:'Earth is the planet where we live. It has land, oceans and an atmosphere.',
-question:'Which planet do we live on?',
-answers:['Mars','Earth','Venus'],
-correct:1
-}
-]
+    title: "Growing a Business",
+    icon: "🚀",
+    description: "Learn customers, systems, pricing and growth.",
+    text: "Business growth can involve finding more customers, improving systems, controlling costs and delivering good products or services.",
+    question: "What can help a business grow?",
+    answers: [
+        "More customers and better systems",
+        "Ignoring customers",
+        "Increasing costs without a plan"
+    ],
+    correct: 0,
+    video: "VIDEO_ID_10"
 }
 
 ];
 
 
-/* ================= ADULTS ================= */
+/* =========================================================
+   KIDS EDUCATION
+========================================================= */
 
-const adults=[
+const kidsLessons = [
 
 {
-id:'tradeBasics',
-icon:'📈',
-title:'How Trading Works',
-description:'Understand markets, buyers, sellers, entries and exits.',
-video:'https://www.youtube.com/results?search_query=trading+for+beginners+how+trading+works',
-lessons:[
-{
-title:'What is trading?',
-text:'Trading means buying and selling an asset with the aim of benefiting from price movements. Markets can move up or down and losses are possible.',
-question:'What can happen to a traded asset price?',
-answers:[
-'It can only rise',
-'It can only fall',
-'It can rise or fall'
-],
-correct:2
-},
-{
-title:'Buy and Sell',
-text:'A buyer purchases an asset while a seller sells it. Traders study information and price behaviour before deciding what to do.',
-question:'What does buying mean?',
-answers:[
-'Purchasing an asset',
-'Deleting an asset',
-'Closing the internet'
-],
-correct:0
-}
-]
+    title: "Maths Basics",
+    icon: "🔢",
+    description: "Learn numbers, addition and subtraction.",
+    text: "Numbers help us count and measure. Addition combines numbers and subtraction takes one amount away from another.",
+    question: "What is 5 + 3?",
+    answers: ["6", "8", "10"],
+    correct: 1,
+    video: "KIDS_VIDEO_1"
 },
 
 {
-id:'forexLearn',
-icon:'💱',
-title:'Forex Trading Basics',
-description:'Learn what currency pairs, pips and spreads mean.',
-video:'https://www.youtube.com/results?search_query=forex+trading+for+beginners+currency+pairs+pips+spread',
-lessons:[
-{
-title:'Currency pairs',
-text:'Forex is commonly quoted in pairs such as EUR/USD. The first currency is the base currency and the second is the quote currency.',
-question:'Which is a currency pair?',
-answers:['EUR/USD','EUR/House','GBP/Computer'],
-correct:0
-},
-{
-title:'Risk',
-text:'Forex trading can involve significant risk. Leverage can increase both potential gains and potential losses.',
-question:'Can forex trading result in losses?',
-answers:['Yes','No','Never'],
-correct:0
-}
-]
+    title: "Science Basics",
+    icon: "🔬",
+    description: "Discover how the world around us works.",
+    text: "Science helps us understand the world by asking questions, making observations and testing ideas.",
+    question: "What does science help us understand?",
+    answers: [
+        "The world around us",
+        "Only games",
+        "Only music"
+    ],
+    correct: 0,
+    video: "KIDS_VIDEO_2"
 },
 
 {
-id:'cryptoLearn',
-icon:'₿',
-title:'Crypto Basics',
-description:'Understand cryptocurrency, wallets, exchanges and risk.',
-video:'https://www.youtube.com/results?search_query=cryptocurrency+basics+for+beginners',
-lessons:[
-{
-title:'Cryptocurrency',
-text:'Cryptocurrencies are digital assets that use cryptographic systems. Prices can be highly volatile.',
-question:'Can crypto prices change quickly?',
-answers:['Yes','No','Never'],
-correct:0
-},
-{
-title:'Wallets',
-text:'A crypto wallet is used to manage cryptographic keys associated with digital assets. Losing access to important credentials can cause permanent loss of access.',
-question:'Should you protect your wallet credentials?',
-answers:['Yes','No','It does not matter'],
-correct:0
-}
-]
+    title: "The Solar System",
+    icon: "🌍",
+    description: "Learn about planets and space.",
+    text: "Our solar system contains the Sun and objects that orbit it, including planets, moons and smaller bodies.",
+    question: "What is at the centre of our solar system?",
+    answers: [
+        "The Moon",
+        "The Sun",
+        "Mars"
+    ],
+    correct: 1,
+    video: "KIDS_VIDEO_3"
 },
 
 {
-id:'charts',
-icon:'📊',
-title:'Reading Trading Charts',
-description:'Learn candles, trends, support and resistance.',
-video:'https://www.youtube.com/results?search_query=how+to+read+trading+charts+candlesticks+beginners',
-lessons:[
-{
-title:'Candlesticks',
-text:'A candlestick can show the open, high, low and close price for a selected period.',
-question:'What can a candle show?',
-answers:[
-'Only the day',
-'Open, high, low and close',
-'Only volume'
-],
-correct:1
-},
-{
-title:'Trend',
-text:'A trend describes the general direction of price movement over a period. Traders often examine multiple timeframes.',
-question:'What does a trend describe?',
-answers:[
-'General price direction',
-'Computer speed',
-'Internet connection'
-],
-correct:0
-}
-]
+    title: "English Vocabulary",
+    icon: "📚",
+    description: "Improve vocabulary and reading skills.",
+    text: "Vocabulary means the words we understand and use. Learning new words can help us communicate more clearly.",
+    question: "What does vocabulary mean?",
+    answers: [
+        "Words we understand and use",
+        "Only numbers",
+        "Only pictures"
+    ],
+    correct: 0,
+    video: "KIDS_VIDEO_4"
 },
 
 {
-id:'riskManagement',
-icon:'🛡️',
-title:'Risk Management',
-description:'Learn why protecting your trading account matters.',
-video:'https://www.youtube.com/results?search_query=trading+risk+management+for+beginners',
-lessons:[
-{
-title:'Risk per trade',
-text:'Risk management is about controlling potential losses. Traders may define how much of their account they are willing to risk before entering a position.',
-question:'What is risk management for?',
-answers:[
-'Controlling potential losses',
-'Guaranteeing profit',
-'Making the internet faster'
-],
-correct:0
-},
-{
-title:'Stop loss',
-text:'A stop-loss order can be used to automatically close a position at a specified price level, although execution can differ from the requested level in some market conditions.',
-question:'What can a stop loss help with?',
-answers:[
-'Managing potential loss',
-'Guaranteeing profit',
-'Increasing internet speed'
-],
-correct:0
-}
-]
+    title: "Geography",
+    icon: "🌎",
+    description: "Learn about countries, continents and maps.",
+    text: "Geography studies places, people, environments and the Earth. Maps help us understand locations.",
+    question: "What can a map show?",
+    answers: [
+        "Locations",
+        "Only music",
+        "Only food"
+    ],
+    correct: 0,
+    video: "KIDS_VIDEO_5"
 },
 
 {
-id:'moneyManagement',
-icon:'💰',
-title:'Money Management',
-description:'Learn budgeting, saving and understanding cash flow.',
-video:'https://www.youtube.com/results?search_query=money+management+budgeting+for+beginners',
-lessons:[
-{
-title:'Budget',
-text:'A budget compares money coming in with money going out. It can help you understand where your money is being spent.',
-question:'What does a budget track?',
-answers:[
-'Income and spending',
-'Only birthdays',
-'Only weather'
-],
-correct:0
-},
-{
-title:'Emergency savings',
-text:'An emergency fund is money set aside for unexpected expenses. The appropriate amount depends on individual circumstances.',
-question:'What is an emergency fund for?',
-answers:[
-'Unexpected expenses',
-'Buying every new product',
-'Nothing'
-],
-correct:0
-}
-]
+    title: "History",
+    icon: "🏛️",
+    description: "Learn about important events from the past.",
+    text: "History is the study of people and events from the past. It helps us understand how societies changed.",
+    question: "What does history study?",
+    answers: [
+        "The past",
+        "Only the future",
+        "Only mathematics"
+    ],
+    correct: 0,
+    video: "KIDS_VIDEO_6"
 },
 
 {
-id:'startBusiness',
-icon:'🏢',
-title:'Start a Business From Scratch',
-description:'Learn how to turn an idea into a real business step by step.',
-video:'https://www.youtube.com/results?search_query=how+to+start+a+business+from+scratch+for+beginners',
-lessons:[
-{
-title:'Step 1 — Find a problem',
-text:'A business can begin by identifying a real problem that people want solved. Research the customers, their needs and existing alternatives.',
-question:'What should you investigate first?',
-answers:[
-'A real customer problem',
-'An expensive office',
-'A company logo'
-],
-correct:0
-},
-{
-title:'Step 2 — Test the idea',
-text:'Before spending heavily, test whether people are interested. You can speak with potential customers, create a simple service or build a basic prototype.',
-question:'Why test an idea?',
-answers:[
-'To learn whether customers want it',
-'To guarantee success',
-'To avoid customers'
-],
-correct:0
-},
-{
-title:'Step 3 — Build',
-text:'Once the idea has been tested, create the product or service and improve it using customer feedback.',
-question:'What should help improve a new business?',
-answers:[
-'Customer feedback',
-'Ignoring customers',
-'Guessing everything'
-],
-correct:0
-}
-]
+    title: "Computer Skills",
+    icon: "💻",
+    description: "Learn basic computer and internet skills.",
+    text: "Computers can be used for learning, creating, communicating and solving problems.",
+    question: "What can computers be used for?",
+    answers: [
+        "Learning and creating",
+        "Nothing",
+        "Only sleeping"
+    ],
+    correct: 0,
+    video: "KIDS_VIDEO_7"
 },
 
 {
-id:'marketing',
-icon:'📱',
-title:'Business Marketing',
-description:'Learn how to get your first customers.',
-video:'https://www.youtube.com/results?search_query=small+business+marketing+for+beginners',
-lessons:[
-{
-title:'Know your customer',
-text:'Marketing works better when you understand who your customer is, what they need and where they spend time.',
-question:'Who should marketing speak to?',
-answers:[
-'Your target customer',
-'Nobody',
-'Only yourself'
-],
-correct:0
-},
-{
-title:'Content',
-text:'Useful content can demonstrate your knowledge, show your work and help potential customers understand your service.',
-question:'What can useful content do?',
-answers:[
-'Help people understand your business',
-'Guarantee sales',
-'Replace every business activity'
-],
-correct:0
-}
-]
+    title: "Healthy Habits",
+    icon: "🥗",
+    description: "Learn about healthy everyday habits.",
+    text: "Healthy habits can include eating a balanced diet, being physically active, sleeping well and keeping clean.",
+    question: "Which is a healthy habit?",
+    answers: [
+        "Getting enough sleep",
+        "Never sleeping",
+        "Never drinking water"
+    ],
+    correct: 0,
+    video: "KIDS_VIDEO_8"
 },
 
 {
-id:'onlineBusiness',
-icon:'🌐',
-title:'Build an Online Business',
-description:'Learn websites, online services, products and customers.',
-video:'https://www.youtube.com/results?search_query=how+to+start+an+online+business+for+beginners',
-lessons:[
-{
-title:'Online offer',
-text:'An online business needs a clear offer: what you provide, who it is for and why someone might choose it.',
-question:'What should an online offer explain?',
-answers:[
-'What you provide',
-'Only your favourite colour',
-'Nothing'
-],
-correct:0
-},
-{
-title:'Website',
-text:'A website can explain your service, show examples of your work and provide a way for customers to contact you.',
-question:'What can a website do?',
-answers:[
-'Explain your service',
-'Guarantee customers',
-'Replace your product'
-],
-correct:0
-}
-]
+    title: "Problem Solving",
+    icon: "🧩",
+    description: "Learn how to think through problems.",
+    text: "Problem solving means understanding a problem, thinking about possible solutions and testing an appropriate solution.",
+    question: "What is a useful first step?",
+    answers: [
+        "Understand the problem",
+        "Give up immediately",
+        "Ignore it"
+    ],
+    correct: 0,
+    video: "KIDS_VIDEO_9"
 },
 
 {
-id:'growBusiness',
-icon:'🚀',
-title:'Grow a Business',
-description:'Learn customers, systems, pricing and growth.',
-video:'https://www.youtube.com/results?search_query=how+to+grow+a+small+business+for+beginners',
-lessons:[
-{
-title:'Customer service',
-text:'Good customer service can help a business build trust and encourage repeat customers.',
-question:'Why is customer service important?',
-answers:[
-'It can help build trust',
-'It guarantees unlimited profit',
-'It removes all competition'
-],
-correct:0
-},
-{
-title:'Track numbers',
-text:'Businesses should track useful numbers such as revenue, costs, profit, customer acquisition and cash flow.',
-question:'Why track business numbers?',
-answers:[
-'To understand performance',
-'To make numbers disappear',
-'Because numbers are decoration'
-],
-correct:0
-}
-]
+    title: "Money Basics for Kids",
+    icon: "💷",
+    description: "Learn simple ideas about saving and spending.",
+    text: "Money can be used to buy things and pay for services. Saving means keeping some money for later.",
+    question: "What does saving mean?",
+    answers: [
+        "Keeping money for later",
+        "Spending everything immediately",
+        "Losing money"
+    ],
+    correct: 0,
+    video: "KIDS_VIDEO_10"
 }
 
 ];
 
 
-/* =====================================================
-   BUILD CARDS
-===================================================== */
+/* =========================================================
+   DISPLAY LESSON CARDS
+========================================================= */
 
-function createCards(data,elementId){
+function displayLessons() {
 
-const container=document.getElementById(elementId);
+    const adultContainer =
+        document.getElementById("adultLessons");
 
-container.innerHTML=data.map((course,index)=>`
+    adultLessons.forEach((lesson, index) => {
 
-<div class="card">
+        adultContainer.innerHTML += `
 
-<div style="font-size:50px">
-${course.icon}
-</div>
+        <div class="lesson-card">
 
-<h3>
-${index+1}. ${course.title}
-</h3>
+            <div class="lesson-icon">
+                ${lesson.icon}
+            </div>
 
-<p>
-${course.description}
-</p>
+            <h3>
+                ${index + 1}. ${lesson.title}
+            </h3>
 
-<button
-class="play"
-onclick="startCourse('${course.id}')">
+            <p>
+                ${lesson.description}
+            </p>
 
-🎓 Start Learning
+            <button
+                class="learn-btn"
+                onclick="openLesson('adult', ${index})">
 
-</button>
+                🎓 Start Learning
 
-</div>
+            </button>
 
-`).join('');
+        </div>
 
-}
-
-createCards(kids,'kidsGrid');
-
-createCards(adults,'adultGrid');
+        `;
+    });
 
 
-/* =====================================================
-   COURSE ENGINE
-===================================================== */
+    const kidsContainer =
+        document.getElementById("kidsLessons");
 
-let currentCourse=null;
-let currentLesson=0;
-let lessonScore=0;
+    kidsLessons.forEach((lesson, index) => {
 
+        kidsContainer.innerHTML += `
 
-function findCourse(id){
+        <div class="lesson-card">
 
-return kids.find(x=>x.id===id)
-||
-adults.find(x=>x.id===id);
+            <div class="lesson-icon">
+                ${lesson.icon}
+            </div>
 
-}
+            <h3>
+                ${index + 1}. ${lesson.title}
+            </h3>
 
+            <p>
+                ${lesson.description}
+            </p>
 
-function startCourse(id){
+            <button
+                class="learn-btn"
+                onclick="openLesson('kids', ${index})">
 
-currentCourse=findCourse(id);
+                🎓 Start Learning
 
-currentLesson=0;
+            </button>
 
-lessonScore=0;
+        </div>
 
-document
-.getElementById('modal')
-.classList.add('show');
-
-renderLesson();
-
-}
-
-
-function closeLesson(){
-
-document
-.getElementById('modal')
-.classList.remove('show');
+        `;
+    });
 
 }
 
 
-function renderLesson(){
+/* =========================================================
+   CURRENT LESSON
+========================================================= */
 
-if(!currentCourse)
-return;
+let currentLesson = null;
 
-const lesson=
-currentCourse.lessons[currentLesson];
 
-const total=
-currentCourse.lessons.length;
+/* =========================================================
+   OPEN LESSON
+========================================================= */
 
-const percent=
-((currentLesson)/total)*100;
+function openLesson(type, index) {
 
-document.getElementById('lessonContent').innerHTML=`
+    const list =
+        type === "adult"
+        ? adultLessons
+        : kidsLessons;
 
-<div class="lesson">
+    currentLesson = list[index];
 
-<div class="badge">
-Lesson ${currentLesson+1} of ${total}
-</div>
+    document.getElementById("lessonNumber").innerText =
+        "Lesson " + (index + 1) + " of " + list.length;
 
-<div class="progress">
-<i style="width:${percent}%"></i>
-</div>
+    document.getElementById("progressBar").style.width =
+        ((index + 1) / list.length * 100) + "%";
 
-<div class="lesson-icon">
-${currentCourse.icon}
-</div>
+    document.getElementById("lessonTitle").innerText =
+        currentLesson.icon + " " + currentLesson.title;
 
-<h2>
-${currentCourse.title}
-</h2>
+    document.getElementById("lessonText").innerText =
+        currentLesson.text;
 
-<h3>
-${lesson.title}
-</h3>
+    document.getElementById("question").innerText =
+        currentLesson.question;
 
-<div class="explanation">
+    document.getElementById("feedback").innerText = "";
 
-<strong>📚 Learn:</strong>
+    const answers =
+        document.getElementById("answers");
 
-<br><br>
+    answers.innerHTML = "";
 
-${lesson.text}
+    currentLesson.answers.forEach((answer, i) => {
 
-</div>
+        answers.innerHTML += `
 
-<a
-class="video-button"
-href="${currentCourse.video}"
-target="_blank"
-rel="noopener">
+        <button
+            class="answer-btn"
+            onclick="checkAnswer(${i})">
 
-▶ Watch Video Explanation
+            ${answer}
 
-</a>
+        </button>
 
-<div class="quiz">
+        `;
 
-<h3>
-🧠 Check What You Learned
-</h3>
+    });
 
-<p>
-<strong>
-${lesson.question}
-</strong>
-</p>
+    document.getElementById("lessonModal").style.display =
+        "block";
+}
 
-<div class="answers">
 
-${lesson.answers.map((answer,index)=>`
+/* =========================================================
+   CLOSE LESSON
+========================================================= */
 
-<button
-class="answer"
-onclick="answerLesson(${index})">
+function closeLesson() {
 
-${answer}
+    document.getElementById("lessonModal").style.display =
+        "none";
 
-</button>
+    closeVideo();
+}
 
-`).join('')}
 
-</div>
+/* =========================================================
+   OPEN VIDEO INSIDE APP
+========================================================= */
 
-<div
-id="lessonFeedback"
-class="feedback">
-</div>
+function openVideo() {
 
-<button
-id="nextLesson"
-class="next"
-onclick="nextLesson()">
+    if (!currentLesson) return;
 
-${currentLesson+1<total
-?'Next Lesson ▶'
-:'Finish Course 🎉'}
+    let videoId = currentLesson.video;
 
-</button>
+    /*
+       IMPORTANT:
 
-</div>
+       Replace VIDEO_ID_1 etc. with the ID of the video.
 
-<p class="small">
+       Example YouTube link:
 
-Take your time. The goal is to understand the lesson,
-not just guess the answer.
+       https://www.youtube.com/watch?v=ABC123XYZ
 
-</p>
+       The video ID is:
 
-</div>
+       ABC123XYZ
+    */
 
-`;
+    const videoURL =
+        "https://www.youtube-nocookie.com/embed/"
+        + videoId
+        + "?autoplay=1&rel=0";
+
+    document.getElementById("videoFrame").src =
+        videoURL;
+
+    document.getElementById("videoModal").style.display =
+        "block";
+}
+
+
+/* =========================================================
+   CLOSE VIDEO
+========================================================= */
+
+function closeVideo() {
+
+    document.getElementById("videoModal").style.display =
+        "none";
+
+    document.getElementById("videoFrame").src = "";
+}
+
+
+/* =========================================================
+   QUIZ
+========================================================= */
+
+function checkAnswer(selected) {
+
+    const feedback =
+        document.getElementById("feedback");
+
+    if (selected === currentLesson.correct) {
+
+        feedback.innerText =
+            "✅ Correct! Great job.";
+
+    } else {
+
+        feedback.innerText =
+            "❌ Not quite. Take another look at the lesson.";
+
+    }
 
 }
 
 
-function answerLesson(index){
+/* =========================================================
+   AD TIMER
+   120 SECONDS = 2 MINUTES
+========================================================= */
 
-const lesson=
-currentCourse.lessons[currentLesson];
+let adSeconds = 120;
 
-const buttons=
-document.querySelectorAll('.quiz .answer');
+let adTimer = null;
 
-buttons.forEach(b=>b.disabled=true);
 
-const feedback=
-document.getElementById('lessonFeedback');
+function startAdTimer() {
 
-if(index===lesson.correct){
+    clearInterval(adTimer);
 
-lessonScore++;
+    adSeconds = 120;
 
-feedback.innerHTML=
-'<span class="correct">✓ Correct! Great job.</span>';
+    adTimer = setInterval(function() {
 
-}else{
+        adSeconds--;
 
-feedback.innerHTML=
-`<span class="wrong">
-✗ Not quite.
-</span>
-<br>
-The correct answer is:
-<strong>${lesson.answers[lesson.correct]}</strong>`;
+        if (adSeconds <= 0) {
 
-}
+            clearInterval(adTimer);
 
-document
-.getElementById('nextLesson')
-.style.display='inline-block';
+            showAd();
+
+        }
+
+    }, 1000);
 
 }
 
 
-function nextLesson(){
+/* =========================================================
+   SHOW AD
+========================================================= */
 
-if(currentLesson<
-currentCourse.lessons.length-1){
+function showAd() {
 
-currentLesson++;
-
-renderLesson();
-
-}else{
-
-showCourseFinished();
-
-}
+    document.getElementById("adModal").style.display =
+        "flex";
 
 }
 
 
-function showCourseFinished(){
+/* =========================================================
+   CLOSE AD
+========================================================= */
 
-const total=
-currentCourse.lessons.length;
+function closeAd() {
 
-document.getElementById('lessonContent').innerHTML=`
+    document.getElementById("adModal").style.display =
+        "none";
 
-<div class="lesson">
-
-<div class="lesson-icon">
-🎉
-</div>
-
-<h2>
-Course Complete!
-</h2>
-
-<p>
-You finished:
-</p>
-
-<h2>
-${currentCourse.icon}
-${currentCourse.title}
-</h2>
-
-<div class="explanation">
-
-<h3>
-Your result
-</h3>
-
-<p>
-You answered
-<strong>${lessonScore}</strong>
-out of
-<strong>${total}</strong>
-lessons correctly.
-</p>
-
-<p>
-Keep learning and come back to practise again.
-</p>
-
-</div>
-
-<button
-class="answer"
-onclick="closeLesson()">
-
-Continue Learning
-
-</button>
-
-</div>
-
-`;
+    startAdTimer();
 
 }
 
 
-/* =====================================================
-   NAVIGATION
-===================================================== */
+/* =========================================================
+   START APP
+========================================================= */
 
-function showSection(section){
-
-document
-.querySelectorAll('.section')
-.forEach(s=>s.classList.remove('active'));
-
-document
-.getElementById(section)
-.classList.add('active');
-
-window.scrollTo({
-top:0,
-behavior:'smooth'
-});
-
-}
-
-
-/* =====================================================
-   60 SECOND AD SYSTEM
-===================================================== */
-
-let adTimer=null;
-
-let adSeconds=60;
-
-
-/*
-Start the timer when the website loads.
-*/
-
-function startAdTimer(){
-
-clearInterval(adTimer);
-
-adSeconds=60;
-
-adTimer=setInterval(function(){
-
-adSeconds--;
-
-if(adSeconds<=0){
-
-clearInterval(adTimer);
-
-showAd();
-
-}
-
-},1000);
-
-}
-
-
-/*
-Show advertisement popup.
-*/
-
-function showAd(){
-
-const overlay=
-document.getElementById('adOverlay');
-
-const button=
-document.getElementById('continueButton');
-
-const countdown=
-document.getElementById('adCountdown');
-
-overlay.classList.add('show');
-
-button.disabled=true;
-
-button.textContent=
-'Please wait...';
-
-let seconds=5;
-
-countdown.textContent=
-'Advertisement loading...';
-
-const unlock=
-setInterval(function(){
-
-seconds--;
-
-if(seconds<=0){
-
-clearInterval(unlock);
-
-button.disabled=false;
-
-button.textContent=
-'Continue Learning ▶';
-
-countdown.textContent=
-'You can continue learning.';
-
-}else{
-
-countdown.textContent=
-'Continue in '+seconds+' seconds...';
-
-}
-
-},1000);
-
-}
-
-
-/*
-Close advertisement and restart
-the 60 second timer.
-*/
-
-function closeAd(){
-
-document
-.getElementById('adOverlay')
-.classList.remove('show');
-
-startAdTimer();
-
-}
-
-
-/*
-Start first 60 second countdown.
-*/
+displayLessons();
 
 startAdTimer();
 
 
-/* =====================================================
-   PREVENT ACCIDENTAL ESCAPE FROM AD
-===================================================== */
-
-document.addEventListener('keydown',function(e){
-
-if(
-e.key==='Escape' &&
-document
-.getElementById('adOverlay')
-.classList
-.contains('show')
-){
-
-e.preventDefault();
-
-}
-
-});
-
+/*
+   If the user closes the page or reloads it,
+   the timer starts again from 120 seconds.
+*/
 
 </script>
 
