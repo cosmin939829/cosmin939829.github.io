@@ -1,418 +1,389 @@
-from flask import Flask, render_template_string, send_from_directory
-import os
-
-app = Flask(__name__)
-
-# ============================================================
-# CONFIGURATION
-# ============================================================
-
-VIDEO_FOLDER = os.path.join(app.root_path, "static", "videos")
-os.makedirs(VIDEO_FOLDER, exist_ok=True)
-
-ADULT_VIDEO = "adult_learning.mp4"
-
-
-# ============================================================
-# MAIN PAGE
-# ============================================================
-
-PAGE = r"""
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Learn & Play</title>
 
 <style>
-* {
-    box-sizing: border-box;
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ font-family:Arial,Helvetica,sans-serif;
+ background:linear-gradient(135deg,#eef4ff,#f8f5ff);
+ color:#17213c;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: linear-gradient(135deg,#eef6ff,#f9fbff);
-    color: #172033;
+header{
+ background:linear-gradient(135deg,#2563eb,#4f46e5,#7c3aed);
+ color:white;
+ padding:30px 15px;
+ text-align:center;
+ box-shadow:0 8px 30px #0002;
 }
 
-header {
-    background: linear-gradient(135deg,#1769ff,#6c35ff);
-    color: white;
-    padding: 25px;
-    text-align: center;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 5px 20px rgba(0,0,0,.15);
+header h1{
+ margin:0;
+ font-size:42px;
 }
 
-header h1 {
-    margin: 0;
-    font-size: 32px;
+header p{
+ margin:10px 0 20px;
+ opacity:.9;
 }
 
-header p {
-    margin: 7px 0 15px;
-    opacity: .9;
+.tabs button{
+ border:0;
+ padding:13px 22px;
+ margin:5px;
+ border-radius:30px;
+ background:#ffffff25;
+ color:white;
+ font-size:16px;
+ font-weight:bold;
+ cursor:pointer;
 }
 
-.nav {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
+.tabs button.active{
+ background:white;
+ color:#263c9e;
 }
 
-.nav button {
-    border: none;
-    border-radius: 25px;
-    padding: 12px 22px;
-    background: rgba(255,255,255,.18);
-    color: white;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
+.container{
+ max-width:1200px;
+ margin:auto;
+ padding:30px 15px 60px;
 }
 
-.nav button:hover {
-    background: white;
-    color: #1769ff;
+.stats{
+ display:flex;
+ gap:12px;
+ flex-wrap:wrap;
+ margin-bottom:25px;
 }
 
-.container {
-    max-width: 1250px;
-    margin: auto;
-    padding: 30px 20px 70px;
+.stat{
+ background:white;
+ padding:12px 18px;
+ border-radius:16px;
+ box-shadow:0 8px 25px #17213c15;
+ font-weight:bold;
 }
 
-.section {
-    display: none;
+.games{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+ gap:20px;
 }
 
-.section.active {
-    display: block;
+.game{
+ background:white;
+ border-radius:25px;
+ padding:22px;
+ box-shadow:0 12px 35px #17213c18;
+ transition:.2s;
 }
 
-.hero {
-    text-align: center;
-    padding: 25px 10px;
+.game:hover{
+ transform:translateY(-6px);
 }
 
-.hero h2 {
-    font-size: 34px;
-    margin-bottom: 8px;
+.game-icon{
+ font-size:55px;
 }
 
-.hero p {
-    font-size: 17px;
-    color: #667085;
+.game h3{
+ font-size:21px;
+ margin:10px 0 6px;
 }
 
-.games-grid {
-    display: grid;
-    grid-template-columns:
-        repeat(auto-fit,minmax(250px,1fr));
-    gap: 20px;
+.game p{
+ color:#66708a;
+ min-height:45px;
 }
 
-.game-card {
-    background: white;
-    border-radius: 24px;
-    padding: 22px;
-    box-shadow: 0 8px 30px rgba(20,50,100,.10);
-    transition: .2s;
-    cursor: pointer;
-    border: 2px solid transparent;
+.play{
+ width:100%;
+ border:0;
+ padding:14px;
+ border-radius:14px;
+ background:linear-gradient(135deg,#2563eb,#4f46e5);
+ color:white;
+ font-weight:bold;
+ font-size:16px;
+ cursor:pointer;
 }
 
-.game-card:hover {
-    transform: translateY(-5px);
-    border-color: #367cff;
+.play:hover{
+ opacity:.9;
 }
 
-.game-icon {
-    font-size: 55px;
-    margin-bottom: 10px;
+.hidden{
+ display:none;
 }
 
-.game-card h3 {
-    margin: 5px 0;
-    font-size: 21px;
+.adults{
+ display:none;
 }
 
-.game-card p {
-    color: #667085;
-    min-height: 45px;
+.adultHero{
+ background:linear-gradient(135deg,#172554,#2563eb);
+ color:white;
+ border-radius:28px;
+ padding:35px;
+ margin-bottom:25px;
+ box-shadow:0 15px 40px #17213c25;
 }
 
-.play-button {
-    width: 100%;
-    border: none;
-    padding: 13px;
-    border-radius: 14px;
-    background: #1769ff;
-    color: white;
-    font-weight: bold;
-    font-size: 16px;
-    cursor: pointer;
+.adultHero h2{
+ font-size:32px;
+ margin-top:0;
 }
 
-.play-button:hover {
-    background: #0d55d9;
+.adultGrid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+ gap:20px;
 }
 
-/* GAME MODAL */
-
-.modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(5,15,40,.75);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 15px;
-    z-index: 999;
+.lesson{
+ background:white;
+ padding:22px;
+ border-radius:25px;
+ box-shadow:0 12px 35px #17213c18;
 }
 
-.modal.show {
-    display: flex;
+.lessonIcon{
+ font-size:55px;
 }
 
-.game-window {
-    width: min(850px,96vw);
-    max-height: 92vh;
-    overflow-y: auto;
-    background: linear-gradient(135deg,#087cff,#542cff);
-    border-radius: 30px;
-    color: white;
-    padding: 22px;
-    position: relative;
-    box-shadow: 0 20px 70px rgba(0,0,0,.35);
+.lesson h3{
+ font-size:22px;
 }
 
-.close {
-    position: absolute;
-    right: 18px;
-    top: 15px;
-    width: 42px;
-    height: 42px;
-    border: none;
-    border-radius: 50%;
-    background: white;
-    color: #111;
-    font-size: 23px;
-    cursor: pointer;
+.lesson p{
+ color:#66708a;
+ line-height:1.5;
 }
 
-.game-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-right: 55px;
+.modal{
+ display:none;
+ position:fixed;
+ inset:0;
+ background:#07102dcc;
+ z-index:100;
+ align-items:center;
+ justify-content:center;
+ padding:15px;
 }
 
-.score {
-    background: rgba(255,255,255,.15);
-    padding: 10px 15px;
-    border-radius: 15px;
-    font-weight: bold;
+.modal.show{
+ display:flex;
 }
 
-.game-area {
-    background: rgba(255,255,255,.12);
-    border-radius: 22px;
-    padding: 25px;
-    margin-top: 18px;
-    min-height: 400px;
+.modalBox{
+ background:white;
+ width:min(850px,100%);
+ max-height:92vh;
+ overflow:auto;
+ border-radius:28px;
 }
 
-.question {
-    font-size: 28px;
-    text-align: center;
-    margin: 15px 0 25px;
-    font-weight: bold;
+.modalHeader{
+ background:linear-gradient(135deg,#2563eb,#4f46e5);
+ color:white;
+ padding:18px 22px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
 }
 
-.choices {
-    display: grid;
-    grid-template-columns:
-        repeat(auto-fit,minmax(130px,1fr));
-    gap: 15px;
+.modalHeader h2{
+ margin:0;
 }
 
-.choice {
-    border: none;
-    background: white;
-    color: #172033;
-    border-radius: 18px;
-    padding: 18px;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    min-height: 65px;
+.close{
+ border:0;
+ background:white;
+ color:#17213c;
+ width:40px;
+ height:40px;
+ border-radius:50%;
+ font-size:22px;
+ font-weight:bold;
+ cursor:pointer;
 }
 
-.choice:hover {
-    transform: scale(1.03);
+.modalBody{
+ padding:25px;
 }
 
-.choice.correct {
-    background: #36d47a;
-    color: white;
+.question{
+ font-size:30px;
+ text-align:center;
+ font-weight:bold;
+ margin:25px 0;
 }
 
-.choice.wrong {
-    background: #ff4f64;
-    color: white;
+.answers{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:14px;
 }
 
-.feedback {
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
-    min-height: 35px;
-    margin-top: 20px;
+.answer{
+ border:0;
+ padding:18px;
+ border-radius:16px;
+ background:#eef2ff;
+ font-size:20px;
+ font-weight:bold;
+ cursor:pointer;
 }
 
-.next-button {
-    display: block;
-    margin: 20px auto 0;
-    border: none;
-    padding: 14px 30px;
-    border-radius: 16px;
-    background: #ffd43b;
-    color: #172033;
-    font-size: 17px;
-    font-weight: bold;
-    cursor: pointer;
+.answer:hover{
+ background:#dbeafe;
 }
 
-/* SPECIAL GAME ELEMENTS */
-
-.memory-grid {
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    gap: 12px;
-    max-width: 550px;
-    margin: auto;
+.correct{
+ background:#dcfce7!important;
 }
 
-.memory-card {
-    height: 95px;
-    border: none;
-    border-radius: 15px;
-    background: #ffffff;
-    font-size: 35px;
-    cursor: pointer;
+.wrong{
+ background:#fee2e2!important;
 }
 
-.memory-card.hidden {
-    background: #1737a5;
-    color: transparent;
+.feedback{
+ text-align:center;
+ font-size:20px;
+ font-weight:bold;
+ min-height:35px;
+ margin:15px;
 }
 
-.memory-card.matched {
-    background: #36d47a;
+.progress{
+ height:12px;
+ background:#e5e7eb;
+ border-radius:20px;
+ overflow:hidden;
 }
 
-.race-track {
-    background: #12245e;
-    padding: 15px;
-    border-radius: 20px;
+.progressBar{
+ height:100%;
+ background:linear-gradient(90deg,#22c55e,#2563eb);
+ width:0%;
 }
 
-.racer {
-    background: white;
-    color: #111;
-    border-radius: 15px;
-    padding: 12px;
-    margin: 10px 0;
-    font-size: 25px;
-    transition: .4s;
-    width: 15%;
+.memory{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:10px;
+ max-width:500px;
+ margin:auto;
 }
 
-.drag-box {
-    padding: 20px;
-    background: white;
-    color: #111;
-    border-radius: 18px;
-    text-align: center;
-    margin: 15px;
-    cursor: grab;
-    font-size: 30px;
+.memory button{
+ aspect-ratio:1;
+ border:0;
+ border-radius:15px;
+ background:linear-gradient(135deg,#2563eb,#7c3aed);
+ color:transparent;
+ font-size:32px;
+ cursor:pointer;
 }
 
-.drop-zone {
-    border: 3px dashed white;
-    border-radius: 20px;
-    min-height: 100px;
-    padding: 20px;
-    text-align: center;
-    margin: 15px;
+.memory button.open,
+.memory button.matched{
+ background:#f8fafc;
+ color:#17213c;
 }
 
-.pattern {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    font-size: 40px;
-    margin: 30px;
+.lessonPlayer{
+ background:#0f172a;
+ color:white;
+ border-radius:22px;
+ overflow:hidden;
 }
 
-.timer {
-    text-align: center;
-    font-size: 22px;
-    font-weight: bold;
+.lessonScreen{
+ min-height:330px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
+ padding:40px;
+ background:
+ radial-gradient(circle at 20% 20%,#2563eb88,transparent 35%),
+ linear-gradient(135deg,#0f172a,#1e1b4b);
 }
 
-/* ADULT LEARNING */
-
-.adult-box {
-    background: white;
-    border-radius: 28px;
-    padding: 25px;
-    box-shadow: 0 8px 35px rgba(20,50,100,.12);
+.lessonScreen .big{
+ font-size:75px;
 }
 
-.video-container {
-    background: #10131a;
-    border-radius: 20px;
-    overflow: hidden;
-    margin-top: 20px;
+.lessonScreen h2{
+ font-size:32px;
 }
 
-.video-container video {
-    width: 100%;
-    display: block;
-    background: black;
-    max-height: 600px;
+.lessonScreen p{
+ max-width:650px;
+ font-size:19px;
+ line-height:1.6;
+ color:#dbeafe;
 }
 
-.video-error {
-    display: none;
-    padding: 25px;
-    background: #fff1f1;
-    color: #a60000;
-    text-align: center;
+.controls{
+ padding:15px;
+ display:flex;
+ gap:10px;
+ align-items:center;
+ flex-wrap:wrap;
 }
 
-.lesson-card {
-    margin-top: 20px;
-    padding: 20px;
-    background: #f5f8ff;
-    border-radius: 18px;
+.controls button{
+ border:0;
+ padding:11px 16px;
+ border-radius:12px;
+ background:#334155;
+ color:white;
+ font-weight:bold;
+ cursor:pointer;
 }
 
-footer {
-    text-align: center;
-    padding: 30px;
-    color: #667085;
+.lessonProgress{
+ height:7px;
+ background:#334155;
+}
+
+.lessonProgress div{
+ height:100%;
+ background:#60a5fa;
+ width:0%;
+}
+
+.quizBox{
+ margin-top:20px;
+ padding:20px;
+ background:#eef2ff;
+ border-radius:20px;
+}
+
+.quizBox button{
+ border:0;
+ background:white;
+ padding:12px 16px;
+ margin:5px;
+ border-radius:12px;
+ font-weight:bold;
+ cursor:pointer;
+}
+
+@media(max-width:600px){
+ header h1{font-size:32px}
+ .answers{grid-template-columns:1fr}
+ .question{font-size:23px}
+ .memory{grid-template-columns:repeat(4,1fr)}
 }
 </style>
 </head>
@@ -422,1652 +393,1589 @@ footer {
 <header>
 
 <h1>🎓 Learn & Play</h1>
-<p>Learn something new. Play something fun.</p>
 
-<div class="nav">
+<p>
+Fun educational games for kids and practical learning for adults
+</p>
 
-<button onclick="showSection('kids')">
+<div class="tabs">
+
+<button id="kidsButton"
+class="active"
+onclick="showKids()">
 🎮 Kids Games
 </button>
 
-<button onclick="showSection('adults')">
+<button id="adultButton"
+onclick="showAdults()">
 📚 Learning for Adults
 </button>
 
 </div>
-</header>
 
+</header>
 
 <div class="container">
 
-<!-- ======================================================
-     KIDS
-====================================================== -->
+<!-- ================= KIDS ================= -->
 
-<section id="kids" class="section active">
+<section id="kidsSection">
 
-<div class="hero">
 <h2>🎮 Kids Game Zone</h2>
 
-<p>
-20 interactive educational games —
-play, learn, earn stars and improve your skills.
-</p>
+<div class="stats">
+
+<div class="stat">
+⭐ Stars: <span id="stars">0</span>
 </div>
 
-<div class="games-grid" id="gamesGrid"></div>
+<div class="stat">
+🔥 Streak: <span id="streak">0</span>
+</div>
+
+<div class="stat">
+🏆 Level: <span id="level">1</span>
+</div>
+
+</div>
+
+<div class="games" id="games"></div>
 
 </section>
 
 
-<!-- ======================================================
-     ADULTS
-====================================================== -->
+<!-- ================= ADULTS ================= -->
 
-<section id="adults" class="section">
+<section id="adultSection" class="adults">
 
-<div class="hero">
+<div class="adultHero">
 
 <h2>📚 Learning for Adults</h2>
 
 <p>
-Watch lessons, learn useful skills and continue your learning.
+Learn useful skills through short lessons, interactive activities,
+audio and quizzes.
 </p>
 
 </div>
 
-<div class="adult-box">
-
-<h2>🎥 Adult Learning Video</h2>
-
-<p>
-Watch the lesson below. Use the controls to play, pause,
-change the volume and move through the video.
-</p>
-
-<div class="video-container">
-
-<video
-    id="adultVideo"
-    controls
-    playsinline
-    preload="metadata">
-
-    <source
-        src="/video/adult_learning.mp4"
-        type="video/mp4">
-
-    Your browser does not support HTML5 video.
-
-</video>
-
-<div id="videoError" class="video-error">
-⚠️ The video could not be loaded.
-
-<br><br>
-
-Make sure your video is called:
-
-<strong>adult_learning.mp4</strong>
-
-and is inside:
-
-<strong>static/videos/</strong>
-
-</div>
-
-</div>
-
-<div class="lesson-card">
-
-<h3>💡 Lesson</h3>
-
-<p>
-Watch the full video and then complete the lesson activity.
-More adult-learning courses can be added here later.
-</p>
-
-</div>
-
-</div>
+<div class="adultGrid" id="adultGrid"></div>
 
 </section>
 
 </div>
 
 
-<!-- ======================================================
-     GAME MODAL
-====================================================== -->
+<!-- ================= GAME MODAL ================= -->
 
-<div id="gameModal" class="modal">
+<div class="modal" id="gameModal">
 
-<div class="game-window">
+<div class="modalBox">
+
+<div class="modalHeader">
+
+<h2 id="gameTitle"></h2>
 
 <button class="close" onclick="closeGame()">×</button>
 
-<div class="game-top">
-
-<h2 id="gameTitle">Game</h2>
-
-<div class="score">
-⭐ <span id="score">0</span>
 </div>
 
-</div>
-
-<div id="gameArea" class="game-area"></div>
+<div class="modalBody" id="gameBody"></div>
 
 </div>
 
 </div>
 
 
-<footer>
-© 2026 Learn & Play
-</footer>
+<!-- ================= LESSON MODAL ================= -->
+
+<div class="modal" id="lessonModal">
+
+<div class="modalBox">
+
+<div class="modalHeader">
+
+<h2 id="lessonTitle"></h2>
+
+<button class="close" onclick="closeLesson()">×</button>
+
+</div>
+
+<div class="modalBody" id="lessonBody"></div>
+
+</div>
+
+</div>
 
 
 <script>
 
 /* =========================================================
+   SAVE PLAYER DATA
+========================================================= */
+
+let stars=Number(localStorage.getItem("stars")||0);
+let streak=Number(localStorage.getItem("streak")||0);
+let level=Number(localStorage.getItem("level")||1);
+
+function save(){
+
+ localStorage.setItem("stars",stars);
+ localStorage.setItem("streak",streak);
+
+ level=Math.max(1,Math.floor(stars/20)+1);
+
+ localStorage.setItem("level",level);
+
+ document.getElementById("stars").textContent=stars;
+ document.getElementById("streak").textContent=streak;
+ document.getElementById("level").textContent=level;
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function showKids(){
+
+ document.getElementById("kidsSection").style.display="block";
+ document.getElementById("adultSection").style.display="none";
+
+ document.getElementById("kidsButton").classList.add("active");
+ document.getElementById("adultButton").classList.remove("active");
+
+}
+
+function showAdults(){
+
+ document.getElementById("kidsSection").style.display="none";
+ document.getElementById("adultSection").style.display="block";
+
+ document.getElementById("kidsButton").classList.remove("active");
+ document.getElementById("adultButton").classList.add("active");
+
+}
+
+
+/* =========================================================
    20 GAMES
 ========================================================= */
 
-const games = [
+const games=[
 
-{
-    title:"Number Race",
-    icon:"🏎️",
-    description:"Race to the correct number.",
-    type:"numberRace"
-},
-
-{
-    title:"Colour Catcher",
-    icon:"🎨",
-    description:"Catch the correct colour.",
-    type:"colour"
-},
-
-{
-    title:"Memory Match",
-    icon:"🧠",
-    description:"Find matching pairs.",
-    type:"memory"
-},
-
-{
-    title:"Word Builder",
-    icon:"🔤",
-    description:"Build words from letters.",
-    type:"word"
-},
-
-{
-    title:"Math Blaster",
-    icon:"🚀",
-    description:"Solve maths before the rocket launches.",
-    type:"math"
-},
-
-{
-    title:"Shape Builder",
-    icon:"🔷",
-    description:"Choose the correct shape.",
-    type:"shape"
-},
-
-{
-    title:"Animal Match",
-    icon:"🐶",
-    description:"Match animals with their homes.",
-    type:"animal"
-},
-
-{
-    title:"Counting Garden",
-    icon:"🌻",
-    description:"Count the objects in the garden.",
-    type:"count"
-},
-
-{
-    title:"Odd One Out",
-    icon:"🔎",
-    description:"Find the object that doesn't belong.",
-    type:"odd"
-},
-
-{
-    title:"Pattern Master",
-    icon:"🧩",
-    description:"Complete the pattern.",
-    type:"pattern"
-},
-
-{
-    title:"Addition Adventure",
-    icon:"➕",
-    description:"Solve addition challenges.",
-    type:"addition"
-},
-
-{
-    title:"Subtraction Quest",
-    icon:"➖",
-    description:"Solve subtraction challenges.",
-    type:"subtraction"
-},
-
-{
-    title:"Spelling Star",
-    icon:"⭐",
-    description:"Choose the correctly spelled word.",
-    type:"spelling"
-},
-
-{
-    title:"Animal Sounds",
-    icon:"🐮",
-    description:"Match the animal to its sound.",
-    type:"sounds"
-},
-
-{
-    title:"World Explorer",
-    icon:"🌍",
-    description:"Learn countries and places.",
-    type:"world"
-},
-
-{
-    title:"Science Lab",
-    icon:"🔬",
-    description:"Test simple science facts.",
-    type:"science"
-},
-
-{
-    title:"Money Shop",
-    icon:"🛒",
-    description:"Learn simple money maths.",
-    type:"money"
-},
-
-{
-    title:"Clock Master",
-    icon:"⏰",
-    description:"Learn to read the clock.",
-    type:"clock"
-},
-
-{
-    title:"Fast Shapes",
-    icon:"⚡",
-    description:"React quickly and choose the right shape.",
-    type:"fastShape"
-},
-
-{
-    title:"Treasure Hunt",
-    icon:"🏴‍☠️",
-    description:"Solve clues to find the treasure.",
-    type:"treasure"
-}
+["🏎️","Number Race","Race to the correct number","number"],
+["🧠","Memory Match","Remember and match the cards","memory"],
+["🔤","Word Scramble","Unscramble the hidden word","scramble"],
+["🐝","Spelling Bee","Choose the correctly spelled word","spelling"],
+["🚀","Math Blaster","Solve maths to launch the rocket","math"],
+["🔷","Shape Hunt","Find the requested shape","shape"],
+["🎨","Colour Mix","Learn how colours combine","colour"],
+["🧩","Pattern Master","Find what comes next","pattern"],
+["🔎","Odd One Out","Find what does not belong","odd"],
+["➕","Addition Adventure","Solve addition challenges","addition"],
+["➖","Subtraction Sprint","Solve subtraction challenges","subtraction"],
+["✖️","Multiplication Mission","Master multiplication","multiplication"],
+["➗","Division Dash","Solve division challenges","division"],
+["💷","Money Master","Learn money and change","money"],
+["🍕","Fraction Frenzy","Learn fractions","fraction"],
+["⏰","Time Detective","Learn to read time","time"],
+["🌍","Geography Explorer","Explore countries and capitals","geography"],
+["🧪","Science Lab","Learn basic science","science"],
+["⌨️","Typing Challenge","Build typing skills","typing"],
+["🕵️","Logic Detective","Solve logic puzzles","logic"]
 
 ];
 
 
-/* =========================================================
-   GAME CARDS
-========================================================= */
+function renderGames(){
 
-const gamesGrid = document.getElementById("gamesGrid");
+ const container=document.getElementById("games");
 
-games.forEach((game,index) => {
+ container.innerHTML="";
 
-    const card = document.createElement("div");
+ games.forEach((g,i)=>{
 
-    card.className = "game-card";
+  const div=document.createElement("div");
 
-    card.innerHTML = `
+  div.className="game";
 
-        <div class="game-icon">${game.icon}</div>
+  div.innerHTML=`
 
-        <h3>${index+1}. ${game.title}</h3>
+  <div class="game-icon">${g[0]}</div>
 
-        <p>${game.description}</p>
+  <h3>${i+1}. ${g[1]}</h3>
 
-        <button class="play-button"
-                onclick="startGame(${index})">
-            ▶ Play Game
-        </button>
+  <p>${g[2]}</p>
 
-    `;
+  <button class="play" onclick="startGame(${i})">
+  ▶ Play Game
+  </button>
 
-    gamesGrid.appendChild(card);
-});
+  `;
 
+  container.appendChild(div);
 
-/* =========================================================
-   GAME VARIABLES
-========================================================= */
+ });
 
-let currentGame = null;
-let score = 0;
-let round = 0;
-let gameData = {};
-let memoryFirst = null;
-let memoryLock = false;
-
-
-/* =========================================================
-   START GAME
-========================================================= */
-
-function startGame(index) {
-
-    currentGame = games[index];
-
-    score = 0;
-    round = 0;
-    gameData = {};
-    memoryFirst = null;
-    memoryLock = false;
-
-    document.getElementById("gameTitle").textContent =
-        currentGame.icon + " " + currentGame.title;
-
-    document.getElementById("score").textContent = score;
-
-    document.getElementById("gameModal").classList.add("show");
-
-    nextRound();
 }
 
 
 /* =========================================================
-   CLOSE
+   RANDOM HELPERS
 ========================================================= */
 
-function closeGame() {
+function random(min,max){
+
+ return Math.floor(Math.random()*(max-min+1))+min;
+
+}
+
+function shuffle(array){
+
+ return array.sort(()=>Math.random()-0.5);
+
+}
+
+function options(correct,amount=4){
+
+ let arr=[correct];
+
+ while(arr.length<amount){
+
+  let n=random(
+   Math.max(0,Number(correct)-10),
+   Number(correct)+10
+  );
+
+  if(!arr.includes(n)) arr.push(n);
+
+ }
+
+ return shuffle(arr);
+
+}
+
+
+/* =========================================================
+   GAME ENGINE
+========================================================= */
+
+let currentGame=0;
+let round=0;
+let score=0;
+let correctAnswer="";
+let memoryData=null;
+
+
+function startGame(index){
+
+ currentGame=index;
+ round=0;
+ score=0;
+
+ document.getElementById("gameModal").classList.add("show");
+
+ document.getElementById("gameTitle").textContent=
+ games[index][0]+" "+games[index][1];
+
+ nextQuestion();
+
+}
+
+
+function closeGame(){
+
+ document.getElementById("gameModal").classList.remove("show");
+
+}
+
+
+/* =========================================================
+   QUESTIONS
+========================================================= */
+
+function nextQuestion(){
+
+ if(round>=8){
+
+  finishGame();
+  return;
+
+ }
+
+ const type=games[currentGame][3];
+
+ if(type==="memory"){
+
+  if(round===0){
+
+   createMemory();
+
+  }
+
+  return;
+
+ }
+
+
+ let question="";
+ let correct="";
+ let answers=[];
+
+
+/* NUMBER */
+
+ if(type==="number"){
+
+  correct=random(1,20);
+
+  question="🏎️ Choose number "+correct;
+
+  answers=options(correct);
+
+ }
+
+
+/* SCRAMBLE */
+
+ if(type==="scramble"){
+
+  const words=[
+   "APPLE",
+   "ROCKET",
+   "PLANET",
+   "GARDEN",
+   "SCHOOL",
+   "BANANA"
+  ];
+
+  let word=words[random(0,words.length-1)];
+
+  correct=word;
+
+  question=
+  "🔤 Unscramble: <b>"+
+  shuffle(word.split("")).join(" ")+
+  "</b>";
+
+  answers=shuffle(words);
+
+ }
+
+
+/* SPELLING */
+
+ if(type==="spelling"){
+
+  const sets=[
+
+  ["BEAUTIFUL",["BEAUTIFUL","BEATIFUL","BEAUTIFULL","BEUTIFUL"]],
+
+  ["FRIEND",["FRIEND","FREIND","FRND","FREEND"]],
+
+  ["SCHOOL",["SCHOOL","SCool","SCHOL","SHCOOL"]],
+
+  ["BECAUSE",["BECAUSE","BECOUSE","BECASUE","BECAUS"]]
+
+  ];
+
+  let set=sets[round%sets.length];
+
+  correct=set[0];
+
+  question="🐝 Which word is spelled correctly?";
+
+  answers=shuffle(set[1]);
+
+ }
+
+
+/* MATH */
+
+ if(type==="math"){
+
+  let a=random(2,12);
+  let b=random(2,12);
+
+  correct=a*b;
+
+  question=`🚀 ${a} × ${b} = ?`;
+
+  answers=options(correct);
+
+ }
+
+
+/* SHAPE */
+
+ if(type==="shape"){
+
+  const shapes=[
+
+   ["⭐","star"],
+   ["🔵","circle"],
+   ["🟥","square"],
+   ["🔺","triangle"]
+
+  ];
+
+  let s=shapes[round%shapes.length];
+
+  correct=s[0];
+
+  question="🔷 Find the "+s[1];
+
+  answers=shuffle(shapes.map(x=>x[0]));
+
+ }
+
+
+/* COLOUR */
+
+ if(type==="colour"){
+
+  const q=[
+
+   ["🔴 + 🔵","PURPLE"],
+   ["🔵 + 🟡","GREEN"],
+   ["🔴 + 🟡","ORANGE"]
+
+  ];
+
+  let x=q[round%q.length];
+
+  correct=x[1];
+
+  question="🎨 What colour do these make? "+x[0];
+
+  answers=shuffle([
+   "PURPLE",
+   "GREEN",
+   "ORANGE",
+   "BLUE"
+  ]);
+
+ }
+
+
+/* PATTERN */
+
+ if(type==="pattern"){
+
+  let start=random(1,5);
+  let add=random(2,5);
+
+  let a=start;
+  let b=a+add;
+  let c=b+add;
+  let d=c+add;
+
+  correct=d+add;
+
+  question=`🧩 ${a} → ${b} → ${c} → ${d} → ?`;
+
+  answers=options(correct);
+
+ }
+
+
+/* ODD */
+
+ if(type==="odd"){
+
+  if(round%2===0){
+
+   answers=shuffle(["🐶","🐶","🐶","🚗"]);
+
+   correct="🚗";
+
+  }else{
+
+   answers=shuffle(["🍎","🍎","🚗","🍎"]);
+
+   correct="🚗";
+
+  }
+
+  question="🔎 Which one is different?";
+
+ }
+
+
+/* ADDITION */
+
+ if(type==="addition"){
+
+  let a=random(5,40);
+  let b=random(1,30);
+
+  correct=a+b;
+
+  question=`➕ ${a} + ${b} = ?`;
+
+  answers=options(correct);
+
+ }
+
+
+/* SUBTRACTION */
+
+ if(type==="subtraction"){
+
+  let a=random(20,60);
+  let b=random(1,a);
+
+  correct=a-b;
+
+  question=`➖ ${a} − ${b} = ?`;
+
+  answers=options(correct);
+
+ }
+
+
+/* MULTIPLICATION */
+
+ if(type==="multiplication"){
+
+  let a=random(2,12);
+  let b=random(2,12);
+
+  correct=a*b;
+
+  question=`✖️ ${a} × ${b} = ?`;
+
+  answers=options(correct);
+
+ }
+
+
+/* DIVISION */
+
+ if(type==="division"){
+
+  let b=random(2,10);
+  let answer=random(2,10);
+
+  let a=b*answer;
+
+  correct=answer;
+
+  question=`➗ ${a} ÷ ${b} = ?`;
+
+  answers=options(correct);
+
+ }
+
+
+/* MONEY */
+
+ if(type==="money"){
+
+  let price=[2.50,4,7.50,9][round%4];
+
+  let paid=price<5?10:20;
+
+  correct=(paid-price).toFixed(2);
+
+  question=
+  `💷 A £${price.toFixed(2)} item is paid with £${paid}. What is the change?`;
+
+  answers=shuffle([
+
+   "£"+correct,
+   "£1.00",
+   "£3.50",
+   "£8.00"
+
+  ]);
+
+ }
+
+
+/* FRACTION */
+
+ if(type==="fraction"){
+
+  let data=[
+
+   ["½","one half"],
+   ["¼","one quarter"],
+   ["¾","three quarters"],
+   ["⅓","one third"]
+
+  ][round%4];
+
+  correct=data[0];
+
+  question="🍕 Which symbol means "+data[1]+"?";
+
+  answers=shuffle(["½","¼","¾","⅓"]);
+
+ }
+
+
+/* TIME */
+
+ if(type==="time"){
+
+  let hour=[3,6,9,12][round%4];
+
+  correct=hour+":00";
+
+  question=
+  `⏰ The clock shows ${hour} o'clock. What time is it?`;
+
+  answers=shuffle([
+
+   hour+":00",
+   ((hour+1-1)%12+1)+":00",
+   ((hour+2-1)%12+1)+":00",
+   ((hour+3-1)%12+1)+":00"
+
+  ]);
+
+ }
+
+
+/* GEOGRAPHY */
+
+ if(type==="geography"){
+
+  let data=[
+
+   ["What is the capital of France?","Paris",
+   ["Paris","Madrid","Rome","London"]],
+
+   ["What is the capital of Japan?","Tokyo",
+   ["Tokyo","Seoul","Beijing","Osaka"]],
+
+   ["Which is a continent?","Africa",
+   ["Africa","London","Nile","Amazon"]],
+
+   ["The Eiffel Tower is in which country?","France",
+   ["France","Italy","Spain","Germany"]]
+
+  ][round%4];
+
+  question="🌍 "+data[0];
+
+  correct=data[1];
+
+  answers=shuffle(data[2]);
+
+ }
+
+
+/* SCIENCE */
+
+ if(type==="science"){
+
+  let data=[
+
+   ["What do plants need for photosynthesis?","Light",
+   ["Light","Plastic","Metal","Sound"]],
+
+   ["Which planet has famous rings?","Saturn",
+   ["Saturn","Mars","Earth","Mercury"]],
+
+   ["At what temperature does water freeze?","0°C",
+   ["0°C","50°C","100°C","-50°C"]],
+
+   ["What gas do humans mainly breathe?","Oxygen",
+   ["Oxygen","Gold","Iron","Helium"]]
+
+  ][round%4];
+
+  question="🧪 "+data[0];
+
+  correct=data[1];
+
+  answers=shuffle(data[2]);
+
+ }
+
+
+/* TYPING */
+
+ if(type==="typing"){
+
+  let words=[
+   "APPLE",
+   "ROCKET",
+   "PLANET",
+   "SCHOOL",
+   "GARDEN"
+  ];
+
+  correct=words[round%words.length];
+
+  correctAnswer=correct;
+
+  document.getElementById("gameBody").innerHTML=`
+
+   <div class="question">
+   ⌨️ Type this word
+   <br><br>
+   <b>${correct}</b>
+   </div>
+
+   <input id="typingInput"
+   style="display:block;width:100%;padding:15px;font-size:22px;border:3px solid #c7d2fe;border-radius:15px"
+   autofocus>
+
+   <br>
+
+   <button class="play" onclick="checkTyping()">
+   Submit Answer
+   </button>
+
+   <div class="feedback" id="feedback"></div>
+
+  `;
+
+  return;
+
+ }
+
+
+/* LOGIC */
+
+ if(type==="logic"){
+
+  let data=[
+
+   ["I have keys but no locks. What am I?",
+   "KEYBOARD",
+   ["KEYBOARD","HOUSE","SHOE","BOTTLE"]],
+
+   ["What comes next: 2, 4, 8, 16, ?",
+   "32",
+   ["32","20","24","30"]],
+
+   ["Which is heavier: 1kg of iron or 500g of iron?",
+   "1KG OF IRON",
+   ["1KG OF IRON","500G OF IRON","100G OF GOLD","10G OF PAPER"]]
+
+  ][round%3];
+
+  question="🕵️ "+data[0];
+
+  correct=data[1];
+
+  answers=shuffle(data[2]);
+
+ }
+
+
+correctAnswer=String(correct);
+
+document.getElementById("gameBody").innerHTML=`
+
+<div>
+
+<div class="progress">
+<div class="progressBar"
+style="width:${round/8*100}%"></div>
+</div>
+
+<div class="question">
+${question}
+</div>
+
+<div class="answers">
+
+${answers.map(answer=>`
+
+<button class="answer"
+onclick="answerQuestion(this,'${String(answer).replace(/'/g,"\\'")}')">
+
+${answer}
+
+</button>
+
+`).join("")}
+
+</div>
+
+<div class="feedback" id="feedback"></div>
+
+</div>
+
+`;
+
+}
+
+
+/* =========================================================
+   ANSWER
+========================================================= */
+
+function answerQuestion(button,value){
+
+ const buttons=document.querySelectorAll(".answer");
+
+ buttons.forEach(b=>b.disabled=true);
+
+ let feedback=document.getElementById("feedback");
+
+ if(String(value)===String(correctAnswer)){
+
+  button.classList.add("correct");
+
+  feedback.textContent="🎉 Correct! +1 ⭐";
+
+  score++;
+  stars++;
+  streak++;
+
+ }else{
+
+  button.classList.add("wrong");
+
+  feedback.textContent=
+  "❌ Not quite. Correct answer: "+correctAnswer;
+
+  streak=0;
+
+ }
+
+ save();
+
+ round++;
+
+ setTimeout(nextQuestion,900);
+
+}
+
+
+/* =========================================================
+   TYPING
+========================================================= */
+
+function checkTyping(){
+
+ let input=
+ document.getElementById("typingInput").value
+ .trim()
+ .toUpperCase();
+
+ let feedback=document.getElementById("feedback");
+
+ if(input===correctAnswer){
+
+  feedback.textContent="🎉 Excellent! +1 ⭐";
+
+  score++;
+  stars++;
+  streak++;
+
+ }else{
+
+  feedback.textContent=
+  "❌ Try again. The word is "+correctAnswer;
+
+  streak=0;
+
+ }
+
+ save();
+
+ round++;
+
+ setTimeout(nextQuestion,900);
+
+}
+
+
+/* =========================================================
+   MEMORY GAME
+========================================================= */
+
+function createMemory(){
+
+ let symbols=[
+  "🍎","🚀","🐶","⭐",
+  "🎸","🍕","⚽","🦁"
+ ];
+
+ let cards=shuffle([...symbols,...symbols]);
+
+ memoryData={
+  cards:cards,
+  opened:[],
+  matched:[]
+ };
+
+ document.getElementById("gameBody").innerHTML=`
+
+ <div class="question">
+ 🧠 Match all the pairs!
+ </div>
+
+ <div class="memory">
+
+ ${cards.map((x,i)=>`
+
+ <button
+ id="memory${i}"
+ onclick="flipMemory(${i})">
+ ${x}
+ </button>
+
+ `).join("")}
+
+ </div>
+
+ <div class="feedback" id="memoryFeedback">
+ Find all 8 pairs!
+ </div>
+
+ `;
+
+}
+
+
+function flipMemory(index){
+
+ if(
+ memoryData.opened.includes(index) ||
+ memoryData.matched.includes(index)
+ ) return;
+
+ memoryData.opened.push(index);
+
+ document
+ .getElementById("memory"+index)
+ .classList.add("open");
+
+ if(memoryData.opened.length===2){
+
+  let a=memoryData.opened[0];
+  let b=memoryData.opened[1];
+
+  if(memoryData.cards[a]===memoryData.cards[b]){
+
+   memoryData.matched.push(a,b);
+
+   document.getElementById("memory"+a)
+   .classList.add("matched");
+
+   document.getElementById("memory"+b)
+   .classList.add("matched");
+
+   memoryData.opened=[];
+
+   stars++;
+   score++;
+
+   save();
+
+   document.getElementById("memoryFeedback")
+   .textContent="✨ Great match!";
+
+   if(memoryData.matched.length===16){
+
+    setTimeout(()=>{
+
+     stars+=8;
+     save();
+
+     document.getElementById("gameBody").innerHTML=`
+
+     <div class="question">
+     🏆 MEMORY MASTER!
+     </div>
+
+     <p style="text-align:center;font-size:20px">
+     You matched every pair!<br>
+     ⭐ +8 bonus stars
+     </p>
+
+     <button class="play"
+     onclick="startGame(${currentGame})">
+     🔄 Play Again
+     </button>
+
+     `;
+
+    },700);
+
+   }
+
+  }else{
+
+   setTimeout(()=>{
 
     document
-        .getElementById("gameModal")
-        .classList.remove("show");
-}
-
-
-/* =========================================================
-   SCORE
-========================================================= */
-
-function addScore(points=10) {
-
-    score += points;
-
-    document.getElementById("score").textContent = score;
-}
-
-
-/* =========================================================
-   FEEDBACK
-========================================================= */
-
-function feedback(message,good=true) {
-
-    const old = document.querySelector(".feedback");
-
-    if(old) old.remove();
-
-    const div = document.createElement("div");
-
-    div.className = "feedback";
-
-    div.textContent = message;
-
-    div.style.color = good ? "#aaffc9" : "#ffd0d0";
-
-    document.getElementById("gameArea").appendChild(div);
-}
-
-
-/* =========================================================
-   NEXT ROUND
-========================================================= */
-
-function nextRound() {
-
-    round++;
-
-    if(round > 10) {
-
-        document.getElementById("gameArea").innerHTML = `
-
-            <div style="text-align:center">
-
-                <div style="font-size:70px">🏆</div>
-
-                <h2>Fantastic!</h2>
-
-                <p>You completed the game.</p>
-
-                <h1>⭐ ${score} points</h1>
-
-                <button class="next-button"
-                        onclick="startGame(
-                        games.findIndex(
-                        g=>g.type==='${currentGame.type}'
-                        ))">
-                    🔄 Play Again
-                </button>
-
-            </div>
-        `;
-
-        return;
-    }
-
-    renderGame();
-}
-
-
-/* =========================================================
-   GAME RENDERER
-========================================================= */
-
-function renderGame() {
-
-    const type = currentGame.type;
-
-    if(type === "numberRace") numberRace();
-    else if(type === "colour") colourGame();
-    else if(type === "memory") memoryGame();
-    else if(type === "word") wordGame();
-    else if(type === "math") mathGame();
-    else if(type === "shape") shapeGame();
-    else if(type === "animal") animalGame();
-    else if(type === "count") countGame();
-    else if(type === "odd") oddGame();
-    else if(type === "pattern") patternGame();
-    else if(type === "addition") additionGame();
-    else if(type === "subtraction") subtractionGame();
-    else if(type === "spelling") spellingGame();
-    else if(type === "sounds") soundsGame();
-    else if(type === "world") worldGame();
-    else if(type === "science") scienceGame();
-    else if(type === "money") moneyGame();
-    else if(type === "clock") clockGame();
-    else if(type === "fastShape") fastShapeGame();
-    else if(type === "treasure") treasureGame();
-}
-
-
-/* =========================================================
-   1. NUMBER RACE
-========================================================= */
-
-function numberRace() {
-
-    const answer =
-        Math.floor(Math.random()*10)+1;
-
-    let nums = [answer];
-
-    while(nums.length < 4) {
-
-        let n =
-            Math.floor(Math.random()*10)+1;
-
-        if(!nums.includes(n))
-            nums.push(n);
-    }
-
-    nums.sort(()=>Math.random()-.5);
-
-    document.getElementById("gameArea").innerHTML = `
-
-        <div class="question">
-            🏎️ Race to number ${answer}!
-        </div>
-
-        <div class="race-track">
-
-            <div class="racer">🏎️</div>
-
-        </div>
-
-        <div class="choices">
-
-            ${nums.map(n=>`
-
-                <button class="choice"
-                        onclick="numberAnswer(this,${n},${answer})">
-                    ${n}
-                </button>
-
-            `).join("")}
-
-        </div>
-    `;
-}
-
-
-function numberAnswer(button,n,answer) {
-
-    if(n === answer) {
-
-        button.classList.add("correct");
-
-        addScore();
-
-        feedback("🏁 Great driving!");
-
-        setTimeout(nextRound,700);
-
-    } else {
-
-        button.classList.add("wrong");
-
-        feedback("Try again!",false);
-    }
-}
-
-
-/* =========================================================
-   2. COLOUR
-========================================================= */
-
-function colourGame() {
-
-    const colours = [
-        ["🔴","Red"],
-        ["🟢","Green"],
-        ["🔵","Blue"],
-        ["🟡","Yellow"],
-        ["🟣","Purple"],
-        ["🟠","Orange"]
-    ];
-
-    const target =
-        colours[Math.floor(Math.random()*colours.length)];
-
-    const options =
-        [...colours].sort(()=>Math.random()-.5).slice(0,4);
-
-    if(!options.some(x=>x[1]===target[1]))
-        options[0]=target;
-
-    document.getElementById("gameArea").innerHTML = `
-
-        <div class="question">
-            🎨 Find ${target[1]}
-        </div>
-
-        <div style="text-align:center;font-size:100px">
-            ${target[0]}
-        </div>
-
-        <div class="choices">
-
-        ${options.map(c=>`
-
-            <button class="choice"
-                    onclick="colourAnswer(this,'${c[1]}','${target[1]}')">
-                ${c[0]} ${c[1]}
-            </button>
-
-        `).join("")}
-
-        </div>
-    `;
-}
-
-
-function colourAnswer(button,value,answer) {
-
-    if(value === answer) {
-
-        button.classList.add("correct");
-        addScore();
-        feedback("🎨 Correct colour!");
-
-        setTimeout(nextRound,700);
-
-    } else {
-
-        button.classList.add("wrong");
-        feedback("Try another colour.",false);
-    }
-}
-
-
-/* =========================================================
-   3. MEMORY
-========================================================= */
-
-function memoryGame() {
-
-    const emojis =
-        ["🐶","🐱","🦊","🐸","🐵","🐼","🦁","🐯"];
-
-    let cards =
-        [...emojis,...emojis]
-        .sort(()=>Math.random()-.5);
-
-    document.getElementById("gameArea").innerHTML = `
-
-        <div class="question">
-            🧠 Find the matching pairs
-        </div>
-
-        <div class="memory-grid">
-
-        ${cards.map((e,i)=>`
-
-            <button
-                class="memory-card hidden"
-                data-value="${e}"
-                onclick="flipMemory(this)">
-                ${e}
-            </button>
-
-        `).join("")}
-
-        </div>
-    `;
-
-    gameData.matches=0;
-}
-
-
-function flipMemory(card) {
-
-    if(memoryLock ||
-       !card.classList.contains("hidden") ||
-       card.classList.contains("matched"))
-        return;
-
-    card.classList.remove("hidden");
-
-    if(!memoryFirst) {
-
-        memoryFirst=card;
-
-        return;
-    }
-
-    if(memoryFirst.dataset.value === card.dataset.value) {
-
-        memoryFirst.classList.add("matched");
-        card.classList.add("matched");
-
-        memoryFirst=null;
-
-        gameData.matches++;
-
-        addScore(15);
-
-        if(gameData.matches === 8)
-            setTimeout(nextRound,700);
-
-    } else {
-
-        memoryLock=true;
-
-        setTimeout(()=>{
-
-            memoryFirst.classList.add("hidden");
-            card.classList.add("hidden");
-
-            memoryFirst=null;
-            memoryLock=false;
-
-        },650);
-    }
-}
-
-
-/* =========================================================
-   4. WORD BUILDER
-========================================================= */
-
-function wordGame() {
-
-    const words =
-        ["FISH","FROG","TREE","BOOK","STAR","BALL"];
-
-    const word =
-        words[Math.floor(Math.random()*words.length)];
-
-    const letters =
-        word.split("").sort(()=>Math.random()-.5);
-
-    gameData.word=word;
-    gameData.selected="";
-
-    document.getElementById("gameArea").innerHTML = `
-
-        <div class="question">
-            🔤 Build the word
-        </div>
-
-        <h1 style="text-align:center;letter-spacing:10px">
-            ${"_ ".repeat(word.length)}
-        </h1>
-
-        <div id="wordAnswer"
-             style="text-align:center;
-                    font-size:35px;
-                    min-height:50px">
-        </div>
-
-        <div class="choices">
-
-        ${letters.map((l,i)=>`
-
-            <button class="choice"
-                    onclick="letterClick(this,'${l}')">
-                ${l}
-            </button>
-
-        `).join("")}
-
-        </div>
-
-        <button class="next-button"
-                onclick="checkWord()">
-            Check Word
-        </button>
-    `;
-}
-
-
-function letterClick(button,l) {
-
-    button.disabled=true;
-
-    gameData.selected += l;
-
-    document.getElementById("wordAnswer")
-        .textContent=gameData.selected;
-}
-
-
-function checkWord() {
-
-    if(gameData.selected === gameData.word) {
-
-        addScore(15);
-
-        feedback("🔤 Excellent spelling!");
-
-        setTimeout(nextRound,800);
-
-    } else {
-
-        feedback("Not quite. Try the letters again.",false);
-    }
-}
-
-
-/* =========================================================
-   5. MATH BLASTER
-========================================================= */
-
-function mathGame() {
-
-    const a=Math.floor(Math.random()*10)+1;
-    const b=Math.floor(Math.random()*10)+1;
-    const answer=a+b;
-
-    const options =
-        [answer,answer+1,answer-1,answer+3]
-        .sort(()=>Math.random()-.5);
-
-    document.getElementById("gameArea").innerHTML=`
-
-        <div class="question">
-            🚀 Rocket maths!
-            <br>
-            ${a} + ${b} = ?
-        </div>
-
-        <div class="choices">
-
-        ${options.map(n=>`
-
-            <button class="choice"
-                    onclick="simpleAnswer(this,${n},${answer})">
-                ${n}
-            </button>
-
-        `).join("")}
-
-        </div>
-    `;
-}
-
-
-/* =========================================================
-   6. SHAPES
-========================================================= */
-
-function shapeGame() {
-
-    const shapes =
-        ["🔵","🟥","🔺","⭐","⬟"];
-
-    const target =
-        shapes[Math.floor(Math.random()*shapes.length)];
-
-    document.getElementById("gameArea").innerHTML=`
-
-        <div class="question">
-            🔷 Find the ${target}
-        </div>
-
-        <div class="choices">
-
-        ${[...shapes]
-            .sort(()=>Math.random()-.5)
-            .map(s=>`
-
-            <button class="choice"
-                    onclick="simpleTextAnswer(
-                        this,
-                        '${s}',
-                        '${target}')">
-                ${s}
-            </button>
-
-        `).join("")}
-
-        </div>
-    `;
-}
-
-
-/* =========================================================
-   7. ANIMAL MATCH
-========================================================= */
-
-function animalGame() {
-
-    const data = [
-        ["🐟","🌊","Ocean"],
-        ["🐦","🌳","Tree"],
-        ["🐝","🌸","Flower"],
-        ["🐄","🏠","Farm"]
-    ];
-
-    const item =
-        data[Math.floor(Math.random()*data.length)];
-
-    document.getElementById("gameArea").innerHTML=`
-
-        <div class="question">
-            🐾 Where does the ${item[0]} belong?
-        </div>
-
-        <div class="choices">
-
-            <button class="choice"
-                    onclick="simpleTextAnswer(this,'🌊','${item[1]}')">
-                🌊 Ocean
-            </button>
-
-            <button class="choice"
-                    onclick="simpleTextAnswer(this,'🌳','${item[1]}')">
-                🌳 Tree
-            </button>
-
-            <button class="choice"
-                    onclick="simpleTextAnswer(this,'🌸','${item[1]}')">
-                🌸 Flower
-            </button>
-
-            <button class="choice"
-                    onclick="simpleTextAnswer(this,'🏠','${item[1]}')">
-                🏠 Farm
-            </button>
-
-        </div>
-    `;
-}
-
-
-/* =========================================================
-   8. COUNTING GARDEN
-========================================================= */
-
-function countGame() {
-
-    const count =
-        Math.floor(Math.random()*9)+2;
-
-    const objects =
-        "🌻".repeat(count);
-
-    const options =
-        [count,count+1,count-1,count+2]
-        .sort(()=>Math.random()-.5);
-
-    document.getElementById("gameArea").innerHTML=`
-
-        <div class="question">
-            🌻 How many flowers?
-        </div>
-
-        <div style="font-size:50px;
-                    text-align:center;
-                    line-height:1.5">
-            ${objects}
-        </div>
-
-        <div class="choices">
-
-        ${options.map(n=>`
-
-            <button class="choice"
-                    onclick="simpleAnswer(this,${n},${count})">
-                ${n}
-            </button>
-
-        `).join("")}
-
-        </div>
-    `;
-}
-
-
-/* =========================================================
-   9. ODD ONE OUT
-========================================================= */
-
-function oddGame() {
-
-    const sets = [
-        ["🍎","🍎","🍎","🚗"],
-        ["🐶","🐶","🐱","🐶"],
-        ["⭐","⭐","🌙","⭐"],
-        ["🍌","🍌","🍌","🍕"]
-    ];
-
-    const set =
-        sets[Math.floor(Math.random()*sets.length)];
-
-    const odd =
-        set.find((x,i,a)=>a.indexOf(x)===a.lastIndexOf(x));
-
-    document.getElementById("gameArea").innerHTML=`
-
-        <div class="question">
-            🔎 Find the odd one
-        </div>
-
-        <div class="choices">
-
-        ${set.map(x=>`
-
-            <button class="choice"
-                    onclick="simpleTextAnswer(
-                        this,
-                        '${x}',
-                        '${odd}')">
-                ${x}
-            </button>
-
-        `).join("")}
-
-        </div>
-    `;
-}
-
-
-/* =========================================================
-   10. PATTERN
-========================================================= */
-
-function patternGame() {
-
-    const patterns = [
-        ["🔴","🔵","🔴","🔵","?","🔵","🔴"],
-        ["⭐","⭐","🌙","⭐","⭐","🌙","?"],
-        ["🍎","🍌","🍎","🍌","?","🍌"]
-    ];
-
-    const p =
-        patterns[Math.floor(Math.random()*patterns.length)];
-
-    let answer;
-
-    if(p[0]==="🔴") answer="🔴";
-    else if(p[2]==="🌙") answer="🌙";
-    else answer="🍎";
-
-    const options =
-        ["🔴","🔵","⭐","🌙","🍎","🍌"]
-        .sort(()=>Math.random()-.5)
-        .slice(0,4);
-
-    if(!options.includes(answer))
-        options[0]=answer;
-
-    document.getElementById("gameArea").innerHTML=`
-
-        <div class="question">
-            🧩 Complete the pattern
-        </div>
-
-        <div class="pattern">
-            ${p.map(x=>`<span>${x}</span>`).join("")}
-        </div>
-
-        <div class="choices">
-
-        ${options.map(x=>`
-
-            <button class="choice"
-                    onclick="simpleTextAnswer(
-                        this,
-                        '${x}',
-                        '${answer}')">
-                ${x}
-            </button>
-
-        `).join("")}
-
-        </div>
-    `;
-}
-
-
-/* =========================================================
-   11. ADDITION
-========================================================= */
-
-function additionGame() {
-
-    const a=Math.floor(Math.random()*20);
-    const b=Math.floor(Math.random()*20);
-
-    const answer=a+b;
-
-    mathChoices(
-        `${a} + ${b} = ?`,
-        answer
-    );
-}
-
-
-/* =========================================================
-   12. SUBTRACTION
-========================================================= */
-
-function subtractionGame() {
-
-    const a=Math.floor(Math.random()*20)+10;
-    const b=Math.floor(Math.random()*10);
-
-    const answer=a-b;
-
-    mathChoices(
-        `${a} − ${b} = ?`,
-        answer
-    );
-}
-
-
-function mathChoices(question,answer) {
-
-    const choices =
-        [
-            answer,
-            answer+2,
-            Math.max(0,answer-2),
-            answer+5
-        ].sort(()=>Math.random()-.5);
-
-    document.getElementById("gameArea").innerHTML=`
-
-        <div class="question">
-            ${question}
-        </div>
-
-        <div class="choices">
-
-        ${choices.map(n=>`
-
-            <button class="choice"
-                    onclick="simpleAnswer(
-                        this,
-                        ${n},
-                        ${answer})">
-                ${n}
-            </button>
-
-        `).join("")}
-
-        </div>
-    `;
-}
-
-
-/* =========================================================
-   13. SPELLING
-========================================================= */
-
-function spellingGame() {
-
-    const correct =
-        ["APPLE","HOUSE","WATER","TRAIN","SCHOOL"]
-        [Math.floor(Math.random()*5)];
-
-    const wrong1 =
-        correct.slice(0,-1) +
-        String.fromCharCode(
-            correct.charCodeAt(correct.length-1)+1
-        );
-
-    const wrong2 =
-        correct.slice(0,2) + "X" + correct.slice(3);
-
-    const options =
-        [correct,wrong1,wrong2]
-        .sort(()=>Math.random()-.5);
-
-    document.getElementById("gameArea").innerHTML=`
-
-        <div class="question">
-            ⭐ Which word is spelled correctly?
-        </div>
-
-        <div class="choices">
-
-        ${options.map(x=>`
-
-            <button class="choice"
-                    onclick="simpleTextAnswer(
-                        this,
-                        '${x}',
-                        '${correct}')">
-                ${x}
-            </button>
-
-        `).join("")}
-
-        </div>
-    `;
-}
-
-
-/* =========================================================
-   14. ANIMAL SOUNDS
-========================================================= */
-
-function soundsGame() {
-
-    const animals = [
-        ["🐶","Woof","Dog"],
-        ["🐱","Meow","Cat"],
-        ["🐮","Moo","Cow"],
-        ["🐑","Baa","Sheep"]
-    ];
-
-    const item =
-        animals[Math.floor(Math.random()*animals.length)];
-
-    document.getElementById("gameArea").innerHTML=`
-
-        <div class="question">
-            ${item[0]} Which animal makes
-            "${item[1]}"?
-        </div>
-
-        <div class="choices">
-
-        ${animals.map(a=>`
-
-            <button class="choice"
-                    onclick="simpleTextAnswer(
-                        this,
-                        '${a[2]}',
-                        '${item[2]}')">
-                ${a[0]} ${a[2]}
-            </button>
-
-        `).join("")}
-
-        </div>
-    `;
-}
-
-
-/* =========================================================
-   15. WORLD
-========================================================= */
-
-function worldGame() {
-
-    const questions = [
-        ["Which country is famous for the Eiffel Tower?","France"],
-        ["Which country has the pyramids of Giza?","Egypt"],
-        ["Which country is shaped like a boot?","Italy"],
-        ["Which country is famous for kangaroos?","Australia"]
-    ];
-
-    const q =
-        questions[Math.floor(Math.random()*questions.length)];
-
-    const options =
-        ["France","Egypt","Italy","Australia"];
-
-    document.getElementById("gameArea").innerHTML=`
-
-        <div class="question">
-            🌍 ${q[0]}
-        </div>
-
-        <div class="choices">
-
-        ${options.map(x=>`
-
-            <button class="choice"
-                    onclick="simpleTextAnswer(
-                        this,
-                        '${x}',
-                        '${q[1]}')">
-                ${x}
-            </button>
-
-        `).join("")}
-
-        </div>
-    `;
-}
-
-
-/* =========================================================
-   16. SCIENCE
-========================================================= */
-
-function scienceGame() {
-
-    const questions = [
-        ["What do plants need to grow?","Sunlight"],
-        ["What planet do we live on?","Earth"],
-        ["What do humans breathe?","Oxygen"],
-        ["What is frozen water called?","Ice"]
-    ];
-
-    const q =
-        questions[Math.floor(Math.random()*questions.length)];
-
-    let options =
-        ["Sunlight","Earth","Oxygen","Ice"];
-
-    document.getElementById("gameArea").innerHTML=`
-
-        <div class="question">
-            🔬 ${q[0]}
-        </div>
-
-        <div class="choices">
-
-        ${options.map(x=>`
-
-            <button class="choice"
-                    onclick="simpleTextAnswer(
-                        this,
-                        '${x}',
-                        '${q[1]}')">
-                ${x}
-            </button>
-
-        `).join("")}
-
-        </div>
-    `;
-}
-
-
-/* =========================================================
-   17. MONEY SHOP
-========================================================= */
-
-function moneyGame() {
-
-    const price =
-        [2,3,4,5][Math.floor(Math.random()*4)];
-
-    const paid=5;
-
-    const change=paid-price;
-
-    const options =
-        [change,change+1,Math.max(0,change-1),change+2]
-        .sort(()=>Math.random()-.5);
-
-    document.getElementById("gameArea").innerHTML=`
-
-        <div class="question">
-            🛒 A toy costs £${price}.
-            You pay £${paid}.
-            <br><br>
-            How much change?
-        </div>
-
-        <div class="choices">
-
-        ${options.map(n=>`
-
-            <button class="choice"
-                    onclick="simpleAnswer(
-                        this,
-                        ${n},
-                        ${change})">
-                £${n}
-            </button>
-
-        `).join("")}
-
-        </div>
-    `;
-}
-
-
-/* =========================================================
-   18. CLOCK
-========================================================= */
-
-function clockGame() {
-
-    const hours =
-        Math.floor(Math.random()*12)+1;
-
-    const answer =
-        hours + ":00";
-
-    const options =
-        [
-            answer,
-            ((hours%12)+1)+":00",
-            ((hours+2)%12||12)+":00",
-            ((hours+3)%12||12)+":00"
-        ];
-
-    document.getElementById("gameArea").innerHTML=`
-
-        <div class="question">
-            ⏰ What time is it?
-        </div>
-
-        <div style="text-align:center;
-                    font-size:100px">
-            🕐
-        </div>
-
-        <div style="text-align:center;
-                    font-size:35px;
-                    margin-bottom:20px">
-            ${hours}:00
-        </div>
-
-        <div class="choices">
-
-        ${options.map(x=>`
-
-            <button class="choice"
-                    onclick="simpleTextAnswer(
-                        this,
-                        '${x}',
-                        '${answer}')">
-                ${x}
-            </button>
-
-        `).join("")}
-
-        </div>
-    `;
-}
-
-
-/* =========================================================
-   19. FAST SHAPES
-========================================================= */
-
-function fastShapeGame() {
-
-    const shapes =
-        ["🔴","🔵","🟢","🟡"];
-
-    const answer =
-        shapes[Math.floor(Math.random()*shapes.length)];
-
-    document.getElementById("gameArea").innerHTML=`
-
-        <div class="question">
-            ⚡ QUICK!
-            <br>
-            Tap ${answer}
-        </div>
-
-        <div class="choices">
-
-        ${[...shapes]
-            .sort(()=>Math.random()-.5)
-            .map(x=>`
-
-            <button class="choice"
-                    style="font-size:50px"
-                    onclick="simpleTextAnswer(
-                        this,
-                        '${x}',
-                        '${answer}')">
-                ${x}
-            </button>
-
-        `).join("")}
-
-        </div>
-    `;
-}
-
-
-/* =========================================================
-   20. TREASURE HUNT
-========================================================= */
-
-function treasureGame() {
-
-    const clues = [
-        ["🏴‍☠️ The treasure is under something used for reading.","📚","📚 Books"],
-        ["🏴‍☠️ Find the thing that tells time.","⏰","⏰ Clock"],
-        ["🏴‍☠️ Find something used for writing.","✏️","✏️ Pencil"],
-        ["🏴‍☠️ Find something that shines at night.","🌙","🌙 Moon"]
-    ];
-
-    const q =
-        clues[Math.floor(Math.random()*clues.length)];
-
-    document.getElementById("gameArea").innerHTML=`
-
-        <div class="question">
-            ${q[0]}
-        </div>
-
-        <div class="choices">
-
-            <button class="choice"
-                    onclick="simpleTextAnswer(
-                        this,'📚','${q[1]}')">
-                📚 Books
-            </button>
-
-            <button class="choice"
-                    onclick="simpleTextAnswer(
-                        this,'⏰','${q[1]}')">
-                ⏰ Clock
-            </button>
-
-            <button class="choice"
-                    onclick="simpleTextAnswer(
-                        this,'✏️','${q[1]}')">
-                ✏️ Pencil
-            </button>
-
-            <button class="choice"
-                    onclick="simpleTextAnswer(
-                        this,'🌙','${q[1]}')">
-                🌙 Moon
-            </button>
-
-        </div>
-    `;
-}
-
-
-/* =========================================================
-   GENERIC ANSWERS
-========================================================= */
-
-function simpleAnswer(button,value,answer) {
-
-    if(value === answer) {
-
-        button.classList.add("correct");
-
-        addScore(10);
-
-        feedback("🎉 Correct!");
-
-        setTimeout(nextRound,700);
-
-    } else {
-
-        button.classList.add("wrong");
-
-        feedback("❌ Try again!",false);
-    }
-}
-
-
-function simpleTextAnswer(button,value,answer) {
-
-    if(value === answer) {
-
-        button.classList.add("correct");
-
-        addScore(10);
-
-        feedback("🌟 Brilliant!");
-
-        setTimeout(nextRound,700);
-
-    } else {
-
-        button.classList.add("wrong");
-
-        feedback("Try again!",false);
-    }
-}
-
-
-/* =========================================================
-   SECTIONS
-========================================================= */
-
-function showSection(section) {
+    .getElementById("memory"+a)
+    .classList.remove("open");
 
     document
-        .querySelectorAll(".section")
-        .forEach(s=>s.classList.remove("active"));
+    .getElementById("memory"+b)
+    .classList.remove("open");
 
-    document
-        .getElementById(section)
-        .classList.add("active");
+    memoryData.opened=[];
 
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
+   },700);
+
+  }
+
+ }
+
 }
 
 
 /* =========================================================
-   VIDEO ERROR CHECK
+   FINISH GAME
 ========================================================= */
 
-const adultVideo =
-    document.getElementById("adultVideo");
+function finishGame(){
 
-const videoError =
-    document.getElementById("videoError");
+ save();
 
-adultVideo.addEventListener("error",function() {
+ document.getElementById("gameBody").innerHTML=`
 
-    videoError.style.display="block";
+ <div style="text-align:center">
 
-});
+ <div style="font-size:80px">
+ ${score>=6?"🏆":"⭐"}
+ </div>
 
-adultVideo.addEventListener("loadeddata",function() {
+ <div class="question">
+ Game Complete!
+ </div>
 
-    videoError.style.display="none";
+ <p style="font-size:22px">
+ You scored <b>${score}/8</b>
+ </p>
 
-});
+ <p style="font-size:20px">
+ ⭐ Stars earned: <b>${score}</b>
+ </p>
+
+ <button class="play"
+ onclick="startGame(${currentGame})">
+ 🔄 Play Again
+ </button>
+
+ </div>
+
+ `;
+
+}
+
+
+/* =========================================================
+   ADULT COURSES
+========================================================= */
+
+const adultLessons=[
+
+ {
+  icon:"💰",
+  title:"Money Management",
+  description:
+  "Learn practical ways to understand spending, saving and budgeting.",
+  slides:[
+
+   ["💰","Understand Your Money",
+   "Start by knowing exactly how much money comes in and how much goes out."],
+
+   ["📊","Create a Budget",
+   "Write down essential bills, food, transport and other regular expenses."],
+
+   ["💷","Build Savings",
+   "Set a realistic savings target and treat saving as part of your regular budget."],
+
+   ["🎯","Set Financial Goals",
+   "Choose a clear goal and break it into smaller monthly targets."]
+
+  ],
+  quiz:[
+   "What is the first step in managing money?",
+   ["Know your income and spending","Buy more things","Ignore bills","Spend everything"],
+   0
+  ]
+ },
+
+
+ {
+  icon:"💻",
+  title:"Digital Skills",
+  description:
+  "Learn everyday computer and internet skills.",
+  slides:[
+
+   ["💻","Using a Computer",
+   "Learn how to organise files, folders and applications."],
+
+   ["🌐","Using the Internet",
+   "Learn how to search for reliable information and recognise suspicious websites."],
+
+   ["🔐","Online Safety",
+   "Use strong unique passwords and avoid sharing private information with strangers."],
+
+   ["📧","Email Skills",
+   "Learn how to write clear messages, attach files and organise your inbox."]
+
+  ],
+  quiz:[
+   "Which is a good online safety habit?",
+   ["Use strong unique passwords","Share your password","Open every link","Give strangers your details"],
+   0
+  ]
+ },
+
+
+ {
+  icon:"🗣️",
+  title:"Communication Skills",
+  description:
+  "Improve communication at work and in everyday life.",
+  slides:[
+
+   ["👂","Listen Carefully",
+   "Good communication starts by listening and understanding before responding."],
+
+   ["💬","Speak Clearly",
+   "Use simple words and explain the important point first."],
+
+   ["🤝","Ask Questions",
+   "When something is unclear, ask a specific question rather than guessing."],
+
+   ["⭐","Give Feedback",
+   "Useful feedback explains what happened and what could be improved."]
+
+  ],
+  quiz:[
+   "What is an important part of communication?",
+   ["Listening","Interrupting","Ignoring people","Guessing"],
+   0
+  ]
+ },
+
+
+ {
+  icon:"🧠",
+  title:"Memory & Learning",
+  description:
+  "Learn techniques that can make studying more effective.",
+  slides:[
+
+   ["🧠","Active Recall",
+   "Try to remember information without looking at the answer."],
+
+   ["🔁","Spaced Practice",
+   "Review information several times over different days."],
+
+   ["📝","Take Notes",
+   "Write short notes using your own words."],
+
+   ["🎯","Test Yourself",
+   "Use small quizzes to identify what you already know and what needs more practice."]
+
+  ],
+  quiz:[
+   "What is active recall?",
+   ["Trying to remember without looking","Reading the same page once","Ignoring the topic","Watching TV"],
+   0
+  ]
+ },
+
+
+ {
+  icon:"🛠️",
+  title:"Practical DIY Skills",
+  description:
+  "Learn basic planning and safety principles for practical work.",
+  slides:[
+
+   ["📏","Measure First",
+   "Accurate measurements help reduce mistakes and wasted materials."],
+
+   ["📝","Plan the Job",
+   "Make a list of tools, materials and steps before starting."],
+
+   ["🦺","Work Safely",
+   "Use suitable protective equipment and follow the instructions for your tools."],
+
+   ["🔧","Check Your Work",
+   "Inspect the finished work and correct problems before moving on."]
+
+  ],
+  quiz:[
+   "What should you do before starting a practical job?",
+   ["Plan and check what you need","Start immediately","Ignore measurements","Use any tool"],
+   0
+  ]
+ },
+
+
+ {
+  icon:"📈",
+  title:"Career Skills",
+  description:
+  "Build practical habits for work and career development.",
+  slides:[
+
+   ["🎯","Set Goals",
+   "Choose a specific skill or result you want to achieve."],
+
+   ["📚","Keep Learning",
+   "Develop useful skills through practice, courses and real projects."],
+
+   ["🤝","Build Relationships",
+   "Professional relationships can help you learn and discover opportunities."],
+
+   ["🚀","Review Progress",
+   "Regularly check what you have achieved and decide what to improve next."]
+
+  ],
+  quiz:[
+   "What makes a goal useful?",
+   ["It is specific","It is impossible","It has no deadline","It is never reviewed"],
+   0
+  ]
+ }
+
+];
+
+
+let currentLesson=0;
+let currentSlide=0;
+let lessonTimer=null;
+let lessonPlaying=false;
+
+
+function renderAdults(){
+
+ let grid=document.getElementById("adultGrid");
+
+ grid.innerHTML="";
+
+ adultLessons.forEach((lesson,i)=>{
+
+  let card=document.createElement("div");
+
+  card.className="lesson";
+
+  card.innerHTML=`
+
+  <div class="lessonIcon">
+  ${lesson.icon}
+  </div>
+
+  <h3>${lesson.title}</h3>
+
+  <p>${lesson.description}</p>
+
+  <button class="play"
+  onclick="openLesson(${i})">
+  ▶ Start Lesson
+  </button>
+
+  `;
+
+  grid.appendChild(card);
+
+ });
+
+}
+
+
+/* =========================================================
+   ADULT LESSON PLAYER
+========================================================= */
+
+function openLesson(index){
+
+ currentLesson=index;
+ currentSlide=0;
+ lessonPlaying=false;
+
+ document.getElementById("lessonModal")
+ .classList.add("show");
+
+ renderLesson();
+
+}
+
+
+function closeLesson(){
+
+ clearInterval(lessonTimer);
+
+ lessonPlaying=false;
+
+ document.getElementById("lessonModal")
+ .classList.remove("show");
+
+}
+
+
+function renderLesson(){
+
+ let lesson=adultLessons[currentLesson];
+
+ let slide=lesson.slides[currentSlide];
+
+ let percent=
+ ((currentSlide+1)/lesson.slides.length)*100;
+
+ document.getElementById("lessonTitle").textContent=
+ lesson.icon+" "+lesson.title;
+
+ document.getElementById("lessonBody").innerHTML=`
+
+ <div class="lessonPlayer">
+
+ <div class="lessonScreen">
+
+ <div>
+
+ <div class="big">${slide[0]}</div>
+
+ <h2>${slide[1]}</h2>
+
+ <p>${slide[2]}</p>
+
+ </div>
+
+ </div>
+
+ <div class="lessonProgress">
+ <div style="width:${percent}%"></div>
+ </div>
+
+ <div class="controls">
+
+ <button onclick="toggleLesson()">
+ ${lessonPlaying?"⏸ Pause":"▶ Play"}
+ </button>
+
+ <button onclick="previousSlide()">
+ ◀ Back
+ </button>
+
+ <button onclick="nextSlide()">
+ Next ▶
+ </button>
+
+ <span style="margin-left:auto">
+ ${currentSlide+1}/${lesson.slides.length}
+ </span>
+
+ </div>
+
+ </div>
+
+
+ <div style="
+ margin-top:20px;
+ padding:20px;
+ background:#f8fafc;
+ border-radius:20px">
+
+ <h3>💡 What you should remember</h3>
+
+ <p style="line-height:1.6">
+ ${slide[2]}
+ </p>
+
+ <button
+ onclick="speakLesson()"
+ style="
+ border:0;
+ padding:12px 18px;
+ border-radius:12px;
+ background:#2563eb;
+ color:white;
+ font-weight:bold;
+ cursor:pointer">
+
+ 🔊 Read Lesson Aloud
+
+ </button>
+
+ </div>
+
+
+ ${
+ currentSlide===lesson.slides.length-1
+ ?
+
+ `
+
+ <div class="quizBox">
+
+ <h3>🧠 Quick Check</h3>
+
+ <p>
+ <b>${lesson.quiz[0]}</b>
+ </p>
+
+ ${lesson.quiz[1].map((answer,i)=>`
+
+ <button onclick="lessonQuiz(this,${i})">
+ ${answer}
+ </button>
+
+ `).join("")}
+
+ <div id="lessonFeedback"></div>
+
+ </div>
+
+ `
+
+ : ""
+
+ }
+
+ `;
+
+}
+
+
+/* =========================================================
+   ADULT VIDEO CONTROLS
+========================================================= */
+
+function toggleLesson(){
+
+ lessonPlaying=!lessonPlaying;
+
+ clearInterval(lessonTimer);
+
+ if(lessonPlaying){
+
+  lessonTimer=setInterval(()=>{
+
+   if(
+   currentSlide<
+   adultLessons[currentLesson].slides.length-1
+   ){
+
+    currentSlide++;
+
+    renderLesson();
+
+   }else{
+
+    lessonPlaying=false;
+
+    clearInterval(lessonTimer);
+
+    renderLesson();
+
+   }
+
+  },4000);
+
+ }
+
+ renderLesson();
+
+}
+
+
+function nextSlide(){
+
+ currentSlide=Math.min(
+ adultLessons[currentLesson].slides.length-1,
+ currentSlide+1
+ );
+
+ renderLesson();
+
+}
+
+
+function previousSlide(){
+
+ currentSlide=Math.max(0,currentSlide-1);
+
+ renderLesson();
+
+}
+
+
+/* =========================================================
+   TEXT TO SPEECH
+========================================================= */
+
+function speakLesson(){
+
+ let lesson=adultLessons[currentLesson];
+
+ let slide=lesson.slides[currentSlide];
+
+ if("speechSynthesis" in window){
+
+  speechSynthesis.cancel();
+
+  let speech=
+  new SpeechSynthesisUtterance(
+   slide[1]+". "+slide[2]
+  );
+
+  speech.rate=.95;
+
+  speechSynthesis.speak(speech);
+
+ }
+
+}
+
+
+/* =========================================================
+   ADULT QUIZ
+========================================================= */
+
+function lessonQuiz(button,index){
+
+ let lesson=adultLessons[currentLesson];
+
+ let buttons=
+ document.querySelectorAll(".quizBox button");
+
+ buttons.forEach(b=>b.disabled=true);
+
+ let feedback=
+ document.getElementById("lessonFeedback");
+
+ if(index===lesson.quiz[2]){
+
+  button.style.background="#dcfce7";
+
+  feedback.innerHTML=
+  "<h3>🎉 Correct! Lesson completed.</h3>";
+
+ }else{
+
+  button.style.background="#fee2e2";
+
+  feedback.innerHTML=
+  "<h3>💡 Not quite. Review the lesson and try again.</h3>";
+
+ }
+
+}
+
+
+/* =========================================================
+   START APP
+========================================================= */
+
+renderGames();
+
+renderAdults();
+
+save();
 
 </script>
 
 </body>
 </html>
-"""
-
-
-# ============================================================
-# ROUTES
-# ============================================================
-
-@app.route("/")
-def home():
-    return render_template_string(PAGE)
-
-
-# Serve the adult learning video
-@app.route("/video/<path:filename>")
-def video(filename):
-
-    return send_from_directory(
-        VIDEO_FOLDER,
-        filename,
-        conditional=True
-    )
-
-
-# ============================================================
-# START APP
-# ============================================================
-
-if __name__ == "__main__":
-
-    print("")
-    print("======================================")
-    print("       LEARN & PLAY STARTING")
-    print("======================================")
-    print("")
-    print("Kids Games: 20")
-    print("Adult Learning: Enabled")
-    print("")
-    print("Adult video location:")
-    print(VIDEO_FOLDER)
-    print("")
-    print("Open:")
-    print("http://127.0.0.1:5000")
-    print("")
-
-    app.run(
-        host="0.0.0.0",
-        port=5000,
-        debug=True
-    )
