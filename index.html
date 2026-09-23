@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Last Shop</title>
+<title>The Last Shop - Real Life Shop Simulator</title>
 
 <style>
 *{
@@ -12,23 +12,11 @@
     padding:0;
 }
 
-:root{
-    --dark:#17212b;
-    --dark2:#263442;
-    --panel:#202d39;
-    --gold:#ffbd32;
-    --green:#20c86b;
-    --orange:#f28b22;
-    --red:#e44b4b;
-    --cream:#ead8b8;
-    --wood:#8a5432;
-}
-
 body{
     font-family:Arial,Helvetica,sans-serif;
-    background:#151d25;
+    background:#111820;
     color:#fff;
-    min-height:100vh;
+    overflow-x:hidden;
 }
 
 /* =========================================================
@@ -38,30 +26,31 @@ body{
 #authScreen{
     min-height:100vh;
     display:flex;
-    justify-content:center;
     align-items:center;
+    justify-content:center;
     padding:20px;
     background:
-        linear-gradient(rgba(12,20,28,.75),rgba(12,20,28,.82)),
-        radial-gradient(circle at 20% 20%,#6d4a2b,#18232e 55%,#10161d);
+        radial-gradient(circle at 20% 20%,#40576b,transparent 35%),
+        radial-gradient(circle at 80% 80%,#263c4e,transparent 35%),
+        linear-gradient(135deg,#101820,#182632);
 }
 
 .authBox{
-    width:440px;
+    width:430px;
     max-width:100%;
-    background:rgba(255,255,255,.97);
+    background:#fff;
     color:#222;
-    border-radius:22px;
     padding:35px;
-    box-shadow:0 30px 80px rgba(0,0,0,.55);
+    border-radius:18px;
+    box-shadow:0 30px 80px rgba(0,0,0,.5);
 }
 
 .logo{
     text-align:center;
-    font-size:38px;
-    font-weight:1000;
-    color:#e99b22;
-    text-shadow:2px 3px 0 #54351e;
+    font-size:32px;
+    font-weight:900;
+    color:#e6a52e;
+    text-shadow:1px 2px 0 #4b3219;
 }
 
 .subtitle{
@@ -70,55 +59,51 @@ body{
     margin:8px 0 25px;
 }
 
-.authBox h2{
-    margin-bottom:18px;
-}
-
 .input{
     width:100%;
     padding:14px;
-    border:1px solid #ccc;
-    border-radius:10px;
     margin-bottom:12px;
+    border:1px solid #ccc;
+    border-radius:9px;
     font-size:16px;
 }
 
 .btn{
     border:0;
-    border-radius:10px;
-    padding:12px 16px;
+    padding:11px 15px;
+    border-radius:8px;
     cursor:pointer;
-    font-weight:bold;
+    font-weight:800;
     transition:.15s;
 }
 
 .btn:hover{
-    transform:translateY(-2px);
+    transform:translateY(-1px);
     filter:brightness(1.08);
 }
 
 .btnPrimary{
-    background:#16a35d;
+    background:#159957;
     color:#fff;
 }
 
 .btnBlue{
-    background:#247bc4;
+    background:#2478d1;
     color:#fff;
 }
 
 .btnOrange{
-    background:#ef8b1e;
+    background:#e58b19;
     color:#fff;
 }
 
 .btnRed{
-    background:#d94747;
+    background:#d74343;
     color:#fff;
 }
 
 .btnDark{
-    background:#263442;
+    background:#27313a;
     color:#fff;
 }
 
@@ -129,7 +114,7 @@ body{
 .authSwitch{
     text-align:center;
     margin-top:18px;
-    color:#666;
+    color:#777;
 }
 
 .authSwitch span{
@@ -138,23 +123,24 @@ body{
     cursor:pointer;
 }
 
-.error{
-    background:#ffe3e3;
-    color:#a40000;
+.error,
+.success{
+    display:none;
     padding:10px;
     border-radius:8px;
     margin-bottom:12px;
-    display:none;
+}
+
+.error{
+    background:#ffe0e0;
+    color:#a00000;
 }
 
 .success{
     background:#dcffe9;
     color:#08733b;
-    padding:10px;
-    border-radius:8px;
-    margin-bottom:12px;
-    display:none;
 }
+
 
 /* =========================================================
    GAME
@@ -163,268 +149,266 @@ body{
 #gameScreen{
     display:none;
     min-height:100vh;
-    background:#d3b98f;
+    background:#111820;
 }
 
-/* =========================================================
-   TOP BAR
-========================================================= */
-
 .topbar{
-    height:78px;
-    background:rgba(20,29,38,.98);
+    height:76px;
+    background:linear-gradient(180deg,#202b35,#141b22);
+    border-bottom:2px solid #37444f;
     display:flex;
     align-items:center;
-    gap:12px;
-    padding:8px 14px;
+    gap:15px;
+    padding:8px 15px;
     position:sticky;
     top:0;
-    z-index:500;
-    box-shadow:0 5px 18px rgba(0,0,0,.35);
+    z-index:1000;
 }
 
 .gameLogo{
-    min-width:245px;
-    padding:7px 12px;
-    line-height:1;
-}
-
-.gameLogo .main{
-    color:#ffc52e;
-    font-size:27px;
-    font-weight:1000;
-    text-shadow:2px 2px 0 #6b401e;
-}
-
-.gameLogo .sub{
-    font-size:11px;
-    letter-spacing:2px;
-    color:#fff;
-    margin-top:5px;
+    font-size:24px;
+    font-weight:900;
+    color:#ffc44f;
+    min-width:210px;
 }
 
 .stats{
-    display:grid;
-    grid-template-columns:repeat(5,minmax(120px,1fr));
-    gap:7px;
+    display:flex;
+    gap:8px;
     flex:1;
 }
 
 .stat{
-    min-height:56px;
-    background:#293744;
-    border-radius:10px;
-    display:flex;
-    align-items:center;
-    gap:7px;
-    padding:7px 11px;
+    background:#293642;
+    padding:10px 14px;
+    border-radius:9px;
     font-size:14px;
-    box-shadow:inset 0 1px rgba(255,255,255,.05);
-}
-
-.statIcon{
-    font-size:22px;
-}
-
-.statLabel{
-    color:#b8c2cb;
-    font-size:10px;
-    text-transform:uppercase;
-    font-weight:bold;
-}
-
-.statValue{
-    font-size:16px;
-    font-weight:900;
-    color:#fff;
+    box-shadow:inset 0 1px rgba(255,255,255,.08);
 }
 
 .money{
-    color:#66ef9d;
+    color:#66e39a;
+    font-weight:900;
 }
-
-.xpBar{
-    width:100%;
-    height:7px;
-    background:#101820;
-    border-radius:20px;
-    overflow:hidden;
-    margin-top:4px;
-}
-
-.xpFill{
-    height:100%;
-    width:0%;
-    background:linear-gradient(90deg,#ffb82e,#ffd65b);
-    transition:.3s;
-}
-
-.menuBtn{
-    height:58px;
-    min-width:100px;
-    border:0;
-    border-radius:10px;
-    background:#303f4c;
-    color:#fff;
-    font-size:15px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.menuBtn:hover{
-    background:#3c4d5c;
-}
-
-/* =========================================================
-   MAIN LAYOUT
-========================================================= */
 
 .gameLayout{
     display:grid;
-    grid-template-columns:205px 1fr;
-    min-height:calc(100vh - 78px);
+    grid-template-columns:220px 1fr;
+    min-height:calc(100vh - 76px);
 }
+
 
 /* =========================================================
    SIDEBAR
 ========================================================= */
 
 .sidebar{
-    background:#1c2731;
-    padding:12px 10px;
-    border-right:2px solid rgba(255,255,255,.04);
-    z-index:100;
+    background:linear-gradient(180deg,#1e2933,#131a21);
+    padding:14px;
+    border-right:2px solid #34414d;
+}
+
+.sidebar h3{
+    color:#ffc857;
+    margin:5px 0 14px;
 }
 
 .sideBtn{
     width:100%;
-    min-height:55px;
-    border:0;
-    border-radius:9px;
-    margin-bottom:7px;
-    padding:10px 12px;
-    background:#293845;
+    padding:13px;
+    margin-bottom:8px;
+    border:1px solid #3c4a56;
+    border-radius:8px;
+    background:#293743;
     color:#fff;
     text-align:left;
     cursor:pointer;
-    font-size:14px;
     font-weight:bold;
-    display:flex;
-    align-items:center;
-    gap:12px;
 }
 
 .sideBtn:hover{
-    background:#3a4c5b;
-    transform:translateX(2px);
+    background:#3a4b59;
 }
 
-.sideBtn.active{
-    background:#344b5b;
-    border-left:4px solid var(--gold);
-}
-
-.sideIcon{
-    font-size:24px;
-    width:30px;
-    text-align:center;
-}
-
-.sideBottom{
+.sideSection{
+    border-top:1px solid #3b4955;
     margin-top:15px;
-    border-top:1px solid #3a4651;
     padding-top:15px;
 }
 
 .sideInfo{
-    color:#aeb9c2;
-    font-size:12px;
-    line-height:1.6;
-    padding:10px;
+    color:#bfc8cf;
+    font-size:13px;
+    line-height:1.7;
 }
 
+
 /* =========================================================
-   WORLD
+   SHOP WORLD
 ========================================================= */
 
 .world{
-    position:relative;
-    min-height:calc(100vh - 78px);
+    min-height:calc(100vh - 76px);
     overflow:hidden;
+    background:#202a31;
+    position:relative;
+}
+
+.shopScene{
+    position:relative;
+    width:100%;
+    min-height:850px;
+    overflow:hidden;
+
     background:
         linear-gradient(
-            rgba(119,83,48,.08),
-            rgba(119,83,48,.08)
+            90deg,
+            #172027 0 7%,
+            transparent 7% 93%,
+            #172027 93%
         ),
-        repeating-linear-gradient(
-            0deg,
-            #d8bd91 0,
-            #d8bd91 39px,
-            #cdb080 40px
+        linear-gradient(
+            180deg,
+            #b7c3ca 0 10%,
+            #ece4d3 10% 55%,
+            #b58b62 55% 100%
         );
 }
 
+
+/* =========================================================
+   CEILING / LIGHTS
+========================================================= */
+
 .ceiling{
-    height:82px;
-    background:
-        radial-gradient(circle,#fff 0 5px,transparent 6px) 20px 15px/80px 45px,
-        linear-gradient(#f8f5ed,#ddd8ca);
-    border-bottom:7px solid #68452e;
-    box-shadow:0 3px 8px rgba(0,0,0,.2);
+    position:absolute;
+    left:7%;
+    right:7%;
+    top:0;
+    height:100px;
+    background:#d9d9d4;
+    border-bottom:5px solid #85827b;
 }
+
+.ceilingLight{
+    position:absolute;
+    top:20px;
+    width:90px;
+    height:35px;
+    background:#fff;
+    border-radius:50%;
+    box-shadow:0 0 30px rgba(255,255,220,.9);
+}
+
+.light1{left:18%}
+.light2{left:42%}
+.light3{left:66%}
+.light4{left:84%}
+
+
+/* =========================================================
+   FRONT WINDOWS / DOOR
+========================================================= */
+
+.frontWall{
+    position:absolute;
+    left:0;
+    top:100px;
+    width:12%;
+    bottom:0;
+    background:#202c34;
+}
+
+.window{
+    position:absolute;
+    left:1%;
+    top:130px;
+    width:8%;
+    height:260px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.55),
+            rgba(80,150,190,.35)
+        );
+    border:8px solid #4c5660;
+}
+
+.window:after{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:0;
+    bottom:0;
+    width:5px;
+    background:#4c5660;
+}
+
+.door{
+    position:absolute;
+    left:1%;
+    bottom:70px;
+    width:9%;
+    min-width:75px;
+    height:280px;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(130,210,240,.3),
+            rgba(30,70,90,.45)
+        );
+    border:8px solid #3d464d;
+    z-index:20;
+    cursor:pointer;
+}
+
+.doorHandle{
+    position:absolute;
+    right:13px;
+    top:50%;
+    width:9px;
+    height:55px;
+    border-radius:5px;
+    background:#d4aa53;
+}
+
+.openSign{
+    position:absolute;
+    top:-35px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#d74343;
+    padding:7px 15px;
+    border-radius:5px;
+    font-weight:900;
+    box-shadow:0 4px 8px rgba(0,0,0,.3);
+}
+
 
 /* =========================================================
    SHOP INTERIOR
 ========================================================= */
 
 .shopInterior{
-    position:relative;
-    margin:0 auto;
-    width:96%;
-    min-height:760px;
-    overflow:hidden;
-    background:
-        linear-gradient(
-            rgba(255,255,255,.06),
-            rgba(255,255,255,.06)
-        ),
-        #dfc59d;
-    border-left:8px solid #71462d;
-    border-right:8px solid #71462d;
-    border-bottom:8px solid #71462d;
-    box-shadow:
-        0 18px 40px rgba(0,0,0,.3),
-        inset 0 0 50px rgba(90,55,28,.1);
-}
-
-/* Back wall */
-
-.backWall{
     position:absolute;
-    top:0;
-    left:0;
-    right:0;
-    height:53%;
+    left:8%;
+    right:2%;
+    top:100px;
+    bottom:0;
     background:
         repeating-linear-gradient(
             90deg,
-            rgba(255,255,255,.13) 0,
-            rgba(255,255,255,.13) 2px,
-            transparent 2px,
-            transparent 72px
+            rgba(255,255,255,.03) 0,
+            rgba(255,255,255,.03) 50px,
+            rgba(0,0,0,.03) 51px,
+            rgba(0,0,0,.03) 100px
         ),
-        linear-gradient(#efe4cf,#dbc6a4);
+        #ead8b8;
+    border-left:6px solid #6c432d;
+    border-top:6px solid #6c432d;
+    box-shadow:inset 0 0 70px rgba(0,0,0,.15);
 }
 
-.backWall:after{
-    content:"";
-    position:absolute;
-    left:0;
-    right:0;
-    bottom:0;
-    height:10px;
-    background:#805033;
-}
 
 /* =========================================================
    SHOP SIGN
@@ -432,32 +416,54 @@ body{
 
 .shopSign{
     position:absolute;
-    top:24px;
+    top:25px;
     left:50%;
     transform:translateX(-50%);
-    min-width:480px;
-    padding:16px 35px;
-    background:linear-gradient(#252e35,#111820);
-    color:#ffc02f;
-    border:5px solid #80502e;
-    border-radius:5px;
-    text-align:center;
-    font-size:31px;
-    font-weight:1000;
-    letter-spacing:1px;
-    text-shadow:3px 3px 0 #6c3e1e;
-    box-shadow:0 7px 15px rgba(0,0,0,.3);
-    z-index:20;
+    background:
+        linear-gradient(180deg,#f4bd4e,#d98519);
+    color:#2e2116;
+    border:5px solid #684126;
+    padding:15px 45px;
+    border-radius:7px;
+    font-size:27px;
+    font-weight:900;
+    box-shadow:0 8px 20px rgba(0,0,0,.25);
+    z-index:100;
 }
 
-.shopSign small{
-    display:block;
-    color:#fff;
-    font-size:11px;
-    letter-spacing:4px;
-    text-shadow:none;
-    margin-top:5px;
+
+/* =========================================================
+   FLOOR AISLES
+========================================================= */
+
+.aisle{
+    position:absolute;
+    background:rgba(130,89,55,.12);
+    border-left:2px solid rgba(100,70,45,.2);
+    border-right:2px solid rgba(100,70,45,.2);
 }
+
+.aisle1{
+    left:22%;
+    top:170px;
+    width:18%;
+    height:360px;
+}
+
+.aisle2{
+    left:43%;
+    top:170px;
+    width:18%;
+    height:360px;
+}
+
+.aisle3{
+    left:64%;
+    top:170px;
+    width:18%;
+    height:360px;
+}
+
 
 /* =========================================================
    SHELVES
@@ -465,474 +471,351 @@ body{
 
 .shelf{
     position:absolute;
-    width:270px;
-    background:linear-gradient(90deg,#684027,#875536,#633b25);
-    border:5px solid #55331f;
-    border-radius:5px;
+    width:18%;
+    min-width:150px;
+    background:
+        linear-gradient(
+            90deg,
+            #663b25,
+            #8d5736,
+            #633923
+        );
+    border:5px solid #4c2d1d;
+    border-radius:6px;
     padding:9px;
-    z-index:15;
-    box-shadow:0 8px 16px rgba(0,0,0,.28);
+    z-index:30;
+    box-shadow:0 8px 18px rgba(0,0,0,.25);
 }
 
-.shelf:before,
-.shelf:after{
-    content:"";
-    position:absolute;
-    left:7px;
-    right:7px;
-    height:7px;
-    background:#4e301f;
-}
-
-.shelf:before{
-    top:76px;
-}
-
-.shelf:after{
-    bottom:75px;
-}
+.shelf.food{left:11%;top:170px}
+.shelf.drinks{left:32%;top:170px}
+.shelf.home{left:53%;top:170px}
+.shelf.other{left:74%;top:170px}
 
 .shelfTitle{
     color:#fff;
-    font-size:13px;
+    font-size:14px;
     font-weight:900;
-    margin-bottom:8px;
-    background:#252f37;
-    padding:7px;
-    border-radius:4px;
-    text-align:center;
+    margin-bottom:7px;
+    text-shadow:1px 1px #000;
 }
 
 .shelfProducts{
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    gap:6px;
+    gap:5px;
 }
 
 .product{
-    height:65px;
+    height:67px;
     background:linear-gradient(#fff,#e9e9e9);
-    border-radius:4px;
+    border-radius:5px;
     display:flex;
-    flex-direction:column;
     align-items:center;
     justify-content:center;
-    font-size:26px;
-    position:relative;
+    flex-direction:column;
+    font-size:24px;
+    color:#222;
     box-shadow:0 2px 4px rgba(0,0,0,.2);
 }
 
 .product small{
     font-size:8px;
-    color:#222;
     font-weight:bold;
-    margin-top:2px;
 }
 
 .stockNumber{
     position:absolute;
-    right:3px;
-    top:3px;
-    background:#202932;
+    background:#17212b;
     color:#fff;
-    font-size:9px;
-    border-radius:10px;
+    border-radius:9px;
     padding:2px 5px;
+    font-size:9px;
 }
 
-.shelf.food{
-    left:30px;
-    top:135px;
-}
-
-.shelf.drinks{
-    left:30px;
-    top:360px;
-}
-
-.shelf.home{
-    right:30px;
-    top:135px;
-}
-
-.shelf.tech{
-    right:30px;
-    top:360px;
-}
 
 /* =========================================================
-   SHOP TABLE
+   CHECKOUT
 ========================================================= */
 
-.shopTable{
+.checkout{
     position:absolute;
-    top:355px;
+    left:39%;
+    bottom:90px;
+    width:35%;
+    min-width:300px;
+    height:115px;
+    background:linear-gradient(#9d5c37,#693a24);
+    border:7px solid #4b291a;
+    border-radius:8px;
+    z-index:100;
+    box-shadow:0 10px 25px rgba(0,0,0,.3);
+}
+
+.checkoutTop{
+    position:absolute;
+    left:-10px;
+    top:-13px;
+    width:calc(100% + 20px);
+    height:18px;
+    background:#bd7549;
+    border:4px solid #4b291a;
+}
+
+.till{
+    position:absolute;
     left:50%;
+    top:25px;
     transform:translateX(-50%);
-    width:330px;
-    height:75px;
-    background:#9b5c35;
-    border:6px solid #633b24;
+    width:110px;
+    height:68px;
+    background:#222b31;
+    border-radius:8px;
+    color:#55e889;
+    text-align:center;
+    padding:10px;
+    font-family:monospace;
+    box-shadow:0 4px 8px rgba(0,0,0,.4);
+}
+
+.checkoutLabel{
+    position:absolute;
+    right:15px;
+    bottom:10px;
+    color:#fff;
+    font-weight:bold;
+    font-size:12px;
+}
+
+
+/* =========================================================
+   DECORATION
+========================================================= */
+
+.plant{
+    position:absolute;
+    bottom:30px;
+    width:70px;
+    height:100px;
+    z-index:50;
+}
+
+.plant:before{
+    content:"🌿";
+    font-size:70px;
+}
+
+.plant1{left:3%}
+.plant2{right:4%}
+
+.welcomeMat{
+    position:absolute;
+    left:3%;
+    bottom:25px;
+    width:10%;
+    min-width:90px;
+    height:45px;
+    background:#343b40;
     border-radius:5px;
-    z-index:18;
-    box-shadow:0 10px 15px rgba(0,0,0,.25);
-}
-
-.shopTable:after{
-    content:"";
-    position:absolute;
-    left:18px;
-    right:18px;
-    bottom:-85px;
-    height:80px;
-    background:linear-gradient(90deg,#6d4228,#905635,#6d4228);
-    border-left:5px solid #59351f;
-    border-right:5px solid #59351f;
-}
-
-/* =========================================================
-   COUNTER
-========================================================= */
-
-.counter{
-    position:absolute;
-    left:50%;
-    bottom:95px;
-    transform:translateX(-50%);
-    width:440px;
-    height:120px;
-    background:linear-gradient(90deg,#704024,#965a35,#704024);
-    border:7px solid #4e2f1d;
-    border-radius:7px;
-    z-index:35;
+    color:white;
     display:flex;
     justify-content:center;
-    align-items:flex-end;
-    box-shadow:0 15px 25px rgba(0,0,0,.3);
+    align-items:center;
+    font-size:10px;
+    font-weight:bold;
 }
 
-.counterTop{
-    position:absolute;
-    top:-14px;
-    left:-12px;
-    width:calc(100% + 24px);
-    height:20px;
-    background:#b77849;
-    border:5px solid #4e2f1d;
-    border-radius:3px;
-}
-
-.register{
-    width:115px;
-    height:72px;
-    margin-bottom:8px;
-    background:#242c32;
-    border-radius:7px;
-    padding:9px;
-    color:#5aff9c;
-    font-family:monospace;
-    font-size:12px;
-    text-align:center;
-    border:3px solid #111820;
-}
 
 /* =========================================================
-   PERSON
+   PEOPLE
 ========================================================= */
 
 .person{
     position:absolute;
-    width:70px;
-    height:130px;
-    z-index:40;
-    text-align:center;
+    width:72px;
+    height:140px;
+    z-index:300;
+    transition:
+        left 2.5s ease-in-out,
+        bottom 2.5s ease-in-out;
 }
 
 .person .head{
     position:absolute;
-    top:0;
-    left:20px;
-    width:38px;
-    height:38px;
-    border-radius:50%;
-    background:#e8a06b;
-    border:2px solid #75442e;
+    left:18px;
+    top:2px;
+    width:39px;
+    height:40px;
+    border-radius:48%;
+    background:#d9976a;
+    border:2px solid #77482f;
+    z-index:3;
 }
 
 .person .hair{
     position:absolute;
-    top:-3px;
-    left:19px;
-    width:40px;
-    height:18px;
-    border-radius:22px 22px 8px 8px;
-    background:#3a251c;
-    z-index:2;
+    left:16px;
+    top:0;
+    width:43px;
+    height:21px;
+    border-radius:25px 25px 8px 8px;
+    background:#2d211c;
+    z-index:5;
 }
 
 .person .eye{
     position:absolute;
-    top:15px;
-    width:4px;
-    height:4px;
+    top:18px;
+    width:5px;
+    height:5px;
     border-radius:50%;
     background:#222;
-    z-index:3;
+    z-index:6;
 }
 
-.person .eye.left{
-    left:30px;
-}
-
-.person .eye.right{
-    left:44px;
-}
+.person .eye.left{left:28px}
+.person .eye.right{left:43px}
 
 .person .mouth{
     position:absolute;
-    left:33px;
-    top:26px;
-    width:12px;
+    left:31px;
+    top:29px;
+    width:14px;
     height:5px;
-    border-bottom:2px solid #622d2d;
-    z-index:3;
+    border-bottom:2px solid #632f2b;
+    z-index:6;
 }
 
 .person .body{
     position:absolute;
-    top:37px;
-    left:14px;
+    left:12px;
+    top:40px;
     width:48px;
-    height:53px;
-    border-radius:12px 12px 7px 7px;
-    background:#287bd6;
-    border:2px solid #3d4b5b;
+    height:55px;
+    border-radius:13px 13px 7px 7px;
+    border:2px solid rgba(0,0,0,.25);
 }
 
 .person .arm{
     position:absolute;
-    top:42px;
+    top:45px;
     width:13px;
-    height:48px;
+    height:50px;
     border-radius:8px;
-    background:#e8a06b;
+    background:#d9976a;
 }
 
 .person .arm.left{
-    left:4px;
+    left:2px;
     transform:rotate(12deg);
 }
 
 .person .arm.right{
-    right:4px;
+    right:2px;
     transform:rotate(-12deg);
 }
 
 .person .leg{
     position:absolute;
-    top:87px;
-    width:14px;
-    height:40px;
+    top:92px;
+    width:15px;
+    height:42px;
     border-radius:8px;
-    background:#252f3b;
+    background:#29323b;
 }
 
-.person .leg.left{
-    left:22px;
-}
-
-.person .leg.right{
-    left:40px;
-}
+.person .leg.left{left:20px}
+.person .leg.right{left:39px}
 
 .personName{
     position:absolute;
-    top:130px;
+    top:141px;
     left:50%;
     transform:translateX(-50%);
-    white-space:nowrap;
     background:#fff;
     color:#222;
     padding:3px 7px;
-    border-radius:5px;
+    border-radius:6px;
     font-size:10px;
     font-weight:bold;
-    box-shadow:0 2px 5px rgba(0,0,0,.2);
+    white-space:nowrap;
+    box-shadow:0 2px 5px rgba(0,0,0,.25);
 }
 
-.player{
-    left:50%;
-    bottom:225px;
-    transform:translateX(-50%);
-}
 
 /* =========================================================
-   CUSTOMERS
+   CUSTOMER SPEECH
 ========================================================= */
-
-.customer{
-    animation:walkIn .7s ease-out;
-}
-
-@keyframes walkIn{
-    from{
-        transform:translateX(100px);
-        opacity:0;
-    }
-    to{
-        opacity:1;
-    }
-}
 
 .customerBubble{
     position:absolute;
-    bottom:145px;
     left:50%;
+    bottom:145px;
     transform:translateX(-50%);
-    background:#fff;
+    width:190px;
+    padding:9px 12px;
+    background:white;
     color:#222;
-    padding:8px 11px;
-    border-radius:10px;
-    width:170px;
+    border-radius:12px;
     text-align:center;
-    box-shadow:0 5px 15px rgba(0,0,0,.25);
     font-size:12px;
     font-weight:bold;
+    box-shadow:0 5px 15px rgba(0,0,0,.25);
+    animation:bubbleIn .3s ease;
 }
 
 .customerBubble:after{
     content:"";
     position:absolute;
-    bottom:-8px;
+    bottom:-9px;
     left:50%;
-    border:8px solid transparent;
-    border-top-color:#fff;
+    border:9px solid transparent;
+    border-top-color:white;
     border-bottom:0;
     transform:translateX(-50%);
 }
 
-.customerActions{
+@keyframes bubbleIn{
+    from{
+        opacity:0;
+        transform:translateX(-50%) scale(.8);
+    }
+    to{
+        opacity:1;
+        transform:translateX(-50%) scale(1);
+    }
+}
+
+
+/* =========================================================
+   CUSTOMER ACTION
+========================================================= */
+
+.customerAction{
     position:absolute;
-    bottom:180px;
+    bottom:175px;
     left:50%;
     transform:translateX(-50%);
-    display:flex;
-    gap:5px;
     white-space:nowrap;
 }
 
-.customerActions .btn{
-    padding:7px 12px;
-    font-size:11px;
-}
 
 /* =========================================================
-   BOTTOM CONTROLS
+   CUSTOMER STATUS
 ========================================================= */
 
-.bottomControls{
-    position:absolute;
-    left:18px;
-    bottom:18px;
-    z-index:150;
-    display:flex;
-    flex-direction:column;
-    gap:9px;
+.customerStatus{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    background:rgba(17,25,32,.95);
+    border:1px solid #53616d;
+    padding:14px 18px;
+    border-radius:10px;
+    z-index:2000;
+    box-shadow:0 10px 30px rgba(0,0,0,.4);
 }
 
-.bigAction{
-    border:0;
-    border-radius:9px;
-    padding:13px 18px;
-    min-width:190px;
-    color:#fff;
-    font-size:15px;
-    font-weight:900;
-    cursor:pointer;
-    box-shadow:0 5px 10px rgba(0,0,0,.25);
-}
-
-.adButton{
-    background:#16bd5d;
-}
-
-.moneyButton{
-    background:#ed851c;
-}
-
-/* =========================================================
-   RIGHT PANELS
-========================================================= */
-
-.rightPanels{
-    position:absolute;
-    right:18px;
-    bottom:18px;
-    z-index:150;
-    width:270px;
-}
-
-.goalPanel,
-.rewardPanel{
-    background:rgba(28,39,49,.96);
-    border-radius:11px;
-    padding:13px 15px;
-    margin-top:8px;
-    box-shadow:0 7px 18px rgba(0,0,0,.3);
-}
-
-.goalTitle{
-    font-weight:900;
-    font-size:15px;
-    margin-bottom:8px;
-}
-
-.goalProgress{
-    height:7px;
-    background:#101820;
-    border-radius:20px;
-    overflow:hidden;
-    margin-top:8px;
-}
-
-.goalFill{
-    height:100%;
-    background:#20c86b;
-    width:30%;
-}
-
-.goalBottom{
-    display:flex;
-    justify-content:space-between;
-    margin-top:6px;
-    font-size:12px;
-    color:#ddd;
-}
-
-.rewardPanel{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.rewardIcon{
-    font-size:31px;
-}
-
-.rewardText{
-    flex:1;
-}
-
-.rewardText small{
-    display:block;
-    color:#aaa;
-    font-size:10px;
-}
-
-.rewardTimer{
-    color:#ffd137;
-    font-weight:900;
-}
 
 /* =========================================================
    MODALS
@@ -942,23 +825,22 @@ body{
     display:none;
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.72);
-    z-index:2000;
+    background:rgba(0,0,0,.7);
+    z-index:5000;
     align-items:center;
     justify-content:center;
     padding:20px;
 }
 
 .modalBox{
-    background:#fff;
-    color:#222;
-    border-radius:15px;
     width:850px;
     max-width:100%;
     max-height:90vh;
     overflow:auto;
+    background:#fff;
+    color:#222;
+    border-radius:15px;
     padding:25px;
-    box-shadow:0 25px 70px rgba(0,0,0,.5);
 }
 
 .modalHeader{
@@ -969,10 +851,9 @@ body{
 }
 
 .close{
-    border:0;
-    background:#eee;
     width:35px;
     height:35px;
+    border:0;
     border-radius:50%;
     cursor:pointer;
     font-size:20px;
@@ -980,15 +861,15 @@ body{
 
 .grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
     gap:15px;
 }
 
 .card{
+    background:#fafafa;
     border:1px solid #ddd;
     border-radius:12px;
     padding:15px;
-    background:#fafafa;
 }
 
 .card h3{
@@ -998,75 +879,54 @@ body{
 .card p{
     color:#666;
     font-size:13px;
-    margin-bottom:12px;
     line-height:1.5;
+    margin-bottom:10px;
 }
 
 .price{
-    font-weight:bold;
     color:#168a50;
+    font-weight:bold;
     margin-bottom:10px;
 }
+
 
 /* =========================================================
    NOTIFICATION
 ========================================================= */
 
-#gameNotification{
+.notification{
     position:fixed;
-    bottom:25px;
     left:50%;
+    bottom:25px;
     transform:translateX(-50%);
     background:#17212b;
-    color:white;
-    padding:14px 22px;
+    color:#fff;
+    padding:14px 24px;
     border-radius:10px;
-    z-index:5000;
-    box-shadow:0 10px 30px rgba(0,0,0,.35);
+    z-index:10000;
+    box-shadow:0 10px 30px rgba(0,0,0,.4);
     font-weight:bold;
 }
+
 
 /* =========================================================
    MOBILE
 ========================================================= */
 
-@media(max-width:1100px){
-
-    .stats{
-        grid-template-columns:repeat(3,1fr);
-    }
-
-    .gameLogo{
-        min-width:190px;
-    }
-
-    .rightPanels{
-        width:230px;
-    }
-}
-
-@media(max-width:850px){
+@media(max-width:900px){
 
     .topbar{
         height:auto;
-        min-height:70px;
         flex-wrap:wrap;
     }
 
     .gameLogo{
+        min-width:auto;
         width:100%;
-        min-width:0;
     }
 
     .stats{
-        width:100%;
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .menuBtn{
-        position:absolute;
-        right:10px;
-        top:10px;
+        overflow:auto;
     }
 
     .gameLayout{
@@ -1075,127 +935,29 @@ body{
 
     .sidebar{
         display:flex;
-        overflow-x:auto;
         gap:6px;
-        padding:7px;
-    }
-
-    .sideBtn{
-        width:auto;
-        min-width:105px;
-        white-space:nowrap;
-        margin:0;
+        overflow:auto;
         padding:8px;
     }
 
-    .sideIcon{
-        font-size:19px;
-    }
-
-    .sideBottom{
+    .sidebar h3,
+    .sideSection{
         display:none;
     }
 
-    .world{
-        min-height:900px;
+    .sideBtn{
+        min-width:125px;
+        margin:0;
+        white-space:nowrap;
+    }
+
+    .shopScene{
+        min-height:800px;
+        min-width:900px;
     }
 
     .shopInterior{
-        width:99%;
-        min-height:900px;
-    }
-
-    .shopSign{
-        min-width:280px;
-        font-size:21px;
-        padding:12px;
-    }
-
-    .shelf{
-        width:180px;
-    }
-
-    .shelf.food{
-        left:8px;
-        top:120px;
-    }
-
-    .shelf.home{
-        right:8px;
-        top:120px;
-    }
-
-    .shelf.drinks{
-        left:8px;
-        top:345px;
-    }
-
-    .shelf.tech{
-        right:8px;
-        top:345px;
-    }
-
-    .shopTable{
-        display:none;
-    }
-
-    .counter{
-        width:290px;
-        bottom:145px;
-    }
-
-    .player{
-        bottom:270px;
-    }
-
-    .bottomControls{
-        left:8px;
-        bottom:8px;
-    }
-
-    .bigAction{
-        min-width:145px;
-        padding:10px;
-        font-size:12px;
-    }
-
-    .rightPanels{
-        right:8px;
-        bottom:8px;
-        width:200px;
-    }
-
-    .goalPanel,
-    .rewardPanel{
-        padding:9px;
-    }
-}
-
-@media(max-width:550px){
-
-    .stats{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .stat{
-        min-height:48px;
-    }
-
-    .shelf{
-        width:155px;
-    }
-
-    .product{
-        height:55px;
-        font-size:21px;
-    }
-
-    .counter{
-        width:240px;
-    }
-
-    .rightPanels{
-        display:none;
+        left:8%;
     }
 }
 </style>
@@ -1203,86 +965,102 @@ body{
 
 <body>
 
+
 <!-- =========================================================
-     AUTH
+     LOGIN
 ========================================================= -->
 
 <div id="authScreen">
 
-    <div class="authBox">
+<div class="authBox">
 
-        <div class="logo">THE LAST SHOP</div>
+<div class="logo">THE LAST SHOP</div>
 
-        <div class="subtitle">
-            BUILD • SELL • EXPAND
-        </div>
+<div class="subtitle">
+REAL LIFE SHOP SIMULATOR
+</div>
 
-        <div id="authError" class="error"></div>
-        <div id="authSuccess" class="success"></div>
+<div id="authError" class="error"></div>
+<div id="authSuccess" class="success"></div>
 
-        <div id="loginForm">
 
-            <h2>Welcome back</h2>
+<div id="loginForm">
 
-            <input id="loginUsername"
-                   class="input"
-                   placeholder="Username">
+<h2>Welcome back</h2>
 
-            <input id="loginPassword"
-                   class="input"
-                   type="password"
-                   placeholder="Password">
+<input
+id="loginUsername"
+class="input"
+placeholder="Username">
 
-            <button class="btn btnPrimary full"
-                    onclick="login()">
-                LOGIN
-            </button>
+<input
+id="loginPassword"
+class="input"
+type="password"
+placeholder="Password">
 
-            <div class="authSwitch">
-                Don't have an account?
-                <span onclick="showRegister()">REGISTER</span>
-            </div>
+<button
+class="btn btnPrimary full"
+onclick="login()">
+LOGIN
+</button>
 
-            <div style="margin-top:20px;text-align:center;color:#888;font-size:12px;">
-                Admin test: admin / admin123
-            </div>
+<div class="authSwitch">
+Don't have an account?
+<span onclick="showRegister()">REGISTER</span>
+</div>
 
-        </div>
+<div style="
+margin-top:20px;
+text-align:center;
+font-size:12px;
+color:#888;">
+Admin test: admin / admin123
+</div>
 
-        <div id="registerForm" style="display:none;">
+</div>
 
-            <h2>Create your business</h2>
 
-            <input id="registerName"
-                   class="input"
-                   placeholder="Your name">
+<div id="registerForm" style="display:none">
 
-            <input id="registerUsername"
-                   class="input"
-                   placeholder="Choose username">
+<h2>Create your business</h2>
 
-            <input id="registerPassword"
-                   class="input"
-                   type="password"
-                   placeholder="Choose password">
+<input
+id="registerName"
+class="input"
+placeholder="Your name">
 
-            <input id="registerShop"
-                   class="input"
-                   placeholder="Shop name">
+<input
+id="registerUsername"
+class="input"
+placeholder="Choose username">
 
-            <button class="btn btnPrimary full"
-                    onclick="register()">
-                CREATE ACCOUNT
-            </button>
+<input
+id="registerPassword"
+class="input"
+type="password"
+placeholder="Choose password">
 
-            <div class="authSwitch">
-                Already have an account?
-                <span onclick="showLogin()">LOGIN</span>
-            </div>
+<input
+id="registerShop"
+class="input"
+placeholder="Shop name">
 
-        </div>
+<button
+class="btn btnPrimary full"
+onclick="register()">
+CREATE ACCOUNT
+</button>
 
-    </div>
+<div class="authSwitch">
+Already have an account?
+<span onclick="showLogin()">LOGIN</span>
+</div>
+
+</div>
+
+</div>
+
 </div>
 
 
@@ -1292,495 +1070,402 @@ body{
 
 <div id="gameScreen">
 
-    <header class="topbar">
-
-        <div class="gameLogo">
-
-            <div class="main">THE LAST SHOP</div>
-
-            <div class="sub">
-                BUILD • SELL • EXPAND
-            </div>
-
-        </div>
-
-        <div class="stats">
-
-            <div class="stat">
-                <div class="statIcon">📅</div>
-                <div>
-                    <div class="statLabel">Day</div>
-                    <div class="statValue">
-                        <span id="dayDisplay">1</span>
-                        <span id="timeDisplay">10:24 AM</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="stat">
-                <div class="statIcon">💵</div>
-                <div>
-                    <div class="statLabel">Money</div>
-                    <div class="statValue money">
-                        $<span id="moneyDisplay">0</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="stat">
-                <div class="statIcon">⭐</div>
-                <div style="flex:1">
-                    <div class="statLabel">
-                        Level <span id="levelDisplay">1</span>
-                    </div>
-                    <div class="xpBar">
-                        <div id="xpFill" class="xpFill"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="stat">
-                <div class="statIcon">👥</div>
-                <div>
-                    <div class="statLabel">Customers</div>
-                    <div class="statValue">
-                        <span id="customersDisplay">0</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="stat">
-                <div class="statIcon">😊</div>
-                <div>
-                    <div class="statLabel">Reputation</div>
-                    <div class="statValue">
-                        <span id="reputationDisplay">92</span>%
-                    </div>
-                </div>
-            </div>
+<div class="topbar">
 
-        </div>
+<div class="gameLogo">
+🎲 THE LAST SHOP
+</div>
 
-        <button class="menuBtn"
-                onclick="openMenu()">
-            ⚙️ MENU
-        </button>
+<div class="stats">
 
-    </header>
+<div class="stat">
+💰 <span id="moneyDisplay" class="money">$0</span>
+</div>
 
+<div class="stat">
+⭐ Level <span id="levelDisplay">1</span>
+</div>
 
-    <div class="gameLayout">
+<div class="stat">
+👥 <span id="customersDisplay">0</span>
+Customers
+</div>
 
-        <!-- =================================================
-             SIDEBAR
-        ================================================= -->
+<div class="stat">
+🏪 <span id="shopsDisplay">1</span>
+Shops
+</div>
 
-        <aside class="sidebar">
+</div>
 
-            <button class="sideBtn active"
-                    onclick="closeAllModals()">
-                <span class="sideIcon">🏪</span>
-                Shop
-            </button>
+<button
+class="btn btnRed"
+onclick="logout()">
+LOG OUT
+</button>
 
-            <button class="sideBtn"
-                    onclick="openModal('stockModal')">
-                <span class="sideIcon">📦</span>
-                Stock
-            </button>
+</div>
 
-            <button class="sideBtn"
-                    onclick="showOrders()">
-                <span class="sideIcon">🚚</span>
-                Orders
-            </button>
 
-            <button class="sideBtn"
-                    onclick="openModal('staffModal')">
-                <span class="sideIcon">👥</span>
-                Staff
-            </button>
+<div class="gameLayout">
 
-            <button class="sideBtn"
-                    onclick="openModal('upgradeModal')">
-                <span class="sideIcon">🔧</span>
-                Upgrades
-            </button>
 
-            <button class="sideBtn"
-                    onclick="openModal('shopsModal')">
-                <span class="sideIcon">📊</span>
-                Expansion
-            </button>
+<!-- SIDEBAR -->
 
-            <button class="sideBtn"
-                    onclick="openModal('financeModal')">
-                <span class="sideIcon">💰</span>
-                Finances
-            </button>
+<aside class="sidebar">
 
-            <div class="sideBottom">
+<h3>BUSINESS</h3>
 
-                <div class="sideInfo">
+<button
+class="sideBtn"
+onclick="openModal('stockModal')">
+📦 Stock
+</button>
 
-                    <b>OWNER</b><br>
-                    <span id="ownerDisplay"></span>
+<button
+class="sideBtn"
+onclick="openModal('staffModal')">
+👨‍💼 Staff
+</button>
 
-                    <br><br>
+<button
+class="sideBtn"
+onclick="openModal('upgradeModal')">
+🔧 Upgrades
+</button>
 
-                    <b>BUSINESS</b><br>
-                    <span id="businessDisplay"></span>
+<button
+class="sideBtn"
+onclick="openModal('shopsModal')">
+🏪 Expansion
+</button>
 
-                    <br><br>
+<button
+class="sideBtn"
+onclick="openModal('financeModal')">
+💰 Finances
+</button>
 
-                    <b>DAILY CUSTOMERS</b><br>
-                    <span id="dailyCustomers">0</span>
+<button
+class="sideBtn"
+onclick="openModal('adminModal')">
+⚙️ Admin/Test
+</button>
 
-                    <br><br>
 
-                    <b>TOTAL SALES</b><br>
-                    $<span id="totalSales">0</span>
+<div class="sideSection">
 
-                </div>
+<div class="sideInfo">
 
-            </div>
+<b>OWNER</b><br>
+<span id="ownerDisplay"></span>
 
-        </aside>
+<br><br>
 
+<b>BUSINESS</b><br>
+<span id="businessDisplay"></span>
 
-        <!-- =================================================
-             WORLD
-        ================================================= -->
+<br><br>
 
-        <main class="world">
+<b>CUSTOMERS TODAY</b><br>
+<span id="dailyCustomers">0</span>
 
-            <div class="ceiling"></div>
+<br><br>
 
-            <div class="shopInterior">
+<b>TOTAL SALES</b><br>
+$<span id="totalSales">0</span>
 
-                <div class="backWall"></div>
+</div>
 
+</div>
 
-                <!-- SHOP SIGN -->
+</aside>
 
-                <div class="shopSign">
 
-                    <span id="shopSign">
-                        MY SHOP
-                    </span>
+<!-- SHOP -->
 
-                    <small>
-                        SHOP • COMMUNITY • BUSINESS
-                    </small>
+<main class="world">
 
-                </div>
+<div class="shopScene">
 
 
-                <!-- FOOD -->
+<div class="ceiling">
 
-                <div class="shelf food">
+<div class="ceilingLight light1"></div>
+<div class="ceilingLight light2"></div>
+<div class="ceilingLight light3"></div>
+<div class="ceilingLight light4"></div>
 
-                    <div class="shelfTitle">
-                        🍎 FOOD
-                    </div>
+</div>
 
-                    <div class="shelfProducts">
 
-                        <div class="product">
-                            🍎
-                            <small>Apples</small>
-                            <span id="stock-apples"
-                                  class="stockNumber">0</span>
-                        </div>
+<div class="frontWall"></div>
 
-                        <div class="product">
-                            🍌
-                            <small>Bananas</small>
-                            <span id="stock-bananas"
-                                  class="stockNumber">0</span>
-                        </div>
 
-                        <div class="product">
-                            🍇
-                            <small>Grapes</small>
-                            <span id="stock-grapes"
-                                  class="stockNumber">0</span>
-                        </div>
+<div class="window"></div>
 
-                        <div class="product">
-                            🍞
-                            <small>Bread</small>
-                            <span id="stock-bread"
-                                  class="stockNumber">0</span>
-                        </div>
 
-                    </div>
+<div
+class="door"
+onclick="forceCustomer()">
 
-                </div>
+<div class="openSign">
+OPEN
+</div>
 
+<div class="doorHandle"></div>
 
-                <!-- HOME -->
+</div>
 
-                <div class="shelf home">
 
-                    <div class="shelfTitle">
-                        🏠 HOME
-                    </div>
+<div class="welcomeMat">
+WELCOME
+</div>
 
-                    <div class="shelfProducts">
 
-                        <div class="product">
-                            🧼
-                            <small>Soap</small>
-                            <span id="stock-soap"
-                                  class="stockNumber">0</span>
-                        </div>
+<div class="shopInterior">
 
-                        <div class="product">
-                            🧻
-                            <small>Paper</small>
-                            <span id="stock-paper"
-                                  class="stockNumber">0</span>
-                        </div>
 
-                        <div class="product">
-                            🧴
-                            <small>Shampoo</small>
-                            <span id="stock-shampoo"
-                                  class="stockNumber">0</span>
-                        </div>
+<div
+id="shopSign"
+class="shopSign">
+MY SHOP
+</div>
 
-                        <div class="product">
-                            🧹
-                            <small>Cleaning</small>
-                            <span id="stock-cleaning"
-                                  class="stockNumber">0</span>
-                        </div>
 
-                    </div>
+<div class="aisle aisle1"></div>
+<div class="aisle aisle2"></div>
+<div class="aisle aisle3"></div>
 
-                </div>
 
+<!-- FOOD -->
 
-                <!-- DRINKS -->
+<div class="shelf food">
 
-                <div class="shelf drinks">
+<div class="shelfTitle">
+🍎 FOOD
+</div>
 
-                    <div class="shelfTitle">
-                        🥤 DRINKS
-                    </div>
+<div class="shelfProducts">
 
-                    <div class="shelfProducts">
+<div class="product">
+🍎
+<small>Apples</small>
+<span id="stock-apples" class="stockNumber">0</span>
+</div>
 
-                        <div class="product">
-                            🥤
-                            <small>Cola</small>
-                            <span id="stock-cola"
-                                  class="stockNumber">0</span>
-                        </div>
+<div class="product">
+🍌
+<small>Bananas</small>
+<span id="stock-bananas" class="stockNumber">0</span>
+</div>
 
-                        <div class="product">
-                            🧃
-                            <small>Juice</small>
-                            <span id="stock-juice"
-                                  class="stockNumber">0</span>
-                        </div>
+<div class="product">
+🍇
+<small>Grapes</small>
+<span id="stock-grapes" class="stockNumber">0</span>
+</div>
 
-                        <div class="product">
-                            💧
-                            <small>Water</small>
-                            <span id="stock-water"
-                                  class="stockNumber">0</span>
-                        </div>
+<div class="product">
+🍞
+<small>Bread</small>
+<span id="stock-bread" class="stockNumber">0</span>
+</div>
 
-                        <div class="product">
-                            ☕
-                            <small>Coffee</small>
-                            <span id="stock-coffee"
-                                  class="stockNumber">0</span>
-                        </div>
+</div>
 
-                    </div>
+</div>
 
-                </div>
 
+<!-- DRINKS -->
 
-                <!-- OTHER -->
+<div class="shelf drinks">
 
-                <div class="shelf tech">
+<div class="shelfTitle">
+🥤 DRINKS
+</div>
 
-                    <div class="shelfTitle">
-                        🔌 ACCESSORIES
-                    </div>
+<div class="shelfProducts">
 
-                    <div class="shelfProducts">
+<div class="product">
+🥤
+<small>Cola</small>
+<span id="stock-cola" class="stockNumber">0</span>
+</div>
 
-                        <div class="product">
-                            🔋
-                            <small>Batteries</small>
-                            <span id="stock-batteries"
-                                  class="stockNumber">0</span>
-                        </div>
+<div class="product">
+🧃
+<small>Juice</small>
+<span id="stock-juice" class="stockNumber">0</span>
+</div>
 
-                        <div class="product">
-                            💡
-                            <small>Bulb</small>
-                            <span id="stock-bulb"
-                                  class="stockNumber">0</span>
-                        </div>
+<div class="product">
+💧
+<small>Water</small>
+<span id="stock-water" class="stockNumber">0</span>
+</div>
 
-                        <div class="product">
-                            🔧
-                            <small>Tools</small>
-                            <span id="stock-tools"
-                                  class="stockNumber">0</span>
-                        </div>
+<div class="product">
+☕
+<small>Coffee</small>
+<span id="stock-coffee" class="stockNumber">0</span>
+</div>
 
-                        <div class="product">
-                            🧤
-                            <small>Gloves</small>
-                            <span id="stock-gloves"
-                                  class="stockNumber">0</span>
-                        </div>
+</div>
 
-                    </div>
+</div>
 
-                </div>
 
+<!-- HOME -->
 
-                <!-- TABLE -->
+<div class="shelf home">
 
-                <div class="shopTable"></div>
+<div class="shelfTitle">
+🏠 HOME
+</div>
 
+<div class="shelfProducts">
 
-                <!-- COUNTER -->
+<div class="product">
+🧼
+<small>Soap</small>
+<span id="stock-soap" class="stockNumber">0</span>
+</div>
 
-                <div class="counter">
+<div class="product">
+🧻
+<small>Paper</small>
+<span id="stock-paper" class="stockNumber">0</span>
+</div>
 
-                    <div class="counterTop"></div>
+<div class="product">
+🧴
+<small>Shampoo</small>
+<span id="stock-shampoo" class="stockNumber">0</span>
+</div>
 
-                    <div class="register">
-                        CASH<br>
-                        REGISTER<br>
-                        <span style="font-size:10px">
-                            READY
-                        </span>
-                    </div>
+<div class="product">
+🧹
+<small>Cleaning</small>
+<span id="stock-cleaning" class="stockNumber">0</span>
+</div>
 
-                </div>
+</div>
 
+</div>
 
-                <!-- PLAYER -->
 
-                <div id="player"
-                     class="person player">
+<!-- OTHER -->
 
-                    <div class="hair"></div>
-                    <div class="head"></div>
+<div class="shelf other">
 
-                    <div class="eye left"></div>
-                    <div class="eye right"></div>
+<div class="shelfTitle">
+🔌 OTHER
+</div>
 
-                    <div class="mouth"></div>
+<div class="shelfProducts">
 
-                    <div class="body"></div>
+<div class="product">
+🔋
+<small>Batteries</small>
+<span id="stock-batteries" class="stockNumber">0</span>
+</div>
 
-                    <div class="arm left"></div>
-                    <div class="arm right"></div>
+<div class="product">
+💡
+<small>Bulb</small>
+<span id="stock-bulb" class="stockNumber">0</span>
+</div>
 
-                    <div class="leg left"></div>
-                    <div class="leg right"></div>
+<div class="product">
+🔧
+<small>Tools</small>
+<span id="stock-tools" class="stockNumber">0</span>
+</div>
 
-                    <div class="personName">
-                        YOU
-                    </div>
+<div class="product">
+🧤
+<small>Gloves</small>
+<span id="stock-gloves" class="stockNumber">0</span>
+</div>
 
-                </div>
+</div>
 
+</div>
 
-                <!-- CUSTOMERS -->
 
-                <div id="customerArea"></div>
+<div class="checkout">
 
+<div class="checkoutTop"></div>
 
-                <!-- BOTTOM BUTTONS -->
+<div class="till">
+CASH<br>
+REGISTER
+</div>
 
-                <div class="bottomControls">
+<div class="checkoutLabel">
+CHECKOUT
+</div>
 
-                    <button class="bigAction adButton"
-                            onclick="watchAd()">
-                        🎬 WATCH AD<br>
-                        + $500
-                    </button>
+</div>
 
-                    <button class="bigAction moneyButton"
-                            onclick="buyMoney()">
-                        🛒 BUY MONEY
-                    </button>
 
-                </div>
+<div class="plant plant1"></div>
+<div class="plant plant2"></div>
 
 
-                <!-- RIGHT PANELS -->
+<div id="customerArea"></div>
 
-                <div class="rightPanels">
 
-                    <div class="goalPanel">
+<!-- OWNER -->
 
-                        <div class="goalTitle">
-                            Current Goal
-                        </div>
+<div
+id="player"
+class="person"
+style="
+left:52%;
+bottom:205px;
+z-index:500;">
 
-                        <div>
-                            ☐ Sell 10 Products
-                        </div>
+<div class="hair"></div>
+<div class="head"></div>
 
-                        <div class="goalProgress">
-                            <div id="goalFill"
-                                 class="goalFill"></div>
-                        </div>
+<div class="eye left"></div>
+<div class="eye right"></div>
 
-                        <div class="goalBottom">
-                            <span>Progress</span>
-                            <b>
-                                <span id="goalCurrent">0</span>/10
-                            </b>
-                        </div>
+<div class="mouth"></div>
 
-                    </div>
+<div
+class="body"
+style="background:#287bd6">
+</div>
 
+<div class="arm left"></div>
+<div class="arm right"></div>
 
-                    <div class="rewardPanel">
+<div class="leg left"></div>
+<div class="leg right"></div>
 
-                        <div class="rewardIcon">
-                            🎁
-                        </div>
+<div class="personName">
+YOU
+</div>
 
-                        <div class="rewardText">
-                            <b>Daily Reward</b>
-                            <small>Come back every day</small>
-                        </div>
+</div>
 
-                        <div id="rewardTimer"
-                             class="rewardTimer">
-                            12:35:18
-                        </div>
 
-                    </div>
+</div>
 
-                </div>
+</div>
 
-            </div>
+</main>
 
-        </main>
-
-    </div>
+</div>
 
 </div>
 
 
 <!-- =========================================================
-     STOCK MODAL
+     MODALS
 ========================================================= -->
 
 <div id="stockModal" class="modal">
@@ -1788,19 +1473,13 @@ body{
 <div class="modalBox">
 
 <div class="modalHeader">
-
 <h2>📦 Buy Stock</h2>
 
 <button class="close"
 onclick="closeModal('stockModal')">
 ×
 </button>
-
 </div>
-
-<p style="margin-bottom:20px;color:#666;">
-Buy products from suppliers and keep your shelves full.
-</p>
 
 <div id="stockCards" class="grid"></div>
 
@@ -1809,23 +1488,17 @@ Buy products from suppliers and keep your shelves full.
 </div>
 
 
-<!-- =========================================================
-     STAFF MODAL
-========================================================= -->
-
 <div id="staffModal" class="modal">
 
 <div class="modalBox">
 
 <div class="modalHeader">
-
-<h2>👥 Hire Staff</h2>
+<h2>👨‍💼 Staff</h2>
 
 <button class="close"
 onclick="closeModal('staffModal')">
 ×
 </button>
-
 </div>
 
 <div id="staffCards" class="grid"></div>
@@ -1835,23 +1508,17 @@ onclick="closeModal('staffModal')">
 </div>
 
 
-<!-- =========================================================
-     UPGRADE MODAL
-========================================================= -->
-
 <div id="upgradeModal" class="modal">
 
 <div class="modalBox">
 
 <div class="modalHeader">
-
-<h2>🔧 Shop Upgrades</h2>
+<h2>🔧 Upgrades</h2>
 
 <button class="close"
 onclick="closeModal('upgradeModal')">
 ×
 </button>
-
 </div>
 
 <div id="upgradeCards" class="grid"></div>
@@ -1861,23 +1528,17 @@ onclick="closeModal('upgradeModal')">
 </div>
 
 
-<!-- =========================================================
-     SHOPS MODAL
-========================================================= -->
-
 <div id="shopsModal" class="modal">
 
 <div class="modalBox">
 
 <div class="modalHeader">
-
-<h2>📊 Expand Business</h2>
+<h2>🏪 Expansion</h2>
 
 <button class="close"
 onclick="closeModal('shopsModal')">
 ×
 </button>
-
 </div>
 
 <div id="shopCards" class="grid"></div>
@@ -1887,23 +1548,17 @@ onclick="closeModal('shopsModal')">
 </div>
 
 
-<!-- =========================================================
-     FINANCE MODAL
-========================================================= -->
-
 <div id="financeModal" class="modal">
 
 <div class="modalBox">
 
 <div class="modalHeader">
-
 <h2>💰 Finances</h2>
 
 <button class="close"
 onclick="closeModal('financeModal')">
 ×
 </button>
-
 </div>
 
 <div id="financeContent"></div>
@@ -1913,23 +1568,17 @@ onclick="closeModal('financeModal')">
 </div>
 
 
-<!-- =========================================================
-     ADMIN MODAL
-========================================================= -->
-
 <div id="adminModal" class="modal">
 
 <div class="modalBox">
 
 <div class="modalHeader">
-
 <h2>⚙️ Admin / Testing</h2>
 
 <button class="close"
 onclick="closeModal('adminModal')">
 ×
 </button>
-
 </div>
 
 <div id="adminContent"></div>
@@ -1939,295 +1588,198 @@ onclick="closeModal('adminModal')">
 </div>
 
 
-<!-- =========================================================
-     ORDERS MODAL
-========================================================= -->
-
-<div id="ordersModal" class="modal">
-
-<div class="modalBox">
-
-<div class="modalHeader">
-
-<h2>🚚 Orders</h2>
-
-<button class="close"
-onclick="closeModal('ordersModal')">
-×
-</button>
-
-</div>
-
-<div class="card">
-
-<h3>Supplier Orders</h3>
-
-<p>
-Your stock orders will appear here.
-More advanced delivery and supplier systems
-can be added later.
-</p>
-
-<button class="btn btnBlue"
-onclick="openModal('stockModal');closeModal('ordersModal')">
-ORDER STOCK
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
 <script>
 
 /* =========================================================
-   GAME DATA
+   PRODUCTS
 ========================================================= */
 
-const PRODUCTS = {
+const PRODUCTS={
 
-    apples:{
-        name:"Apples",
-        icon:"🍎",
-        buy:2,
-        sell:4
-    },
+apples:{name:"Apples",icon:"🍎",buy:2,sell:4},
+bananas:{name:"Bananas",icon:"🍌",buy:2,sell:4},
+grapes:{name:"Grapes",icon:"🍇",buy:3,sell:6},
+bread:{name:"Bread",icon:"🍞",buy:2,sell:5},
 
-    bananas:{
-        name:"Bananas",
-        icon:"🍌",
-        buy:2,
-        sell:4
-    },
+cola:{name:"Cola",icon:"🥤",buy:2,sell:5},
+juice:{name:"Juice",icon:"🧃",buy:3,sell:7},
+water:{name:"Water",icon:"💧",buy:1,sell:3},
+coffee:{name:"Coffee",icon:"☕",buy:2,sell:6},
 
-    grapes:{
-        name:"Grapes",
-        icon:"🍇",
-        buy:3,
-        sell:6
-    },
+soap:{name:"Soap",icon:"🧼",buy:2,sell:5},
+paper:{name:"Toilet Paper",icon:"🧻",buy:4,sell:8},
+shampoo:{name:"Shampoo",icon:"🧴",buy:4,sell:9},
+cleaning:{name:"Cleaning Product",icon:"🧹",buy:4,sell:10},
 
-    bread:{
-        name:"Bread",
-        icon:"🍞",
-        buy:2,
-        sell:5
-    },
-
-    cola:{
-        name:"Cola",
-        icon:"🥤",
-        buy:2,
-        sell:5
-    },
-
-    juice:{
-        name:"Juice",
-        icon:"🧃",
-        buy:3,
-        sell:7
-    },
-
-    water:{
-        name:"Water",
-        icon:"💧",
-        buy:1,
-        sell:3
-    },
-
-    coffee:{
-        name:"Coffee",
-        icon:"☕",
-        buy:2,
-        sell:6
-    },
-
-    soap:{
-        name:"Soap",
-        icon:"🧼",
-        buy:2,
-        sell:5
-    },
-
-    paper:{
-        name:"Toilet Paper",
-        icon:"🧻",
-        buy:4,
-        sell:8
-    },
-
-    shampoo:{
-        name:"Shampoo",
-        icon:"🧴",
-        buy:4,
-        sell:9
-    },
-
-    cleaning:{
-        name:"Cleaning Product",
-        icon:"🧹",
-        buy:4,
-        sell:10
-    },
-
-    batteries:{
-        name:"Batteries",
-        icon:"🔋",
-        buy:5,
-        sell:12
-    },
-
-    bulb:{
-        name:"Light Bulb",
-        icon:"💡",
-        buy:4,
-        sell:10
-    },
-
-    tools:{
-        name:"Tools",
-        icon:"🔧",
-        buy:8,
-        sell:18
-    },
-
-    gloves:{
-        name:"Work Gloves",
-        icon:"🧤",
-        buy:3,
-        sell:8
-    }
+batteries:{name:"Batteries",icon:"🔋",buy:5,sell:12},
+bulb:{name:"Light Bulb",icon:"💡",buy:4,sell:10},
+tools:{name:"Tools",icon:"🔧",buy:8,sell:18},
+gloves:{name:"Work Gloves",icon:"🧤",buy:3,sell:8}
 
 };
 
 
-const STAFF = [
+/* =========================================================
+   STAFF
+========================================================= */
 
-    {
-        id:"cashier",
-        name:"Cashier",
-        icon:"🧍‍♀️",
-        cost:300,
-        description:"Helps serve customers at the till."
-    },
+const STAFF=[
 
-    {
-        id:"stock",
-        name:"Stock Worker",
-        icon:"🧍‍♂️",
-        cost:400,
-        description:"Keeps shelves stocked."
-    },
+{
+id:"cashier",
+name:"Cashier",
+icon:"🧑‍💼",
+cost:300,
+description:"Automatically serves customers at checkout."
+},
 
-    {
-        id:"manager",
-        name:"Shop Manager",
-        icon:"🕴️",
-        cost:1000,
-        description:"Improves shop efficiency."
-    },
+{
+id:"stock",
+name:"Stock Worker",
+icon:"📦",
+cost:400,
+description:"Automatically keeps shelves supplied."
+},
 
-    {
-        id:"security",
-        name:"Security",
-        icon:"🛡️",
-        cost:700,
-        description:"Protects the shop."
-    }
+{
+id:"manager",
+name:"Shop Manager",
+icon:"👔",
+cost:1000,
+description:"Increases daily shop efficiency."
+},
 
-];
-
-
-const UPGRADES = [
-
-    {
-        id:"sign",
-        name:"Better Shop Sign",
-        cost:500,
-        description:"Makes your shop look more professional."
-    },
-
-    {
-        id:"shelves",
-        name:"Bigger Shelves",
-        cost:800,
-        description:"Increases maximum stock."
-    },
-
-    {
-        id:"lighting",
-        name:"Professional Lighting",
-        cost:1200,
-        description:"Improves customer satisfaction."
-    },
-
-    {
-        id:"security",
-        name:"Security System",
-        cost:2000,
-        description:"Reduces shop losses."
-    },
-
-    {
-        id:"premium",
-        name:"Premium Interior",
-        cost:5000,
-        description:"Turns your small shop into a professional store."
-    }
-
-];
-
-
-const BUSINESS_SHOPS = [
-
-    {
-        id:"convenience",
-        name:"Second Convenience Shop",
-        cost:10000,
-        description:"Open another convenience shop."
-    },
-
-    {
-        id:"fruit",
-        name:"Fresh Fruit Shop",
-        cost:25000,
-        description:"Specialise in fresh fruit."
-    },
-
-    {
-        id:"restaurant",
-        name:"Restaurant",
-        cost:60000,
-        description:"Serve cooked food."
-    },
-
-    {
-        id:"electronics",
-        name:"Electronics Shop",
-        cost:120000,
-        description:"Sell electronics and technology."
-    },
-
-    {
-        id:"car",
-        name:"Car Dealership",
-        cost:300000,
-        description:"Enter the vehicle business."
-    }
+{
+id:"security",
+name:"Security",
+icon:"🛡️",
+cost:700,
+description:"Reduces losses and shop problems."
+}
 
 ];
 
 
 /* =========================================================
-   GAME STATE
+   UPGRADES
+========================================================= */
+
+const UPGRADES=[
+
+{
+id:"sign",
+name:"Professional Sign",
+cost:500,
+description:"Makes your shop look more professional."
+},
+
+{
+id:"shelves",
+name:"Bigger Shelves",
+cost:800,
+description:"Increases maximum stock."
+},
+
+{
+id:"lighting",
+name:"Professional Lighting",
+cost:1200,
+description:"Makes customers happier."
+},
+
+{
+id:"security",
+name:"Security System",
+cost:2000,
+description:"Reduces shop losses."
+},
+
+{
+id:"premium",
+name:"Premium Interior",
+cost:5000,
+description:"Upgrades the entire store."
+}
+
+];
+
+
+/* =========================================================
+   BUSINESSES
+========================================================= */
+
+const BUSINESS_SHOPS=[
+
+{
+id:"convenience",
+name:"Second Convenience Shop",
+cost:10000,
+description:"Open another convenience shop."
+},
+
+{
+id:"fruit",
+name:"Fresh Fruit Shop",
+cost:25000,
+description:"Open a specialist fruit store."
+},
+
+{
+id:"restaurant",
+name:"Restaurant",
+cost:60000,
+description:"Start selling cooked food."
+},
+
+{
+id:"electronics",
+name:"Electronics Shop",
+cost:120000,
+description:"Sell electronics."
+},
+
+{
+id:"car",
+name:"Car Dealership",
+cost:300000,
+description:"Enter the vehicle business."
+}
+
+];
+
+
+/* =========================================================
+   GAME
 ========================================================= */
 
 let currentUser=null;
 let game=null;
+
 let customerTimer=null;
-let customerId=0;
+let customerCounter=0;
+
+const CUSTOMER_NAMES=[
+"James",
+"Emma",
+"Oliver",
+"Amelia",
+"George",
+"Isla",
+"Harry",
+"Emily",
+"Jack",
+"Sophie",
+"Daniel",
+"Grace",
+"Thomas",
+"Olivia",
+"William",
+"Jessica",
+"David",
+"Sarah",
+"Michael",
+"Lucy"
+];
 
 
 /* =========================================================
@@ -2236,55 +1788,41 @@ let customerId=0;
 
 function createDefaultGame(user){
 
-    const stock={};
+const stock={};
 
-    Object.keys(PRODUCTS).forEach(key=>{
-        stock[key]=5;
-    });
+Object.keys(PRODUCTS).forEach(k=>{
+stock[k]=8;
+});
 
-    return {
+return{
 
-        username:user.username,
+username:user.username,
+ownerName:user.name,
+shopName:user.shopName,
 
-        ownerName:user.name,
+money:1000,
 
-        shopName:user.shopName,
+level:1,
+experience:0,
 
-        money:1000,
+customers:0,
+totalSales:0,
+totalSpent:0,
 
-        level:1,
+day:1,
+shops:1,
 
-        experience:0,
+staff:{},
+upgrades:{},
+businesses:{},
 
-        customers:0,
+stock:stock,
 
-        totalSales:0,
+transactions:[],
 
-        totalSpent:0,
+created:new Date().toISOString()
 
-        day:1,
-
-        shops:1,
-
-        reputation:92,
-
-        goalSales:0,
-
-        dailyRewardClaimed:false,
-
-        staff:{},
-
-        upgrades:{},
-
-        businesses:{},
-
-        stock:stock,
-
-        transactions:[],
-
-        created:new Date().toISOString()
-
-    };
+};
 
 }
 
@@ -2295,258 +1833,226 @@ function createDefaultGame(user){
 
 function getUsers(){
 
-    return JSON.parse(
-        localStorage.getItem("lastShopUsers") || "[]"
-    );
+return JSON.parse(
+localStorage.getItem("lastShopUsers")||"[]"
+);
 
 }
 
-
 function saveUsers(users){
 
-    localStorage.setItem(
-        "lastShopUsers",
-        JSON.stringify(users)
-    );
+localStorage.setItem(
+"lastShopUsers",
+JSON.stringify(users)
+);
 
 }
 
 
 function showRegister(){
 
-    document.getElementById("loginForm").style.display="none";
-
-    document.getElementById("registerForm").style.display="block";
-
-    clearMessages();
+loginForm.style.display="none";
+registerForm.style.display="block";
+clearMessages();
 
 }
 
 
 function showLogin(){
 
-    document.getElementById("registerForm").style.display="none";
-
-    document.getElementById("loginForm").style.display="block";
-
-    clearMessages();
+registerForm.style.display="none";
+loginForm.style.display="block";
+clearMessages();
 
 }
 
 
 function clearMessages(){
 
-    document.getElementById("authError").style.display="none";
-
-    document.getElementById("authSuccess").style.display="none";
-
-}
-
-
-function authError(message){
-
-    const el=document.getElementById("authError");
-
-    el.innerText=message;
-
-    el.style.display="block";
+authError.style.display="none";
+authSuccess.style.display="none";
 
 }
 
 
-function authSuccess(message){
+function showError(text){
 
-    const el=document.getElementById("authSuccess");
-
-    el.innerText=message;
-
-    el.style.display="block";
+authError.innerText=text;
+authError.style.display="block";
 
 }
 
+
+function showSuccess(text){
+
+authSuccess.innerText=text;
+authSuccess.style.display="block";
+
+}
+
+
+/* =========================================================
+   REGISTER
+========================================================= */
 
 function register(){
 
-    const name=
-        document.getElementById("registerName").value.trim();
+const name=registerName.value.trim();
+const username=registerUsername.value.trim().toLowerCase();
+const password=registerPassword.value;
+const shopName=registerShop.value.trim();
 
-    const username=
-        document.getElementById("registerUsername").value.trim().toLowerCase();
+if(!name||!username||!password||!shopName){
 
-    const password=
-        document.getElementById("registerPassword").value;
-
-    const shopName=
-        document.getElementById("registerShop").value.trim();
-
-
-    if(!name || !username || !password || !shopName){
-
-        authError("Please complete every field.");
-
-        return;
-    }
-
-
-    if(username.length<3){
-
-        authError("Username must contain at least 3 characters.");
-
-        return;
-    }
-
-
-    if(password.length<4){
-
-        authError("Password must contain at least 4 characters.");
-
-        return;
-    }
-
-
-    const users=getUsers();
-
-
-    if(users.some(u=>u.username===username)){
-
-        authError("That username already exists.");
-
-        return;
-    }
-
-
-    const user={
-        name:name,
-        username:username,
-        password:password,
-        shopName:shopName
-    };
-
-
-    users.push(user);
-
-    saveUsers(users);
-
-    game=createDefaultGame(user);
-
-    saveGame();
-
-    currentUser=user;
-
-    localStorage.setItem(
-        "lastShopLoggedUser",
-        username
-    );
-
-    authSuccess("Account created!");
-
-    setTimeout(()=>{
-
-        openGame();
-
-    },500);
+showError("Please complete every field.");
+return;
 
 }
 
+if(username.length<3){
+
+showError("Username must contain at least 3 characters.");
+return;
+
+}
+
+if(password.length<4){
+
+showError("Password must contain at least 4 characters.");
+return;
+
+}
+
+const users=getUsers();
+
+if(users.some(u=>u.username===username)){
+
+showError("Username already exists.");
+return;
+
+}
+
+const user={
+name,
+username,
+password,
+shopName
+};
+
+users.push(user);
+saveUsers(users);
+
+currentUser=user;
+game=createDefaultGame(user);
+
+saveGame();
+
+localStorage.setItem(
+"lastShopLoggedUser",
+username
+);
+
+showSuccess("Account created!");
+
+setTimeout(openGame,500);
+
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
 
 function login(){
 
-    const username=
-        document.getElementById("loginUsername").value.trim().toLowerCase();
+const username=loginUsername.value.trim().toLowerCase();
+const password=loginPassword.value;
 
-    const password=
-        document.getElementById("loginPassword").value;
+if(username==="admin"&&password==="admin123"){
 
+currentUser={
+name:"Administrator",
+username:"admin",
+shopName:"ADMIN"
+};
 
-    if(username==="admin" && password==="admin123"){
+game=createAdminGame();
 
-        currentUser={
-            name:"Administrator",
-            username:"admin",
-            shopName:"ADMIN"
-        };
+localStorage.setItem(
+"lastShopLoggedUser",
+"admin"
+);
 
-        game=createAdminGame();
+openGame();
 
-        openGame();
-
-        return;
-    }
-
-
-    const users=getUsers();
-
-    const user=users.find(
-        u=>u.username===username &&
-           u.password===password
-    );
-
-
-    if(!user){
-
-        authError("Username or password is incorrect.");
-
-        return;
-    }
-
-
-    currentUser=user;
-
-    game=loadGame(user.username);
-
-
-    if(!game){
-
-        game=createDefaultGame(user);
-
-        saveGame();
-
-    }
-
-
-    localStorage.setItem(
-        "lastShopLoggedUser",
-        username
-    );
-
-
-    openGame();
+return;
 
 }
 
+const users=getUsers();
+
+const user=users.find(
+u=>u.username===username&&u.password===password
+);
+
+if(!user){
+
+showError("Username or password is incorrect.");
+return;
+
+}
+
+currentUser=user;
+
+game=
+loadGame(username)||
+createDefaultGame(user);
+
+localStorage.setItem(
+"lastShopLoggedUser",
+username
+);
+
+openGame();
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
 
 function logout(){
 
-    saveGame();
+saveGame();
 
-    localStorage.removeItem(
-        "lastShopLoggedUser"
-    );
+clearInterval(customerTimer);
 
-    currentUser=null;
+localStorage.removeItem("lastShopLoggedUser");
 
-    game=null;
+currentUser=null;
+game=null;
 
-    clearInterval(customerTimer);
+gameScreen.style.display="none";
+authScreen.style.display="flex";
 
-    document.getElementById("gameScreen").style.display="none";
-
-    document.getElementById("authScreen").style.display="flex";
-
-    showLogin();
+showLogin();
 
 }
 
 
+/* =========================================================
+   OPEN GAME
+========================================================= */
+
 function openGame(){
 
-    document.getElementById("authScreen").style.display="none";
+authScreen.style.display="none";
+gameScreen.style.display="block";
 
-    document.getElementById("gameScreen").style.display="block";
+updateEverything();
 
-    updateEverything();
-
-    startCustomers();
+startCustomers();
 
 }
 
@@ -2557,83 +2063,71 @@ function openGame(){
 
 function gameKey(){
 
-    return "lastShopGame_"+currentUser.username;
+return "lastShopGame_"+currentUser.username;
 
 }
 
 
 function saveGame(){
 
-    if(!currentUser || !game) return;
+if(!currentUser||!game) return;
 
-    if(currentUser.username==="admin") return;
+if(currentUser.username==="admin") return;
 
-    localStorage.setItem(
-        gameKey(),
-        JSON.stringify(game)
-    );
+localStorage.setItem(
+gameKey(),
+JSON.stringify(game)
+);
 
 }
 
 
 function loadGame(username){
 
-    const data=localStorage.getItem(
-        "lastShopGame_"+username
-    );
+const data=
+localStorage.getItem(
+"lastShopGame_"+username
+);
 
-    return data ? JSON.parse(data) : null;
+return data?JSON.parse(data):null;
 
 }
 
 
 /* =========================================================
-   ADMIN
+   ADMIN GAME
 ========================================================= */
 
 function createAdminGame(){
 
-    return {
+return{
 
-        username:"admin",
+username:"admin",
+ownerName:"Administrator",
+shopName:"ADMIN",
 
-        ownerName:"Administrator",
+money:999999999,
+level:99,
+experience:0,
 
-        shopName:"ADMIN",
+customers:0,
+totalSales:0,
+totalSpent:0,
 
-        money:999999999,
+day:999,
+shops:99,
 
-        level:99,
+staff:{},
+upgrades:{},
+businesses:{},
 
-        experience:0,
+stock:Object.fromEntries(
+Object.keys(PRODUCTS).map(k=>[k,999])
+),
 
-        customers:0,
+transactions:[]
 
-        totalSales:0,
-
-        totalSpent:0,
-
-        day:999,
-
-        shops:99,
-
-        reputation:100,
-
-        goalSales:10,
-
-        staff:{},
-
-        upgrades:{},
-
-        businesses:{},
-
-        stock:Object.fromEntries(
-            Object.keys(PRODUCTS).map(k=>[k,999])
-        ),
-
-        transactions:[]
-
-    };
+};
 
 }
 
@@ -2644,149 +2138,96 @@ function createAdminGame(){
 
 function updateEverything(){
 
-    if(!game) return;
+if(!game)return;
 
+moneyDisplay.innerText=
+"$"+formatMoney(game.money);
 
-    document.getElementById("moneyDisplay").innerText=
-        formatMoney(game.money);
+levelDisplay.innerText=
+game.level;
 
-    document.getElementById("levelDisplay").innerText=
-        game.level;
+customersDisplay.innerText=
+game.customers;
 
-    document.getElementById("customersDisplay").innerText=
-        game.customers;
+shopsDisplay.innerText=
+game.shops;
 
-    document.getElementById("ownerDisplay").innerText=
-        game.ownerName;
+ownerDisplay.innerText=
+game.ownerName;
 
-    document.getElementById("businessDisplay").innerText=
-        game.shopName;
+businessDisplay.innerText=
+game.shopName;
 
-    document.getElementById("dailyCustomers").innerText=
-        game.customers;
+dailyCustomers.innerText=
+game.customers;
 
-    document.getElementById("totalSales").innerText=
-        formatMoney(game.totalSales);
+totalSales.innerText=
+formatMoney(game.totalSales);
 
-    document.getElementById("shopSign").innerText=
-        game.shopName;
+shopSign.innerText=
+game.shopName;
 
-    document.getElementById("dayDisplay").innerText=
-        game.day;
+Object.keys(PRODUCTS).forEach(key=>{
 
-    document.getElementById("reputationDisplay").innerText=
-        game.reputation || 92;
+const el=
+document.getElementById(
+"stock-"+key
+);
 
+if(el){
 
-    const xpNeeded=game.level*100;
+el.innerText=
+game.stock[key]||0;
 
-    const xpPercent=
-        Math.min(
-            100,
-            (game.experience/xpNeeded)*100
-        );
+}
 
-    document.getElementById("xpFill").style.width=
-        xpPercent+"%";
+});
 
+renderStock();
+renderStaff();
+renderUpgrades();
+renderShops();
+renderFinance();
+renderAdmin();
 
-    const goal=
-        Math.min(
-            10,
-            game.goalSales || 0
-        );
-
-    document.getElementById("goalCurrent").innerText=
-        goal;
-
-    document.getElementById("goalFill").style.width=
-        ((goal/10)*100)+"%";
-
-
-    Object.keys(PRODUCTS).forEach(key=>{
-
-        const el=
-            document.getElementById("stock-"+key);
-
-        if(el){
-
-            el.innerText=
-                game.stock[key] || 0;
-
-        }
-
-    });
-
-
-    renderStock();
-    renderStaff();
-    renderUpgrades();
-    renderShops();
-    renderFinance();
-    renderAdmin();
-
-    saveGame();
+saveGame();
 
 }
 
 
 /* =========================================================
-   TIME
-========================================================= */
-
-function updateClock(){
-
-    const now=new Date();
-
-    let hours=now.getHours();
-
-    const minutes=
-        String(now.getMinutes()).padStart(2,"0");
-
-    const ampm=
-        hours>=12 ? "PM" : "AM";
-
-    hours=
-        hours%12 || 12;
-
-    document.getElementById("timeDisplay").innerText=
-        hours+":"+minutes+" "+ampm;
-
-}
-
-
-setInterval(updateClock,1000);
-
-
-/* =========================================================
-   MONEY / XP
+   MONEY
 ========================================================= */
 
 function formatMoney(value){
 
-    return Math.floor(value).toLocaleString();
+return Math.floor(value).toLocaleString();
 
 }
 
 
+/* =========================================================
+   XP
+========================================================= */
+
 function addXP(amount){
 
-    game.experience+=amount;
+game.experience+=amount;
 
-    const needed=game.level*100;
+const required=
+game.level*100;
 
-    if(game.experience>=needed){
+if(game.experience>=required){
 
-        game.experience-=needed;
+game.experience-=required;
 
-        game.level++;
+game.level++;
 
-        notify(
-            "🎉 Business Level Up! You are now Level "+
-            game.level
-        );
+notify(
+"⭐ BUSINESS LEVEL "+game.level+"!"
+);
 
-    }
+}
 
 }
 
@@ -2797,412 +2238,494 @@ function addXP(amount){
 
 function renderStock(){
 
-    const container=
-        document.getElementById("stockCards");
+const container=
+document.getElementById("stockCards");
 
-    if(!container) return;
+if(!container)return;
 
-    container.innerHTML="";
+container.innerHTML="";
 
+Object.entries(PRODUCTS).forEach(([key,p])=>{
 
-    Object.entries(PRODUCTS).forEach(([key,p])=>{
+const max=
+20+
+(game.upgrades.shelves?20:0)+
+(game.upgrades.premium?50:0);
 
-        const maxStock=
-            20+
-            (game.upgrades.shelves ? 20 : 0)+
-            (game.upgrades.premium ? 50 : 0);
+const current=
+game.stock[key]||0;
 
-        const current=
-            game.stock[key] || 0;
+const card=
+document.createElement("div");
 
-        const card=
-            document.createElement("div");
+card.className="card";
 
-        card.className="card";
+card.innerHTML=`
 
-        card.innerHTML=`
+<h3>
+${p.icon} ${p.name}
+</h3>
 
-            <h3>
-                ${p.icon} ${p.name}
-            </h3>
+<p>
+Supplier: $${p.buy}<br>
+Customer price: $${p.sell}<br>
+Stock: ${current}/${max}
+</p>
 
-            <p>
-                Supplier price:
-                <b>$${p.buy}</b><br>
+<button
+class="btn btnBlue full"
+onclick="buyStock('${key}',5)">
+BUY 5 — $${p.buy*5}
+</button>
 
-                Selling price:
-                <b>$${p.sell}</b><br>
+`;
 
-                Stock:
-                <b>${current}/${maxStock}</b>
-            </p>
+container.appendChild(card);
 
-            <button class="btn btnBlue full"
-                    onclick="buyStock('${key}',5)">
-                BUY 5 — $${p.buy*5}
-            </button>
-
-        `;
-
-        container.appendChild(card);
-
-    });
+});
 
 }
 
 
 function buyStock(key,amount){
 
-    const p=PRODUCTS[key];
+const p=PRODUCTS[key];
 
-    const cost=p.buy*amount;
+const cost=p.buy*amount;
 
+const max=
+20+
+(game.upgrades.shelves?20:0)+
+(game.upgrades.premium?50:0);
 
-    const maxStock=
-        20+
-        (game.upgrades.shelves ? 20 : 0)+
-        (game.upgrades.premium ? 50 : 0);
+if((game.stock[key]||0)+amount>max){
 
+notify("❌ Shelf is full.");
+return;
 
-    if((game.stock[key]||0)+amount>maxStock){
+}
 
-        notify("❌ Not enough shelf space.");
+if(game.money<cost){
 
-        return;
-    }
+notify("❌ Not enough money.");
+return;
 
+}
 
-    if(game.money<cost){
+game.money-=cost;
 
-        notify(
-            "❌ Not enough money. Make more sales first."
-        );
+game.stock[key]=
+(game.stock[key]||0)+amount;
 
-        return;
-    }
+game.totalSpent+=cost;
 
+game.transactions.unshift({
 
-    game.money-=cost;
+type:"purchase",
+item:p.name,
+amount,
+value:cost,
+date:new Date().toLocaleString()
 
-    game.stock[key]=
-        (game.stock[key]||0)+amount;
+});
 
-    game.totalSpent+=cost;
+notify(
+"📦 Bought "+amount+" "+p.name
+);
 
-
-    game.transactions.unshift({
-
-        type:"purchase",
-
-        item:p.name,
-
-        amount:amount,
-
-        value:cost,
-
-        date:new Date().toLocaleString()
-
-    });
-
-
-    notify(
-        `📦 Bought ${amount} ${p.name}`
-    );
-
-
-    updateEverything();
+updateEverything();
 
 }
 
 
 /* =========================================================
-   CUSTOMER SYSTEM
+   REAL CUSTOMER SYSTEM
 ========================================================= */
-
-const CUSTOMER_NAMES=[
-
-    "Tom",
-    "Emma",
-    "Jack",
-    "Lucy",
-    "David",
-    "Sarah",
-    "Michael",
-    "Sophie",
-    "Daniel",
-    "Olivia",
-    "James",
-    "Emily",
-    "George",
-    "Jessica"
-
-];
-
 
 function startCustomers(){
 
-    clearInterval(customerTimer);
+clearInterval(customerTimer);
 
+setTimeout(spawnCustomer,1000);
 
-    customerTimer=setInterval(()=>{
+customerTimer=
+setInterval(()=>{
 
-        if(!game) return;
+if(game){
 
-        spawnCustomer();
-
-    },4500);
-
-
-    setTimeout(
-        spawnCustomer,
-        1200
-    );
+spawnCustomer();
 
 }
 
+},6500);
+
+}
+
+
+/* =========================================================
+   FORCE CUSTOMER
+========================================================= */
+
+function forceCustomer(){
+
+if(game){
+
+spawnCustomer();
+
+notify("🚪 A customer entered the shop.");
+
+}
+
+}
+
+
+/* =========================================================
+   SPAWN CUSTOMER
+========================================================= */
 
 function spawnCustomer(){
 
-    const keys=
-        Object.keys(PRODUCTS)
-        .filter(
-            k=>(game.stock[k]||0)>0
-        );
+const available=
+Object.keys(PRODUCTS)
+.filter(k=>(game.stock[k]||0)>0);
+
+if(!available.length){
+
+notify("⚠️ Customers cannot buy anything. Stock is empty.");
+return;
+
+}
+
+const key=
+available[
+Math.floor(
+Math.random()*available.length
+)
+];
+
+const name=
+CUSTOMER_NAMES[
+Math.floor(
+Math.random()*CUSTOMER_NAMES.length
+)
+];
+
+customerCounter++;
+
+const customer=
+document.createElement("div");
+
+customer.className="person";
+
+customer.id=
+"customer-"+customerCounter;
 
 
-    if(keys.length===0){
+/* START AT DOOR */
 
-        notify(
-            "⚠️ Your shelves are empty. Buy stock!"
-        );
+customer.style.left="2%";
+customer.style.bottom="60px";
 
-        return;
-    }
+const shirtColors=[
+"#287bd6",
+"#d84343",
+"#168a50",
+"#8e44ad",
+"#e67e22",
+"#008c95",
+"#3949ab"
+];
 
+const shirt=
+shirtColors[
+Math.floor(
+Math.random()*shirtColors.length
+)
+];
 
-    const key=
-        keys[
-            Math.floor(
-                Math.random()*keys.length
-            )
-        ];
+customer.innerHTML=`
 
+<div class="hair"></div>
 
-    const name=
-        CUSTOMER_NAMES[
-            Math.floor(
-                Math.random()*
-                CUSTOMER_NAMES.length
-            )
-        ];
+<div class="head"></div>
 
+<div class="eye left"></div>
+<div class="eye right"></div>
 
-    const customer=
-        document.createElement("div");
+<div class="mouth"></div>
 
-    customer.className=
-        "person customer";
+<div
+class="body"
+style="background:${shirt}">
+</div>
 
+<div class="arm left"></div>
+<div class="arm right"></div>
 
-    const left=
-        10+
-        Math.random()*75;
+<div class="leg left"></div>
+<div class="leg right"></div>
 
+<div class="personName">
+${name}
+</div>
 
-    customer.style.left=
-        left+"%";
+<div
+class="customerBubble">
+🚪 Coming in...
+</div>
 
-    customer.style.bottom=
-        (150+
-        Math.random()*120)+"px";
+`;
 
-
-    customer.innerHTML=`
-
-        <div class="hair"></div>
-
-        <div class="head"></div>
-
-        <div class="eye left"></div>
-        <div class="eye right"></div>
-
-        <div class="mouth"></div>
-
-        <div class="body"
-             style="background:${randomShirt()}">
-        </div>
-
-        <div class="arm left"></div>
-        <div class="arm right"></div>
-
-        <div class="leg left"></div>
-        <div class="leg right"></div>
-
-        <div class="personName">
-            ${name}
-        </div>
-
-        <div class="customerBubble">
-            I need ${PRODUCTS[key].name}!
-        </div>
-
-        <div class="customerActions">
-
-            <button class="btn btnPrimary"
-                    onclick="serveCustomer(this,'${key}')">
-                SERVE
-            </button>
-
-        </div>
-
-    `;
+customerArea.appendChild(customer);
 
 
-    document
-        .getElementById("customerArea")
-        .appendChild(customer);
+/* =========================================================
+   STEP 1 - ENTER
+========================================================= */
+
+setTimeout(()=>{
+
+moveCustomer(
+customer,
+"14%",
+"80px"
+);
+
+bubble(
+customer,
+"👋 Hello!"
+);
+
+},300);
 
 
-    setTimeout(()=>{
+/* =========================================================
+   STEP 2 - WALK TO SHELF
+========================================================= */
 
-        if(customer.parentNode){
+setTimeout(()=>{
 
-            customer.remove();
+const shelfPositions={
 
-        }
+apples:["16%","420px"],
+bananas:["16%","420px"],
+grapes:["16%","420px"],
+bread:["16%","420px"],
 
-    },25000);
+cola:["37%","420px"],
+juice:["37%","420px"],
+water:["37%","420px"],
+coffee:["37%","420px"],
+
+soap:["58%","420px"],
+paper:["58%","420px"],
+shampoo:["58%","420px"],
+cleaning:["58%","420px"],
+
+batteries:["79%","420px"],
+bulb:["79%","420px"],
+tools:["79%","420px"],
+gloves:["79%","420px"]
+
+};
+
+const position=
+shelfPositions[key];
+
+moveCustomer(
+customer,
+position[0],
+position[1]
+);
+
+bubble(
+customer,
+"🛒 I need "+PRODUCTS[key].name
+);
+
+},3000);
+
+
+/* =========================================================
+   STEP 3 - BROWSE
+========================================================= */
+
+setTimeout(()=>{
+
+bubble(
+customer,
+"🤔 Let me have a look..."
+);
+
+},6000);
+
+
+/* =========================================================
+   STEP 4 - FOUND PRODUCT
+========================================================= */
+
+setTimeout(()=>{
+
+bubble(
+customer,
+"😊 I found it!"
+);
+
+},8500);
+
+
+/* =========================================================
+   STEP 5 - GO CHECKOUT
+========================================================= */
+
+setTimeout(()=>{
+
+moveCustomer(
+customer,
+"55%",
+"205px"
+);
+
+bubble(
+customer,
+"💳 I'll pay at the checkout."
+);
+
+},10500);
+
+
+/* =========================================================
+   STEP 6 - BUY
+========================================================= */
+
+setTimeout(()=>{
+
+if(!customer.parentNode)return;
+
+if((game.stock[key]||0)<=0){
+
+bubble(
+customer,
+"😞 Sorry, it's sold out."
+);
+
+return;
+
+}
+
+game.stock[key]--;
+
+game.money+=
+PRODUCTS[key].sell;
+
+game.totalSales+=
+PRODUCTS[key].sell;
+
+game.customers++;
+
+addXP(10);
+
+game.transactions.unshift({
+
+type:"sale",
+item:PRODUCTS[key].name,
+amount:1,
+value:PRODUCTS[key].sell,
+date:new Date().toLocaleString()
+
+});
+
+bubble(
+customer,
+"💰 Paid $"+PRODUCTS[key].sell+
+" — Thank you!"
+);
+
+notify(
+"🛒 "+name+
+" bought "+PRODUCTS[key].name+
+" for $"+PRODUCTS[key].sell
+);
+
+updateEverything();
+
+},13500);
+
+
+/* =========================================================
+   STEP 7 - LEAVE
+========================================================= */
+
+setTimeout(()=>{
+
+if(!customer.parentNode)return;
+
+moveCustomer(
+customer,
+"3%",
+"60px"
+);
+
+bubble(
+customer,
+"👋 See you next time!"
+);
+
+},16000);
+
+
+/* =========================================================
+   STEP 8 - EXIT
+========================================================= */
+
+setTimeout(()=>{
+
+if(customer.parentNode){
+
+customer.remove();
+
+}
+
+},19000);
 
 }
 
 
-function randomShirt(){
+/* =========================================================
+   MOVE CUSTOMER
+========================================================= */
 
-    const colours=[
+function moveCustomer(customer,left,bottom){
 
-        "#1976d2",
-        "#d84343",
-        "#168a50",
-        "#8e44ad",
-        "#e67e22",
-        "#008c95"
-
-    ];
-
-    return colours[
-        Math.floor(
-            Math.random()*colours.length
-        )
-    ];
+customer.style.left=left;
+customer.style.bottom=bottom;
 
 }
 
 
-function serveCustomer(button,key){
+/* =========================================================
+   SPEECH
+========================================================= */
 
-    const customer=
-        button.closest(".customer");
+function bubble(customer,text){
 
+const old=
+customer.querySelector(".customerBubble");
 
-    if(!customer) return;
+if(old){
 
+old.remove();
 
-    const p=PRODUCTS[key];
+}
 
+const b=
+document.createElement("div");
 
-    if((game.stock[key]||0)<=0){
+b.className="customerBubble";
 
-        notify(
-            `❌ ${p.name} is out of stock.`
-        );
+b.innerText=text;
 
-        return;
-    }
-
-
-    game.stock[key]--;
-
-    game.money+=p.sell;
-
-    game.totalSales+=p.sell;
-
-    game.customers++;
-
-    game.goalSales=
-        (game.goalSales||0)+1;
-
-
-    addXP(10);
-
-
-    game.transactions.unshift({
-
-        type:"sale",
-
-        item:p.name,
-
-        amount:1,
-
-        value:p.sell,
-
-        date:new Date().toLocaleString()
-
-    });
-
-
-    if(game.goalSales===10){
-
-        game.money+=100;
-
-        notify(
-            "🎯 Goal completed! Bonus +$100!"
-        );
-
-    }else{
-
-        notify(
-            `💰 Sale completed: +$${p.sell}`
-        );
-
-    }
-
-
-    customer.innerHTML=`
-
-        <div class="hair"></div>
-
-        <div class="head"></div>
-
-        <div class="eye left"></div>
-        <div class="eye right"></div>
-
-        <div class="mouth"></div>
-
-        <div class="body"
-             style="background:#168a50">
-        </div>
-
-        <div class="arm left"></div>
-        <div class="arm right"></div>
-
-        <div class="leg left"></div>
-        <div class="leg right"></div>
-
-        <div class="customerBubble">
-            Thank you! Have a nice day!
-        </div>
-
-    `;
-
-
-    setTimeout(()=>{
-
-        customer.remove();
-
-    },1200);
-
-
-    updateEverything();
+customer.appendChild(b);
 
 }
 
@@ -3213,85 +2736,78 @@ function serveCustomer(button,key){
 
 function renderStaff(){
 
-    const container=
-        document.getElementById("staffCards");
+const container=
+document.getElementById("staffCards");
 
-    if(!container) return;
+if(!container)return;
 
-    container.innerHTML="";
+container.innerHTML="";
 
+STAFF.forEach(s=>{
 
-    STAFF.forEach(staff=>{
+const count=
+game.staff[s.id]||0;
 
-        const count=
-            game.staff[staff.id] || 0;
+const card=
+document.createElement("div");
 
+card.className="card";
 
-        const card=
-            document.createElement("div");
+card.innerHTML=`
 
-        card.className="card";
+<h3>
+${s.icon} ${s.name}
+</h3>
 
-        card.innerHTML=`
+<p>
+${s.description}
+</p>
 
-            <h3>
-                ${staff.icon}
-                ${staff.name}
-            </h3>
+<p>
+Employees: <b>${count}</b>
+</p>
 
-            <p>
-                ${staff.description}
-            </p>
+<div class="price">
+$${s.cost}
+</div>
 
-            <p>
-                Employees:
-                <b>${count}</b>
-            </p>
+<button
+class="btn btnBlue full"
+onclick="hireStaff('${s.id}')">
+HIRE
+</button>
 
-            <div class="price">
-                Hiring cost: $${staff.cost}
-            </div>
+`;
 
-            <button class="btn btnBlue full"
-                    onclick="hireStaff('${staff.id}')">
-                HIRE
-            </button>
+container.appendChild(card);
 
-        `;
-
-        container.appendChild(card);
-
-    });
+});
 
 }
 
 
 function hireStaff(id){
 
-    const staff=
-        STAFF.find(s=>s.id===id);
+const staff=
+STAFF.find(s=>s.id===id);
 
+if(game.money<staff.cost){
 
-    if(game.money<staff.cost){
+notify("❌ Not enough money.");
+return;
 
-        notify("❌ Not enough money.");
+}
 
-        return;
-    }
+game.money-=staff.cost;
 
+game.staff[id]=
+(game.staff[id]||0)+1;
 
-    game.money-=staff.cost;
+notify(
+"👨‍💼 Hired "+staff.name
+);
 
-    game.staff[id]=
-        (game.staff[id]||0)+1;
-
-
-    notify(
-        `👨‍💼 You hired a ${staff.name}.`
-    );
-
-
-    updateEverything();
+updateEverything();
 
 }
 
@@ -3302,105 +2818,88 @@ function hireStaff(id){
 
 function renderUpgrades(){
 
-    const container=
-        document.getElementById("upgradeCards");
+const container=
+document.getElementById("upgradeCards");
 
-    if(!container) return;
+if(!container)return;
 
-    container.innerHTML="";
+container.innerHTML="";
 
+UPGRADES.forEach(u=>{
 
-    UPGRADES.forEach(upgrade=>{
+const owned=
+!!game.upgrades[u.id];
 
-        const owned=
-            !!game.upgrades[upgrade.id];
+const card=
+document.createElement("div");
 
+card.className="card";
 
-        const card=
-            document.createElement("div");
+card.innerHTML=`
 
-        card.className="card";
+<h3>🔧 ${u.name}</h3>
 
-        card.innerHTML=`
+<p>${u.description}</p>
 
-            <h3>
-                🔧 ${upgrade.name}
-            </h3>
+<div class="price">
+$${u.cost.toLocaleString()}
+</div>
 
-            <p>
-                ${upgrade.description}
-            </p>
+${
+owned
 
-            <div class="price">
-                $${upgrade.cost}
-            </div>
+?
 
-            ${
-                owned
+`<button class="btn btnDark full" disabled>
+✓ OWNED
+</button>`
 
-                ?
+:
 
-                `<button class="btn btnDark full"
-                         disabled>
-                    ✓ OWNED
-                 </button>`
+`<button
+class="btn btnOrange full"
+onclick="buyUpgrade('${u.id}')">
+BUY
+</button>`
+}
 
-                :
+`;
 
-                `<button class="btn btnOrange full"
-                         onclick="buyUpgrade('${upgrade.id}')">
-                    BUY
-                 </button>`
-            }
+container.appendChild(card);
 
-        `;
-
-        container.appendChild(card);
-
-    });
+});
 
 }
 
 
 function buyUpgrade(id){
 
-    const upgrade=
-        UPGRADES.find(
-            u=>u.id===id
-        );
+const upgrade=
+UPGRADES.find(u=>u.id===id);
 
+if(game.upgrades[id]){
 
-    if(game.upgrades[id]){
+notify("Already owned.");
+return;
 
-        notify(
-            "Already purchased."
-        );
+}
 
-        return;
-    }
+if(game.money<upgrade.cost){
 
+notify("❌ Not enough money.");
+return;
 
-    if(game.money<upgrade.cost){
+}
 
-        notify(
-            "❌ Not enough money."
-        );
+game.money-=upgrade.cost;
 
-        return;
-    }
+game.upgrades[id]=true;
 
+notify(
+"🔧 "+upgrade.name+" purchased!"
+);
 
-    game.money-=upgrade.cost;
-
-    game.upgrades[id]=true;
-
-
-    notify(
-        `🔧 Upgrade purchased: ${upgrade.name}`
-    );
-
-
-    updateEverything();
+updateEverything();
 
 }
 
@@ -3411,111 +2910,96 @@ function buyUpgrade(id){
 
 function renderShops(){
 
-    const container=
-        document.getElementById("shopCards");
+const container=
+document.getElementById("shopCards");
 
-    if(!container) return;
+if(!container)return;
 
-    container.innerHTML="";
+container.innerHTML="";
 
+BUSINESS_SHOPS.forEach(s=>{
 
-    BUSINESS_SHOPS.forEach(shop=>{
+const owned=
+!!game.businesses[s.id];
 
-        const owned=
-            !!game.businesses[shop.id];
+const card=
+document.createElement("div");
 
+card.className="card";
 
-        const card=
-            document.createElement("div");
+card.innerHTML=`
 
-        card.className="card";
+<h3>🏪 ${s.name}</h3>
 
-        card.innerHTML=`
+<p>${s.description}</p>
 
-            <h3>
-                🏪 ${shop.name}
-            </h3>
+<div class="price">
+$${s.cost.toLocaleString()}
+</div>
 
-            <p>
-                ${shop.description}
-            </p>
+${
+owned
 
-            <div class="price">
-                $${shop.cost.toLocaleString()}
-            </div>
+?
 
-            ${
-                owned
+`<button class="btn btnDark full" disabled>
+✓ OWNED
+</button>`
 
-                ?
+:
 
-                `<button class="btn btnDark full"
-                         disabled>
-                    ✓ OWNED
-                 </button>`
+`<button
+class="btn btnBlue full"
+onclick="buyBusiness('${s.id}')">
+BUY BUSINESS
+</button>`
+}
 
-                :
+`;
 
-                `<button class="btn btnBlue full"
-                         onclick="buyBusiness('${shop.id}')">
-                    BUY BUSINESS
-                 </button>`
-            }
+container.appendChild(card);
 
-        `;
-
-        container.appendChild(card);
-
-    });
+});
 
 }
 
 
 function buyBusiness(id){
 
-    const shop=
-        BUSINESS_SHOPS.find(
-            s=>s.id===id
-        );
+const business=
+BUSINESS_SHOPS.find(s=>s.id===id);
 
+if(game.businesses[id]){
 
-    if(game.businesses[id]){
+notify("Already owned.");
+return;
 
-        notify(
-            "You already own this business."
-        );
+}
 
-        return;
-    }
+if(game.money<business.cost){
 
+notify(
+"❌ You need $"+
+business.cost.toLocaleString()
+);
 
-    if(game.money<shop.cost){
+return;
 
-        notify(
-            "❌ You need $"+
-            shop.cost.toLocaleString()+
-            " for this business."
-        );
+}
 
-        return;
-    }
+game.money-=business.cost;
 
+game.businesses[id]=true;
 
-    game.money-=shop.cost;
+game.shops++;
 
-    game.businesses[id]=true;
+addXP(100);
 
-    game.shops++;
+notify(
+"🏪 Purchased "+business.name+"!"
+);
 
-
-    notify(
-        `🏪 Congratulations! You bought ${shop.name}!`
-    );
-
-
-    addXP(100);
-
-    updateEverything();
+updateEverything();
 
 }
 
@@ -3526,128 +3010,112 @@ function buyBusiness(id){
 
 function renderFinance(){
 
-    const container=
-        document.getElementById("financeContent");
+const container=
+document.getElementById("financeContent");
 
-    if(!container) return;
+if(!container)return;
 
+const profit=
+game.totalSales-game.totalSpent;
 
-    const profit=
-        game.totalSales-
-        game.totalSpent;
+container.innerHTML=`
 
+<div class="grid">
 
-    container.innerHTML=`
+<div class="card">
 
-        <div class="grid">
+<h3>💰 Cash</h3>
 
-            <div class="card">
+<p style="
+font-size:28px;
+color:#168a50;
+font-weight:bold;">
+$${formatMoney(game.money)}
+</p>
 
-                <h3>
-                    💰 Current Cash
-                </h3>
+</div>
 
-                <p style="
-                    font-size:28px;
-                    color:#168a50;
-                ">
-                    $${formatMoney(game.money)}
-                </p>
+<div class="card">
 
-            </div>
+<h3>📈 Sales</h3>
 
-            <div class="card">
+<p style="font-size:28px">
+$${formatMoney(game.totalSales)}
+</p>
 
-                <h3>
-                    📈 Total Sales
-                </h3>
+</div>
 
-                <p style="font-size:28px;">
-                    $${formatMoney(game.totalSales)}
-                </p>
+<div class="card">
 
-            </div>
+<h3>📦 Purchases</h3>
 
-            <div class="card">
+<p style="font-size:28px">
+$${formatMoney(game.totalSpent)}
+</p>
 
-                <h3>
-                    📦 Stock Purchases
-                </h3>
+</div>
 
-                <p style="font-size:28px;">
-                    $${formatMoney(game.totalSpent)}
-                </p>
+<div class="card">
 
-            </div>
+<h3>📊 Gross Profit</h3>
 
-            <div class="card">
+<p style="
+font-size:28px;
+color:#168a50;">
+$${formatMoney(profit)}
+</p>
 
-                <h3>
-                    📊 Profit
-                </h3>
+</div>
 
-                <p style="
-                    font-size:28px;
-                    color:#168a50;
-                ">
-                    $${formatMoney(profit)}
-                </p>
+</div>
 
-            </div>
+<br>
 
-        </div>
+<h3>Recent Transactions</h3>
 
-        <br>
+<div style="
+margin-top:10px;
+max-height:300px;
+overflow:auto;">
 
-        <h3>
-            Recent transactions
-        </h3>
+${
+game.transactions.length
 
-        <div style="
-            margin-top:10px;
-            max-height:300px;
-            overflow:auto;
-        ">
+?
 
-            ${
-                game.transactions.length
+game.transactions
+.slice(0,30)
+.map(t=>`
 
-                ?
+<div style="
+padding:10px;
+border-bottom:1px solid #ddd;">
 
-                game.transactions
-                .slice(0,30)
-                .map(t=>`
+${
+t.type==="sale"
+?"🛒 SALE"
+:"📦 PURCHASE"
+}
 
-                    <div style="
-                        padding:10px;
-                        border-bottom:1px solid #ddd;
-                    ">
+—
+${t.item}
+—
+$${t.value}
+—
+${t.date}
 
-                        ${
-                            t.type==="sale"
-                            ? "🛒 SALE"
-                            : "📦 PURCHASE"
-                        }
+</div>
 
-                        —
-                        ${t.item}
-                        —
-                        $${t.value}
-                        —
-                        ${t.date}
+`).join("")
 
-                    </div>
+:
 
-                `).join("")
+"<p>No transactions yet.</p>"
+}
 
-                :
+</div>
 
-                "<p>No transactions yet.</p>"
-            }
-
-        </div>
-
-    `;
+`;
 
 }
 
@@ -3658,275 +3126,129 @@ function renderFinance(){
 
 function renderAdmin(){
 
-    const container=
-        document.getElementById("adminContent");
+const container=
+document.getElementById("adminContent");
 
-    if(!container) return;
+if(!container)return;
 
+const users=getUsers();
 
-    const users=getUsers();
+container.innerHTML=`
 
+<div class="card">
 
-    container.innerHTML=`
+<h3>👑 Administrator</h3>
 
-        <div class="card">
+<p>
+Players stored on this browser:
+</p>
 
-            <h3>
-                👑 Administrator
-            </h3>
+<p style="font-size:28px">
+${users.length}
+</p>
 
-            <p>
-                Testing dashboard.
-            </p>
+</div>
 
-            <h3>
-                Players on this browser
-            </h3>
+<br>
 
-            <p style="font-size:25px;">
-                ${users.length}
-            </p>
+<div class="card">
 
-        </div>
+<h3>🧪 Testing</h3>
 
-        <br>
+<br>
 
-        <div class="card">
+<button
+class="btn btnBlue"
+onclick="addTestMoney()">
++$10,000
+</button>
 
-            <h3>
-                🧪 Test Controls
-            </h3>
+<button
+class="btn btnOrange"
+onclick="fillAllStock()">
+FILL STOCK
+</button>
 
-            <p>
-                Add demo money to your current account.
-            </p>
+<button
+class="btn btnRed"
+onclick="resetCurrentGame()">
+RESET GAME
+</button>
 
-            <button class="btn btnBlue"
-                    onclick="addTestMoney()">
-                + $10,000 DEMO MONEY
-            </button>
+</div>
 
-            <button class="btn btnOrange"
-                    onclick="fillAllStock()">
-                FILL ALL STOCK
-            </button>
+<br>
 
-            <button class="btn btnRed"
-                    onclick="resetCurrentGame()">
-                RESET THIS GAME
-            </button>
+<div class="card">
 
-        </div>
+<h3>⚠️ Development Version</h3>
 
-    `;
+<p>
+Accounts are currently stored locally in the browser.
+Before public release we should move accounts,
+payments and player data to a secure backend.
+</p>
+
+</div>
+
+`;
 
 }
 
 
 function addTestMoney(){
 
-    game.money+=10000;
+game.money+=10000;
 
-    notify(
-        "💰 Added $10,000 demo money."
-    );
+notify(
+"💰 Added $10,000"
+);
 
-    updateEverything();
+updateEverything();
 
 }
 
 
 function fillAllStock(){
 
-    Object.keys(PRODUCTS).forEach(key=>{
+Object.keys(PRODUCTS).forEach(k=>{
 
-        game.stock[key]=50;
+game.stock[k]=50;
 
-    });
+});
 
+notify(
+"📦 Stock filled."
+);
 
-    notify(
-        "📦 All shelves have been filled."
-    );
-
-    updateEverything();
+updateEverything();
 
 }
 
 
 function resetCurrentGame(){
 
-    if(!confirm(
-        "Reset this game completely?"
-    )) return;
+if(!confirm(
+"Reset this entire game?"
+))return;
 
+if(currentUser.username==="admin"){
 
-    if(currentUser.username==="admin"){
+game=createAdminGame();
 
-        game=createAdminGame();
+}else{
 
-    }else{
-
-        game=createDefaultGame(
-            currentUser
-        );
-
-    }
-
-
-    saveGame();
-
-    updateEverything();
-
-    notify(
-        "Game reset."
-    );
+game=createDefaultGame(currentUser);
 
 }
 
+saveGame();
 
-/* =========================================================
-   DAILY REWARD
-========================================================= */
+updateEverything();
 
-function claimDailyReward(){
-
-    if(game.dailyRewardClaimed){
-
-        notify(
-            "🎁 Daily reward already claimed."
-        );
-
-        return;
-    }
-
-
-    game.money+=500;
-
-    game.dailyRewardClaimed=true;
-
-
-    notify(
-        "🎁 Daily reward collected! +$500"
-    );
-
-
-    updateEverything();
-
-}
-
-
-function startRewardTimer(){
-
-    let seconds=12*60*60+35*60+18;
-
-
-    setInterval(()=>{
-
-        if(seconds<=0){
-
-            seconds=24*60*60;
-
-            if(game){
-
-                game.dailyRewardClaimed=false;
-
-                updateEverything();
-
-            }
-
-        }
-
-
-        const h=
-            String(
-                Math.floor(seconds/3600)
-            ).padStart(2,"0");
-
-        const m=
-            String(
-                Math.floor((seconds%3600)/60)
-            ).padStart(2,"0");
-
-        const s=
-            String(
-                seconds%60
-            ).padStart(2,"0");
-
-
-        const timer=
-            document.getElementById(
-                "rewardTimer"
-            );
-
-
-        if(timer){
-
-            timer.innerText=
-                h+":"+m+":"+s;
-
-        }
-
-
-        seconds--;
-
-    },1000);
-
-}
-
-
-/* =========================================================
-   WATCH AD
-========================================================= */
-
-function watchAd(){
-
-    notify(
-        "🎬 Ad completed! +$500"
-    );
-
-    game.money+=500;
-
-    updateEverything();
-
-}
-
-
-/* =========================================================
-   BUY MONEY
-========================================================= */
-
-function buyMoney(){
-
-    notify(
-        "🛒 Money store will be connected later."
-    );
-
-}
-
-
-/* =========================================================
-   ORDERS
-========================================================= */
-
-function showOrders(){
-
-    openModal(
-        "ordersModal"
-    );
-
-}
-
-
-/* =========================================================
-   MENU
-========================================================= */
-
-function openMenu(){
-
-    openModal(
-        "adminModal"
-    );
+notify(
+"♻️ Game reset."
+);
 
 }
 
@@ -3937,252 +3259,208 @@ function openMenu(){
 
 function openModal(id){
 
-    document.getElementById(id).style.display="flex";
+document.getElementById(id).style.display="flex";
 
-    updateEverything();
+updateEverything();
 
 }
 
 
 function closeModal(id){
 
-    const modal=
-        document.getElementById(id);
-
-    if(modal){
-
-        modal.style.display="none";
-
-    }
+document.getElementById(id).style.display="none";
 
 }
 
 
-function closeAllModals(){
+window.addEventListener("click",e=>{
 
-    document
-        .querySelectorAll(".modal")
-        .forEach(m=>{
-            m.style.display="none";
-        });
+document.querySelectorAll(".modal")
+.forEach(m=>{
+
+if(e.target===m){
+
+m.style.display="none";
 
 }
 
+});
 
-window.addEventListener(
-    "click",
-    function(e){
-
-        document
-        .querySelectorAll(".modal")
-        .forEach(modal=>{
-
-            if(e.target===modal){
-
-                modal.style.display="none";
-
-            }
-
-        });
-
-    }
-);
+});
 
 
 /* =========================================================
-   NOTIFICATIONS
+   NOTIFICATION
 ========================================================= */
 
 function notify(message){
 
-    const old=
-        document.getElementById(
-            "gameNotification"
-        );
+const old=
+document.querySelector(".notification");
 
-    if(old){
+if(old)old.remove();
 
-        old.remove();
+const n=
+document.createElement("div");
 
-    }
+n.className="notification";
 
+n.innerText=message;
 
-    const notification=
-        document.createElement("div");
+document.body.appendChild(n);
 
+setTimeout(()=>{
 
-    notification.id=
-        "gameNotification";
+if(n.parentNode)n.remove();
 
-
-    notification.innerText=
-        message;
-
-
-    document.body.appendChild(
-        notification
-    );
-
-
-    setTimeout(()=>{
-
-        if(notification.parentNode){
-
-            notification.remove();
-
-        }
-
-    },2500);
+},2500);
 
 }
 
 
 /* =========================================================
-   AUTOMATIC ECONOMY
+   SHOP ECONOMY
 ========================================================= */
 
 setInterval(()=>{
 
-    if(!game) return;
+if(!game)return;
 
 
-    const employees=
-        Object.values(game.staff)
-        .reduce(
-            (a,b)=>a+b,
-            0
-        );
+/* WAGES */
+
+const employees=
+Object.values(game.staff)
+.reduce((a,b)=>a+b,0);
+
+if(employees){
+
+const wages=
+employees*2;
+
+if(game.money>=wages){
+
+game.money-=wages;
+
+}
+
+}
 
 
-    if(employees>0){
+/* MANAGER BONUS */
 
-        const wage=
-            employees*2;
+if(game.staff.manager){
 
+game.money+=
+game.staff.manager*3;
 
-        if(game.money>=wage){
-
-            game.money-=wage;
-
-        }
-
-    }
+}
 
 
-    if(game.staff.manager){
+/* STOCK WORKER */
 
-        game.money+=
-            game.staff.manager*3;
+if(game.staff.stock){
 
-    }
+Object.keys(PRODUCTS).forEach(key=>{
+
+if((game.stock[key]||0)<5){
+
+const product=
+PRODUCTS[key];
+
+if(game.money>=product.buy*5){
+
+game.money-=product.buy*5;
+
+game.stock[key]+=5;
+
+game.totalSpent+=product.buy*5;
+
+}
+
+}
+
+});
+
+}
 
 
-    if(
-        game.level>=3 &&
-        Math.random()<0.25
-    ){
-
-        spawnCustomer();
-
-    }
-
-
-    updateEverything();
+updateEverything();
 
 },30000);
-
-
-/* =========================================================
-   GAME DAY
-========================================================= */
-
-setInterval(()=>{
-
-    if(!game) return;
-
-    game.day++;
-
-    updateEverything();
-
-},60000);
-
-
-/* =========================================================
-   KEYBOARD
-========================================================= */
-
-document.addEventListener(
-    "keydown",
-    function(e){
-
-        if(e.key==="Escape"){
-
-            closeAllModals();
-
-        }
-
-    }
-);
 
 
 /* =========================================================
    AUTO LOGIN
 ========================================================= */
 
-window.addEventListener(
-    "load",
-    function(){
+window.addEventListener("load",()=>{
 
-        updateClock();
-
-        startRewardTimer();
-
-
-        const remembered=
-            localStorage.getItem(
-                "lastShopLoggedUser"
-            );
-
-
-        if(remembered){
-
-            const users=getUsers();
-
-            const user=
-                users.find(
-                    u=>u.username===remembered
-                );
-
-
-            if(user){
-
-                currentUser=user;
-
-                game=
-                    loadGame(
-                        user.username
-                    )
-                    ||
-                    createDefaultGame(
-                        user
-                    );
-
-                openGame();
-
-            }
-
-        }
-
-    }
+const remembered=
+localStorage.getItem(
+"lastShopLoggedUser"
 );
+
+if(!remembered)return;
+
+if(remembered==="admin"){
+
+currentUser={
+name:"Administrator",
+username:"admin",
+shopName:"ADMIN"
+};
+
+game=createAdminGame();
+
+openGame();
+
+return;
+
+}
+
+const users=getUsers();
+
+const user=
+users.find(
+u=>u.username===remembered
+);
+
+if(user){
+
+currentUser=user;
+
+game=
+loadGame(user.username)||
+createDefaultGame(user);
+
+openGame();
+
+}
+
+});
 
 
 /* =========================================================
-   CONSOLE
+   ESCAPE
 ========================================================= */
 
+document.addEventListener("keydown",e=>{
+
+if(e.key==="Escape"){
+
+document.querySelectorAll(".modal")
+.forEach(m=>{
+m.style.display="none";
+});
+
+}
+
+});
+
+
 console.log(
-    "THE LAST SHOP - New UI loaded successfully."
+"THE LAST SHOP REAL-LIFE SIMULATOR loaded."
 );
 
 </script>
