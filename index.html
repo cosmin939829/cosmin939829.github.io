@@ -1,1956 +1,3049 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>The Last Shop — Endless Business Game</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>The Last Shop</title>
 
 <style>
-*{box-sizing:border-box}
+*{box-sizing:border-box;margin:0;padding:0}
 
-body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#e9eef3;
-color:#17202a;
-overflow:hidden
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#111827;
 }
 
 button{
-cursor:pointer;
-border:0;
-border-radius:8px;
-padding:9px 12px;
-font-weight:bold
+    border:0;
+    cursor:pointer;
+    font-weight:700;
 }
 
-.top{
-height:64px;
-background:#102033;
-color:white;
-display:flex;
-align-items:center;
-gap:8px;
-padding:8px 12px;
-position:relative;
-z-index:20
+.hidden{display:none!important}
+
+/* =========================
+   LOGIN
+========================= */
+
+#loginScreen{
+    position:fixed;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:
+        radial-gradient(circle at 20% 20%,#334155,transparent 35%),
+        radial-gradient(circle at 80% 80%,#1e3a8a,transparent 35%),
+        #020617;
+    z-index:9999;
+}
+
+.loginBox{
+    width:min(430px,92vw);
+    padding:32px;
+    border-radius:22px;
+    background:#f8fafc;
+    color:#111827;
+    box-shadow:0 30px 100px #0009;
+}
+
+.loginTitle{
+    text-align:center;
+    font-size:34px;
+    font-weight:900;
+    color:#f59e0b;
+}
+
+.loginSub{
+    text-align:center;
+    color:#64748b;
+    margin:8px 0 24px;
+}
+
+.input{
+    width:100%;
+    padding:14px;
+    margin-bottom:12px;
+    border:2px solid #cbd5e1;
+    border-radius:10px;
+    font-size:16px;
+}
+
+.greenBtn{
+    width:100%;
+    padding:14px;
+    border-radius:10px;
+    background:#16a34a;
+    color:#fff;
+    font-size:16px;
+}
+
+.blueBtn{
+    width:100%;
+    padding:14px;
+    margin-top:10px;
+    border-radius:10px;
+    background:#2563eb;
+    color:#fff;
+    font-size:16px;
+}
+
+.loginMessage{
+    margin-top:12px;
+    text-align:center;
+    color:#dc2626;
+}
+
+/* =========================
+   GAME UI
+========================= */
+
+#game{
+    width:100vw;
+    height:100vh;
+    background:#111827;
+}
+
+.topbar{
+    height:68px;
+    background:#0f172a;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:9px 14px;
+    position:relative;
+    z-index:1000;
 }
 
 .logo{
-font-size:20px;
-font-weight:900;
-margin-right:8px
+    color:#fbbf24;
+    font-size:21px;
+    font-weight:900;
+    margin-right:auto;
 }
 
 .stat{
-background:#1e334b;
-padding:7px 11px;
-border-radius:8px
+    padding:9px 11px;
+    border-radius:9px;
+    background:#1e293b;
+    font-size:13px;
 }
 
-.stat small{
-display:block;
-color:#9fb0c2;
-font-size:10px
+.stat span{
+    color:#facc15;
+    font-weight:900;
 }
 
-.actions{
-margin-left:auto;
-display:flex;
-gap:6px
+.uiBtn{
+    padding:9px 12px;
+    border-radius:8px;
+    background:#2563eb;
+    color:#fff;
 }
 
-.green{background:#16a34a;color:white}
-.blue{background:#2563eb;color:white}
-.gold{background:#f59e0b}
-.dark{background:#334155;color:white}
-.red{background:#dc2626;color:white}
+.redBtn{background:#dc2626}
+
+/* =========================
+   WORLD
+========================= */
 
 #world{
-height:calc(100vh - 64px);
-overflow:auto;
-padding:35px 30px;
-background-color:#f3eee5;
-background-image:
-linear-gradient(#00000008 1px,transparent 1px),
-linear-gradient(90deg,#00000008 1px,transparent 1px);
-background-size:40px 40px
+    position:relative;
+    width:100%;
+    height:calc(100vh - 68px);
+    min-height:560px;
+    overflow:hidden;
+    background:#93c5fd;
 }
+
+.sky{
+    position:absolute;
+    inset:0 0 53% 0;
+    background:
+        radial-gradient(circle at 18% 24%,#fff 0 16px,transparent 17px),
+        radial-gradient(circle at 22% 24%,#fff 0 12px,transparent 13px),
+        radial-gradient(circle at 73% 16%,#fff 0 14px,transparent 15px),
+        linear-gradient(#60a5fa,#bfdbfe);
+}
+
+.cloud{
+    position:absolute;
+    width:130px;
+    height:35px;
+    background:#fff;
+    border-radius:40px;
+    opacity:.8;
+}
+
+.cloud:before,
+.cloud:after{
+    content:"";
+    position:absolute;
+    background:#fff;
+    border-radius:50%;
+}
+
+.cloud:before{
+    width:55px;
+    height:55px;
+    left:20px;
+    top:-25px;
+}
+
+.cloud:after{
+    width:45px;
+    height:45px;
+    right:18px;
+    top:-17px;
+}
+
+.cloud1{left:12%;top:15%}
+.cloud2{right:13%;top:28%}
+
+/* city */
+
+.cityBuilding{
+    position:absolute;
+    bottom:47%;
+    width:120px;
+    background:#475569;
+    border:4px solid #334155;
+}
+
+.cityBuilding:after{
+    content:"";
+    position:absolute;
+    inset:14px;
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #fef08a 0 14px,
+            transparent 14px 29px
+        ),
+        repeating-linear-gradient(
+            0deg,
+            #fef08a 0 14px,
+            transparent 14px 30px
+        );
+    opacity:.55;
+}
+
+.cb1{left:3%;height:190px}
+.cb2{left:17%;height:260px}
+.cb3{right:17%;height:220px}
+.cb4{right:3%;height:170px}
+
+/* road */
 
 .road{
-height:120px;
-background:#4b5563;
-border-top:5px solid #374151;
-margin:70px -30px -35px;
-position:relative
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:48%;
+    background:#374151;
 }
 
-.road:after{
-content:"";
-position:absolute;
-top:57px;
-left:0;
-right:0;
-height:5px;
-background:repeating-linear-gradient(
-90deg,
-#f7d33d 0 45px,
-transparent 45px 85px
-)
+.roadMark{
+    position:absolute;
+    left:0;
+    right:0;
+    top:50%;
+    height:7px;
+    background:repeating-linear-gradient(
+        90deg,
+        #facc15 0 70px,
+        transparent 70px 135px
+    );
 }
 
-.plot{
-display:inline-block;
-vertical-align:top;
-width:590px;
-min-height:400px;
-background:#d5bd9d;
-border:3px solid #95623e;
-border-radius:14px;
-padding:18px;
-margin:20px 35px 30px 10px;
-box-shadow:0 8px 20px #0002
-}
+/* =========================
+   SHOP BUILDING
+========================= */
 
 .shop{
-background:#fff;
-border:3px solid #74472d;
-border-radius:10px;
-padding:18px;
-position:relative;
-min-height:350px
+    position:absolute;
+    width:min(720px,72vw);
+    height:470px;
+    left:50%;
+    top:7%;
+    transform:translateX(-50%);
+    background:#b45309;
+    border:9px solid #78350f;
+    border-radius:9px;
+    box-shadow:0 22px 50px #0006;
 }
 
-.sign{
-position:absolute;
-top:-25px;
-left:50%;
-transform:translateX(-50%);
-background:#f4c542;
-border:3px solid #74472d;
-padding:8px 22px;
-border-radius:8px;
-font-weight:900;
-font-size:18px;
-white-space:nowrap;
-z-index:5
+.shopRoof{
+    position:absolute;
+    left:-9px;
+    right:-9px;
+    top:-50px;
+    height:50px;
+    border:9px solid #78350f;
+    border-bottom:0;
+    background:
+        repeating-linear-gradient(
+            135deg,
+            #dc2626 0 25px,
+            #f97316 25px 50px
+        );
 }
+
+.shopName{
+    position:absolute;
+    left:50%;
+    top:-39px;
+    transform:translateX(-50%);
+    padding:10px 25px;
+    background:#facc15;
+    border:4px solid #78350f;
+    color:#713f12;
+    border-radius:8px;
+    font-size:22px;
+    font-weight:900;
+    white-space:nowrap;
+    z-index:20;
+}
+
+.shopInterior{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+    background:#fde68a;
+}
+
+.wall{
+    position:absolute;
+    inset:0 0 64% 0;
+    background:
+        linear-gradient(#fef3c7,#fde68a);
+}
+
+.window{
+    position:absolute;
+    top:20px;
+    width:145px;
+    height:78px;
+    background:linear-gradient(#7dd3fc,#dbeafe);
+    border:7px solid #78350f;
+}
+
+.window.left{left:18px}
+.window.right{right:18px}
 
 .floor{
-height:310px;
-background:#e7d6bd;
-border-radius:6px;
-position:relative;
-overflow:hidden
+    position:absolute;
+    inset:35% 0 0;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            #d6d3d1 0 34px,
+            #bcb7b3 35px 37px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent 0 47px,
+            #0000000c 48px 49px
+        );
 }
+
+/* =========================
+   SHELVES
+========================= */
 
 .shelf{
-position:absolute;
-height:75px;
-background:#8d5131;
-border:3px solid #60341f;
-border-radius:7px;
-display:flex;
-gap:12px;
-padding:8px;
-box-shadow:0 5px 0 #5c351f
+    position:absolute;
+    width:145px;
+    height:175px;
+    background:#8b5e3c;
+    border:5px solid #4b2e1b;
+    border-radius:4px;
+    z-index:10;
 }
 
-.food{
-left:25px;
-top:30px;
-width:300px
+.shelf1{left:25px;top:145px}
+.shelf2{left:calc(50% - 72px);top:145px}
+.shelf3{right:25px;top:145px}
+
+.shelfRow{
+    position:absolute;
+    left:8px;
+    right:8px;
+    height:5px;
+    background:#4b2e1b;
 }
 
-.tools{
-right:20px;
-top:30px;
-width:205px
-}
+.row1{top:48px}
+.row2{top:93px}
+.row3{top:138px}
 
-.extra{
-left:25px;
-bottom:22px;
-width:350px
+.items{
+    position:absolute;
+    inset:7px;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    grid-template-rows:repeat(3,1fr);
+    gap:4px;
 }
 
 .item{
-width:54px;
-height:54px;
-border-radius:9px;
-background:white;
-border:2px solid #bbb;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:29px;
-position:relative
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:21px;
+    filter:drop-shadow(0 2px 1px #0005);
 }
 
-.item span{
-position:absolute;
-bottom:-16px;
-background:#111827;
-color:white;
-font-size:10px;
-border-radius:4px;
-padding:2px 4px
+/* checkout */
+
+.checkout{
+    position:absolute;
+    width:340px;
+    height:82px;
+    bottom:17px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#92400e;
+    border:7px solid #5b371f;
+    border-radius:8px;
+    z-index:20;
 }
 
-.counter{
-position:absolute;
-left:50%;
-bottom:22px;
-transform:translateX(-50%);
-width:270px;
-height:65px;
-background:#985a38;
-border:4px solid #64361f;
-border-radius:8px;
-box-shadow:0 6px 0 #5c321e
+.register{
+    position:absolute;
+    right:25px;
+    top:-48px;
+    width:75px;
+    height:43px;
+    border:5px solid #475569;
+    background:#111827;
+    border-radius:6px;
+    color:#22c55e;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:11px;
 }
 
-/* PLAYER / CUSTOMERS */
-
-.player{
-position:absolute;
-left:50%;
-bottom:83px;
-transform:translateX(-50%);
-z-index:4;
-text-align:center
+.cashierLabel{
+    position:absolute;
+    left:20px;
+    top:25px;
+    color:#fef3c7;
+    font-weight:900;
 }
 
-.label{
-background:white;
-border:1px solid #bbb;
-border-radius:6px;
-padding:3px 7px;
-font-weight:bold;
-font-size:11px
+/* =========================
+   PLAYER
+========================= */
+
+.actor{
+    position:absolute;
+    width:64px;
+    height:105px;
+    z-index:100;
+    transition:
+        left .8s ease,
+        top .8s ease;
 }
 
-.person{
-width:58px;
-height:90px;
-position:relative;
-margin:auto
+.actorHead{
+    position:absolute;
+    left:18px;
+    top:0;
+    width:30px;
+    height:30px;
+    background:#eab895;
+    border:2px solid #78350f;
+    border-radius:50%;
 }
 
-.head{
-position:absolute;
-top:0;
-left:13px;
-width:32px;
-height:32px;
-border-radius:50%;
-background:#d9a477;
-border:2px solid #9b6746
+.actorHair{
+    position:absolute;
+    left:17px;
+    top:-3px;
+    width:32px;
+    height:15px;
+    border-radius:18px 18px 4px 4px;
+    background:#382516;
+    z-index:3;
 }
-
-.hair{
-position:absolute;
-top:-1px;
-left:12px;
-width:34px;
-height:14px;
-border-radius:17px 17px 7px 7px;
-background:#39281f
-}
-
-.body{
-position:absolute;
-top:31px;
-left:9px;
-width:40px;
-height:39px;
-border-radius:11px;
-background:#2563eb;
-border:2px solid #17479f
-}
-
-.arm{
-position:absolute;
-top:35px;
-width:10px;
-height:34px;
-background:#d9a477;
-border-radius:7px
-}
-
-.al{
-left:1px;
-transform:rotate(12deg)
-}
-
-.ar{
-right:1px;
-transform:rotate(-12deg)
-}
-
-.leg{
-position:absolute;
-top:68px;
-width:12px;
-height:22px;
-background:#202938;
-border-radius:6px
-}
-
-.ll{left:17px}
-.lr{right:17px}
 
 .eye{
-position:absolute;
-top:13px;
-width:4px;
-height:4px;
-background:#111;
-border-radius:50%;
-z-index:2
+    position:absolute;
+    width:4px;
+    height:4px;
+    background:#111827;
+    border-radius:50%;
+    top:13px;
+    z-index:4;
 }
 
-.el{left:21px}
-.er{left:34px}
+.eyeA{left:24px}
+.eyeB{left:36px}
 
-.mouth{
-position:absolute;
-left:23px;
-top:22px;
-width:12px;
-height:6px;
-border-bottom:2px solid #7c2d12;
-border-radius:50%
+.smile{
+    position:absolute;
+    width:11px;
+    height:5px;
+    left:27px;
+    top:20px;
+    border-bottom:2px solid #7f1d1d;
+    z-index:4;
 }
+
+.actorBody{
+    position:absolute;
+    left:16px;
+    top:29px;
+    width:34px;
+    height:46px;
+    background:#2563eb;
+    border-radius:9px 9px 4px 4px;
+}
+
+.actorArm{
+    position:absolute;
+    top:34px;
+    width:10px;
+    height:42px;
+    background:#eab895;
+    border-radius:8px;
+}
+
+.actorArmA{
+    left:7px;
+    transform:rotate(12deg);
+}
+
+.actorArmB{
+    right:7px;
+    transform:rotate(-12deg);
+}
+
+.actorLeg{
+    position:absolute;
+    top:71px;
+    width:11px;
+    height:35px;
+    background:#1e293b;
+    border-radius:6px;
+}
+
+.actorLegA{left:20px}
+.actorLegB{left:36px}
+
+.actorName{
+    position:absolute;
+    top:107px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#fff;
+    color:#111827;
+    padding:3px 7px;
+    border-radius:7px;
+    font-size:10px;
+    white-space:nowrap;
+}
+
+/* =========================
+   CUSTOMERS
+========================= */
 
 .customer{
-position:absolute;
-z-index:8;
-display:flex;
-flex-direction:column;
-align-items:center
+    position:absolute;
+    width:64px;
+    height:105px;
+    z-index:90;
+    transition:
+        left 1.4s ease,
+        top 1.4s ease;
 }
 
-.bubble{
-background:white;
-border:1px solid #cbd5e1;
-border-radius:11px;
-padding:8px;
-width:155px;
-box-shadow:0 5px 15px #0002;
-font-size:12px
+.customerHead{
+    position:absolute;
+    left:18px;
+    top:0;
+    width:30px;
+    height:30px;
+    background:#f1c4a5;
+    border:2px solid #78350f;
+    border-radius:50%;
 }
 
-.bubble b{
-font-size:13px
+.customerHair{
+    position:absolute;
+    left:17px;
+    top:-3px;
+    width:32px;
+    height:14px;
+    border-radius:18px 18px 4px 4px;
+    background:#3f2818;
+    z-index:3;
 }
 
-.need{
-display:block;
-color:#475569;
-margin:4px 0
+.customerBody{
+    position:absolute;
+    left:16px;
+    top:29px;
+    width:34px;
+    height:46px;
+    border-radius:9px 9px 4px 4px;
 }
 
-.serve{
-width:100%;
-background:#16a34a;
-color:white;
-font-size:11px;
-padding:7px
+.customerArm{
+    position:absolute;
+    top:34px;
+    width:10px;
+    height:42px;
+    background:#f1c4a5;
+    border-radius:8px;
 }
 
-/* SIDE PANEL */
+.ca1{left:7px;transform:rotate(12deg)}
+.ca2{right:7px;transform:rotate(-12deg)}
 
-#side{
-position:fixed;
-right:12px;
-top:76px;
-width:315px;
-max-height:calc(100vh - 88px);
-overflow:auto;
-background:white;
-border:1px solid #d5dbe3;
-border-radius:14px;
-box-shadow:0 8px 30px #0002;
-z-index:30
+.customerLeg{
+    position:absolute;
+    top:71px;
+    width:11px;
+    height:35px;
+    background:#1e293b;
+    border-radius:6px;
 }
 
-.tabs{
-display:flex;
-position:sticky;
-top:0;
-background:white;
-z-index:2
+.cl1{left:20px}
+.cl2{left:36px}
+
+.customerName{
+    position:absolute;
+    top:107px;
+    left:50%;
+    transform:translateX(-50%);
+    padding:3px 7px;
+    border-radius:7px;
+    background:#fff;
+    color:#111827;
+    font-size:10px;
+    white-space:nowrap;
 }
 
-.tab{
-flex:1;
-background:white;
-border-radius:0;
-font-size:12px
+/* =========================
+   LEFT PANEL
+========================= */
+
+.controlPanel{
+    position:absolute;
+    left:15px;
+    top:15px;
+    width:250px;
+    padding:15px;
+    border-radius:14px;
+    background:#0f172af2;
+    color:#fff;
+    z-index:500;
+    box-shadow:0 10px 30px #0005;
 }
 
-.tab.active{
-background:#eff6ff;
-color:#1d4ed8
+.controlPanel h3{
+    color:#fbbf24;
+    margin-bottom:10px;
 }
 
-.panel{
-padding:13px
+.controlPanel button{
+    width:100%;
+    padding:10px;
+    border-radius:8px;
+    margin-top:7px;
+    color:#fff;
 }
 
-.row{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:8px;
-padding:8px 0;
-border-bottom:1px solid #eee
+.stockBtn{background:#16a34a}
+.upgradeBtn{background:#2563eb}
+.employeeBtn{background:#7c3aed}
+.businessBtn{background:#f59e0b;color:#111!important}
+.inventoryBtn{background:#475569}
+
+/* =========================
+   CUSTOMER PANEL
+========================= */
+
+.customerPanel{
+    position:absolute;
+    right:15px;
+    bottom:15px;
+    width:285px;
+    max-height:360px;
+    overflow:auto;
+    z-index:500;
 }
 
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:7px
+.customerCard{
+    padding:12px;
+    margin-top:8px;
+    border-radius:12px;
+    background:#fff;
+    color:#111827;
+    box-shadow:0 5px 20px #0005;
 }
 
-.card{
-border:1px solid #ddd;
-border-radius:9px;
-padding:8px;
-background:#fafafa
+.customerCard strong{
+    display:block;
+    margin-bottom:4px;
 }
 
-.notice{
-background:#eff6ff;
-border-left:4px solid #2563eb;
-padding:9px;
-border-radius:7px;
-font-size:12px
+.customerNeed{
+    color:#475569;
+    font-size:13px;
+    margin-bottom:8px;
 }
 
-.log{
-max-height:180px;
-overflow:auto;
-font-size:12px
+.serveBtn{
+    background:#16a34a;
+    color:#fff;
+    padding:8px 12px;
+    border-radius:7px;
 }
 
-.log div{
-padding:5px 0;
-border-bottom:1px solid #eee
+/* =========================
+   MODAL
+========================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:#000b;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:10000;
 }
 
-.toast{
-position:fixed;
-left:50%;
-bottom:25px;
-transform:translateX(-50%);
-background:#111827;
-color:white;
-padding:11px 18px;
-border-radius:9px;
-z-index:100;
-opacity:0;
-transition:.2s
+.modalBox{
+    width:min(720px,92vw);
+    max-height:88vh;
+    overflow:auto;
+    background:#f8fafc;
+    color:#111827;
+    padding:25px;
+    border-radius:18px;
 }
 
-.toast.show{
-opacity:1
+.closeBtn{
+    float:right;
+    background:#dc2626;
+    color:#fff;
+    padding:8px 12px;
+    border-radius:7px;
 }
+
+.modalBox h2{
+    margin-bottom:15px;
+}
+
+.modalButton{
+    width:100%;
+    padding:13px;
+    margin-top:9px;
+    border-radius:9px;
+    color:#fff;
+    background:#2563eb;
+}
+
+/* =========================
+   TABLE
+========================= */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    padding:9px;
+    border-bottom:1px solid #cbd5e1;
+    text-align:left;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+#toast{
+    position:fixed;
+    left:50%;
+    bottom:25px;
+    transform:translateX(-50%);
+    padding:14px 20px;
+    border-radius:12px;
+    background:#020617;
+    color:#fff;
+    z-index:20000;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+}
+
+#toast.show{
+    opacity:1;
+}
+
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:900px){
 
-.logo{
-display:none
-}
+    .topbar{
+        height:auto;
+        min-height:68px;
+        flex-wrap:wrap;
+    }
 
-.plot{
-width:90vw
-}
+    .logo{
+        width:100%;
+        text-align:center;
+    }
 
-#side{
-width:285px
-}
+    #world{
+        height:calc(100vh - 125px);
+    }
 
+    .shop{
+        width:92vw;
+        height:440px;
+        top:10%;
+    }
+
+    .controlPanel{
+        width:190px;
+        transform:scale(.85);
+        transform-origin:top left;
+    }
+
+    .customerPanel{
+        width:210px;
+        transform:scale(.85);
+        transform-origin:bottom right;
+    }
+
+    .stat{
+        font-size:11px;
+    }
+
+    .uiBtn{
+        font-size:11px;
+        padding:8px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<header class="top">
+<!-- =====================================================
+     LOGIN
+===================================================== -->
+
+<div id="loginScreen">
+
+<div class="loginBox">
+
+<div class="loginTitle">
+THE LAST SHOP
+</div>
+
+<div class="loginSub">
+Real-Life Business Simulator
+</div>
+
+<input
+    id="nameInput"
+    class="input"
+    placeholder="Your name">
+
+<input
+    id="passwordInput"
+    class="input"
+    type="password"
+    placeholder="Password">
+
+<input
+    id="shopInput"
+    class="input"
+    placeholder="Name your shop">
+
+<button
+    class="greenBtn"
+    onclick="createAccount()">
+CREATE NEW SHOP
+</button>
+
+<button
+    class="blueBtn"
+    onclick="login()">
+LOGIN
+</button>
+
+<div
+    id="loginMessage"
+    class="loginMessage">
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     GAME
+===================================================== -->
+
+<div id="game" class="hidden">
+
+<div class="topbar">
 
 <div class="logo">
-🏪 THE LAST SHOP
+THE LAST SHOP
 </div>
 
 <div class="stat">
-<b id="money">£650</b>
-<small>Cash</small>
+💰 $<span id="money">5000</span>
 </div>
 
 <div class="stat">
-<b id="day">Day 1</b>
-<small id="time">08:00</small>
+📦 <span id="stock">0</span>
 </div>
 
 <div class="stat">
-<b id="served">0</b>
-<small>Customers</small>
+⭐ <span id="level">1</span>
 </div>
 
 <div class="stat">
-<b id="rep">25</b>
-<small>Reputation</small>
+👥 <span id="served">0</span>
 </div>
 
-<div class="actions">
-
-<button class="gold" onclick="openShop()">
-OPEN
+<button
+    class="uiBtn"
+    onclick="openMoney()">
+MONEY
 </button>
 
-<button class="dark" onclick="closeShop()">
-CLOSE
+<button
+    class="uiBtn"
+    onclick="openAdmin()">
+ADMIN
 </button>
 
-<button class="blue" onclick="save()">
-SAVE
-</button>
-
-<button onclick="help()">
-HELP
-</button>
-
-</div>
-
-</header>
-
-<main id="world">
-
-<div id="shops"></div>
-
-<div class="road"></div>
-
-</main>
-
-<aside id="side">
-
-<div class="tabs">
-
-<button class="tab active" onclick="tab('business',this)">
-Business
-</button>
-
-<button class="tab" onclick="tab('stock',this)">
-Stock
-</button>
-
-<button class="tab" onclick="tab('staff',this)">
-Staff
-</button>
-
-<button class="tab" onclick="tab('log',this)">
-Log
+<button
+    class="uiBtn redBtn"
+    onclick="logout()">
+EXIT
 </button>
 
 </div>
 
-<div id="business" class="panel"></div>
 
-<div id="stock" class="panel" style="display:none"></div>
+<div id="world">
 
-<div id="staff" class="panel" style="display:none"></div>
+<div class="sky"></div>
 
-<div id="log" class="panel" style="display:none"></div>
+<div class="cloud cloud1"></div>
+<div class="cloud cloud2"></div>
 
-</aside>
+<div class="cityBuilding cb1"></div>
+<div class="cityBuilding cb2"></div>
+<div class="cityBuilding cb3"></div>
+<div class="cityBuilding cb4"></div>
 
-<div id="toast" class="toast"></div>
-
-<script>
-
-const ITEMS={
-
-apple:{
-n:"Apples",
-i:"🍎",
-buy:1.2,
-sell:2.5
-},
-
-banana:{
-n:"Bananas",
-i:"🍌",
-buy:.9,
-sell:2.2
-},
-
-grapes:{
-n:"Grapes",
-i:"🍇",
-buy:2.1,
-sell:4.5
-},
-
-bread:{
-n:"Fresh bread",
-i:"🍞",
-buy:1.1,
-sell:2.8
-},
-
-milk:{
-n:"Milk",
-i:"🥛",
-buy:.8,
-sell:2.1
-},
-
-water:{
-n:"Water",
-i:"💧",
-buy:.35,
-sell:1.2
-},
-
-sandwich:{
-n:"Sandwich",
-i:"🥪",
-buy:1.5,
-sell:3.8
-},
-
-hammer:{
-n:"Hammer",
-i:"🔨",
-buy:7,
-sell:14
-},
-
-drill:{
-n:"Power drill",
-i:"🛠️",
-buy:25,
-sell:49
-},
-
-paint:{
-n:"Paint",
-i:"🎨",
-buy:8,
-sell:18
-},
-
-screws:{
-n:"Screws",
-i:"🔩",
-buy:2,
-sell:5
-},
-
-car:{
-n:"Car",
-i:"🚗",
-buy:4200,
-sell:5900
-}
-
-};
-
-const names=[
-"Tom",
-"Lucy",
-"David",
-"Maria",
-"Jack",
-"Emma",
-"Daniel",
-"Sophie",
-"Michael",
-"Olivia",
-"James",
-"Amelia",
-"Noah",
-"Grace",
-"George",
-"Mia"
-];
-
-const colors=[
-"#2563eb",
-"#16a34a",
-"#f97316",
-"#9333ea",
-"#0891b2",
-"#dc2626",
-"#ca8a04"
-];
-
-let S={
-
-v:1,
-
-money:650,
-
-day:1,
-
-min:480,
-
-open:false,
-
-served:0,
-
-sales:0,
-
-expenses:0,
-
-rep:25,
-
-next:1,
-
-customers:[],
-
-logs:[],
-
-shops:[
-
-{
-
-id:1,
-
-name:"Your Grocery Shop",
-
-type:"grocery",
-
-level:1,
-
-staff:0,
-
-stock:{
-
-apple:8,
-
-banana:8,
-
-grapes:6,
-
-bread:8,
-
-milk:8,
-
-water:10,
-
-sandwich:5,
-
-hammer:0,
-
-drill:0,
-
-paint:0,
-
-screws:0,
-
-car:0
-
-}
-
-}
-
-]
-
-};
-
-const $=id=>document.getElementById(id);
-
-const money=n=>
-
-"£"+Math.max(0,n).toLocaleString(
-"en-GB",
-{
-minimumFractionDigits:2,
-maximumFractionDigits:2
-}
-);
-
-function rnd(a,b){
-
-return Math.floor(
-Math.random()*(b-a+1)
-)+a;
-
-}
-
-function log(x){
-
-S.logs.unshift(
-
-new Date().toLocaleTimeString(
-"en-GB",
-{
-hour:"2-digit",
-minute:"2-digit"
-}
-)
-+" — "+x
-
-);
-
-S.logs=S.logs.slice(0,70);
-
-}
-
-function toast(x){
-
-$("toast").textContent=x;
-
-$("toast").classList.add("show");
-
-setTimeout(
-()=>$("toast").classList.remove("show"),
-1700
-);
-
-}
-
-function save(){
-
-localStorage.setItem(
-"lastShopEndless",
-JSON.stringify(S)
-);
-
-toast("Saved ✓");
-
-}
-
-function load(){
-
-try{
-
-let x=JSON.parse(
-localStorage.getItem("lastShopEndless")
-);
-
-if(x&&x.v===1)S=x;
-
-}catch(e){}
-
-}
-
-function avatar(color){
-
-return `
-
-<div class="person">
-
-<div class="head"></div>
-
-<div class="hair"></div>
-
-<i class="eye el"></i>
-
-<i class="eye er"></i>
-
-<i class="mouth"></i>
-
-<div class="body"
-style="background:${color}">
+<div class="road">
+<div class="roadMark"></div>
 </div>
 
-<i class="arm al"></i>
 
-<i class="arm ar"></i>
-
-<i class="leg ll"></i>
-
-<i class="leg lr"></i>
-
-</div>
-
-`;
-
-}
-
-function stockTotal(sh){
-
-return Object.values(sh.stock)
-.reduce(
-(a,b)=>a+b,
-0
-);
-
-}
-
-function item(sh,id){
-
-return `
-
-<div class="item">
-
-${ITEMS[id].i}
-
-<span>
-${sh.stock[id]||0}
-</span>
-
-</div>
-
-`;
-
-}
-
-function render(){
-
-renderWorld();
-
-business();
-
-stock();
-
-staff();
-
-logs();
-
-top();
-
-}
-
-function renderWorld(){
-
-let h="";
-
-S.shops.forEach(sh=>{
-
-h+=`
-
-<section class="plot">
+<!-- SHOP -->
 
 <div class="shop">
 
-<div class="sign">
-${sh.name}
+<div class="shopRoof"></div>
+
+<div
+    id="shopNameDisplay"
+    class="shopName">
+THE LAST SHOP
 </div>
 
-<div class="floor">
+<div class="shopInterior">
 
-<div class="shelf food">
+<div class="wall"></div>
 
-${["apple","banana","grapes","bread"]
-.map(x=>item(sh,x))
-.join("")}
+<div class="window left"></div>
+<div class="window right"></div>
+
+<div class="floor"></div>
+
+
+<!-- SHELF 1 -->
+
+<div class="shelf shelf1">
+<div class="shelfRow row1"></div>
+<div class="shelfRow row2"></div>
+<div class="shelfRow row3"></div>
+<div id="shelf1Items" class="items"></div>
+</div>
+
+
+<!-- SHELF 2 -->
+
+<div class="shelf shelf2">
+<div class="shelfRow row1"></div>
+<div class="shelfRow row2"></div>
+<div class="shelfRow row3"></div>
+<div id="shelf2Items" class="items"></div>
+</div>
+
+
+<!-- SHELF 3 -->
+
+<div class="shelf shelf3">
+<div class="shelfRow row1"></div>
+<div class="shelfRow row2"></div>
+<div class="shelfRow row3"></div>
+<div id="shelf3Items" class="items"></div>
+</div>
+
+
+<!-- CHECKOUT -->
+
+<div class="checkout">
+
+<div class="cashierLabel">
+CASHIER
+</div>
+
+<div class="register">
+READY
+</div>
 
 </div>
 
-<div class="shelf tools">
+</div>
+</div>
 
-${["hammer","paint","screws"]
-.map(x=>item(sh,x))
-.join("")}
+
+<!-- PLAYER -->
+
+<div
+    id="playerCharacter"
+    class="actor">
+
+<div class="actorHair"></div>
+
+<div class="actorHead">
+<div class="eye eyeA"></div>
+<div class="eye eyeB"></div>
+<div class="smile"></div>
+</div>
+
+<div
+    id="playerBody"
+    class="actorBody">
+</div>
+
+<div class="actorArm actorArmA"></div>
+<div class="actorArm actorArmB"></div>
+
+<div class="actorLeg actorLegA"></div>
+<div class="actorLeg actorLegB"></div>
+
+<div
+    id="playerNameTag"
+    class="actorName">
+PLAYER
+</div>
 
 </div>
 
-<div class="shelf extra">
 
-${["milk","water","sandwich"]
-.map(x=>item(sh,x))
-.join("")}
+<!-- CUSTOMERS -->
 
+<div id="customersLayer"></div>
+
+
+<!-- CONTROL PANEL -->
+
+<div class="controlPanel">
+
+<h3>🏪 YOUR BUSINESS</h3>
+
+<div>
+Owner:
+<strong id="owner"></strong>
 </div>
 
-<div class="counter">
+<div>
+Shop:
+<strong id="shopOwnerName"></strong>
 </div>
 
-<div class="player">
-
-${avatar("#2563eb")}
-
-<div class="label">
-You — behind the counter
+<div>
+Employees:
+<strong id="employees">0</strong>
 </div>
 
+<div>
+Businesses:
+<strong id="businesses">1</strong>
 </div>
-
-${S.customers
-.filter(c=>c.shopId===sh.id)
-.map(customer)
-.join("")}
-
-</div>
-
-</div>
-
-</section>
-
-`;
-
-});
-
-$("shops").innerHTML=h;
-
-}
-
-function customer(c){
-
-return `
-
-<div class="customer"
-style="left:${c.x}%;top:${c.y}%">
-
-${avatar(c.color)}
-
-<div class="bubble">
-
-<b>${c.name}</b>
-
-<span class="need">
-
-${ITEMS[c.need].i}
-
-I need ${ITEMS[c.need].n.toLowerCase()}
-
-</span>
 
 <button
-class="serve"
-onclick="serve(${c.id})">
+    class="stockBtn"
+    onclick="orderStock()">
+📦 ORDER DELIVERY
+</button>
 
-SERVE CUSTOMER
+<button
+    class="upgradeBtn"
+    onclick="upgradeShop()">
+🏗️ UPGRADE SHOP
+</button>
 
+<button
+    class="employeeBtn"
+    onclick="hireEmployee()">
+👨‍💼 HIRE EMPLOYEE
+</button>
+
+<button
+    class="businessBtn"
+    onclick="buyBusiness()">
+🏪 BUY BUSINESS
+</button>
+
+<button
+    class="inventoryBtn"
+    onclick="openInventory()">
+📋 INVENTORY
 </button>
 
 </div>
 
+
+<!-- CUSTOMER PANEL -->
+
+<div
+    id="customerPanel"
+    class="customerPanel">
 </div>
-
-`;
-
-}
-
-function top(){
-
-$("money").textContent=money(S.money);
-
-$("day").textContent="Day "+S.day;
-
-$("time").textContent=clock();
-
-$("served").textContent=S.served;
-
-$("rep").textContent=S.rep;
-
-}
-
-function clock(){
-
-return String(
-Math.floor(S.min/60)%24
-).padStart(2,"0")
-+
-":"+
-String(S.min%60).padStart(2,"0");
-
-}
-
-function business(){
-
-let sh=S.shops[0];
-
-let up=Math.round(
-350*Math.pow(
-1.65,
-sh.level-1
-)
-);
-
-$("business").innerHTML=`
-
-<h3>📈 Business</h3>
-
-<div class="notice">
-
-Start with one real shop.
-Buy food and tools,
-open the doors,
-serve people,
-restock from suppliers,
-hire staff and reinvest
-your profits.
-
-There is no ending.
-
-</div>
-
-<div class="grid"
-style="margin-top:9px">
-
-<div class="card">
-
-<b>${money(S.money)}</b>
-
-<small>Cash</small>
-
-</div>
-
-<div class="card">
-
-<b>Lv ${sh.level}</b>
-
-<small>Shop</small>
-
-</div>
-
-<div class="card">
-
-<b>${money(S.sales)}</b>
-
-<small>Sales</small>
-
-</div>
-
-<div class="card">
-
-<b>${stockTotal(sh)}</b>
-
-<small>Stock</small>
 
 </div>
 
 </div>
 
-<div class="row">
 
-<span>Status</span>
+<!-- =====================================================
+     MODAL
+===================================================== -->
 
-<b>
-${S.open?"🟢 OPEN":"🔴 CLOSED"}
-</b>
+<div
+    id="modal"
+    class="modal hidden">
 
-</div>
-
-<div class="row">
-
-<span>Staff</span>
-
-<b>${sh.staff}</b>
-
-</div>
+<div class="modalBox">
 
 <button
-class="green"
-style="width:100%;margin-top:7px"
-onclick="upgrade()">
-
-Upgrade shop —
-${money(up)}
-
+    class="closeBtn"
+    onclick="closeModal()">
+CLOSE
 </button>
 
-<button
-class="blue"
-style="width:100%;margin-top:7px"
-onclick="delivery()">
-
-Order food delivery
-
-</button>
-
-<button
-style="width:100%;margin-top:7px"
-onclick="hire()">
-
-Hire employee —
-${money(120+sh.staff*70)}
-
-</button>
-
-<hr>
-
-<h3>🏪 Next shop</h3>
-
-${
-S.shops.length<2
-
-?
-
-`
-
-<p style="font-size:12px">
-
-When you have £25,000,
-buy the shop next door
-and run a second business
-selling cars.
-
-</p>
-
-<button
-class="gold"
-style="width:100%"
-onclick="buyNext()">
-
-BUY NEXT SHOP — £25,000
-
-</button>
-
-`
-
-:
-
-`
-
-<div class="card">
-
-<b>🚗 Last Motors</b>
-
-<small>
-
-Level ${S.shops[1].level}
-· Staff ${S.shops[1].staff}
-· Cars ${S.shops[1].stock.car}
-
-</small>
+<div id="modalContent"></div>
 
 </div>
 
-<button
-style="width:100%;margin-top:7px"
-onclick="buyCar()">
-
-Buy car —
-${money(ITEMS.car.buy)}
-
-</button>
-
-<button
-class="green"
-style="width:100%;margin-top:7px"
-onclick="sellCar()">
-
-Sell car
-+${money(ITEMS.car.sell)}
-
-</button>
-
-`
-
-}
-
-`;
-
-}
-
-function stock(){
-
-let sh=S.shops[0];
-
-$("stock").innerHTML=
-
-"<h3>📦 Suppliers</h3>"+
-
-"<p style='font-size:12px'>"+
-"Buy stock here, then open the shop. "+
-"Every sale removes one item from your shelves."+
-"</p>"+
-
-Object.entries(ITEMS)
-
-.filter(([id])=>id!=="car")
-
-.map(([id,x])=>`
-
-<div class="row">
-
-<span>
-
-${x.i} ${x.n}
-
-<br>
-
-<small>
-Buy ${money(x.buy)}
-· Sell ${money(x.sell)}
-</small>
-
-</span>
-
-<span>
-
-<b>${sh.stock[id]||0}</b>
-
-<br>
-
-<button
-onclick="buy('${id}',5)">
-
-+5
-
-</button>
-
-</span>
-
 </div>
 
-`)
 
-.join("");
+<div id="toast"></div>
 
-}
 
-function staff(){
+<script>
 
-let sh=S.shops[0];
+/* =====================================================
+   PRODUCTS
+===================================================== */
 
-$("staff").innerHTML=`
+const PRODUCTS = [
 
-<h3>👷 Staff</h3>
-
-<div class="notice">
-
-Employees automatically serve
-customers while you manage
-the business.
-
-</div>
-
-<div class="row">
-
-<span>Employees</span>
-
-<b>${sh.staff}</b>
-
-</div>
-
-<button
-class="green"
-style="width:100%"
-onclick="hire()">
-
-Hire employee —
-${money(120+sh.staff*70)}
-
-</button>
-
-<p style="font-size:12px;margin-top:12px">
-
-Your character stays behind
-the counter and can serve
-customers manually.
-
-</p>
-
-`;
-
-}
-
-function logs(){
-
-$("log").innerHTML=
-
-"<h3>🧾 Activity</h3>"+
-
-"<div class='log'>"+
-
-(
-
-S.logs
-.map(x=>"<div>"+x+"</div>")
-.join("")
-
-||
-
-"<div>No activity.</div>"
-
-)
-
-+"</div>";
-
-}
-
-function tab(id,b){
-
-document
-.querySelectorAll(".panel")
-.forEach(
-x=>x.style.display="none"
-);
-
-$(id).style.display="block";
-
-document
-.querySelectorAll(".tab")
-.forEach(
-x=>x.classList.remove("active")
-);
-
-b.classList.add("active");
-
-}
-
-function openShop(){
-
-if(stockTotal(S.shops[0])<1){
-
-toast("Buy stock first.");
-
-return;
-
-}
-
-S.open=true;
-
-log("Shop opened.");
-
-toast("SHOP OPEN 🟢");
-
-render();
-
-}
-
-function closeShop(){
-
-S.open=false;
-
-S.customers=[];
-
-log("Shop closed.");
-
-toast("Shop closed.");
-
-render();
-
-}
-
-function buy(id,q){
-
-let cost=ITEMS[id].buy*q;
-
-if(S.money<cost){
-
-toast("Not enough money.");
-
-return;
-
-}
-
-S.money-=cost;
-
-S.expenses+=cost;
-
-S.shops[0].stock[id]+=q;
-
-log(
-"Bought "+
-q+
-" × "+
-ITEMS[id].n+
-" for "+
-money(cost)
-);
-
-render();
-
-}
-
-function delivery(){
-
-let ids=[
-"apple",
-"banana",
-"grapes",
-"bread",
-"milk",
-"water",
-"sandwich"
-];
-
-let cost=0;
-
-ids.forEach(
-id=>cost+=ITEMS[id].buy*6
-);
-
-if(S.money<cost){
-
-toast("Not enough money.");
-
-return;
-
-}
-
-S.money-=cost;
-
-S.expenses+=cost;
-
-ids.forEach(
-id=>S.shops[0].stock[id]+=6
-);
-
-log("Supplier delivery arrived.");
-
-render();
-
-}
-
-function upgrade(){
-
-let sh=S.shops[0];
-
-let cost=Math.round(
-350*Math.pow(
-1.65,
-sh.level-1
-)
-);
-
-if(S.money<cost){
-
-toast("Not enough money.");
-
-return;
-
-}
-
-S.money-=cost;
-
-S.expenses+=cost;
-
-sh.level++;
-
-S.rep=Math.min(
-100,
-S.rep+3
-);
-
-log(
-"Shop upgraded to level "+
-sh.level
-);
-
-toast("Shop upgraded!");
-
-render();
-
-}
-
-function hire(){
-
-let sh=S.shops[0];
-
-let cost=120+sh.staff*70;
-
-if(S.money<cost){
-
-toast("Not enough money.");
-
-return;
-
-}
-
-S.money-=cost;
-
-S.expenses+=cost;
-
-sh.staff++;
-
-log(
-"Hired employee #"+
-sh.staff
-);
-
-render();
-
-}
-
-function buyNext(){
-
-if(S.shops.length>1){
-
-toast("Already owned.");
-
-return;
-
-}
-
-if(S.money<25000){
-
-toast("You need £25,000.");
-
-return;
-
-}
-
-S.money-=25000;
-
-S.expenses+=25000;
-
-S.shops.push({
-
-id:2,
-
-name:"Last Motors",
-
-type:"car",
-
-level:1,
-
-staff:0,
-
-stock:{
-
-apple:0,
-banana:0,
-grapes:0,
-bread:0,
-milk:0,
-water:0,
-sandwich:0,
-hammer:0,
-drill:0,
-paint:0,
-screws:0,
-car:2
-
-}
-
-});
-
-log(
-"Bought the shop next door: Last Motors."
-);
-
-toast("NEW SHOP 🚗");
-
-render();
-
-}
-
-function buyCar(){
-
-let sh=S.shops[1];
-
-if(!sh)return;
-
-if(S.money<ITEMS.car.buy){
-
-toast("Not enough money.");
-
-return;
-
-}
-
-S.money-=ITEMS.car.buy;
-
-S.expenses+=ITEMS.car.buy;
-
-sh.stock.car++;
-
-log(
-"Bought a car for the dealership."
-);
-
-render();
-
-}
-
-function sellCar(){
-
-let sh=S.shops[1];
-
-if(
-!sh||
-sh.stock.car<1
-){
-
-toast("No car in stock.");
-
-return;
-
-}
-
-sh.stock.car--;
-
-S.money+=ITEMS.car.sell;
-
-S.sales+=ITEMS.car.sell;
-
-S.served++;
-
-log(
-"Sold a car for "+
-money(ITEMS.car.sell)
-);
-
-toast(
-"CAR SOLD +"+
-money(ITEMS.car.sell)
-);
-
-render();
-
-}
-
-function addCustomer(){
-
-if(
-!S.open||
-S.customers.length>=7
-)return;
-
-let sh=S.shops[0];
-
-let ids=Object.keys(ITEMS)
-.filter(
-id=>
-id!=="car"&&
-sh.stock[id]>0
-);
-
-if(!ids.length)return;
-
-let need=
-ids[
-rnd(0,ids.length-1)
-];
-
-S.customers.push({
-
-id:++S.next,
-
-name:names[
-rnd(0,names.length-1)
-],
-
-need,
-
-x:rnd(3,86),
-
-y:rnd(5,53),
-
-color:colors[
-rnd(0,colors.length-1)
-],
-
-shopId:1
-
-});
-
-log(
-"Customer arrived wanting "+
-ITEMS[need].n+
-"."
-);
-
-render();
-
-}
-
-function serve(id){
-
-let c=S.customers.find(
-x=>x.id===id
-);
-
-if(!c)return;
-
-let sh=S.shops[0];
-
-if(sh.stock[c.need]<1){
-
-toast("Out of stock.");
-
-return;
-
-}
-
-sh.stock[c.need]--;
-
-S.money+=ITEMS[c.need].sell;
-
-S.sales+=ITEMS[c.need].sell;
-
-S.served++;
-
-S.rep=Math.max(
-0,
-Math.min(
-100,
-S.rep+
-(Math.random()<.88?1:-1)
-)
-);
-
-S.customers=
-S.customers.filter(
-x=>x.id!==id
-);
-
-log(
-"Served "+
-c.name+
-" — "+
-ITEMS[c.need].n+
-" for "+
-money(ITEMS[c.need].sell)
-);
-
-toast(
-"Sale +"+
-money(ITEMS[c.need].sell)
-);
-
-render();
-
-}
-
-function autoServe(){
-
-if(!S.open)return;
-
-let sh=S.shops[0];
-
-let cs=
-S.customers.slice(
-0,
-sh.staff
-);
-
-cs.forEach(
-(c,i)=>
-setTimeout(
-()=>serve(c.id),
-250+i*250
-)
-);
-
-}
-
-function tick(){
-
-S.min++;
-
-if(S.min>=1440){
-
-S.min=420;
-
-S.day++;
-
-S.open=false;
-
-S.customers=[];
-
-let wages=
-S.shops.reduce(
-(a,s)=>a+s.staff*35,
-0
-);
-
-if(wages){
-
-S.money-=wages;
-
-S.expenses+=wages;
-
-log(
-"Daily wages paid: "+
-money(wages)
-);
-
-}
-
-log(
-"Day "+
-S.day+
-" started. The business continues."
-);
-
-}
-
-if(
-S.open&&
-Math.random()<.55
-)addCustomer();
-
-if(
-S.open&&
-S.min%4===0
-)autoServe();
-
-top();
-
-if(
-S.min%5===0
-)localStorage.setItem(
-"lastShopEndless",
-JSON.stringify(S)
-);
-
-}
-
-function help(){
-
-alert(
-
-"THE LAST SHOP\n\n"+
-
-"Start with £650.\n\n"+
-
-"Buy food and tools.\n\n"+
-
-"Open the shop and serve customers.\n\n"+
-
-"Restock using supplier deliveries.\n\n"+
-
-"Hire employees to serve automatically.\n\n"+
-
-"Upgrade the shop.\n\n"+
-
-"When you reach £25,000, buy the shop next door and start the car dealership.\n\n"+
-
-"There is no ending: the days continue forever.\n\n"+
-
-"Your save is stored in this browser."
-
-);
-
-}
-
-load();
-
-if(!S.logs.length)
-
-log(
-"Welcome! You own your first shop and have £650."
-);
-
-render();
-
-setInterval(
-tick,
-1000
-);
-
-setInterval(
-()=>{
-if(S.open)addCustomer()
+{
+    id:"apple",
+    name:"Apples",
+    icon:"🍎",
+    buy:2,
+    sell:4
 },
-4500
-);
 
-document.addEventListener(
-"keydown",
-e=>{
+{
+    id:"banana",
+    name:"Bananas",
+    icon:"🍌",
+    buy:2,
+    sell:4
+},
 
-if(e.key.toLowerCase()==="o")
-openShop();
+{
+    id:"grapes",
+    name:"Grapes",
+    icon:"🍇",
+    buy:3,
+    sell:6
+},
 
-if(e.key.toLowerCase()==="c")
-closeShop();
+{
+    id:"orange",
+    name:"Oranges",
+    icon:"🍊",
+    buy:2,
+    sell:5
+},
 
-if(e.key.toLowerCase()==="s")
-save();
+{
+    id:"bread",
+    name:"Bread",
+    icon:"🍞",
+    buy:2,
+    sell:5
+},
+
+{
+    id:"milk",
+    name:"Milk",
+    icon:"🥛",
+    buy:2,
+    sell:5
+},
+
+{
+    id:"cheese",
+    name:"Cheese",
+    icon:"🧀",
+    buy:4,
+    sell:8
+},
+
+{
+    id:"pizza",
+    name:"Pizza",
+    icon:"🍕",
+    buy:5,
+    sell:10
+},
+
+{
+    id:"burger",
+    name:"Burger",
+    icon:"🍔",
+    buy:5,
+    sell:11
+},
+
+{
+    id:"drink",
+    name:"Drinks",
+    icon:"🥤",
+    buy:2,
+    sell:5
+},
+
+{
+    id:"water",
+    name:"Water",
+    icon:"💧",
+    buy:1,
+    sell:3
+},
+
+{
+    id:"chips",
+    name:"Crisps",
+    icon:"🥔",
+    buy:2,
+    sell:5
+},
+
+{
+    id:"soap",
+    name:"Soap",
+    icon:"🧼",
+    buy:2,
+    sell:6
+},
+
+{
+    id:"shampoo",
+    name:"Shampoo",
+    icon:"🧴",
+    buy:4,
+    sell:9
+},
+
+{
+    id:"coffee",
+    name:"Coffee",
+    icon:"☕",
+    buy:3,
+    sell:7
+},
+
+{
+    id:"cereal",
+    name:"Cereal",
+    icon:"🥣",
+    buy:4,
+    sell:9
+}
+
+];
+
+
+/* =====================================================
+   CUSTOMER NAMES
+===================================================== */
+
+const NAMES = [
+
+"James",
+"Oliver",
+"George",
+"Harry",
+"Jack",
+"Jacob",
+"Noah",
+"Charlie",
+"Muhammad",
+"Thomas",
+"Leo",
+"Arthur",
+"Oscar",
+"Henry",
+"Alfie",
+"Freddie",
+"Archie",
+"Isla",
+"Olivia",
+"Emily",
+"Amelia",
+"Sophie",
+"Grace",
+"Lily",
+"Isabella",
+"Freya",
+"Jessica",
+"Poppy",
+"Florence",
+"Evie"
+
+];
+
+
+const SHIRTS = [
+
+"#2563eb",
+"#16a34a",
+"#dc2626",
+"#9333ea",
+"#ea580c",
+"#0891b2",
+"#db2777",
+"#65a30d",
+"#475569",
+"#be123c"
+
+];
+
+
+/* =====================================================
+   GAME STATE
+===================================================== */
+
+let player=null;
+
+let customers=[];
+
+let customerNumber=0;
+
+let customerLoop=null;
+
+let gameLoop=null;
+
+let clockLoop=null;
+
+let day=1;
+
+let hour=8;
+
+let minute=0;
+
+
+/* =====================================================
+   ACCOUNT STORAGE
+===================================================== */
+
+function getAccounts(){
+
+    return JSON.parse(
+        localStorage.getItem(
+            "THE_LAST_SHOP_ACCOUNTS"
+        ) || "{}"
+    );
 
 }
+
+
+function saveAccounts(accounts){
+
+    localStorage.setItem(
+        "THE_LAST_SHOP_ACCOUNTS",
+        JSON.stringify(accounts)
+    );
+
+}
+
+
+function saveGame(){
+
+    if(!player)return;
+
+    const accounts=getAccounts();
+
+    accounts[player.username]=player;
+
+    saveAccounts(accounts);
+
+}
+
+
+/* =====================================================
+   CREATE ACCOUNT
+===================================================== */
+
+function createAccount(){
+
+    const name=
+        document.getElementById(
+            "nameInput"
+        ).value.trim();
+
+    const password=
+        document.getElementById(
+            "passwordInput"
+        ).value;
+
+    const shop=
+        document.getElementById(
+            "shopInput"
+        ).value.trim();
+
+
+    if(!name||!password||!shop){
+
+        loginMessage(
+            "Please complete all fields."
+        );
+
+        return;
+
+    }
+
+
+    const accounts=getAccounts();
+
+
+    if(accounts[name]){
+
+        loginMessage(
+            "That account already exists."
+        );
+
+        return;
+
+    }
+
+
+    player={
+
+        username:name,
+
+        password:password,
+
+        shopName:shop,
+
+        money:5000,
+
+        level:1,
+
+        stock:0,
+
+        employees:0,
+
+        businesses:1,
+
+        shopValue:5000,
+
+        sales:0,
+
+        customersServed:0,
+
+        adRewards:0,
+
+        purchases:0,
+
+        days:1,
+
+        reputation:50,
+
+        inventory:{}
+
+    };
+
+
+    PRODUCTS.forEach(p=>{
+
+        player.inventory[p.id]=
+            Math.floor(
+                Math.random()*4
+            );
+
+        player.stock +=
+            player.inventory[p.id];
+
+    });
+
+
+    accounts[name]=player;
+
+    saveAccounts(accounts);
+
+
+    localStorage.setItem(
+        "THE_LAST_SHOP_USER",
+        name
+    );
+
+
+    startGame();
+
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+function login(){
+
+    const name=
+        document.getElementById(
+            "nameInput"
+        ).value.trim();
+
+    const password=
+        document.getElementById(
+            "passwordInput"
+        ).value;
+
+
+    const accounts=getAccounts();
+
+
+    if(
+        !accounts[name]||
+        accounts[name].password!==password
+    ){
+
+        loginMessage(
+            "Wrong name or password."
+        );
+
+        return;
+
+    }
+
+
+    player=accounts[name];
+
+
+    localStorage.setItem(
+        "THE_LAST_SHOP_USER",
+        name
+    );
+
+
+    startGame();
+
+}
+
+
+function loginMessage(text){
+
+    document.getElementById(
+        "loginMessage"
+    ).textContent=text;
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+function startGame(){
+
+    document.getElementById(
+        "loginScreen"
+    ).classList.add("hidden");
+
+
+    document.getElementById(
+        "game"
+    ).classList.remove("hidden");
+
+
+    document.getElementById(
+        "owner"
+    ).textContent=
+        player.username;
+
+
+    document.getElementById(
+        "shopOwnerName"
+    ).textContent=
+        player.shopName;
+
+
+    document.getElementById(
+        "shopNameDisplay"
+    ).textContent=
+        player.shopName;
+
+
+    document.getElementById(
+        "playerNameTag"
+    ).textContent=
+        player.username;
+
+
+    renderAll();
+
+    positionPlayer();
+
+    startLoops();
+
+    showToast(
+        "Welcome to "+player.shopName+"!"
+    );
+
+}
+
+
+function startLoops(){
+
+    clearInterval(customerLoop);
+    clearInterval(gameLoop);
+    clearInterval(clockLoop);
+
+
+    customerLoop=
+        setInterval(
+            spawnCustomer,
+            3500
+        );
+
+
+    gameLoop=
+        setInterval(
+            simulationTick,
+            3000
+        );
+
+
+    clockLoop=
+        setInterval(
+            advanceTime,
+            4000
+        );
+
+
+    setTimeout(
+        spawnCustomer,
+        900
+    );
+
+    setTimeout(
+        spawnCustomer,
+        1800
+    );
+
+    setTimeout(
+        spawnCustomer,
+        3000
+    );
+
+}
+
+
+/* =====================================================
+   PLAYER
+===================================================== */
+
+function positionPlayer(){
+
+    const el=
+        document.getElementById(
+            "playerCharacter"
+        );
+
+    el.style.left="47%";
+    el.style.top="66%";
+
+}
+
+
+function playerAtCheckout(){
+
+    const el=
+        document.getElementById(
+            "playerCharacter"
+        );
+
+    el.style.left="47%";
+    el.style.top="56%";
+
+}
+
+
+/* =====================================================
+   CUSTOMERS
+===================================================== */
+
+function spawnCustomer(){
+
+    if(customers.length>=10)return;
+
+
+    const product=
+        PRODUCTS[
+            Math.floor(
+                Math.random()*
+                PRODUCTS.length
+            )
+        ];
+
+
+    const customer={
+
+        id:++customerNumber,
+
+        name:
+            NAMES[
+                Math.floor(
+                    Math.random()*
+                    NAMES.length
+                )
+            ],
+
+        product:product,
+
+        shirt:
+            SHIRTS[
+                Math.floor(
+                    Math.random()*
+                    SHIRTS.length
+                )
+            ],
+
+        age:0,
+
+        state:"entering",
+
+        served:false
+
+    };
+
+
+    customers.push(customer);
+
+
+    createCustomer(customer);
+
+    renderCustomers();
+
+    updateCustomerCount();
+
+
+    setTimeout(()=>{
+
+        moveCustomer(
+            customer.id,
+            "aisle"
+        );
+
+    },500);
+
+}
+
+
+function createCustomer(c){
+
+    const layer=
+        document.getElementById(
+            "customersLayer"
+        );
+
+
+    const el=
+        document.createElement(
+            "div"
+        );
+
+
+    el.className="customer";
+
+    el.id="customer-"+c.id;
+
+
+    el.style.left=
+        (10+Math.random()*80)+"%";
+
+    el.style.top="72%";
+
+
+    el.innerHTML=`
+
+        <div class="customerHair"></div>
+
+        <div class="customerHead">
+        </div>
+
+        <div
+            class="customerBody"
+            style="background:${c.shirt}">
+        </div>
+
+        <div class="customerArm ca1"></div>
+        <div class="customerArm ca2"></div>
+
+        <div class="customerLeg cl1"></div>
+        <div class="customerLeg cl2"></div>
+
+        <div class="customerName">
+            ${c.name}
+        </div>
+
+    `;
+
+
+    layer.appendChild(el);
+
+}
+
+
+function moveCustomer(id,state){
+
+    const c=
+        customers.find(
+            x=>x.id===id
+        );
+
+    if(!c)return;
+
+
+    const el=
+        document.getElementById(
+            "customer-"+id
+        );
+
+    if(!el)return;
+
+
+    c.state=state;
+
+
+    if(state==="aisle"){
+
+        el.style.left=
+            (25+Math.random()*50)+"%";
+
+        el.style.top=
+            (36+Math.random()*18)+"%";
+
+    }
+
+
+    if(state==="checkout"){
+
+        el.style.left=
+            (47+Math.random()*5)+"%";
+
+        el.style.top="58%";
+
+    }
+
+
+    if(state==="exit"){
+
+        el.style.left=
+            (Math.random()>0.5?
+             "105%":"-10%");
+
+        el.style.top="70%";
+
+    }
+
+}
+
+
+/* =====================================================
+   SERVE
+===================================================== */
+
+function serveCustomer(id){
+
+    const c=
+        customers.find(
+            x=>x.id===id
+        );
+
+
+    if(!c)return;
+
+
+    const amount=
+        player.inventory[c.product.id]||0;
+
+
+    if(amount<=0){
+
+        showToast(
+            c.product.icon+
+            " "+c.product.name+
+            " is OUT OF STOCK!"
+        );
+
+        return;
+
+    }
+
+
+    playerAtCheckout();
+
+    moveCustomer(
+        id,
+        "checkout"
+    );
+
+
+    setTimeout(()=>{
+
+        player.inventory[
+            c.product.id
+        ]--;
+
+
+        player.stock--;
+
+
+        player.money +=
+            c.product.sell;
+
+
+        player.sales +=
+            c.product.sell;
+
+
+        player.customersServed++;
+
+        player.reputation=
+            Math.min(
+                100,
+                player.reputation+1
+            );
+
+
+        c.served=true;
+
+
+        renderAll();
+
+
+        showToast(
+            c.name+
+            " bought "+
+            c.product.name+
+            " for $"+
+            c.product.sell
+        );
+
+
+        setTimeout(()=>{
+
+            moveCustomer(
+                id,
+                "exit"
+            );
+
+        },700);
+
+
+        setTimeout(()=>{
+
+            removeCustomer(id);
+
+        },1800);
+
+
+        setTimeout(
+            positionPlayer,
+            1000
+        );
+
+
+        saveGame();
+
+    },1000);
+
+}
+
+
+/* =====================================================
+   CUSTOMER PANEL
+===================================================== */
+
+function renderCustomers(){
+
+    const panel=
+        document.getElementById(
+            "customerPanel"
+        );
+
+
+    panel.innerHTML="";
+
+
+    customers.forEach(c=>{
+
+        const card=
+            document.createElement(
+                "div"
+            );
+
+
+        card.className=
+            "customerCard";
+
+
+        card.innerHTML=`
+
+            <strong>
+                🧍 ${c.name}
+            </strong>
+
+            <div class="customerNeed">
+
+                Wants:
+                ${c.product.icon}
+                ${c.product.name}
+
+            </div>
+
+            <button
+                class="serveBtn"
+                onclick="serveCustomer(${c.id})">
+
+                SERVE CUSTOMER
+
+            </button>
+
+        `;
+
+
+        panel.appendChild(card);
+
+    });
+
+}
+
+
+function removeCustomer(id){
+
+    customers=
+        customers.filter(
+            c=>c.id!==id
+        );
+
+
+    const el=
+        document.getElementById(
+            "customer-"+id
+        );
+
+
+    if(el)el.remove();
+
+
+    renderCustomers();
+
+    updateCustomerCount();
+
+}
+
+
+function updateCustomerCount(){
+
+    document.getElementById(
+        "served"
+    ).textContent=
+        player.customersServed;
+
+}
+
+
+/* =====================================================
+   STOCK
+===================================================== */
+
+function orderStock(){
+
+    const cost=500;
+
+
+    if(player.money<cost){
+
+        openMoney();
+
+        showToast(
+            "You need more shop money."
+        );
+
+        return;
+
+    }
+
+
+    player.money-=cost;
+
+
+    PRODUCTS.forEach(p=>{
+
+        const quantity=
+            4+
+            Math.floor(
+                Math.random()*4
+            );
+
+
+        player.inventory[p.id]=
+            (player.inventory[p.id]||0)+
+            quantity;
+
+
+        player.stock+=quantity;
+
+    });
+
+
+    renderAll();
+
+    saveGame();
+
+
+    showToast(
+        "🚚 Delivery arrived. Shelves restocked!"
+    );
+
+}
+
+
+/* =====================================================
+   SHOP UPGRADE
+===================================================== */
+
+function upgradeShop(){
+
+    const cost=
+        2000*player.level;
+
+
+    if(player.money<cost){
+
+        showToast(
+            "Upgrade costs $"+cost
+        );
+
+        return;
+
+    }
+
+
+    player.money-=cost;
+
+    player.level++;
+
+    player.shopValue+=
+        cost*2;
+
+    player.reputation=
+        Math.min(
+            100,
+            player.reputation+5
+        );
+
+
+    renderAll();
+
+    saveGame();
+
+
+    showToast(
+        "🏗️ Shop upgraded to level "+
+        player.level
+    );
+
+}
+
+
+/* =====================================================
+   EMPLOYEES
+===================================================== */
+
+function hireEmployee(){
+
+    const cost=
+        1200+
+        player.employees*700;
+
+
+    if(player.money<cost){
+
+        showToast(
+            "Employee costs $"+cost
+        );
+
+        return;
+
+    }
+
+
+    player.money-=cost;
+
+    player.employees++;
+
+
+    renderAll();
+
+    saveGame();
+
+
+    showToast(
+        "👨‍💼 New employee hired!"
+    );
+
+}
+
+
+/* =====================================================
+   OTHER BUSINESSES
+===================================================== */
+
+function buyBusiness(){
+
+    const cost=
+        10000*
+        player.businesses;
+
+
+    if(player.money<cost){
+
+        showToast(
+            "Next business costs $"+cost
+        );
+
+        return;
+
+    }
+
+
+    player.money-=cost;
+
+    player.businesses++;
+
+    player.shopValue+=cost;
+
+
+    renderAll();
+
+    saveGame();
+
+
+    if(player.businesses===2){
+
+        showToast(
+            "🏪 You bought your second shop!"
+        );
+
+    }else if(player.businesses===3){
+
+        showToast(
+            "🚗 Your business empire is growing!"
+        );
+
+    }else{
+
+        showToast(
+            "🏢 New business purchased!"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   EMPLOYEE SIMULATION
+===================================================== */
+
+function simulationTick(){
+
+    if(
+        player.employees>0 &&
+        customers.length>0
+    ){
+
+        const chance=
+            Math.min(
+                .8,
+                player.employees*.10
+            );
+
+
+        if(
+            Math.random()<chance
+        ){
+
+            const waiting=
+                customers.find(
+                    c=>
+                    c.state==="aisle"
+                    &&
+                    !c.served
+                );
+
+
+            if(waiting){
+
+                serveCustomer(
+                    waiting.id
+                );
+
+            }
+
+        }
+
+    }
+
+
+    customers.forEach(c=>{
+
+        c.age++;
+
+    });
+
+
+    customers
+        .filter(c=>c.age>35)
+        .forEach(c=>{
+
+            removeCustomer(c.id);
+
+        });
+
+
+    saveGame();
+
+}
+
+
+/* =====================================================
+   INVENTORY
+===================================================== */
+
+function openInventory(){
+
+    let html=`
+
+        <h2>📦 Shop Inventory</h2>
+
+        <p>
+        Current stock:
+        <strong>${player.stock}</strong>
+        </p>
+
+        <br>
+
+        <table>
+
+        <tr>
+        <th>Product</th>
+        <th>Stock</th>
+        <th>Buy</th>
+        <th>Sell</th>
+        </tr>
+
+    `;
+
+
+    PRODUCTS.forEach(p=>{
+
+        html+=`
+
+        <tr>
+
+        <td>
+        ${p.icon} ${p.name}
+        </td>
+
+        <td>
+        ${player.inventory[p.id]||0}
+        </td>
+
+        <td>
+        $${p.buy}
+        </td>
+
+        <td>
+        $${p.sell}
+        </td>
+
+        </tr>
+
+        `;
+
+    });
+
+
+    html+=`</table>`;
+
+
+    openModal(html);
+
+}
+
+
+/* =====================================================
+   MONEY
+===================================================== */
+
+function openMoney(){
+
+    openModal(`
+
+        <h2>💰 Shop Money</h2>
+
+        <p>
+        Shop balance:
+        <strong>
+        $${Math.floor(player.money)}
+        </strong>
+        </p>
+
+        <br>
+
+        <button
+            class="modalButton"
+            style="background:#16a34a"
+            onclick="testAdReward()">
+
+            🎬 WATCH AD
+            <br>
+            GET $1,000 DEMO MONEY
+
+        </button>
+
+        <button
+            class="modalButton"
+            style="background:#f59e0b;color:#111"
+            onclick="testPurchase()">
+
+            💷 TEST £1 PURCHASE
+            <br>
+            GET $1,000 DEMO MONEY
+
+        </button>
+
+        <br>
+
+        <p style="color:#64748b">
+
+        These are TEST functions.
+        No real payment or advertisement
+        is connected yet.
+
+        </p>
+
+    `);
+
+}
+
+
+function testAdReward(){
+
+    showToast(
+        "TEST AD PLAYING..."
+    );
+
+
+    setTimeout(()=>{
+
+        player.money+=1000;
+
+        player.adRewards++;
+
+        renderAll();
+
+        saveGame();
+
+        closeModal();
+
+
+        showToast(
+            "🎁 TEST REWARD: +$1,000"
+        );
+
+    },2500);
+
+}
+
+
+function testPurchase(){
+
+    showToast(
+        "TEST PAYMENT PROCESSING..."
+    );
+
+
+    setTimeout(()=>{
+
+        player.money+=1000;
+
+        player.purchases++;
+
+        renderAll();
+
+        saveGame();
+
+        closeModal();
+
+
+        showToast(
+            "💷 TEST PURCHASE COMPLETE: +$1,000"
+        );
+
+    },1500);
+
+}
+
+
+/* =====================================================
+   ADMIN
+===================================================== */
+
+function openAdmin(){
+
+    const accounts=
+        getAccounts();
+
+
+    const players=
+        Object.values(accounts);
+
+
+    let totalSales=0;
+    let totalServed=0;
+    let totalAds=0;
+    let totalPurchases=0;
+
+
+    players.forEach(p=>{
+
+        totalSales+=
+            p.sales||0;
+
+        totalServed+=
+            p.customersServed||0;
+
+        totalAds+=
+            p.adRewards||0;
+
+        totalPurchases+=
+            p.purchases||0;
+
+    });
+
+
+    let html=`
+
+        <h2>🔐 ADMIN DASHBOARD</h2>
+
+        <p>
+        This is your private development
+        statistics panel.
+        </p>
+
+        <br>
+
+        <table>
+
+        <tr>
+        <th>Statistic</th>
+        <th>Total</th>
+        </tr>
+
+        <tr>
+        <td>Registered Players</td>
+        <td>${players.length}</td>
+        </tr>
+
+        <tr>
+        <td>Customers Served</td>
+        <td>${totalServed}</td>
+        </tr>
+
+        <tr>
+        <td>Shop Sales</td>
+        <td>$${totalSales}</td>
+        </tr>
+
+        <tr>
+        <td>Ad Rewards</td>
+        <td>${totalAds}</td>
+        </tr>
+
+        <tr>
+        <td>Test Purchases</td>
+        <td>${totalPurchases}</td>
+        </tr>
+
+        </table>
+
+        <br>
+
+        <h3>Players</h3>
+
+    `;
+
+
+    players.forEach(p=>{
+
+        html+=`
+
+        <div style="
+            margin-top:8px;
+            padding:12px;
+            background:#e2e8f0;
+            border-radius:9px">
+
+            <strong>
+            ${p.username}
+            </strong>
+
+            <br>
+
+            Shop:
+            ${p.shopName}
+
+            <br>
+
+            Level:
+            ${p.level}
+
+            <br>
+
+            Money:
+            $${Math.floor(p.money)}
+
+            <br>
+
+            Employees:
+            ${p.employees}
+
+            <br>
+
+            Businesses:
+            ${p.businesses}
+
+        </div>
+
+        `;
+
+    });
+
+
+    openModal(html);
+
+}
+
+
+/* =====================================================
+   DAY / NIGHT
+===================================================== */
+
+function advanceTime(){
+
+    minute+=15;
+
+
+    if(minute>=60){
+
+        minute=0;
+
+        hour++;
+
+    }
+
+
+    if(hour>=24){
+
+        hour=0;
+
+        day++;
+
+        player.days=day;
+
+    }
+
+
+    updateWorldLighting();
+
+}
+
+
+function updateWorldLighting(){
+
+    const world=
+        document.getElementById(
+            "world"
+        );
+
+
+    if(hour>=20||hour<6){
+
+        world.style.filter=
+            "brightness(.62)";
+
+    }else if(hour>=18){
+
+        world.style.filter=
+            "brightness(.8)";
+
+    }else{
+
+        world.style.filter=
+            "brightness(1)";
+
+    }
+
+}
+
+
+/* =====================================================
+   RENDER
+===================================================== */
+
+function renderAll(){
+
+    document.getElementById(
+        "money"
+    ).textContent=
+        Math.floor(player.money);
+
+
+    document.getElementById(
+        "stock"
+    ).textContent=
+        player.stock;
+
+
+    document.getElementById(
+        "level"
+    ).textContent=
+        player.level;
+
+
+    document.getElementById(
+        "served"
+    ).textContent=
+        player.customersServed;
+
+
+    document.getElementById(
+        "employees"
+    ).textContent=
+        player.employees;
+
+
+    document.getElementById(
+        "businesses"
+    ).textContent=
+        player.businesses;
+
+
+    renderShelves();
+
+    renderCustomers();
+
+}
+
+
+/* =====================================================
+   SHELVES
+===================================================== */
+
+function renderShelves(){
+
+    const shelves=[
+
+        document.getElementById(
+            "shelf1Items"
+        ),
+
+        document.getElementById(
+            "shelf2Items"
+        ),
+
+        document.getElementById(
+            "shelf3Items"
+        )
+
+    ];
+
+
+    shelves.forEach(s=>{
+
+        s.innerHTML="";
+
+    });
+
+
+    let index=0;
+
+
+    PRODUCTS.forEach(p=>{
+
+        const amount=
+            player.inventory[p.id]||0;
+
+
+        for(
+            let i=0;
+            i<Math.min(amount,8);
+            i++
+        ){
+
+            const item=
+                document.createElement(
+                    "div"
+                );
+
+
+            item.className="item";
+
+            item.textContent=p.icon;
+
+            item.title=
+                p.name+
+                " - $"+
+                p.sell;
+
+
+            shelves[
+                index%3
+            ].appendChild(item);
+
+
+            index++;
+
+        }
+
+    });
+
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+function openModal(html){
+
+    document.getElementById(
+        "modalContent"
+    ).innerHTML=html;
+
+
+    document.getElementById(
+        "modal"
+    ).classList.remove("hidden");
+
+}
+
+
+function closeModal(){
+
+    document.getElementById(
+        "modal"
+    ).classList.add("hidden");
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+let toastTimer;
+
+
+function showToast(message){
+
+    const toast=
+        document.getElementById(
+            "toast"
+        );
+
+
+    toast.textContent=message;
+
+    toast.classList.add("show");
+
+
+    clearTimeout(toastTimer);
+
+
+    toastTimer=
+        setTimeout(()=>{
+
+            toast.classList.remove("show");
+
+        },3000);
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout(){
+
+    saveGame();
+
+
+    clearInterval(customerLoop);
+    clearInterval(gameLoop);
+    clearInterval(clockLoop);
+
+
+    customers=[];
+
+
+    document.getElementById(
+        "customersLayer"
+    ).innerHTML="";
+
+
+    player=null;
+
+
+    document.getElementById(
+        "game"
+    ).classList.add("hidden");
+
+
+    document.getElementById(
+        "loginScreen"
+    ).classList.remove("hidden");
+
+}
+
+
+/* =====================================================
+   AUTO LOGIN
+===================================================== */
+
+window.addEventListener(
+    "load",
+    ()=>{
+
+        const last=
+            localStorage.getItem(
+                "THE_LAST_SHOP_USER"
+            );
+
+
+        if(!last)return;
+
+
+        const accounts=
+            getAccounts();
+
+
+        if(accounts[last]){
+
+            player=
+                accounts[last];
+
+            startGame();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   AUTOMATIC SAVE
+===================================================== */
+
+setInterval(()=>{
+
+    if(player){
+
+        saveGame();
+
+    }
+
+},10000);
+
+
+/* =====================================================
+   DEVELOPMENT INFORMATION
+===================================================== */
+
+console.log(
+    "THE LAST SHOP loaded successfully."
+);
+
+console.log(
+    "This version uses demo/test money only."
+);
+
+console.log(
+    "Real advertising and Stripe payments are NOT connected yet."
 );
 
 </script>
