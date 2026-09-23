@@ -1,1749 +1,1957 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>The Last Shop - Endless Life</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Last Shop — Endless Business Game</title>
 
 <style>
 *{box-sizing:border-box}
-html,body{
-    margin:0;
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#111827;
-    color:#fff;
-}
 
-#game{
-    position:relative;
-    width:100vw;
-    height:100vh;
-    overflow:hidden;
-    background:#182b44;
-}
-
-/* ---------- SKY ---------- */
-#sky{
-    position:absolute;
-    inset:0 0 43% 0;
-    background:linear-gradient(#1672bd,#58b8ef);
-    transition:.8s;
-}
-
-#moon{
-    position:absolute;
-    width:75px;
-    height:75px;
-    right:9%;
-    top:8%;
-    border-radius:50%;
-    background:#fff4bd;
-    box-shadow:0 0 30px #fff4bd;
-}
-
-.star{
-    position:absolute;
-    width:5px;
-    height:5px;
-    border-radius:50%;
-    background:#fff7bd;
-    animation:twinkle 2s infinite alternate;
-}
-
-@keyframes twinkle{
-    from{opacity:.25}
-    to{opacity:1}
-}
-
-/* ---------- CITY ---------- */
-#city{
-    position:absolute;
-    left:0;
-    right:0;
-    top:18%;
-    height:35%;
-    display:flex;
-    align-items:flex-end;
-    gap:12px;
-    padding:0 3%;
-}
-
-.building{
-    position:relative;
-    flex:1;
-    min-width:70px;
-    background:#173653;
-    border:2px solid #234b6d;
-}
-
-.window{
-    position:absolute;
-    width:7px;
-    height:9px;
-    background:#ffe879;
-    box-shadow:0 0 5px #ffe879;
-}
-
-/* ---------- ROAD ---------- */
-#road{
-    position:absolute;
-    left:0;
-    right:0;
-    bottom:0;
-    height:34%;
-    background:#303947;
-    border-top:8px solid #48505d;
-}
-
-.road-line{
-    position:absolute;
-    left:0;
-    right:0;
-    top:52%;
-    height:5px;
-    background:repeating-linear-gradient(
-        90deg,
-        #ffd83d 0 55px,
-        transparent 55px 100px
-    );
-}
-
-/* ---------- SHOP ---------- */
-#shop{
-    position:absolute;
-    left:50%;
-    top:34%;
-    transform:translateX(-50%);
-    width:min(560px,72vw);
-    height:290px;
-    background:#a96342;
-    border:8px solid #693d35;
-    border-radius:8px;
-    box-shadow:0 20px 40px #0008;
-    z-index:5;
-}
-
-.shop-roof{
-    position:absolute;
-    left:-8px;
-    right:-8px;
-    top:-42px;
-    height:42px;
-    background:repeating-linear-gradient(
-        135deg,
-        #e34d38 0 22px,
-        #ff7548 22px 44px
-    );
-    border:6px solid #693d35;
-}
-
-.shop-sign{
-    position:absolute;
-    left:50%;
-    top:-4px;
-    transform:translate(-50%,-100%);
-    background:#ffd84a;
-    color:#5d351d;
-    border:5px solid #693d35;
-    border-radius:10px;
-    padding:10px 35px;
-    font-weight:900;
-    font-size:24px;
-    white-space:nowrap;
-}
-
-.shop-window{
-    position:absolute;
-    left:55px;
-    top:50px;
-    width:180px;
-    height:115px;
-    background:linear-gradient(#bdeaff,#e9fbff);
-    border:8px solid #70483b;
-}
-
-.shop-window:after{
-    content:"";
-    position:absolute;
-    left:50%;
-    top:0;
-    bottom:0;
-    width:5px;
-    background:#70483b;
-}
-
-.shop-door{
-    position:absolute;
-    right:55px;
-    bottom:0;
-    width:105px;
-    height:180px;
-    background:#8b4e35;
-    border:8px solid #633c31;
-}
-
-.shop-door:after{
-    content:"";
-    position:absolute;
-    right:12px;
-    top:50%;
-    width:12px;
-    height:12px;
-    border-radius:50%;
-    background:#ffd34d;
-}
-
-.shop-counter{
-    position:absolute;
-    left:35px;
-    right:35px;
-    bottom:25px;
-    height:58px;
-    background:#d58a42;
-    border:5px solid #70412f;
-}
-
-/* ---------- HUD ---------- */
-#hud{
-    position:absolute;
-    top:12px;
-    left:12px;
-    right:12px;
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    z-index:100;
-    pointer-events:none;
-}
-
-.hud-left,.hud-right{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-}
-
-.stat{
-    background:#101827e8;
-    border:2px solid #ffffff30;
-    border-radius:10px;
-    padding:8px 12px;
-    font-weight:bold;
-    box-shadow:0 5px 15px #0005;
-}
-
-#money{color:#6dff88}
-#rep{color:#66d9ff}
-#level{color:#ffd84d}
-
-/* ---------- MENU ---------- */
-#menu{
-    position:absolute;
-    left:12px;
-    bottom:12px;
-    z-index:100;
-    display:flex;
-    flex-direction:column;
-    gap:7px;
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#e9eef3;
+color:#17202a;
+overflow:hidden
 }
 
 button{
-    border:0;
-    border-radius:9px;
-    padding:10px 14px;
-    font-weight:900;
-    cursor:pointer;
-    color:white;
-    background:#1769aa;
-    box-shadow:0 4px 0 #0b426b;
+cursor:pointer;
+border:0;
+border-radius:8px;
+padding:9px 12px;
+font-weight:bold
 }
 
-button:hover{filter:brightness(1.15)}
-button:active{
-    transform:translateY(3px);
-    box-shadow:0 1px 0 #0b426b;
+.top{
+height:64px;
+background:#102033;
+color:white;
+display:flex;
+align-items:center;
+gap:8px;
+padding:8px 12px;
+position:relative;
+z-index:20
 }
 
-.green{background:#13a65b}
-.orange{background:#d87920}
-.red{background:#c63c43}
-.purple{background:#7446bd}
+.logo{
+font-size:20px;
+font-weight:900;
+margin-right:8px
+}
 
-/* ---------- PEOPLE ---------- */
+.stat{
+background:#1e334b;
+padding:7px 11px;
+border-radius:8px
+}
+
+.stat small{
+display:block;
+color:#9fb0c2;
+font-size:10px
+}
+
+.actions{
+margin-left:auto;
+display:flex;
+gap:6px
+}
+
+.green{background:#16a34a;color:white}
+.blue{background:#2563eb;color:white}
+.gold{background:#f59e0b}
+.dark{background:#334155;color:white}
+.red{background:#dc2626;color:white}
+
+#world{
+height:calc(100vh - 64px);
+overflow:auto;
+padding:35px 30px;
+background-color:#f3eee5;
+background-image:
+linear-gradient(#00000008 1px,transparent 1px),
+linear-gradient(90deg,#00000008 1px,transparent 1px);
+background-size:40px 40px
+}
+
+.road{
+height:120px;
+background:#4b5563;
+border-top:5px solid #374151;
+margin:70px -30px -35px;
+position:relative
+}
+
+.road:after{
+content:"";
+position:absolute;
+top:57px;
+left:0;
+right:0;
+height:5px;
+background:repeating-linear-gradient(
+90deg,
+#f7d33d 0 45px,
+transparent 45px 85px
+)
+}
+
+.plot{
+display:inline-block;
+vertical-align:top;
+width:590px;
+min-height:400px;
+background:#d5bd9d;
+border:3px solid #95623e;
+border-radius:14px;
+padding:18px;
+margin:20px 35px 30px 10px;
+box-shadow:0 8px 20px #0002
+}
+
+.shop{
+background:#fff;
+border:3px solid #74472d;
+border-radius:10px;
+padding:18px;
+position:relative;
+min-height:350px
+}
+
+.sign{
+position:absolute;
+top:-25px;
+left:50%;
+transform:translateX(-50%);
+background:#f4c542;
+border:3px solid #74472d;
+padding:8px 22px;
+border-radius:8px;
+font-weight:900;
+font-size:18px;
+white-space:nowrap;
+z-index:5
+}
+
+.floor{
+height:310px;
+background:#e7d6bd;
+border-radius:6px;
+position:relative;
+overflow:hidden
+}
+
+.shelf{
+position:absolute;
+height:75px;
+background:#8d5131;
+border:3px solid #60341f;
+border-radius:7px;
+display:flex;
+gap:12px;
+padding:8px;
+box-shadow:0 5px 0 #5c351f
+}
+
+.food{
+left:25px;
+top:30px;
+width:300px
+}
+
+.tools{
+right:20px;
+top:30px;
+width:205px
+}
+
+.extra{
+left:25px;
+bottom:22px;
+width:350px
+}
+
+.item{
+width:54px;
+height:54px;
+border-radius:9px;
+background:white;
+border:2px solid #bbb;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:29px;
+position:relative
+}
+
+.item span{
+position:absolute;
+bottom:-16px;
+background:#111827;
+color:white;
+font-size:10px;
+border-radius:4px;
+padding:2px 4px
+}
+
+.counter{
+position:absolute;
+left:50%;
+bottom:22px;
+transform:translateX(-50%);
+width:270px;
+height:65px;
+background:#985a38;
+border:4px solid #64361f;
+border-radius:8px;
+box-shadow:0 6px 0 #5c321e
+}
+
+/* PLAYER / CUSTOMERS */
+
+.player{
+position:absolute;
+left:50%;
+bottom:83px;
+transform:translateX(-50%);
+z-index:4;
+text-align:center
+}
+
+.label{
+background:white;
+border:1px solid #bbb;
+border-radius:6px;
+padding:3px 7px;
+font-weight:bold;
+font-size:11px
+}
+
 .person{
-    position:absolute;
-    width:55px;
-    height:110px;
-    z-index:30;
-    transition:transform .15s;
-    user-select:none;
+width:58px;
+height:90px;
+position:relative;
+margin:auto
 }
 
-.person .head{
-    position:absolute;
-    left:12px;
-    top:0;
-    width:31px;
-    height:31px;
-    border-radius:50%;
-    background:var(--skin);
-    border:2px solid #442d28;
+.head{
+position:absolute;
+top:0;
+left:13px;
+width:32px;
+height:32px;
+border-radius:50%;
+background:#d9a477;
+border:2px solid #9b6746
 }
 
-.person .hair{
-    position:absolute;
-    left:10px;
-    top:-3px;
-    width:35px;
-    height:17px;
-    border-radius:18px 18px 5px 5px;
-    background:var(--hair);
-    z-index:2;
+.hair{
+position:absolute;
+top:-1px;
+left:12px;
+width:34px;
+height:14px;
+border-radius:17px 17px 7px 7px;
+background:#39281f
 }
 
-.person .eye{
-    position:absolute;
-    width:4px;
-    height:4px;
-    border-radius:50%;
-    background:#222;
-    top:13px;
-    z-index:3;
+.body{
+position:absolute;
+top:31px;
+left:9px;
+width:40px;
+height:39px;
+border-radius:11px;
+background:#2563eb;
+border:2px solid #17479f
 }
 
-.person .eye.one{left:19px}
-.person .eye.two{left:30px}
-
-.person .mouth{
-    position:absolute;
-    left:21px;
-    top:21px;
-    width:12px;
-    height:5px;
-    border-bottom:2px solid #632d2d;
-    border-radius:0 0 10px 10px;
-    z-index:3;
+.arm{
+position:absolute;
+top:35px;
+width:10px;
+height:34px;
+background:#d9a477;
+border-radius:7px
 }
 
-.person .body{
-    position:absolute;
-    left:13px;
-    top:30px;
-    width:30px;
-    height:42px;
-    background:var(--shirt);
-    border:2px solid #333;
-    border-radius:8px;
+.al{
+left:1px;
+transform:rotate(12deg)
 }
 
-.person .arm{
-    position:absolute;
-    top:34px;
-    width:9px;
-    height:39px;
-    background:var(--skin);
-    border:2px solid #442d28;
-    border-radius:8px;
-    transform-origin:top;
+.ar{
+right:1px;
+transform:rotate(-12deg)
 }
 
-.person .arm.left{left:6px;transform:rotate(10deg)}
-.person .arm.right{right:5px;transform:rotate(-10deg)}
-
-.person .leg{
-    position:absolute;
-    top:69px;
-    width:11px;
-    height:40px;
-    background:var(--pants);
-    border:2px solid #333;
-    border-radius:6px;
+.leg{
+position:absolute;
+top:68px;
+width:12px;
+height:22px;
+background:#202938;
+border-radius:6px
 }
 
-.person .leg.left{left:14px}
-.person .leg.right{left:30px}
+.ll{left:17px}
+.lr{right:17px}
 
-.person.walk .leg.left{
-    animation:walk1 .35s infinite alternate;
-}
-.person.walk .leg.right{
-    animation:walk2 .35s infinite alternate;
-}
-
-@keyframes walk1{
-    from{transform:rotate(14deg)}
-    to{transform:rotate(-14deg)}
-}
-@keyframes walk2{
-    from{transform:rotate(-14deg)}
-    to{transform:rotate(14deg)}
+.eye{
+position:absolute;
+top:13px;
+width:4px;
+height:4px;
+background:#111;
+border-radius:50%;
+z-index:2
 }
 
-/* ---------- SPEECH ---------- */
-.speech{
-    position:absolute;
-    z-index:80;
-    min-width:150px;
-    max-width:240px;
-    background:white;
-    color:#222;
-    border-radius:15px;
-    padding:9px 12px;
-    font-weight:bold;
-    box-shadow:0 5px 18px #0006;
+.el{left:21px}
+.er{left:34px}
+
+.mouth{
+position:absolute;
+left:23px;
+top:22px;
+width:12px;
+height:6px;
+border-bottom:2px solid #7c2d12;
+border-radius:50%
 }
 
-.speech:after{
-    content:"";
-    position:absolute;
-    bottom:-10px;
-    left:25px;
-    border-width:10px 10px 0;
-    border-style:solid;
-    border-color:white transparent transparent;
+.customer{
+position:absolute;
+z-index:8;
+display:flex;
+flex-direction:column;
+align-items:center
 }
 
-/* ---------- CUSTOMER CARD ---------- */
-#customerPanel{
-    position:absolute;
-    right:15px;
-    bottom:15px;
-    width:290px;
-    max-width:calc(100vw - 30px);
-    background:#f8fafc;
-    color:#172033;
-    border-radius:15px;
-    padding:15px;
-    z-index:150;
-    box-shadow:0 12px 35px #0008;
-    display:none;
+.bubble{
+background:white;
+border:1px solid #cbd5e1;
+border-radius:11px;
+padding:8px;
+width:155px;
+box-shadow:0 5px 15px #0002;
+font-size:12px
 }
 
-#customerPanel h3{
-    margin:0 0 7px;
+.bubble b{
+font-size:13px
 }
 
-#customerPanel p{
-    margin:5px 0 10px;
+.need{
+display:block;
+color:#475569;
+margin:4px 0
 }
 
-#customerButtons{
-    display:flex;
-    gap:7px;
-    flex-wrap:wrap;
+.serve{
+width:100%;
+background:#16a34a;
+color:white;
+font-size:11px;
+padding:7px
 }
 
-/* ---------- PHONE ---------- */
-#phone{
-    position:absolute;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%);
-    width:min(500px,90vw);
-    background:#101827;
-    border:5px solid #39445a;
-    border-radius:25px;
-    padding:20px;
-    z-index:300;
-    display:none;
-    box-shadow:0 30px 80px #000b;
+/* SIDE PANEL */
+
+#side{
+position:fixed;
+right:12px;
+top:76px;
+width:315px;
+max-height:calc(100vh - 88px);
+overflow:auto;
+background:white;
+border:1px solid #d5dbe3;
+border-radius:14px;
+box-shadow:0 8px 30px #0002;
+z-index:30
 }
 
-#phone h2{
-    margin-top:0;
+.tabs{
+display:flex;
+position:sticky;
+top:0;
+background:white;
+z-index:2
 }
 
-.phone-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
+.tab{
+flex:1;
+background:white;
+border-radius:0;
+font-size:12px
 }
 
-/* ---------- UPGRADES ---------- */
-#upgradePanel{
-    position:absolute;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%);
-    width:min(650px,92vw);
-    max-height:85vh;
-    overflow:auto;
-    background:#101827;
-    border:4px solid #53627d;
-    border-radius:20px;
-    padding:20px;
-    z-index:300;
-    display:none;
+.tab.active{
+background:#eff6ff;
+color:#1d4ed8
 }
 
-.upgrade{
-    background:#1c2739;
-    padding:12px;
-    border-radius:12px;
-    margin-bottom:9px;
+.panel{
+padding:13px
 }
 
-.upgrade h3{
-    margin:0 0 5px;
+.row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:8px;
+padding:8px 0;
+border-bottom:1px solid #eee
 }
 
-/* ---------- NOTIFICATION ---------- */
-#toast{
-    position:absolute;
-    top:90px;
-    left:50%;
-    transform:translateX(-50%);
-    z-index:500;
-    background:#111827;
-    border:2px solid #ffffff30;
-    padding:12px 20px;
-    border-radius:12px;
-    font-weight:bold;
-    opacity:0;
-    pointer-events:none;
-    transition:.3s;
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:7px
 }
 
-#toast.show{opacity:1}
+.card{
+border:1px solid #ddd;
+border-radius:9px;
+padding:8px;
+background:#fafafa
+}
 
-/* ---------- MOBILE ---------- */
-@media(max-width:700px){
-    .stat{font-size:12px;padding:6px}
-    #shop{width:85vw}
-    .shop-window{left:20px;width:40%}
-    .shop-door{right:20px}
-    .shop-sign{font-size:17px}
+.notice{
+background:#eff6ff;
+border-left:4px solid #2563eb;
+padding:9px;
+border-radius:7px;
+font-size:12px
+}
+
+.log{
+max-height:180px;
+overflow:auto;
+font-size:12px
+}
+
+.log div{
+padding:5px 0;
+border-bottom:1px solid #eee
+}
+
+.toast{
+position:fixed;
+left:50%;
+bottom:25px;
+transform:translateX(-50%);
+background:#111827;
+color:white;
+padding:11px 18px;
+border-radius:9px;
+z-index:100;
+opacity:0;
+transition:.2s
+}
+
+.toast.show{
+opacity:1
+}
+
+@media(max-width:900px){
+
+.logo{
+display:none
+}
+
+.plot{
+width:90vw
+}
+
+#side{
+width:285px
+}
+
 }
 </style>
 </head>
 
 <body>
 
-<div id="game">
+<header class="top">
 
-    <div id="sky">
-        <div id="moon"></div>
-    </div>
+<div class="logo">
+🏪 THE LAST SHOP
+</div>
 
-    <div id="city"></div>
+<div class="stat">
+<b id="money">£650</b>
+<small>Cash</small>
+</div>
 
-    <div id="road">
-        <div class="road-line"></div>
-    </div>
+<div class="stat">
+<b id="day">Day 1</b>
+<small id="time">08:00</small>
+</div>
 
-    <div id="shop">
-        <div class="shop-roof"></div>
-        <div class="shop-sign">THE LAST SHOP</div>
-        <div class="shop-window"></div>
-        <div class="shop-door"></div>
-        <div class="shop-counter"></div>
-    </div>
+<div class="stat">
+<b id="served">0</b>
+<small>Customers</small>
+</div>
 
-    <div id="hud">
-        <div class="hud-left">
-            <div class="stat">💷 <span id="money">500</span></div>
-            <div class="stat">⭐ <span id="rep">10</span></div>
-            <div class="stat">🏆 Level <span id="level">1</span></div>
-            <div class="stat">👥 <span id="customersServed">0</span></div>
-        </div>
+<div class="stat">
+<b id="rep">25</b>
+<small>Reputation</small>
+</div>
 
-        <div class="hud-right">
-            <div class="stat">📅 Day <span id="day">1</span></div>
-            <div class="stat">🕐 <span id="clock">08:00</span></div>
-            <div class="stat">🔥 Combo <span id="combo">0</span></div>
-        </div>
-    </div>
+<div class="actions">
 
-    <div id="menu">
-        <button onclick="openPhone()">📱 PHONE</button>
-        <button class="orange" onclick="openUpgrades()">⬆️ SHOP UPGRADES</button>
-        <button class="green" onclick="saveGame()">💾 SAVE</button>
-    </div>
+<button class="gold" onclick="openShop()">
+OPEN
+</button>
 
-    <div id="customerPanel">
-        <h3 id="customerName">Customer</h3>
-        <p id="customerRequest">I need something.</p>
-        <div id="customerButtons"></div>
-    </div>
+<button class="dark" onclick="closeShop()">
+CLOSE
+</button>
 
-    <div id="phone">
-        <h2>📱 Your Phone</h2>
+<button class="blue" onclick="save()">
+SAVE
+</button>
 
-        <div class="phone-grid">
-            <button onclick="showStats()">📊 Statistics</button>
-            <button onclick="showInventory()">📦 Inventory</button>
-            <button onclick="showMissions()">🎯 Missions</button>
-            <button onclick="randomMessage()">💬 Messages</button>
-        </div>
-
-        <br>
-        <button class="red" onclick="closePhone()">CLOSE</button>
-    </div>
-
-    <div id="upgradePanel">
-        <h2>🏪 Shop Upgrades</h2>
-        <div id="upgradeList"></div>
-        <button class="red" onclick="closeUpgrades()">CLOSE</button>
-    </div>
-
-    <div id="toast"></div>
+<button onclick="help()">
+HELP
+</button>
 
 </div>
 
+</header>
+
+<main id="world">
+
+<div id="shops"></div>
+
+<div class="road"></div>
+
+</main>
+
+<aside id="side">
+
+<div class="tabs">
+
+<button class="tab active" onclick="tab('business',this)">
+Business
+</button>
+
+<button class="tab" onclick="tab('stock',this)">
+Stock
+</button>
+
+<button class="tab" onclick="tab('staff',this)">
+Staff
+</button>
+
+<button class="tab" onclick="tab('log',this)">
+Log
+</button>
+
+</div>
+
+<div id="business" class="panel"></div>
+
+<div id="stock" class="panel" style="display:none"></div>
+
+<div id="staff" class="panel" style="display:none"></div>
+
+<div id="log" class="panel" style="display:none"></div>
+
+</aside>
+
+<div id="toast" class="toast"></div>
+
 <script>
 
-/* ============================================================
-   THE LAST SHOP
-   ENDLESS SHOP SIMULATION
-   Everything is contained in this file.
-   ============================================================ */
+const ITEMS={
 
-const SAVE_KEY = "the_last_shop_endless_v3";
+apple:{
+n:"Apples",
+i:"🍎",
+buy:1.2,
+sell:2.5
+},
 
-/* ---------- GAME STATE ---------- */
+banana:{
+n:"Bananas",
+i:"🍌",
+buy:.9,
+sell:2.2
+},
 
-let game = {
-    money:500,
-    reputation:10,
-    level:1,
-    day:1,
-    hour:8,
-    minute:0,
+grapes:{
+n:"Grapes",
+i:"🍇",
+buy:2.1,
+sell:4.5
+},
 
-    customersServed:0,
-    combo:0,
-    bestCombo:0,
+bread:{
+n:"Fresh bread",
+i:"🍞",
+buy:1.1,
+sell:2.8
+},
 
-    inventory:{
-        food:20,
-        drink:20,
-        bread:20,
-        soap:20,
-        tools:10,
-        medicine:10,
-        electronics:5,
-        clothes:10
-    },
+milk:{
+n:"Milk",
+i:"🥛",
+buy:.8,
+sell:2.1
+},
 
-    prices:{
-        food:4,
-        drink:3,
-        bread:2,
-        soap:5,
-        tools:15,
-        medicine:12,
-        electronics:25,
-        clothes:18
-    },
+water:{
+n:"Water",
+i:"💧",
+buy:.35,
+sell:1.2
+},
 
-    upgrades:{
-        shelves:1,
-        speed:1,
-        reputation:1,
-        staff:0,
-        storage:1
-    },
+sandwich:{
+n:"Sandwich",
+i:"🥪",
+buy:1.5,
+sell:3.8
+},
 
-    totalEarned:0,
-    totalSpent:0,
-    missionsCompleted:0
+hammer:{
+n:"Hammer",
+i:"🔨",
+buy:7,
+sell:14
+},
+
+drill:{
+n:"Power drill",
+i:"🛠️",
+buy:25,
+sell:49
+},
+
+paint:{
+n:"Paint",
+i:"🎨",
+buy:8,
+sell:18
+},
+
+screws:{
+n:"Screws",
+i:"🔩",
+buy:2,
+sell:5
+},
+
+car:{
+n:"Car",
+i:"🚗",
+buy:4200,
+sell:5900
+}
+
 };
 
-let customers=[];
-let selectedCustomer=null;
-let nextCustomerId=1;
-
-/* ---------- CUSTOMER DATA ---------- */
-
 const names=[
-    "Tom","Lucy","David","Sarah","Mike","Emma","John","Olivia",
-    "Daniel","Sophie","Jack","Emily","James","Amelia","George",
-    "Isla","Harry","Mia","Charlie","Grace","Noah","Ella",
-    "Oscar","Lily","Leo","Chloe","Adam","Sofia","Ryan","Anna"
+"Tom",
+"Lucy",
+"David",
+"Maria",
+"Jack",
+"Emma",
+"Daniel",
+"Sophie",
+"Michael",
+"Olivia",
+"James",
+"Amelia",
+"Noah",
+"Grace",
+"George",
+"Mia"
 ];
 
-const requests=[
-    {item:"food",text:"I need some food!",emoji:"🍎"},
-    {item:"drink",text:"I'm really thirsty.",emoji:"🥤"},
-    {item:"bread",text:"Do you have fresh bread?",emoji:"🍞"},
-    {item:"soap",text:"I need soap.",emoji:"🧼"},
-    {item:"tools",text:"I need some tools.",emoji:"🔨"},
-    {item:"medicine",text:"Do you have medicine?",emoji:"💊"},
-    {item:"electronics",text:"I need something electronic.",emoji:"📱"},
-    {item:"clothes",text:"I need new clothes.",emoji:"👕"}
+const colors=[
+"#2563eb",
+"#16a34a",
+"#f97316",
+"#9333ea",
+"#0891b2",
+"#dc2626",
+"#ca8a04"
 ];
 
-const personalities=[
-    {
-        name:"Friendly",
-        phrases:["Thanks!","You're brilliant!","Lovely shop!","I'll come again!"]
-    },
-    {
-        name:"In a hurry",
-        phrases:["Quick please!","I'm late!","Come on!","I haven't got all day!"]
-    },
-    {
-        name:"Talkative",
-        phrases:["How are you?","Busy today, isn't it?","Nice shop!","I was just passing by."]
-    },
-    {
-        name:"Grumpy",
-        phrases:["Hmm...","This better be good.","I don't have much time.","It's expensive."]
-    },
-    {
-        name:"Regular",
-        phrases:["Good to see you again.","Same thing as usual.","I know this place well.","Back again!"]
-    }
+let S={
+
+v:1,
+
+money:650,
+
+day:1,
+
+min:480,
+
+open:false,
+
+served:0,
+
+sales:0,
+
+expenses:0,
+
+rep:25,
+
+next:1,
+
+customers:[],
+
+logs:[],
+
+shops:[
+
+{
+
+id:1,
+
+name:"Your Grocery Shop",
+
+type:"grocery",
+
+level:1,
+
+staff:0,
+
+stock:{
+
+apple:8,
+
+banana:8,
+
+grapes:6,
+
+bread:8,
+
+milk:8,
+
+water:10,
+
+sandwich:5,
+
+hammer:0,
+
+drill:0,
+
+paint:0,
+
+screws:0,
+
+car:0
+
+}
+
+}
+
+]
+
+};
+
+const $=id=>document.getElementById(id);
+
+const money=n=>
+
+"£"+Math.max(0,n).toLocaleString(
+"en-GB",
+{
+minimumFractionDigits:2,
+maximumFractionDigits:2
+}
+);
+
+function rnd(a,b){
+
+return Math.floor(
+Math.random()*(b-a+1)
+)+a;
+
+}
+
+function log(x){
+
+S.logs.unshift(
+
+new Date().toLocaleTimeString(
+"en-GB",
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+)
++" — "+x
+
+);
+
+S.logs=S.logs.slice(0,70);
+
+}
+
+function toast(x){
+
+$("toast").textContent=x;
+
+$("toast").classList.add("show");
+
+setTimeout(
+()=>$("toast").classList.remove("show"),
+1700
+);
+
+}
+
+function save(){
+
+localStorage.setItem(
+"lastShopEndless",
+JSON.stringify(S)
+);
+
+toast("Saved ✓");
+
+}
+
+function load(){
+
+try{
+
+let x=JSON.parse(
+localStorage.getItem("lastShopEndless")
+);
+
+if(x&&x.v===1)S=x;
+
+}catch(e){}
+
+}
+
+function avatar(color){
+
+return `
+
+<div class="person">
+
+<div class="head"></div>
+
+<div class="hair"></div>
+
+<i class="eye el"></i>
+
+<i class="eye er"></i>
+
+<i class="mouth"></i>
+
+<div class="body"
+style="background:${color}">
+</div>
+
+<i class="arm al"></i>
+
+<i class="arm ar"></i>
+
+<i class="leg ll"></i>
+
+<i class="leg lr"></i>
+
+</div>
+
+`;
+
+}
+
+function stockTotal(sh){
+
+return Object.values(sh.stock)
+.reduce(
+(a,b)=>a+b,
+0
+);
+
+}
+
+function item(sh,id){
+
+return `
+
+<div class="item">
+
+${ITEMS[id].i}
+
+<span>
+${sh.stock[id]||0}
+</span>
+
+</div>
+
+`;
+
+}
+
+function render(){
+
+renderWorld();
+
+business();
+
+stock();
+
+staff();
+
+logs();
+
+top();
+
+}
+
+function renderWorld(){
+
+let h="";
+
+S.shops.forEach(sh=>{
+
+h+=`
+
+<section class="plot">
+
+<div class="shop">
+
+<div class="sign">
+${sh.name}
+</div>
+
+<div class="floor">
+
+<div class="shelf food">
+
+${["apple","banana","grapes","bread"]
+.map(x=>item(sh,x))
+.join("")}
+
+</div>
+
+<div class="shelf tools">
+
+${["hammer","paint","screws"]
+.map(x=>item(sh,x))
+.join("")}
+
+</div>
+
+<div class="shelf extra">
+
+${["milk","water","sandwich"]
+.map(x=>item(sh,x))
+.join("")}
+
+</div>
+
+<div class="counter">
+</div>
+
+<div class="player">
+
+${avatar("#2563eb")}
+
+<div class="label">
+You — behind the counter
+</div>
+
+</div>
+
+${S.customers
+.filter(c=>c.shopId===sh.id)
+.map(customer)
+.join("")}
+
+</div>
+
+</div>
+
+</section>
+
+`;
+
+});
+
+$("shops").innerHTML=h;
+
+}
+
+function customer(c){
+
+return `
+
+<div class="customer"
+style="left:${c.x}%;top:${c.y}%">
+
+${avatar(c.color)}
+
+<div class="bubble">
+
+<b>${c.name}</b>
+
+<span class="need">
+
+${ITEMS[c.need].i}
+
+I need ${ITEMS[c.need].n.toLowerCase()}
+
+</span>
+
+<button
+class="serve"
+onclick="serve(${c.id})">
+
+SERVE CUSTOMER
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+function top(){
+
+$("money").textContent=money(S.money);
+
+$("day").textContent="Day "+S.day;
+
+$("time").textContent=clock();
+
+$("served").textContent=S.served;
+
+$("rep").textContent=S.rep;
+
+}
+
+function clock(){
+
+return String(
+Math.floor(S.min/60)%24
+).padStart(2,"0")
++
+":"+
+String(S.min%60).padStart(2,"0");
+
+}
+
+function business(){
+
+let sh=S.shops[0];
+
+let up=Math.round(
+350*Math.pow(
+1.65,
+sh.level-1
+)
+);
+
+$("business").innerHTML=`
+
+<h3>📈 Business</h3>
+
+<div class="notice">
+
+Start with one real shop.
+Buy food and tools,
+open the doors,
+serve people,
+restock from suppliers,
+hire staff and reinvest
+your profits.
+
+There is no ending.
+
+</div>
+
+<div class="grid"
+style="margin-top:9px">
+
+<div class="card">
+
+<b>${money(S.money)}</b>
+
+<small>Cash</small>
+
+</div>
+
+<div class="card">
+
+<b>Lv ${sh.level}</b>
+
+<small>Shop</small>
+
+</div>
+
+<div class="card">
+
+<b>${money(S.sales)}</b>
+
+<small>Sales</small>
+
+</div>
+
+<div class="card">
+
+<b>${stockTotal(sh)}</b>
+
+<small>Stock</small>
+
+</div>
+
+</div>
+
+<div class="row">
+
+<span>Status</span>
+
+<b>
+${S.open?"🟢 OPEN":"🔴 CLOSED"}
+</b>
+
+</div>
+
+<div class="row">
+
+<span>Staff</span>
+
+<b>${sh.staff}</b>
+
+</div>
+
+<button
+class="green"
+style="width:100%;margin-top:7px"
+onclick="upgrade()">
+
+Upgrade shop —
+${money(up)}
+
+</button>
+
+<button
+class="blue"
+style="width:100%;margin-top:7px"
+onclick="delivery()">
+
+Order food delivery
+
+</button>
+
+<button
+style="width:100%;margin-top:7px"
+onclick="hire()">
+
+Hire employee —
+${money(120+sh.staff*70)}
+
+</button>
+
+<hr>
+
+<h3>🏪 Next shop</h3>
+
+${
+S.shops.length<2
+
+?
+
+`
+
+<p style="font-size:12px">
+
+When you have £25,000,
+buy the shop next door
+and run a second business
+selling cars.
+
+</p>
+
+<button
+class="gold"
+style="width:100%"
+onclick="buyNext()">
+
+BUY NEXT SHOP — £25,000
+
+</button>
+
+`
+
+:
+
+`
+
+<div class="card">
+
+<b>🚗 Last Motors</b>
+
+<small>
+
+Level ${S.shops[1].level}
+· Staff ${S.shops[1].staff}
+· Cars ${S.shops[1].stock.car}
+
+</small>
+
+</div>
+
+<button
+style="width:100%;margin-top:7px"
+onclick="buyCar()">
+
+Buy car —
+${money(ITEMS.car.buy)}
+
+</button>
+
+<button
+class="green"
+style="width:100%;margin-top:7px"
+onclick="sellCar()">
+
+Sell car
++${money(ITEMS.car.sell)}
+
+</button>
+
+`
+
+}
+
+`;
+
+}
+
+function stock(){
+
+let sh=S.shops[0];
+
+$("stock").innerHTML=
+
+"<h3>📦 Suppliers</h3>"+
+
+"<p style='font-size:12px'>"+
+"Buy stock here, then open the shop. "+
+"Every sale removes one item from your shelves."+
+"</p>"+
+
+Object.entries(ITEMS)
+
+.filter(([id])=>id!=="car")
+
+.map(([id,x])=>`
+
+<div class="row">
+
+<span>
+
+${x.i} ${x.n}
+
+<br>
+
+<small>
+Buy ${money(x.buy)}
+· Sell ${money(x.sell)}
+</small>
+
+</span>
+
+<span>
+
+<b>${sh.stock[id]||0}</b>
+
+<br>
+
+<button
+onclick="buy('${id}',5)">
+
++5
+
+</button>
+
+</span>
+
+</div>
+
+`)
+
+.join("");
+
+}
+
+function staff(){
+
+let sh=S.shops[0];
+
+$("staff").innerHTML=`
+
+<h3>👷 Staff</h3>
+
+<div class="notice">
+
+Employees automatically serve
+customers while you manage
+the business.
+
+</div>
+
+<div class="row">
+
+<span>Employees</span>
+
+<b>${sh.staff}</b>
+
+</div>
+
+<button
+class="green"
+style="width:100%"
+onclick="hire()">
+
+Hire employee —
+${money(120+sh.staff*70)}
+
+</button>
+
+<p style="font-size:12px;margin-top:12px">
+
+Your character stays behind
+the counter and can serve
+customers manually.
+
+</p>
+
+`;
+
+}
+
+function logs(){
+
+$("log").innerHTML=
+
+"<h3>🧾 Activity</h3>"+
+
+"<div class='log'>"+
+
+(
+
+S.logs
+.map(x=>"<div>"+x+"</div>")
+.join("")
+
+||
+
+"<div>No activity.</div>"
+
+)
+
++"</div>";
+
+}
+
+function tab(id,b){
+
+document
+.querySelectorAll(".panel")
+.forEach(
+x=>x.style.display="none"
+);
+
+$(id).style.display="block";
+
+document
+.querySelectorAll(".tab")
+.forEach(
+x=>x.classList.remove("active")
+);
+
+b.classList.add("active");
+
+}
+
+function openShop(){
+
+if(stockTotal(S.shops[0])<1){
+
+toast("Buy stock first.");
+
+return;
+
+}
+
+S.open=true;
+
+log("Shop opened.");
+
+toast("SHOP OPEN 🟢");
+
+render();
+
+}
+
+function closeShop(){
+
+S.open=false;
+
+S.customers=[];
+
+log("Shop closed.");
+
+toast("Shop closed.");
+
+render();
+
+}
+
+function buy(id,q){
+
+let cost=ITEMS[id].buy*q;
+
+if(S.money<cost){
+
+toast("Not enough money.");
+
+return;
+
+}
+
+S.money-=cost;
+
+S.expenses+=cost;
+
+S.shops[0].stock[id]+=q;
+
+log(
+"Bought "+
+q+
+" × "+
+ITEMS[id].n+
+" for "+
+money(cost)
+);
+
+render();
+
+}
+
+function delivery(){
+
+let ids=[
+"apple",
+"banana",
+"grapes",
+"bread",
+"milk",
+"water",
+"sandwich"
 ];
 
-/* ---------- CHARACTER COLOURS ---------- */
+let cost=0;
 
-const skinColours=[
-    "#f1c27d","#e0ac69","#c68642","#8d5524","#ffdbac"
+ids.forEach(
+id=>cost+=ITEMS[id].buy*6
+);
+
+if(S.money<cost){
+
+toast("Not enough money.");
+
+return;
+
+}
+
+S.money-=cost;
+
+S.expenses+=cost;
+
+ids.forEach(
+id=>S.shops[0].stock[id]+=6
+);
+
+log("Supplier delivery arrived.");
+
+render();
+
+}
+
+function upgrade(){
+
+let sh=S.shops[0];
+
+let cost=Math.round(
+350*Math.pow(
+1.65,
+sh.level-1
+)
+);
+
+if(S.money<cost){
+
+toast("Not enough money.");
+
+return;
+
+}
+
+S.money-=cost;
+
+S.expenses+=cost;
+
+sh.level++;
+
+S.rep=Math.min(
+100,
+S.rep+3
+);
+
+log(
+"Shop upgraded to level "+
+sh.level
+);
+
+toast("Shop upgraded!");
+
+render();
+
+}
+
+function hire(){
+
+let sh=S.shops[0];
+
+let cost=120+sh.staff*70;
+
+if(S.money<cost){
+
+toast("Not enough money.");
+
+return;
+
+}
+
+S.money-=cost;
+
+S.expenses+=cost;
+
+sh.staff++;
+
+log(
+"Hired employee #"+
+sh.staff
+);
+
+render();
+
+}
+
+function buyNext(){
+
+if(S.shops.length>1){
+
+toast("Already owned.");
+
+return;
+
+}
+
+if(S.money<25000){
+
+toast("You need £25,000.");
+
+return;
+
+}
+
+S.money-=25000;
+
+S.expenses+=25000;
+
+S.shops.push({
+
+id:2,
+
+name:"Last Motors",
+
+type:"car",
+
+level:1,
+
+staff:0,
+
+stock:{
+
+apple:0,
+banana:0,
+grapes:0,
+bread:0,
+milk:0,
+water:0,
+sandwich:0,
+hammer:0,
+drill:0,
+paint:0,
+screws:0,
+car:2
+
+}
+
+});
+
+log(
+"Bought the shop next door: Last Motors."
+);
+
+toast("NEW SHOP 🚗");
+
+render();
+
+}
+
+function buyCar(){
+
+let sh=S.shops[1];
+
+if(!sh)return;
+
+if(S.money<ITEMS.car.buy){
+
+toast("Not enough money.");
+
+return;
+
+}
+
+S.money-=ITEMS.car.buy;
+
+S.expenses+=ITEMS.car.buy;
+
+sh.stock.car++;
+
+log(
+"Bought a car for the dealership."
+);
+
+render();
+
+}
+
+function sellCar(){
+
+let sh=S.shops[1];
+
+if(
+!sh||
+sh.stock.car<1
+){
+
+toast("No car in stock.");
+
+return;
+
+}
+
+sh.stock.car--;
+
+S.money+=ITEMS.car.sell;
+
+S.sales+=ITEMS.car.sell;
+
+S.served++;
+
+log(
+"Sold a car for "+
+money(ITEMS.car.sell)
+);
+
+toast(
+"CAR SOLD +"+
+money(ITEMS.car.sell)
+);
+
+render();
+
+}
+
+function addCustomer(){
+
+if(
+!S.open||
+S.customers.length>=7
+)return;
+
+let sh=S.shops[0];
+
+let ids=Object.keys(ITEMS)
+.filter(
+id=>
+id!=="car"&&
+sh.stock[id]>0
+);
+
+if(!ids.length)return;
+
+let need=
+ids[
+rnd(0,ids.length-1)
 ];
 
-const hairColours=[
-    "#20150f","#4a2918","#1b1b1b","#8b5a2b","#d7a22a","#5e3424"
-];
+S.customers.push({
 
-const shirtColours=[
-    "#ef4444","#3b82f6","#22c55e","#a855f7",
-    "#f97316","#06b6d4","#eab308","#ec4899"
-];
+id:++S.next,
 
-const pantsColours=[
-    "#26364d","#172033","#39445c","#4b5563","#352b49"
-];
+name:names[
+rnd(0,names.length-1)
+],
 
-/* ---------- CITY ---------- */
+need,
 
-function createCity(){
+x:rnd(3,86),
 
-    const city=document.getElementById("city");
-    city.innerHTML="";
+y:rnd(5,53),
 
-    for(let i=0;i<16;i++){
+color:colors[
+rnd(0,colors.length-1)
+],
 
-        const building=document.createElement("div");
-        building.className="building";
+shopId:1
 
-        const height=80+Math.random()*180;
+});
 
-        building.style.height=height+"px";
+log(
+"Customer arrived wanting "+
+ITEMS[need].n+
+"."
+);
 
-        const windows=4+Math.floor(Math.random()*10);
+render();
 
-        for(let w=0;w<windows;w++){
-
-            const win=document.createElement("div");
-            win.className="window";
-
-            win.style.left=(10+Math.random()*75)+"%";
-            win.style.top=(10+Math.random()*75)+"%";
-
-            building.appendChild(win);
-        }
-
-        city.appendChild(building);
-    }
-
-    for(let i=0;i<35;i++){
-
-        const star=document.createElement("div");
-        star.className="star";
-
-        star.style.left=Math.random()*100+"%";
-        star.style.top=Math.random()*35+"%";
-
-        document.getElementById("sky").appendChild(star);
-    }
 }
 
-/* ---------- CHARACTER CREATION ---------- */
+function serve(id){
 
-function createPerson(type="customer"){
+let c=S.customers.find(
+x=>x.id===id
+);
 
-    const p=document.createElement("div");
+if(!c)return;
 
-    p.className="person walk";
+let sh=S.shops[0];
 
-    const skin=skinColours[Math.floor(Math.random()*skinColours.length)];
-    const hair=hairColours[Math.floor(Math.random()*hairColours.length)];
-    const shirt=shirtColours[Math.floor(Math.random()*shirtColours.length)];
-    const pants=pantsColours[Math.floor(Math.random()*pantsColours.length)];
+if(sh.stock[c.need]<1){
 
-    p.style.setProperty("--skin",skin);
-    p.style.setProperty("--hair",hair);
-    p.style.setProperty("--shirt",shirt);
-    p.style.setProperty("--pants",pants);
+toast("Out of stock.");
 
-    p.innerHTML=`
-        <div class="head"></div>
-        <div class="hair"></div>
-        <div class="eye one"></div>
-        <div class="eye two"></div>
-        <div class="mouth"></div>
+return;
 
-        <div class="body"></div>
-
-        <div class="arm left"></div>
-        <div class="arm right"></div>
-
-        <div class="leg left"></div>
-        <div class="leg right"></div>
-    `;
-
-    document.getElementById("game").appendChild(p);
-
-    return p;
 }
 
-/* ---------- CUSTOMER ---------- */
+sh.stock[c.need]--;
 
-function createCustomer(){
+S.money+=ITEMS[c.need].sell;
 
-    const request=requests[
-        Math.floor(Math.random()*requests.length)
-    ];
+S.sales+=ITEMS[c.need].sell;
 
-    const personality=
-        personalities[
-            Math.floor(Math.random()*personalities.length)
-        ];
+S.served++;
 
-    const customer={
-        id:nextCustomerId++,
-        name:names[Math.floor(Math.random()*names.length)],
-        request:request,
-        personality:personality,
-        spent:0,
-        element:createPerson()
-    };
+S.rep=Math.max(
+0,
+Math.min(
+100,
+S.rep+
+(Math.random()<.88?1:-1)
+)
+);
 
-    customers.push(customer);
+S.customers=
+S.customers.filter(
+x=>x.id!==id
+);
 
-    const p=customer.element;
+log(
+"Served "+
+c.name+
+" — "+
+ITEMS[c.need].n+
+" for "+
+money(ITEMS[c.need].sell)
+);
 
-    p.style.left="-70px";
-    p.style.top=(55+Math.random()*25)+"%";
+toast(
+"Sale +"+
+money(ITEMS[c.need].sell)
+);
 
-    walkToShop(customer);
+render();
 
-    return customer;
 }
 
-/* ---------- WALKING ---------- */
+function autoServe(){
 
-function walkToShop(customer){
+if(!S.open)return;
 
-    const p=customer.element;
+let sh=S.shops[0];
 
-    const target=40+Math.random()*20;
+let cs=
+S.customers.slice(
+0,
+sh.staff
+);
 
-    let x=-70;
+cs.forEach(
+(c,i)=>
+setTimeout(
+()=>serve(c.id),
+250+i*250
+)
+);
 
-    function step(){
-
-        if(!document.body.contains(p))return;
-
-        x+=0.45;
-
-        p.style.left=x+"%";
-
-        if(x<target){
-            requestAnimationFrame(step);
-        }else{
-            p.classList.remove("walk");
-            customerArrived(customer);
-        }
-    }
-
-    step();
 }
 
-function customerArrived(customer){
+function tick(){
 
-    if(!customers.includes(customer))return;
+S.min++;
 
-    const p=customer.element;
+if(S.min>=1440){
 
-    p.style.zIndex=40;
+S.min=420;
 
-    createSpeech(
-        p,
-        customer.personality.phrases[
-            Math.floor(Math.random()*customer.personality.phrases.length)
-        ],
-        2000
-    );
+S.day++;
 
-    setTimeout(()=>{
+S.open=false;
 
-        if(customers.includes(customer)){
-            openCustomer(customer);
-        }
+S.customers=[];
 
-    },1000);
+let wages=
+S.shops.reduce(
+(a,s)=>a+s.staff*35,
+0
+);
+
+if(wages){
+
+S.money-=wages;
+
+S.expenses+=wages;
+
+log(
+"Daily wages paid: "+
+money(wages)
+);
+
 }
 
-/* ---------- SPEECH ---------- */
+log(
+"Day "+
+S.day+
+" started. The business continues."
+);
 
-function createSpeech(person,text,time=2500){
-
-    const speech=document.createElement("div");
-
-    speech.className="speech";
-
-    speech.textContent=text;
-
-    document.getElementById("game").appendChild(speech);
-
-    const rect=person.getBoundingClientRect();
-    const gameRect=document
-        .getElementById("game")
-        .getBoundingClientRect();
-
-    speech.style.left=(rect.left-gameRect.left-50)+"px";
-    speech.style.top=(rect.top-gameRect.top-65)+"px";
-
-    setTimeout(()=>{
-        speech.remove();
-    },time);
 }
 
-/* ---------- CUSTOMER PANEL ---------- */
+if(
+S.open&&
+Math.random()<.55
+)addCustomer();
 
-function openCustomer(customer){
+if(
+S.open&&
+S.min%4===0
+)autoServe();
 
-    selectedCustomer=customer;
+top();
 
-    document.getElementById("customerPanel").style.display="block";
+if(
+S.min%5===0
+)localStorage.setItem(
+"lastShopEndless",
+JSON.stringify(S)
+);
 
-    document.getElementById("customerName").textContent=
-        customer.name+" 👤";
-
-    document.getElementById("customerRequest").innerHTML=
-        customer.request.emoji+" "+customer.request.text;
-
-    const buttons=document.getElementById("customerButtons");
-
-    buttons.innerHTML="";
-
-    const serve=document.createElement("button");
-
-    serve.className="green";
-
-    serve.textContent=
-        "SERVE "+customer.request.emoji;
-
-    serve.onclick=()=>serveCustomer(customer);
-
-    buttons.appendChild(serve);
-
-    const talk=document.createElement("button");
-
-    talk.className="purple";
-
-    talk.textContent="💬 TALK";
-
-    talk.onclick=()=>talkCustomer(customer);
-
-    buttons.appendChild(talk);
-
-    const ignore=document.createElement("button");
-
-    ignore.className="red";
-
-    ignore.textContent="❌ IGNORE";
-
-    ignore.onclick=()=>ignoreCustomer(customer);
-
-    buttons.appendChild(ignore);
 }
 
-/* ---------- SERVE ---------- */
+function help(){
 
-function serveCustomer(customer){
+alert(
 
-    if(!customers.includes(customer))return;
+"THE LAST SHOP\n\n"+
 
-    const item=customer.request.item;
+"Start with £650.\n\n"+
 
-    if(game.inventory[item]<=0){
+"Buy food and tools.\n\n"+
 
-        toast("❌ You are out of "+item+"!");
+"Open the shop and serve customers.\n\n"+
 
-        game.combo=0;
+"Restock using supplier deliveries.\n\n"+
 
-        updateHUD();
+"Hire employees to serve automatically.\n\n"+
 
-        return;
-    }
+"Upgrade the shop.\n\n"+
 
-    game.inventory[item]--;
+"When you reach £25,000, buy the shop next door and start the car dealership.\n\n"+
 
-    let price=game.prices[item];
+"There is no ending: the days continue forever.\n\n"+
 
-    const bonus=
-        1+
-        game.upgrades.reputation*0.05+
-        game.combo*0.02;
+"Your save is stored in this browser."
 
-    price=Math.round(price*bonus);
+);
 
-    game.money+=price;
-
-    game.totalEarned+=price;
-
-    game.customersServed++;
-
-    game.combo++;
-
-    if(game.combo>game.bestCombo)
-        game.bestCombo=game.combo;
-
-    game.reputation+=0.15*game.upgrades.reputation;
-
-    customer.spent=price;
-
-    createSpeech(
-        customer.element,
-        customer.personality.phrases[
-            Math.floor(
-                Math.random()*
-                customer.personality.phrases.length
-            )
-        ],
-        1800
-    );
-
-    toast(
-        "💷 +£"+price+
-        "   🔥 Combo x"+game.combo
-    );
-
-    closeCustomerPanel();
-
-    animateCustomerLeaving(customer);
-
-    checkLevel();
-
-    updateHUD();
-
-    checkMissions();
 }
 
-/* ---------- TALK ---------- */
+load();
 
-function talkCustomer(customer){
+if(!S.logs.length)
 
-    const lines=[
-        "Nice weather today!",
-        "Have you been busy?",
-        "I really like this shop.",
-        "I heard there are new products.",
-        "I'll tell my friends about this place.",
-        "I come here all the time.",
-        "You should expand the shop!",
-        "Do you have any special offers?"
-    ];
+log(
+"Welcome! You own your first shop and have £650."
+);
 
-    const line=
-        lines[Math.floor(Math.random()*lines.length)];
+render();
 
-    createSpeech(customer.element,line,3000);
+setInterval(
+tick,
+1000
+);
 
-    game.reputation+=0.1;
+setInterval(
+()=>{
+if(S.open)addCustomer()
+},
+4500
+);
 
-    updateHUD();
+document.addEventListener(
+"keydown",
+e=>{
+
+if(e.key.toLowerCase()==="o")
+openShop();
+
+if(e.key.toLowerCase()==="c")
+closeShop();
+
+if(e.key.toLowerCase()==="s")
+save();
+
 }
-
-/* ---------- IGNORE ---------- */
-
-function ignoreCustomer(customer){
-
-    game.reputation=Math.max(0,game.reputation-0.5);
-    game.combo=0;
-
-    toast("😕 Customer left unhappy.");
-
-    closeCustomerPanel();
-
-    animateCustomerLeaving(customer);
-
-    updateHUD();
-}
-
-/* ---------- CUSTOMER LEAVING ---------- */
-
-function animateCustomerLeaving(customer){
-
-    if(!customers.includes(customer))return;
-
-    const p=customer.element;
-
-    p.classList.add("walk");
-
-    let x=parseFloat(p.style.left)||50;
-
-    function move(){
-
-        x+=0.7;
-
-        p.style.left=x+"%";
-
-        if(x<110){
-
-            requestAnimationFrame(move);
-
-        }else{
-
-            p.remove();
-
-            customers=
-                customers.filter(c=>c!==customer);
-        }
-    }
-
-    move();
-}
-
-function closeCustomerPanel(){
-
-    document.getElementById("customerPanel").style.display="none";
-
-    selectedCustomer=null;
-}
-
-/* ---------- ENDLESS CUSTOMER SPAWNER ---------- */
-
-function spawnCustomers(){
-
-    const max=
-        2+
-        game.upgrades.shelves+
-        game.upgrades.staff;
-
-    if(customers.length<max){
-
-        const amount=
-            Math.random()<0.2 ? 2 : 1;
-
-        for(let i=0;i<amount;i++){
-
-            setTimeout(
-                createCustomer,
-                i*700
-            );
-        }
-    }
-}
-
-/* ---------- GAME CLOCK ---------- */
-
-function gameClock(){
-
-    game.minute+=5;
-
-    if(game.minute>=60){
-
-        game.minute=0;
-        game.hour++;
-    }
-
-    if(game.hour>=24){
-
-        game.hour=0;
-        game.day++;
-
-        dailyEvent();
-    }
-
-    updateDayNight();
-    updateHUD();
-}
-
-/* ---------- DAY/NIGHT ---------- */
-
-function updateDayNight(){
-
-    const sky=document.getElementById("sky");
-
-    const hour=game.hour;
-
-    if(hour>=6 && hour<18){
-
-        sky.style.background=
-            "linear-gradient(#1672bd,#58b8ef)";
-
-        document.getElementById("moon")
-            .style.display="none";
-
-    }else{
-
-        sky.style.background=
-            "linear-gradient(#07152d,#152e52)";
-
-        document.getElementById("moon")
-            .style.display="block";
-    }
-}
-
-/* ---------- DAILY EVENTS ---------- */
-
-function dailyEvent(){
-
-    const events=[
-        "🌧️ Rainy day! Customers are staying indoors.",
-        "☀️ Sunny day! Lots of people are outside.",
-        "🎉 Local festival! More customers are coming.",
-        "🚧 Roadworks nearby! Customer traffic is slower.",
-        "📣 Your shop was mentioned locally!",
-        "🛍️ Shopping weekend! Sales are increased.",
-        "💡 A new competitor opened nearby.",
-        "⭐ Your reputation is growing!"
-    ];
-
-    const event=
-        events[Math.floor(Math.random()*events.length)];
-
-    toast(event);
-
-    if(event.includes("festival")){
-        game.reputation+=1;
-    }
-
-    if(event.includes("mentioned")){
-        game.reputation+=2;
-    }
-
-    updateHUD();
-}
-
-/* ---------- LEVEL ---------- */
-
-function checkLevel(){
-
-    const newLevel=
-        Math.floor(game.customersServed/10)+1;
-
-    if(newLevel>game.level){
-
-        game.level=newLevel;
-
-        game.money+=game.level*20;
-
-        toast(
-            "🎉 LEVEL "+game.level+
-            "! Bonus £"+(game.level*20)
-        );
-    }
-}
-
-/* ---------- UPGRADES ---------- */
-
-const upgrades=[
-    {
-        id:"shelves",
-        name:"🗄️ More Shelves",
-        description:"Allows more customers to visit.",
-        base:100
-    },
-    {
-        id:"speed",
-        name:"⚡ Faster Service",
-        description:"Customers wait longer and service improves.",
-        base:150
-    },
-    {
-        id:"reputation",
-        name:"⭐ Better Reputation",
-        description:"Increase money earned and reputation.",
-        base:200
-    },
-    {
-        id:"staff",
-        name:"👨‍💼 Hire Staff",
-        description:"Staff help keep customers moving.",
-        base:300
-    },
-    {
-        id:"storage",
-        name:"📦 Bigger Storage",
-        description:"Automatically increases stock capacity.",
-        base:120
-    }
-];
-
-function openUpgrades(){
-
-    document.getElementById("upgradePanel")
-        .style.display="block";
-
-    renderUpgrades();
-}
-
-function closeUpgrades(){
-
-    document.getElementById("upgradePanel")
-        .style.display="none";
-}
-
-function renderUpgrades(){
-
-    const list=document.getElementById("upgradeList");
-
-    list.innerHTML="";
-
-    upgrades.forEach(u=>{
-
-        const current=game.upgrades[u.id];
-
-        const cost=
-            Math.floor(
-                u.base*
-                Math.pow(1.65,current-1)
-            );
-
-        const div=document.createElement("div");
-
-        div.className="upgrade";
-
-        div.innerHTML=`
-            <h3>${u.name} — Level ${current}</h3>
-            <p>${u.description}</p>
-            <button
-                class="green"
-                onclick="buyUpgrade('${u.id}')">
-                BUY £${cost}
-            </button>
-        `;
-
-        list.appendChild(div);
-    });
-}
-
-function buyUpgrade(id){
-
-    const u=upgrades.find(x=>x.id===id);
-
-    const level=game.upgrades[id];
-
-    const cost=
-        Math.floor(
-            u.base*
-            Math.pow(1.65,level-1)
-        );
-
-    if(game.money<cost){
-
-        toast("❌ Not enough money.");
-
-        return;
-    }
-
-    game.money-=cost;
-
-    game.upgrades[id]++;
-
-    if(id==="storage"){
-
-        const amount=
-            10*
-            game.upgrades.storage;
-
-        Object.keys(game.inventory).forEach(item=>{
-
-            game.inventory[item]+=amount;
-        });
-    }
-
-    toast(
-        "⬆️ "+u.name+
-        " upgraded to level "+
-        game.upgrades[id]
-    );
-
-    renderUpgrades();
-    updateHUD();
-}
-
-/* ---------- PHONE ---------- */
-
-function openPhone(){
-
-    document.getElementById("phone")
-        .style.display="block";
-}
-
-function closePhone(){
-
-    document.getElementById("phone")
-        .style.display="none";
-}
-
-function showStats(){
-
-    alert(
-`📊 SHOP STATISTICS
-
-Money: £${game.money}
-
-Total earned: £${game.totalEarned}
-
-Total spent: £${game.totalSpent}
-
-Customers served: ${game.customersServed}
-
-Best combo: x${game.bestCombo}
-
-Reputation: ${game.reputation.toFixed(1)}
-
-Level: ${game.level}
-
-Day: ${game.day}`
-    );
-}
-
-function showInventory(){
-
-    alert(
-`📦 INVENTORY
-
-🍎 Food: ${game.inventory.food}
-🥤 Drinks: ${game.inventory.drink}
-🍞 Bread: ${game.inventory.bread}
-🧼 Soap: ${game.inventory.soap}
-🔨 Tools: ${game.inventory.tools}
-💊 Medicine: ${game.inventory.medicine}
-📱 Electronics: ${game.inventory.electronics}
-👕 Clothes: ${game.inventory.clothes}`
-    );
-}
-
-function showMissions(){
-
-    const target=
-        Math.max(
-            10,
-            game.level*10
-        );
-
-    alert(
-`🎯 CURRENT MISSIONS
-
-Serve ${target} customers
-Current: ${game.customersServed}
-
-Reach reputation ${game.level*10}
-Current: ${game.reputation.toFixed(1)}
-
-Earn £${game.level*500}
-Current: £${game.totalEarned}
-
-There is NO final mission.
-New missions continue forever.`
-    );
-}
-
-function randomMessage(){
-
-    const messages=[
-        "📱 Lucy: See you tomorrow!",
-        "📱 David: Great shop!",
-        "📱 Sarah: Do you have new products?",
-        "📱 Tom: I'll bring my friends.",
-        "📱 Mike: The shop is getting busy!",
-        "📱 Emma: Congratulations on the new level!"
-    ];
-
-    toast(
-        messages[
-            Math.floor(Math.random()*messages.length)
-        ]
-    );
-}
-
-/* ---------- MISSIONS ---------- */
-
-function checkMissions(){
-
-    if(
-        game.customersServed>0 &&
-        game.customersServed%10===0
-    ){
-
-        const reward=
-            50+
-            game.level*20;
-
-        game.money+=reward;
-
-        game.missionsCompleted++;
-
-        toast(
-            "🎯 MISSION COMPLETE! +£"+
-            reward
-        );
-    }
-}
-
-/* ---------- HUD ---------- */
-
-function updateHUD(){
-
-    document.getElementById("money")
-        .textContent=Math.floor(game.money);
-
-    document.getElementById("rep")
-        .textContent=game.reputation.toFixed(1);
-
-    document.getElementById("level")
-        .textContent=game.level;
-
-    document.getElementById("customersServed")
-        .textContent=game.customersServed;
-
-    document.getElementById("day")
-        .textContent=game.day;
-
-    const h=
-        String(game.hour).padStart(2,"0");
-
-    const m=
-        String(game.minute).padStart(2,"0");
-
-    document.getElementById("clock")
-        .textContent=h+":"+m;
-
-    document.getElementById("combo")
-        .textContent=game.combo;
-}
-
-/* ---------- SAVE ---------- */
-
-function saveGame(){
-
-    localStorage.setItem(
-        SAVE_KEY,
-        JSON.stringify(game)
-    );
-
-    toast("💾 Game saved!");
-}
-
-function loadGame(){
-
-    const saved=
-        localStorage.getItem(SAVE_KEY);
-
-    if(!saved)return;
-
-    try{
-
-        const data=JSON.parse(saved);
-
-        game={
-            ...game,
-            ...data,
-            inventory:{
-                ...game.inventory,
-                ...(data.inventory||{})
-            },
-            upgrades:{
-                ...game.upgrades,
-                ...(data.upgrades||{})
-            }
-        };
-
-    }catch(e){
-
-        console.log("Save could not be loaded.");
-    }
-}
-
-/* ---------- TOAST ---------- */
-
-let toastTimer;
-
-function toast(text){
-
-    const t=document.getElementById("toast");
-
-    t.textContent=text;
-
-    t.classList.add("show");
-
-    clearTimeout(toastTimer);
-
-    toastTimer=setTimeout(()=>{
-
-        t.classList.remove("show");
-
-    },2500);
-}
-
-/* ---------- AUTO SAVE ---------- */
-
-setInterval(()=>{
-
-    localStorage.setItem(
-        SAVE_KEY,
-        JSON.stringify(game)
-    );
-
-},10000);
-
-/* ---------- RANDOM SHOP TALK ---------- */
-
-function shopTalk(){
-
-    if(customers.length<2)return;
-
-    const a=
-        customers[
-            Math.floor(Math.random()*customers.length)
-        ];
-
-    const b=
-        customers[
-            Math.floor(Math.random()*customers.length)
-        ];
-
-    if(a===b)return;
-
-    createSpeech(
-        a.element,
-        "Have you been here before?",
-        1800
-    );
-
-    setTimeout(()=>{
-
-        createSpeech(
-            b.element,
-            "Yes! I love this shop.",
-            1800
-        );
-
-    },1000);
-}
-
-/* ---------- RANDOM EVENTS ---------- */
-
-function randomEvent(){
-
-    const roll=Math.random();
-
-    if(roll<0.08){
-
-        const bonus=
-            20+
-            Math.floor(Math.random()*80);
-
-        game.money+=bonus;
-
-        toast(
-            "🎁 A customer left a £"+
-            bonus+
-            " tip!"
-        );
-
-    }else if(roll<0.12){
-
-        game.reputation+=1;
-
-        toast(
-            "⭐ Someone recommended your shop!"
-        );
-
-    }else if(roll<0.15){
-
-        const item=
-            Object.keys(game.inventory)
-            [Math.floor(
-                Math.random()*
-                Object.keys(game.inventory).length
-            )];
-
-        game.inventory[item]+=5;
-
-        toast(
-            "📦 Supplier delivered extra "+
-            item+"!"
-        );
-    }
-
-    updateHUD();
-}
-
-/* ---------- START ---------- */
-
-function startGame(){
-
-    loadGame();
-
-    createCity();
-
-    updateDayNight();
-
-    updateHUD();
-
-    /* initial customers */
-
-    setTimeout(createCustomer,1000);
-    setTimeout(createCustomer,2500);
-    setTimeout(createCustomer,4500);
-
-    /* customer generator */
-
-    setInterval(
-        spawnCustomers,
-        2500
-    );
-
-    /* game clock */
-
-    setInterval(
-        gameClock,
-        1000
-    );
-
-    /* random events */
-
-    setInterval(
-        randomEvent,
-        12000
-    );
-
-    /* customers talking */
-
-    setInterval(
-        shopTalk,
-        7000
-    );
-
-    /* combo slowly decreases */
-
-    setInterval(()=>{
-
-        if(game.combo>0){
-
-            game.combo--;
-
-            updateHUD();
-        }
-
-    },8000);
-
-    toast(
-        "🏪 Welcome to THE LAST SHOP!"
-    );
-}
-
-startGame();
+);
 
 </script>
 
