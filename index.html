@@ -1607,6 +1607,58 @@ setInterval(() => {
 }, 8000);
 
 updateHUD();
+updateHUD();
+
+/* ================================
+   THE LAST SHOP - PRODUCT INTERACTION
+================================ */
+
+document.addEventListener("click", function(e) {
+
+    const item = e.target.closest(
+        ".product, .item, .shelf-item, [data-product]"
+    );
+
+    if (!item) return;
+
+    combo++;
+    updateHUD();
+
+    item.style.transform = "scale(1.15)";
+
+    setTimeout(() => {
+        item.style.transform = "";
+    }, 150);
+
+    const feedback = document.createElement("div");
+
+    feedback.textContent = "🛒 +1";
+    feedback.style.position = "fixed";
+    feedback.style.left = e.clientX + "px";
+    feedback.style.top = e.clientY + "px";
+    feedback.style.color = "#ffd54a";
+    feedback.style.fontSize = "24px";
+    feedback.style.fontWeight = "bold";
+    feedback.style.pointerEvents = "none";
+    feedback.style.zIndex = "99999";
+    feedback.style.transition = "all 0.7s ease";
+
+    document.body.appendChild(feedback);
+
+    setTimeout(() => {
+        feedback.style.transform = "translateY(-50px)";
+        feedback.style.opacity = "0";
+    }, 20);
+
+    setTimeout(() => {
+        feedback.remove();
+    }, 750);
+
+});
+</script>
+
+</body>
+</html>
 </script>
 
 </body>
