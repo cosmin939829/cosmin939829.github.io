@@ -2,795 +2,778 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
-<meta name="theme-color" content="#101522">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>The Last Shop</title>
 
 <style>
 *{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
+    box-sizing:border-box;
+    user-select:none;
 }
 
 html,body{
-  margin:0;
-  padding:0;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  font-family:Arial,Helvetica,sans-serif;
-  background:#101522;
-  color:white;
+    margin:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#dce5ee;
 }
 
-button{
-  font-family:inherit;
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
 #game{
-  width:100%;
-  height:100%;
-  position:relative;
-  overflow:hidden;
-  background:
-    radial-gradient(circle at 50% 20%,#33415f 0,#172033 45%,#0d121d 100%);
+    position:relative;
+    width:100vw;
+    height:100vh;
+    overflow:hidden;
+    background:#f5eee8;
 }
 
-/* =========================
-   START SCREEN
-========================= */
-
-#startScreen{
-  position:absolute;
-  inset:0;
-  z-index:100;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  background:
-    linear-gradient(#08101dcc,#08101df5),
-    radial-gradient(circle at center,#344b76,#080c14);
-}
-
-.startBox{
-  width:min(92%,650px);
-  padding:30px;
-  border-radius:28px;
-  background:linear-gradient(145deg,#202d45,#101724);
-  box-shadow:0 25px 80px #000b;
-  border:1px solid #ffffff20;
+/* TOP BAR */
+#topbar{
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:74px;
+    background:linear-gradient(#244e80,#173a64);
+    border-bottom:4px solid #102d4c;
+    z-index:100;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 18px;
+    color:white;
 }
 
 .logo{
-  font-size:clamp(42px,9vw,82px);
-  margin-bottom:5px;
-  text-shadow:0 8px 25px #000;
+    font-size:23px;
+    font-weight:900;
+    letter-spacing:1px;
+    color:#ffd85a;
+    text-shadow:2px 2px #15243a;
 }
 
-.title{
-  font-size:clamp(32px,7vw,62px);
-  font-weight:1000;
-  margin:0;
+.stats{
+    display:flex;
+    gap:10px;
+    align-items:center;
 }
 
-.subtitle{
-  color:#b8c5dc;
-  font-size:18px;
-  margin:12px auto 25px;
+.stat{
+    min-width:90px;
+    padding:9px 13px;
+    background:#102d4c;
+    border:2px solid #557ba6;
+    border-radius:12px;
+    text-align:center;
+    font-weight:bold;
 }
 
-.startButton{
-  border:0;
-  padding:17px 35px;
-  border-radius:16px;
-  background:linear-gradient(135deg,#ffb000,#ff6b00);
-  color:#211300;
-  font-size:21px;
-  font-weight:1000;
-  cursor:pointer;
-  box-shadow:0 10px 30px #ff840044;
+.stat small{
+    display:block;
+    font-size:10px;
+    opacity:.75;
+    margin-bottom:2px;
 }
 
-.startButton:active{
-  transform:scale(.96);
+#pauseBtn{
+    background:#f1b73b;
+    color:#2c2414;
+    border:0;
+    border-radius:9px;
+    padding:10px 14px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-/* =========================
-   HUD
-========================= */
-
-#hud{
-  position:absolute;
-  left:0;
-  right:0;
-  top:0;
-  z-index:20;
-  padding:10px;
-  display:flex;
-  gap:8px;
-  justify-content:center;
-  flex-wrap:wrap;
-  pointer-events:none;
-}
-
-.hudItem{
-  min-width:100px;
-  padding:8px 13px;
-  border-radius:13px;
-  background:#101827dd;
-  border:1px solid #ffffff18;
-  box-shadow:0 6px 20px #0005;
-  text-align:center;
-  font-size:12px;
-  color:#aebbd1;
-}
-
-.hudItem b{
-  display:block;
-  color:white;
-  font-size:17px;
-}
-
-/* =========================
-   SHOP WORLD
-========================= */
-
+/* GAME WORLD */
 #world{
-  position:absolute;
-  inset:0;
-  overflow:hidden;
+    position:absolute;
+    top:74px;
+    left:0;
+    right:0;
+    bottom:0;
+    overflow:hidden;
+    background:
+      linear-gradient(rgba(255,255,255,.18) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.18) 1px,transparent 1px),
+      #ead6cb;
+    background-size:38px 38px;
 }
 
-.sky{
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(
-      #334c75 0%,
-      #253a5d 48%,
-      #172238 49%,
-      #111824 100%
-    );
+/* WALL */
+.wall{
+    position:absolute;
+    left:0;
+    top:0;
+    width:100%;
+    height:55%;
+    background:
+      linear-gradient(rgba(170,105,82,.10) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(170,105,82,.10) 1px,transparent 1px),
+      #f0ddd2;
+    background-size:38px 38px;
+    border-bottom:8px solid #7e4b43;
 }
 
-.city{
-  position:absolute;
-  bottom:43%;
-  left:0;
-  right:0;
-  height:23%;
-  display:flex;
-  align-items:flex-end;
-  gap:4px;
-  padding:0 10px;
+/* FLOOR */
+.floor{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:45%;
+    background:
+      linear-gradient(90deg,rgba(110,70,50,.08) 1px,transparent 1px),
+      linear-gradient(rgba(110,70,50,.08) 1px,transparent 1px),
+      #cba98d;
+    background-size:55px 55px;
+    border-top:5px solid #815c4b;
 }
 
-.building{
-  flex:1;
-  min-width:35px;
-  background:#1d2838;
-  border:1px solid #ffffff0b;
-  position:relative;
-}
-
-.window{
-  width:8px;
-  height:11px;
-  background:#f7cf65;
-  position:absolute;
-  box-shadow:0 0 7px #f7cf6555;
-}
-
-.street{
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:0;
-  height:44%;
-  background:
-    linear-gradient(#2a303b 0 45%,#20252e 45%);
-}
-
-.roadLine{
-  position:absolute;
-  bottom:22%;
-  left:0;
-  right:0;
-  height:4px;
-  background:repeating-linear-gradient(
-    90deg,
-    #e7d47a 0 45px,
-    transparent 45px 85px
-  );
-  opacity:.6;
-}
-
-/* =========================
-   SHOP
-========================= */
-
-.shop{
-  position:absolute;
-  left:50%;
-  bottom:30%;
-  transform:translateX(-50%);
-  width:min(780px,92%);
-  height:min(390px,42vh);
-  min-height:290px;
-  background:#72533d;
-  border:8px solid #39291f;
-  border-radius:15px 15px 8px 8px;
-  box-shadow:0 30px 70px #0009;
-}
-
-.shopRoof{
-  position:absolute;
-  left:-20px;
-  right:-20px;
-  top:-50px;
-  height:65px;
-  background:
-    repeating-linear-gradient(
-      135deg,
-      #c34835 0 25px,
-      #8e2d27 25px 50px
-    );
-  border:6px solid #39291f;
-  border-radius:18px 18px 4px 4px;
-}
-
+/* SHOP SIGN */
 .shopSign{
-  position:absolute;
-  left:50%;
-  top:-30px;
-  transform:translate(-50%,-100%);
-  background:#f2c04b;
-  color:#30200b;
-  padding:12px 30px;
-  border:5px solid #503816;
-  border-radius:12px;
-  font-size:clamp(19px,4vw,31px);
-  font-weight:1000;
-  white-space:nowrap;
-  box-shadow:0 8px 15px #0006;
+    position:absolute;
+    top:28px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#6d402f;
+    color:#ffd35b;
+    border:4px solid #4c3027;
+    border-radius:7px;
+    padding:12px 35px;
+    font-weight:900;
+    font-size:20px;
+    letter-spacing:2px;
+    box-shadow:0 5px 10px #0003;
 }
 
-.shopWindow{
-  position:absolute;
-  left:8%;
-  top:18%;
-  width:31%;
-  height:45%;
-  background:
-    linear-gradient(90deg,#6bb6dd44 49%,#2220 50%),
-    linear-gradient(#aee8ff,#5287a8);
-  border:7px solid #39291f;
-  overflow:hidden;
+/* WINDOWS */
+.window{
+    position:absolute;
+    top:25px;
+    width:92px;
+    height:70px;
+    background:linear-gradient(#5cb4ef,#b8e6ff);
+    border:7px solid #634d4a;
+    box-shadow:inset 0 0 0 3px #ffffff55;
 }
 
-.windowShelf{
-  position:absolute;
-  bottom:0;
-  left:0;
-  right:0;
-  height:25%;
-  background:#5b3c29;
+.window:before,
+.window:after{
+    content:"";
+    position:absolute;
+    background:#634d4a;
 }
 
-.shopDoor{
-  position:absolute;
-  right:10%;
-  top:16%;
-  width:23%;
-  height:61%;
-  background:linear-gradient(90deg,#533522,#765037);
-  border:7px solid #39291f;
+.window:before{
+    width:6px;
+    height:100%;
+    left:50%;
+    transform:translateX(-50%);
 }
 
-.doorGlass{
-  position:absolute;
-  left:13%;
-  right:13%;
-  top:10%;
-  height:43%;
-  background:#8cd2e733;
-  border:4px solid #30241e;
+.window:after{
+    height:6px;
+    width:100%;
+    top:50%;
+    transform:translateY(-50%);
 }
 
-.doorHandle{
-  position:absolute;
-  right:15%;
-  top:53%;
-  width:10px;
-  height:35px;
-  background:#e1b94f;
-  border-radius:5px;
+.window.left{left:55px;}
+.window.right{right:55px;}
+
+/* SHELVES */
+.shelf{
+    position:absolute;
+    background:#a85f49;
+    border:5px solid #6d3d36;
+    border-radius:8px;
+    box-shadow:0 7px 12px #0004;
+    z-index:8;
 }
 
+.shelf .shelfTitle{
+    position:absolute;
+    top:-28px;
+    left:4px;
+    color:#713b35;
+    font-size:13px;
+    font-weight:900;
+}
+
+.foodShelf{
+    left:8%;
+    top:34%;
+    width:35%;
+    height:92px;
+}
+
+.supplyShelf{
+    right:8%;
+    top:34%;
+    width:35%;
+    height:92px;
+}
+
+.item{
+    position:absolute;
+    bottom:15px;
+    width:47px;
+    height:47px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:27px;
+    box-shadow:0 3px 5px #0004;
+    border:2px solid #ffffff55;
+}
+
+.item span{
+    position:absolute;
+    bottom:-19px;
+    background:#242424;
+    color:#fff;
+    font-size:11px;
+    padding:2px 5px;
+    border-radius:4px;
+    white-space:nowrap;
+}
+
+.item.food1{left:8%;background:#ef4141;}
+.item.food2{left:42%;background:#ffc51f;}
+.item.food3{left:75%;background:#59a9e9;}
+
+.item.sup1{left:10%;background:#8665e8;}
+.item.sup2{left:44%;background:#f4a335;}
+.item.sup3{left:77%;background:#35c8b4;}
+
+/* COUNTER */
 .counter{
-  position:absolute;
-  left:47%;
-  bottom:11%;
-  transform:translateX(-50%);
-  width:37%;
-  height:25%;
-  background:#9a6943;
-  border:6px solid #442d20;
-  border-radius:8px;
+    position:absolute;
+    left:31%;
+    right:31%;
+    top:59%;
+    height:78px;
+    background:#a85f49;
+    border:6px solid #6d3d36;
+    border-radius:8px;
+    box-shadow:0 7px 12px #0004;
+    z-index:20;
 }
 
-.counterTop{
-  position:absolute;
-  left:-8px;
-  right:-8px;
-  top:-15px;
-  height:18px;
-  background:#c18a58;
-  border:5px solid #442d20;
+.counter:after{
+    content:"";
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:-16px;
+    height:10px;
+    background:#65443b;
 }
 
-/* =========================
-   CHARACTERS
-========================= */
-
-.character{
-  position:absolute;
-  width:88px;
-  height:150px;
-  z-index:8;
-  cursor:pointer;
-  transition:left .5s,top .5s,transform .2s;
+/* CASH REGISTER */
+.register{
+    position:absolute;
+    width:55px;
+    height:43px;
+    right:30px;
+    top:12px;
+    border-radius:8px;
+    background:#3f596d;
+    border:3px solid #263c4e;
+    color:#6aff7e;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:19px;
 }
 
-.character:hover{
-  transform:scale(1.04);
+/* CUSTOMER LANE */
+.customerLane{
+    position:absolute;
+    left:4%;
+    right:4%;
+    top:77%;
+    height:4px;
+    background:#8a604d55;
 }
 
-.head{
-  position:absolute;
-  width:58px;
-  height:63px;
-  left:15px;
-  top:0;
-  border-radius:48% 48% 45% 45%;
-  background:#d89b70;
-  border:3px solid #7b4a35;
-  z-index:3;
+/* PLAYER */
+#player{
+    position:absolute;
+    left:50%;
+    top:68%;
+    width:58px;
+    height:100px;
+    transform:translateX(-50%);
+    z-index:50;
+    transition:left .25s linear,top .25s linear;
 }
 
-.hair{
-  position:absolute;
-  left:-3px;
-  top:-6px;
-  width:64px;
-  height:32px;
-  border-radius:50px 50px 20px 20px;
-  background:#3b261d;
+.playerLabel{
+    position:absolute;
+    top:-20px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#1e73db;
+    color:#fff;
+    padding:3px 8px;
+    border-radius:8px;
+    font-size:10px;
+    font-weight:bold;
 }
 
-.eye{
-  position:absolute;
-  top:28px;
-  width:7px;
-  height:9px;
-  border-radius:50%;
-  background:#151515;
+/* HUMAN CHARACTER */
+.human{
+    position:absolute;
+    width:58px;
+    height:100px;
+    z-index:45;
+    transition:left .2s linear,top .2s linear;
 }
 
-.eye.left{
-  left:15px;
+.human .head{
+    position:absolute;
+    width:36px;
+    height:36px;
+    left:11px;
+    top:0;
+    background:#f1b28f;
+    border:2px solid #8f5e4d;
+    border-radius:50%;
+    z-index:4;
 }
 
-.eye.right{
-  right:15px;
+.human .hair{
+    position:absolute;
+    width:37px;
+    height:17px;
+    left:10px;
+    top:-1px;
+    border-radius:20px 20px 8px 8px;
+    z-index:6;
 }
 
-.nose{
-  position:absolute;
-  left:27px;
-  top:36px;
-  width:5px;
-  height:7px;
-  border-radius:50%;
-  background:#9f634c;
+.human .eye{
+    position:absolute;
+    width:4px;
+    height:5px;
+    background:#292929;
+    border-radius:50%;
+    top:15px;
+    z-index:8;
 }
 
-.mouth{
-  position:absolute;
-  left:20px;
-  top:46px;
-  width:18px;
-  height:7px;
-  border-bottom:3px solid #642e32;
-  border-radius:50%;
+.human .eye.left{left:20px;}
+.human .eye.right{left:32px;}
+
+.human .nose{
+    position:absolute;
+    width:3px;
+    height:5px;
+    background:#b97862;
+    top:20px;
+    left:28px;
+    z-index:8;
 }
 
-.body{
-  position:absolute;
-  left:9px;
-  top:57px;
-  width:70px;
-  height:68px;
-  border-radius:18px 18px 9px 9px;
-  background:#2869b0;
-  border:3px solid #183e6b;
+.human .mouth{
+    position:absolute;
+    width:11px;
+    height:5px;
+    left:23px;
+    top:26px;
+    border-bottom:2px solid #813f3b;
+    border-radius:0 0 10px 10px;
+    z-index:8;
 }
 
-.arm{
-  position:absolute;
-  width:16px;
-  height:58px;
-  top:62px;
-  background:#d89b70;
-  border:3px solid #7b4a35;
-  border-radius:12px;
+.human .body{
+    position:absolute;
+    width:34px;
+    height:42px;
+    left:12px;
+    top:34px;
+    border-radius:9px 9px 5px 5px;
+    border:2px solid #3335;
 }
 
-.arm.left{
-  left:-3px;
-  transform:rotate(12deg);
+.human .arm{
+    position:absolute;
+    width:11px;
+    height:35px;
+    top:38px;
+    border-radius:8px;
+    background:#f1b28f;
+    border:1px solid #8f5e4d;
+    z-index:1;
 }
 
-.arm.right{
-  right:-3px;
-  transform:rotate(-12deg);
+.human .arm.left{
+    left:5px;
+    transform:rotate(7deg);
 }
 
-.leg{
-  position:absolute;
-  top:119px;
-  width:19px;
-  height:34px;
-  background:#252b38;
-  border-radius:5px;
+.human .arm.right{
+    right:5px;
+    transform:rotate(-7deg);
 }
 
-.leg.left{
-  left:23px;
+.human .leg{
+    position:absolute;
+    width:12px;
+    height:31px;
+    top:73px;
+    background:#26364b;
+    border-radius:5px;
+    z-index:0;
 }
 
-.leg.right{
-  right:23px;
+.human .leg.left{left:15px;}
+.human .leg.right{left:32px;}
+
+.human .shoe{
+    position:absolute;
+    width:19px;
+    height:8px;
+    background:#252525;
+    border-radius:8px;
+    top:96px;
 }
 
-.charName{
-  position:absolute;
-  top:-30px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#111a29dd;
-  padding:4px 8px;
-  border-radius:8px;
-  font-size:11px;
-  white-space:nowrap;
-  opacity:0;
-  transition:.2s;
+.human .shoe.left{left:8px;}
+.human .shoe.right{left:31px;}
+
+/* CHARACTER TYPES */
+.male1 .hair{background:#382b27;}
+.male1 .body{background:#3f76c8;}
+
+.male2 .hair{background:#171717;}
+.male2 .body{background:#45a37b;}
+
+.female1 .hair{
+    background:#542c20;
+    height:29px;
+    border-radius:20px 20px 14px 14px;
+}
+.female1 .body{background:#d8569d;}
+
+.female2 .hair{
+    background:#d6a13c;
+    height:27px;
+    border-radius:20px;
+}
+.female2 .body{background:#7659d5;}
+
+.worker .hair{background:#493226;}
+.worker .body{background:#f29b31;}
+
+/* WALK ANIMATION */
+.walking .leg.left{
+    animation:walkLeft .25s infinite alternate;
 }
 
-.character:hover .charName{
-  opacity:1;
+.walking .leg.right{
+    animation:walkRight .25s infinite alternate;
 }
 
-/* =========================
-   CONTROLS
-========================= */
-
-#controls{
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:12px;
-  z-index:25;
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  flex-wrap:wrap;
+.walking .arm.left{
+    animation:armLeft .25s infinite alternate;
 }
 
-.control{
-  border:1px solid #ffffff20;
-  background:#111b2bdd;
-  color:white;
-  border-radius:13px;
-  padding:11px 15px;
-  font-weight:900;
-  cursor:pointer;
-  box-shadow:0 5px 15px #0006;
+.walking .arm.right{
+    animation:armRight .25s infinite alternate;
 }
 
-.control:active{
-  transform:scale(.95);
+@keyframes walkLeft{
+    from{transform:rotate(12deg);}
+    to{transform:rotate(-12deg);}
 }
 
-.primary{
-  background:#e99b22;
-  color:#251500;
+@keyframes walkRight{
+    from{transform:rotate(-12deg);}
+    to{transform:rotate(12deg);}
 }
 
-/* =========================
-   PANELS
-========================= */
-
-.overlay{
-  position:absolute;
-  inset:0;
-  z-index:50;
-  background:#050911b8;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:15px;
+@keyframes armLeft{
+    from{transform:rotate(-12deg);}
+    to{transform:rotate(12deg);}
 }
 
-.overlay.show{
-  display:flex;
+@keyframes armRight{
+    from{transform:rotate(12deg);}
+    to{transform:rotate(-12deg);}
 }
 
-.panel{
-  width:min(720px,96%);
-  max-height:90vh;
-  overflow:auto;
-  border-radius:23px;
-  background:linear-gradient(145deg,#202d43,#101723);
-  border:1px solid #ffffff18;
-  box-shadow:0 25px 80px #000b;
-  padding:24px;
+/* SPEECH */
+.speech{
+    position:absolute;
+    min-width:145px;
+    max-width:210px;
+    padding:10px 12px;
+    background:white;
+    border:2px solid #b8b8b8;
+    border-radius:13px;
+    color:#292929;
+    font-size:12px;
+    font-weight:bold;
+    box-shadow:0 4px 12px #0003;
+    z-index:90;
+    animation:pop .25s ease-out;
 }
 
-.panel h2{
-  margin-top:0;
+.speech:after{
+    content:"";
+    position:absolute;
+    bottom:-9px;
+    left:22px;
+    width:15px;
+    height:15px;
+    background:white;
+    border-right:2px solid #b8b8b8;
+    border-bottom:2px solid #b8b8b8;
+    transform:rotate(45deg);
 }
 
-.close{
-  float:right;
-  border:0;
-  background:#ffffff12;
-  color:white;
-  border-radius:10px;
-  width:40px;
-  height:40px;
-  font-size:22px;
-  cursor:pointer;
+@keyframes pop{
+    from{transform:scale(.6);opacity:0;}
+    to{transform:scale(1);opacity:1;}
 }
 
-/* =========================
-   DIALOGUE
-========================= */
-
-.dialogue{
-  position:absolute;
-  left:50%;
-  bottom:18%;
-  transform:translateX(-50%);
-  z-index:30;
-  width:min(650px,90%);
-  padding:18px;
-  border-radius:18px;
-  background:#111a29f5;
-  border:2px solid #ffffff22;
-  box-shadow:0 12px 40px #0008;
-  display:none;
+/* CUSTOMER PANEL */
+#customerPanel{
+    position:absolute;
+    right:12px;
+    bottom:15px;
+    width:270px;
+    max-height:50%;
+    overflow:auto;
+    z-index:110;
+    display:flex;
+    flex-direction:column;
+    gap:7px;
 }
 
-.dialogue.show{
-  display:block;
+.customerCard{
+    background:#fff;
+    border:2px solid #d6d6d6;
+    border-radius:13px;
+    padding:9px;
+    box-shadow:0 5px 12px #0003;
+    display:grid;
+    grid-template-columns:42px 1fr;
+    gap:7px;
 }
 
-.dialogueName{
-  font-weight:1000;
-  color:#ffcb57;
-  margin-bottom:6px;
+.customerAvatar{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    overflow:hidden;
+    position:relative;
+    border:2px solid #aaa;
+    background:#f1b28f;
 }
 
-.dialogueText{
-  font-size:18px;
-  line-height:1.45;
-  min-height:55px;
+.customerAvatar:before{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:45%;
+    top:0;
+    background:#3c2a22;
+    border-radius:50%;
 }
 
-.dialogueActions{
-  display:flex;
-  justify-content:flex-end;
-  margin-top:10px;
+.customerInfo b{
+    display:block;
+    font-size:13px;
 }
 
-/* =========================
-   SHOP MENU
-========================= */
+.customerInfo span{
+    display:block;
+    color:#555;
+    font-size:11px;
+    margin:3px 0;
+}
 
-.menuGrid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
-  gap:10px;
+.serveBtn{
+    background:#19c967;
+    border:0;
+    color:white;
+    font-weight:900;
+    padding:7px;
+    width:100%;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.serveBtn:hover{
+    background:#12ae57;
+}
+
+/* MENU */
+#menu{
+    position:absolute;
+    left:15px;
+    top:95px;
+    z-index:120;
+    width:190px;
+    background:#fff;
+    border:2px solid #c8c8c8;
+    border-radius:14px;
+    padding:12px;
+    box-shadow:0 8px 20px #0003;
+}
+
+#menu h3{
+    margin:0 0 8px;
+    color:#244e80;
 }
 
 .menuButton{
-  border:1px solid #ffffff18;
-  border-radius:15px;
-  padding:15px 10px;
-  background:#172337;
-  color:white;
-  cursor:pointer;
-  font-weight:900;
+    width:100%;
+    margin:4px 0;
+    padding:9px;
+    border:0;
+    border-radius:8px;
+    background:#edf2f7;
+    cursor:pointer;
+    font-weight:bold;
 }
 
 .menuButton:hover{
-  background:#243650;
+    background:#dce8f5;
 }
 
-.menuIcon{
-  font-size:30px;
-  display:block;
-  margin-bottom:6px;
+/* NOTIFICATION */
+#notification{
+    position:absolute;
+    left:50%;
+    top:90px;
+    transform:translateX(-50%);
+    background:#1d2d40;
+    color:white;
+    padding:11px 20px;
+    border-radius:20px;
+    z-index:300;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+    font-weight:bold;
 }
 
-/* =========================
-   INVENTORY
-========================= */
-
-.item{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  padding:12px;
-  margin:8px 0;
-  border-radius:13px;
-  background:#ffffff0b;
+#notification.show{
+    opacity:1;
 }
 
-.buy{
-  border:0;
-  padding:8px 12px;
-  border-radius:9px;
-  background:#36c879;
-  color:#082312;
-  font-weight:900;
-  cursor:pointer;
+/* FLOATING MONEY */
+.moneyFloat{
+    position:absolute;
+    color:#13a94e;
+    font-weight:900;
+    font-size:20px;
+    z-index:200;
+    animation:moneyUp 1s forwards;
+    pointer-events:none;
 }
 
-/* =========================
-   MISSION
-========================= */
-
-.mission{
-  padding:15px;
-  border-radius:15px;
-  background:#ffffff09;
-  margin:10px 0;
+@keyframes moneyUp{
+    0%{opacity:1;transform:translateY(0);}
+    100%{opacity:0;transform:translateY(-65px);}
 }
 
-.progress{
-  height:12px;
-  background:#ffffff18;
-  border-radius:99px;
-  overflow:hidden;
-  margin-top:8px;
+/* UPGRADES */
+#upgradeBox{
+    position:absolute;
+    left:15px;
+    bottom:15px;
+    z-index:130;
+    background:white;
+    border:2px solid #ccc;
+    border-radius:12px;
+    padding:10px;
+    width:190px;
+    box-shadow:0 5px 12px #0003;
 }
 
-.progress i{
-  display:block;
-  height:100%;
-  width:0;
-  background:#45dc8c;
+#upgradeBox b{
+    color:#244e80;
 }
 
-/* =========================
-   ADS
-========================= */
-
-#adContainer{
-  position:absolute;
-  left:50%;
-  top:52%;
-  transform:translate(-50%,-50%);
-  z-index:90;
-  width:min(500px,90%);
-  min-height:100px;
-  padding:10px;
-  background:#0b1018f0;
-  border:1px solid #ffffff20;
-  border-radius:15px;
-  display:none;
-  text-align:center;
+.upgradeBtn{
+    width:100%;
+    margin-top:5px;
+    padding:7px;
+    border:0;
+    border-radius:7px;
+    background:#f1b73b;
+    cursor:pointer;
+    font-weight:bold;
 }
 
-#adContainer.show{
-  display:block;
+/* DAY MESSAGE */
+#dayMessage{
+    position:absolute;
+    inset:0;
+    background:#102d4cd9;
+    z-index:500;
+    display:none;
+    align-items:center;
+    justify-content:center;
 }
 
-#adClose{
-  position:absolute;
-  right:5px;
-  top:5px;
-  border:0;
-  background:#ffffff22;
-  color:white;
-  border-radius:7px;
-  cursor:pointer;
+.dayCard{
+    background:#fff;
+    padding:35px;
+    border-radius:20px;
+    text-align:center;
+    width:330px;
+    box-shadow:0 15px 40px #0006;
 }
 
-/*
-====================================
-GOOGLE ADSENSE
-
-When Google approves your website,
-replace this comment with the exact
-AdSense code Google gives you.
-
-DO NOT invent your publisher ID.
-
-Example structure:
-
-<script async
-src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=YOUR_ID"
-crossorigin="anonymous"></script>
-
-Then put your approved ad unit inside
-#adContainer.
-
-====================================
-*/
-
-/* =========================
-   NOTIFICATIONS
-========================= */
-
-#toast{
-  position:absolute;
-  left:50%;
-  top:85px;
-  transform:translateX(-50%);
-  z-index:100;
-  padding:12px 18px;
-  border-radius:12px;
-  background:#111b2b;
-  border:1px solid #ffffff20;
-  box-shadow:0 10px 30px #0008;
-  opacity:0;
-  pointer-events:none;
-  transition:.3s;
+.dayCard h1{
+    color:#244e80;
 }
 
-#toast.show{
-  opacity:1;
+.dayCard button{
+    background:#19c967;
+    color:white;
+    border:0;
+    padding:12px 30px;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
+/* RESPONSIVE */
+@media(max-width:800px){
+    #menu{
+        transform:scale(.8);
+        transform-origin:top left;
+    }
 
-@media(max-width:600px){
+    .logo{
+        font-size:15px;
+    }
 
-  .shop{
-    height:320px;
-    bottom:31%;
-  }
+    .stat{
+        min-width:60px;
+        padding:6px;
+        font-size:11px;
+    }
 
-  .character{
-    transform:scale(.82);
-    transform-origin:bottom center;
-  }
-
-  .hudItem{
-    min-width:82px;
-    padding:6px 8px;
-  }
-
-  .hudItem b{
-    font-size:14px;
-  }
-
-  #controls{
-    bottom:7px;
-  }
-
-  .control{
-    padding:9px 11px;
-    font-size:12px;
-  }
+    #customerPanel{
+        width:220px;
+    }
 }
 </style>
 </head>
@@ -799,1552 +782,1040 @@ Then put your approved ad unit inside
 
 <div id="game">
 
-<!-- START -->
+    <div id="topbar">
+        <div class="logo">🏪 THE LAST SHOP</div>
 
-<div id="startScreen">
+        <div class="stats">
+            <div class="stat">
+                <small>MONEY</small>
+                £<span id="money">100</span>
+            </div>
 
-  <div class="startBox">
+            <div class="stat">
+                <small>CUSTOMERS</small>
+                <span id="served">0</span>
+            </div>
 
-    <div class="logo">🏪</div>
+            <div class="stat">
+                <small>DAY</small>
+                <span id="day">1</span>
+            </div>
 
-    <h1 class="title">
-      THE LAST SHOP
-    </h1>
+            <div class="stat">
+                <small>TIME</small>
+                <span id="clock">08:00</span>
+            </div>
 
-    <p class="subtitle">
-      Build the shop. Meet the customers.
-      Survive the town. Become the best shopkeeper.
-    </p>
-
-    <button
-      class="startButton"
-      onclick="startGame()">
-      ▶ START GAME
-    </button>
-
-    <p class="small">
-      Your progress is saved on this device.
-    </p>
-
-  </div>
-
-</div>
-
-
-<!-- WORLD -->
-
-<div id="world">
-
-  <div class="sky"></div>
-
-  <div class="city" id="city"></div>
-
-  <div class="street">
-    <div class="roadLine"></div>
-  </div>
-
-  <div class="shop">
-
-    <div class="shopRoof"></div>
-
-    <div class="shopSign">
-      🏪 THE LAST SHOP
+            <button id="pauseBtn" onclick="togglePause()">Ⅱ</button>
+        </div>
     </div>
 
-    <div class="shopWindow">
+    <div id="world">
 
-      <div class="windowShelf"></div>
+        <div class="wall"></div>
+        <div class="floor"></div>
 
-    </div>
+        <div class="window left"></div>
+        <div class="window right"></div>
 
-    <div class="shopDoor">
+        <div class="shopSign">THE LAST SHOP</div>
 
-      <div class="doorGlass"></div>
-      <div class="doorHandle"></div>
+        <!-- FOOD -->
+        <div class="shelf foodShelf">
+            <div class="shelfTitle">🍎 FOOD</div>
 
-    </div>
+            <div class="item food1">
+                🥫
+                <span>£2</span>
+            </div>
 
-    <div class="counter">
+            <div class="item food2">
+                🍞
+                <span>£3</span>
+            </div>
 
-      <div class="counterTop"></div>
+            <div class="item food3">
+                🥛
+                <span>£3</span>
+            </div>
+        </div>
 
-    </div>
+        <!-- SUPPLIES -->
+        <div class="shelf supplyShelf">
+            <div class="shelfTitle">🧰 SUPPLIES</div>
 
-  </div>
+            <div class="item sup1">
+                🧼
+                <span>£4</span>
+            </div>
 
-  <div id="characters"></div>
+            <div class="item sup2">
+                🔨
+                <span>£7</span>
+            </div>
 
-</div>
+            <div class="item sup3">
+                🧽
+                <span>£4</span>
+            </div>
+        </div>
 
+        <!-- COUNTER -->
+        <div class="counter">
+            <div class="register">£</div>
+        </div>
 
-<!-- HUD -->
+        <div class="customerLane"></div>
 
-<div id="hud">
+        <!-- PLAYER -->
+        <div id="player">
+            <div class="playerLabel">YOU</div>
 
-  <div class="hudItem">
-    DAY
-    <b id="day">1</b>
-  </div>
+            <div class="human worker">
+                <div class="head"></div>
+                <div class="hair"></div>
+                <div class="eye left"></div>
+                <div class="eye right"></div>
+                <div class="nose"></div>
+                <div class="mouth"></div>
+                <div class="arm left"></div>
+                <div class="arm right"></div>
+                <div class="body"></div>
+                <div class="leg left"></div>
+                <div class="leg right"></div>
+                <div class="shoe left"></div>
+                <div class="shoe right"></div>
+            </div>
+        </div>
 
-  <div class="hudItem">
-    MONEY
-    <b id="money">£500</b>
-  </div>
-
-  <div class="hudItem">
-    STOCK
-    <b id="stock">20</b>
-  </div>
-
-  <div class="hudItem">
-    ⭐ REPUTATION
-    <b id="rep">50</b>
-  </div>
-
-  <div class="hudItem">
-    LEVEL
-    <b id="level">1</b>
-  </div>
-
-</div>
-
-
-<!-- CONTROLS -->
-
-<div id="controls">
-
-  <button
-    class="control primary"
-    onclick="openShop()">
-    🛒 SHOP
-  </button>
-
-  <button
-    class="control"
-    onclick="openMissions()">
-    🎯 MISSIONS
-  </button>
-
-  <button
-    class="control"
-    onclick="openInventory()">
-    📦 STOCK
-  </button>
-
-  <button
-    class="control"
-    onclick="openStats()">
-    📊 STATS
-  </button>
-
-  <button
-    class="control"
-    onclick="toggleMusic()">
-    🎵 SOUND
-  </button>
-
-  <button
-    class="control"
-    onclick="saveGame()">
-    💾 SAVE
-  </button>
-
-</div>
-
-
-<!-- DIALOGUE -->
-
-<div id="dialogue" class="dialogue">
-
-  <div
-    id="dialogueName"
-    class="dialogueName">
-  </div>
-
-  <div
-    id="dialogueText"
-    class="dialogueText">
-  </div>
-
-  <div class="dialogueActions">
-
-    <button
-      class="control primary"
-      onclick="nextDialogue()">
-      Next ▶
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- SHOP PANEL -->
-
-<div id="shopPanel" class="overlay">
-
-  <div class="panel">
-
-    <button
-      class="close"
-      onclick="closePanels()">
-      ×
-    </button>
-
-    <h2>🛒 Shop Management</h2>
-
-    <p>
-      Buy stock cheaply and sell it to customers.
-      Keep enough stock to survive the day.
-    </p>
-
-    <div class="menuGrid">
-
-      <button
-        class="menuButton"
-        onclick="buyStock('bread')">
-
-        <span class="menuIcon">🍞</span>
-        Bread
-        <br>
-        £5
-      </button>
-
-      <button
-        class="menuButton"
-        onclick="buyStock('milk')">
-
-        <span class="menuIcon">🥛</span>
-        Milk
-        <br>
-        £4
-      </button>
-
-      <button
-        class="menuButton"
-        onclick="buyStock('apple')">
-
-        <span class="menuIcon">🍎</span>
-        Apples
-        <br>
-        £3
-      </button>
-
-      <button
-        class="menuButton"
-        onclick="buyStock('coffee')">
-
-        <span class="menuIcon">☕</span>
-        Coffee
-        <br>
-        £8
-      </button>
-
-      <button
-        class="menuButton"
-        onclick="buyStock('cake')">
-
-        <span class="menuIcon">🍰</span>
-        Cake
-        <br>
-        £12
-      </button>
-
-      <button
-        class="menuButton"
-        onclick="buyStock('medicine')">
-
-        <span class="menuIcon">💊</span>
-        Medicine
-        <br>
-        £15
-      </button>
+        <div id="characters"></div>
 
     </div>
 
-    <hr>
+    <!-- LEFT MENU -->
+    <div id="menu">
+        <h3>🏪 Shop</h3>
 
-    <button
-      class="startButton"
-      onclick="closePanels()">
-      Continue
-    </button>
+        <button class="menuButton" onclick="restock()">
+            📦 Restock Shop
+        </button>
 
-  </div>
+        <button class="menuButton" onclick="openShop()">
+            🚪 Open / Close Shop
+        </button>
 
-</div>
+        <button class="menuButton" onclick="callCustomer()">
+            👥 Call Customer
+        </button>
 
+        <button class="menuButton" onclick="talkToNearest()">
+            💬 Talk to Customer
+        </button>
+    </div>
 
-<!-- INVENTORY -->
+    <!-- UPGRADES -->
+    <div id="upgradeBox">
+        <b>⬆️ UPGRADES</b>
 
-<div id="inventoryPanel" class="overlay">
+        <button class="upgradeBtn" onclick="upgradeShop()">
+            ⭐ Upgrade Shop — £50
+        </button>
 
-  <div class="panel">
+        <button class="upgradeBtn" onclick="upgradeService()">
+            ⚡ Faster Service — £40
+        </button>
 
-    <button
-      class="close"
-      onclick="closePanels()">
-      ×
-    </button>
+        <button class="upgradeBtn" onclick="upgradeAttraction()">
+            👥 More Customers — £60
+        </button>
+    </div>
 
-    <h2>📦 Your Stock</h2>
+    <!-- CUSTOMER CARDS -->
+    <div id="customerPanel"></div>
 
-    <div id="inventoryList"></div>
+    <!-- NOTIFICATION -->
+    <div id="notification"></div>
 
-  </div>
-
-</div>
-
-
-<!-- MISSIONS -->
-
-<div id="missionPanel" class="overlay">
-
-  <div class="panel">
-
-    <button
-      class="close"
-      onclick="closePanels()">
-      ×
-    </button>
-
-    <h2>🎯 Missions</h2>
-
-    <div id="missionList"></div>
-
-  </div>
-
-</div>
-
-
-<!-- STATS -->
-
-<div id="statsPanel" class="overlay">
-
-  <div class="panel">
-
-    <button
-      class="close"
-      onclick="closePanels()">
-      ×
-    </button>
-
-    <h2>📊 Shop Statistics</h2>
-
-    <div id="statsContent"></div>
-
-  </div>
+    <!-- DAY SCREEN -->
+    <div id="dayMessage">
+        <div class="dayCard">
+            <h1>🌙 Shop Closed</h1>
+            <p id="daySummary"></p>
+            <button onclick="nextDay()">START NEXT DAY</button>
+        </div>
+    </div>
 
 </div>
-
-
-<!-- ADS -->
-
-<div id="adContainer">
-
-  <button
-    id="adClose"
-    onclick="closeAd()">
-    ×
-  </button>
-
-  <div style="padding:30px 10px">
-
-    <b>ADVERTISEMENT</b>
-
-    <p class="small">
-      Your approved Google AdSense advertisement
-      will appear here.
-    </p>
-
-  </div>
-
-</div>
-
-
-<div id="toast"></div>
-
-</div>
-
 
 <script>
 
-/* =====================================================
+/* =========================================================
    THE LAST SHOP
-   COMPLETE GAME ENGINE
-===================================================== */
+   COMPLETE SINGLE FILE GAME
+   ========================================================= */
 
+let money = 100;
+let served = 0;
+let day = 1;
 
-/* =========================
-   GAME DATA
-========================= */
+let shopOpen = true;
+let paused = false;
 
-const game = {
+let shopLevel = 1;
+let serviceLevel = 1;
+let attractionLevel = 1;
 
-  running:false,
+let hour = 8;
+let minute = 0;
 
-  day:1,
+let customerId = 0;
 
-  money:500,
+const customers = [];
 
-  reputation:50,
-
-  level:1,
-
-  experience:0,
-
-  customersServed:0,
-
-  totalSales:0,
-
-  totalSpent:0,
-
-  sound:true,
-
-  music:false,
-
-  dialogueIndex:0,
-
-  currentCharacter:null,
-
-  stock:{
-
-    bread:5,
-    milk:5,
-    apple:5,
-    coffee:2,
-    cake:2,
-    medicine:1
-
-  }
-
-};
-
-
-/* =========================
-   CHARACTERS
-========================= */
-
-const characters=[
-
-  {
-    id:'anna',
-    name:'Anna',
-    hair:'#5a3829',
-    shirt:'#d9534f',
-    type:'regular'
-  },
-
-  {
-    id:'tom',
-    name:'Tom',
-    hair:'#171717',
-    shirt:'#3178c6',
-    type:'regular'
-  },
-
-  {
-    id:'mia',
-    name:'Mia',
-    hair:'#9a5c2f',
-    shirt:'#8d58c7',
-    type:'regular'
-  },
-
-  {
-    id:'jack',
-    name:'Jack',
-    hair:'#3b2a20',
-    shirt:'#34a56f',
-    type:'regular'
-  }
-
+const names = [
+    "Lucy","Mike","Tom","Emma","David",
+    "Sarah","James","Sophie","Daniel",
+    "Olivia","Jack","Emily","Noah","Amelia"
 ];
 
-
-/* =========================
-   DIALOGUES
-========================= */
-
-const dialogues={
-
-  anna:[
-    "Good morning! Is the shop open?",
-    "I need some bread for breakfast.",
-    "This town really needs a good shop.",
-    "I'll definitely come back tomorrow!",
-    "Your shop is getting better every day."
-  ],
-
-  tom:[
-    "Hey! Do you have coffee?",
-    "I've heard this is the last shop in town.",
-    "Business looks busy today.",
-    "Keep improving the shop!",
-    "Maybe I'll tell my friends about you."
-  ],
-
-  mia:[
-    "Hello! I need some milk please.",
-    "I love seeing new shops grow.",
-    "Do you have anything sweet?",
-    "The cake looks amazing!",
-    "See you next time."
-  ],
-
-  jack:[
-    "Morning shopkeeper!",
-    "I'm looking for something quick to eat.",
-    "This place has potential.",
-    "Your reputation is improving.",
-    "Keep going!"
-  ]
-
-};
-
-
-/* =========================
-   MISSIONS
-========================= */
-
-const missions=[
-
-  {
-    id:'customers',
-    title:'Serve 5 Customers',
-    description:'Sell items to 5 customers.',
-    target:5,
-    get:()=>game.customersServed,
-    reward:100
-  },
-
-  {
-    id:'money',
-    title:'Make £100',
-    description:'Build your shop savings.',
-    target:600,
-    get:()=>game.money,
-    reward:150
-  },
-
-  {
-    id:'reputation',
-    title:'Become Popular',
-    description:'Reach 60 reputation.',
-    target:60,
-    get:()=>game.reputation,
-    reward:200
-  }
-
+const requests = [
+    {item:"soap",emoji:"🧼",price:4},
+    {item:"bread",emoji:"🍞",price:3},
+    {item:"milk",emoji:"🥛",price:3},
+    {item:"food",emoji:"🥫",price:2},
+    {item:"hammer",emoji:"🔨",price:7},
+    {item:"sponge",emoji:"🧽",price:4}
 ];
 
-const completedMissions={};
+const conversations = [
+    ["Hi!", "Hello! Are you shopping here too?"],
+    ["This shop is nice.", "Yes, I like it!"],
+    ["Do you know where the soap is?", "I think it's on that shelf."],
+    ["The bread looks fresh.", "I might get some too."],
+    ["It's busy today!", "Yes! There are lots of customers."],
+    ["Have you been here before?", "No, this is my first time."],
+    ["I'm looking for something.", "What do you need?"],
+    ["I need some supplies.", "The supplies are over there."]
+];
 
+const characterTypes = [
+    "male1",
+    "male2",
+    "female1",
+    "female2"
+];
 
-/* =========================
-   CITY
-========================= */
+const charactersEl = document.getElementById("characters");
+const customerPanel = document.getElementById("customerPanel");
 
-function buildCity(){
-
-  const city=document.getElementById('city');
-
-  city.innerHTML='';
-
-  for(let i=0;i<15;i++){
-
-    const b=document.createElement('div');
-
-    b.className='building';
-
-    b.style.height=(35+Math.random()*65)+'%';
-
-    for(let w=0;w<4;w++){
-
-      const win=document.createElement('i');
-
-      win.className='window';
-
-      win.style.left=(10+Math.random()*75)+'%';
-
-      win.style.top=(10+Math.random()*70)+'%';
-
-      b.appendChild(win);
-
-    }
-
-    city.appendChild(b);
-
-  }
-
-}
-
-
-/* =========================
-   CHARACTERS
-========================= */
-
-function createCharacters(){
-
-  const container=document.getElementById('characters');
-
-  container.innerHTML='';
-
-  characters.forEach((c,i)=>{
-
-    const el=document.createElement('div');
-
-    el.className='character';
-
-    el.id='char_'+c.id;
-
-    el.style.left=(18+i*19)+'%';
-
-    el.style.bottom=(30+(i%2)*2)+'%';
-
-    el.innerHTML=`
-
-      <div class="charName">
-        ${c.name}
-      </div>
-
-      <div
-        class="head"
-        style="background:#d89b70">
-
-        <div
-          class="hair"
-          style="background:${c.hair}">
-        </div>
-
-        <div class="eye left"></div>
-        <div class="eye right"></div>
-
-        <div class="nose"></div>
-
-        <div class="mouth"></div>
-
-      </div>
-
-      <div
-        class="body"
-        style="background:${c.shirt}">
-      </div>
-
-      <div class="arm left"></div>
-      <div class="arm right"></div>
-
-      <div class="leg left"></div>
-      <div class="leg right"></div>
-
-    `;
-
-    el.onclick=()=>talkTo(c.id);
-
-    container.appendChild(el);
-
-  });
-
-}
-
-
-/* =========================
-   GAME START
-========================= */
-
-function startGame(){
-
-  document.getElementById(
-    'startScreen'
-  ).style.display='none';
-
-  game.running=true;
-
-  loadGame();
-
-  updateHUD();
-
-  buildCity();
-
-  createCharacters();
-
-  showToast(
-    'Welcome to The Last Shop!'
-  );
-
-  setTimeout(
-    firstCustomer,
-    1200
-  );
-
-}
-
-
-/* =========================
-   HUD
-========================= */
+/* =========================================================
+   BASIC UI
+   ========================================================= */
 
 function updateHUD(){
 
-  document.getElementById('day')
-    .textContent=game.day;
+    document.getElementById("money").textContent =
+        Math.floor(money);
 
-  document.getElementById('money')
-    .textContent='£'+game.money.toFixed(0);
+    document.getElementById("served").textContent =
+        served;
 
-  document.getElementById('rep')
-    .textContent=game.reputation;
+    document.getElementById("day").textContent =
+        day;
 
-  document.getElementById('level')
-    .textContent=game.level;
-
-  let total=0;
-
-  Object.values(game.stock)
-    .forEach(v=>total+=v);
-
-  document.getElementById('stock')
-    .textContent=total;
-
+    document.getElementById("clock").textContent =
+        String(hour).padStart(2,"0") + ":" +
+        String(minute).padStart(2,"0");
 }
 
+function notify(message){
 
-/* =========================
-   TALK
-========================= */
+    const box = document.getElementById("notification");
 
-function talkTo(id){
+    box.textContent = message;
+    box.classList.add("show");
 
-  game.currentCharacter=id;
+    clearTimeout(box.timer);
 
-  game.dialogueIndex=0;
-
-  showDialogue();
-
+    box.timer = setTimeout(()=>{
+        box.classList.remove("show");
+    },2200);
 }
 
+/* =========================================================
+   MONEY
+   ========================================================= */
 
-function showDialogue(){
+function addMoney(amount,x=50,y=60){
 
-  const id=game.currentCharacter;
+    money += amount;
 
-  const list=dialogues[id];
+    const el = document.createElement("div");
 
-  if(!list)
-    return;
+    el.className = "moneyFloat";
+    el.textContent = "+£" + amount;
 
-  document.getElementById(
-    'dialogueName'
-  ).textContent=
-    characters.find(
-      c=>c.id===id
-    ).name;
+    el.style.left = x + "%";
+    el.style.top = y + "%";
 
-  document.getElementById(
-    'dialogueText'
-  ).textContent=
-    list[game.dialogueIndex];
+    document.getElementById("world").appendChild(el);
 
-  document.getElementById(
-    'dialogue'
-  ).classList.add('show');
+    setTimeout(()=>{
+        el.remove();
+    },1000);
 
-  playSound('talk');
-
+    updateHUD();
 }
 
+/* =========================================================
+   CREATE HUMAN
+   ========================================================= */
 
-function nextDialogue(){
+function createHuman(type="male1"){
 
-  const list=
-    dialogues[
-      game.currentCharacter
+    const human = document.createElement("div");
+
+    human.className = "human " + type;
+
+    human.innerHTML = `
+        <div class="head"></div>
+        <div class="hair"></div>
+        <div class="eye left"></div>
+        <div class="eye right"></div>
+        <div class="nose"></div>
+        <div class="mouth"></div>
+        <div class="arm left"></div>
+        <div class="arm right"></div>
+        <div class="body"></div>
+        <div class="leg left"></div>
+        <div class="leg right"></div>
+        <div class="shoe left"></div>
+        <div class="shoe right"></div>
+    `;
+
+    return human;
+}
+
+/* =========================================================
+   CUSTOMER CREATION
+   ========================================================= */
+
+function createCustomer(){
+
+    if(!shopOpen || paused) return;
+
+    const maxCustomers =
+        3 + attractionLevel * 2;
+
+    if(customers.length >= maxCustomers){
+        return;
+    }
+
+    customerId++;
+
+    const name =
+        names[Math.floor(Math.random()*names.length)];
+
+    const request =
+        requests[Math.floor(Math.random()*requests.length)];
+
+    const type =
+        characterTypes[
+            Math.floor(Math.random()*characterTypes.length)
+        ];
+
+    const customer = {
+
+        id:customerId,
+
+        name:name,
+
+        request:request,
+
+        type:type,
+
+        x:Math.random()*70+10,
+
+        y:70,
+
+        state:"entering",
+
+        served:false,
+
+        element:null,
+
+        speech:null,
+
+        speed:0.15 + Math.random()*0.08
+    };
+
+    customers.push(customer);
+
+    const human = createHuman(type);
+
+    human.style.left = customer.x + "%";
+    human.style.top = customer.y + "%";
+
+    human.classList.add("walking");
+
+    charactersEl.appendChild(human);
+
+    customer.element = human;
+
+    updateCustomerPanel();
+
+    walkCustomer(customer);
+}
+
+/* =========================================================
+   CUSTOMER WALKING
+   ========================================================= */
+
+function walkCustomer(customer){
+
+    if(customer.served || paused) return;
+
+    customer.x += customer.speed;
+
+    if(customer.x >= 78){
+
+        customer.x = 72;
+
+        customer.state = "shopping";
+
+        customer.element.classList.remove("walking");
+
+        showSpeech(
+            customer,
+            "Hi! I need " +
+            customer.request.item +
+            " " +
+            customer.request.emoji
+        );
+
+        setTimeout(()=>{
+
+            if(customer.served) return;
+
+            customer.state = "waiting";
+
+            showSpeech(
+                customer,
+                "Can someone help me please?"
+            );
+
+            updateCustomerPanel();
+
+        },1700);
+
+        return;
+    }
+
+    customer.element.style.left =
+        customer.x + "%";
+
+    setTimeout(()=>{
+        walkCustomer(customer);
+    },100);
+}
+
+/* =========================================================
+   SPEECH
+   ========================================================= */
+
+function showSpeech(customer,text,duration=2800){
+
+    if(customer.speech){
+        customer.speech.remove();
+    }
+
+    const bubble =
+        document.createElement("div");
+
+    bubble.className = "speech";
+    bubble.textContent = text;
+
+    bubble.style.left =
+        customer.x + "%";
+
+    bubble.style.top =
+        (customer.y - 7) + "%";
+
+    document.getElementById("world")
+        .appendChild(bubble);
+
+    customer.speech = bubble;
+
+    setTimeout(()=>{
+
+        if(bubble.parentNode){
+            bubble.remove();
+        }
+
+        if(customer.speech === bubble){
+            customer.speech = null;
+        }
+
+    },duration);
+}
+
+/* =========================================================
+   CUSTOMER CONVERSATIONS
+   ========================================================= */
+
+function customerConversation(){
+
+    const active =
+        customers.filter(c =>
+            !c.served &&
+            c.state !== "entering"
+        );
+
+    if(active.length < 2) return;
+
+    const a = active[
+        Math.floor(Math.random()*active.length)
     ];
 
-  game.dialogueIndex++;
-
-  if(game.dialogueIndex>=list.length){
-
-    document.getElementById(
-      'dialogue'
-    ).classList.remove('show');
-
-    rewardExperience(5);
-
-    return;
-
-  }
-
-  showDialogue();
-
-}
-
-
-/* =========================
-   CUSTOMERS
-========================= */
-
-function firstCustomer(){
-
-  talkTo('anna');
-
-  setTimeout(()=>{
-
-    document.getElementById(
-      'dialogue'
-    ).classList.remove('show');
-
-    customerPurchase();
-
-  },4500);
-
-}
-
-
-function customerPurchase(){
-
-  const products=[
-    'bread',
-    'milk',
-    'apple',
-    'coffee',
-    'cake'
-  ];
-
-  const product=
-    products[
-      Math.floor(
-        Math.random()*products.length
-      )
+    let b = active[
+        Math.floor(Math.random()*active.length)
     ];
 
-  if(game.stock[product]<=0){
+    if(a === b) return;
 
-    showToast(
-      'A customer wanted '+product+
-      ' but you are out of stock!'
+    const conversation =
+        conversations[
+            Math.floor(Math.random()*conversations.length)
+        ];
+
+    showSpeech(a,conversation[0],2500);
+
+    setTimeout(()=>{
+
+        if(!b.served){
+            showSpeech(b,conversation[1],2500);
+        }
+
+    },1400);
+}
+
+/* =========================================================
+   CUSTOMER PANEL
+   ========================================================= */
+
+function updateCustomerPanel(){
+
+    customerPanel.innerHTML = "";
+
+    customers
+        .filter(c=>!c.served)
+        .forEach(customer=>{
+
+            const card =
+                document.createElement("div");
+
+            card.className = "customerCard";
+
+            card.innerHTML = `
+                <div class="customerAvatar"></div>
+
+                <div class="customerInfo">
+                    <b>${customer.name}</b>
+
+                    <span>
+                        ${customer.request.emoji}
+                        I need ${customer.request.item}
+                        — £${customer.request.price}
+                    </span>
+
+                    <button
+                        class="serveBtn"
+                        onclick="serveCustomer(${customer.id})">
+                        SERVE CUSTOMER
+                    </button>
+                </div>
+            `;
+
+            customerPanel.appendChild(card);
+        });
+}
+
+/* =========================================================
+   SERVE CUSTOMER
+   ========================================================= */
+
+function serveCustomer(id){
+
+    const customer =
+        customers.find(c=>c.id===id);
+
+    if(!customer || customer.served) return;
+
+    customer.served = true;
+    customer.state = "served";
+
+    if(customer.speech){
+        customer.speech.remove();
+    }
+
+    customer.element.classList.add("walking");
+
+    showSpeech(
+        customer,
+        "Thank you! 😊",
+        1800
     );
 
-    game.reputation=
-      Math.max(
-        0,
-        game.reputation-2
-      );
+    setTimeout(()=>{
+
+        const payment =
+            customer.request.price +
+            shopLevel;
+
+        addMoney(
+            payment,
+            customer.x,
+            customer.y
+        );
+
+        served++;
+
+        customer.element.style.left = "105%";
+
+        setTimeout(()=>{
+
+            customer.element.remove();
+
+            const index =
+                customers.indexOf(customer);
+
+            if(index >= 0){
+                customers.splice(index,1);
+            }
+
+            updateCustomerPanel();
+
+        },1000);
+
+        updateCustomerPanel();
+
+    },700);
+}
+
+/* =========================================================
+   TALK TO NEAREST
+   ========================================================= */
+
+function talkToNearest(){
+
+    const active =
+        customers.filter(c=>!c.served);
+
+    if(active.length===0){
+
+        notify("There are no customers to talk to.");
+
+        return;
+    }
+
+    const customer = active[0];
+
+    const messages = [
+        "Hello! 😊",
+        "Welcome to The Last Shop!",
+        "Let me know if you need anything.",
+        "We have lots of products today!",
+        "Thanks for coming to our shop!"
+    ];
+
+    showSpeech(
+        customer,
+        messages[
+            Math.floor(Math.random()*messages.length)
+        ]
+    );
+}
+
+/* =========================================================
+   MANUAL CUSTOMER
+   ========================================================= */
+
+function callCustomer(){
+
+    if(!shopOpen){
+
+        notify("The shop is closed.");
+
+        return;
+    }
+
+    createCustomer();
+
+    notify("A new customer is coming!");
+}
+
+/* =========================================================
+   RESTOCK
+   ========================================================= */
+
+function restock(){
+
+    const cost = 10;
+
+    if(money < cost){
+
+        notify("You need £10 to restock.");
+
+        return;
+    }
+
+    money -= cost;
 
     updateHUD();
 
-    return;
+    notify("📦 Shop restocked!");
 
-  }
+    /* little shelf animation */
 
-  const prices={
+    document.querySelectorAll(".item")
+        .forEach(item=>{
 
-    bread:8,
-    milk:7,
-    apple:5,
-    coffee:12,
-    cake:18
-
-  };
-
-  game.stock[product]--;
-
-  game.money+=prices[product];
-
-  game.totalSales+=prices[product];
-
-  game.customersServed++;
-
-  game.reputation=
-    Math.min(
-      100,
-      game.reputation+1
-    );
-
-  rewardExperience(10);
-
-  playSound('coin');
-
-  showToast(
-    'Customer bought '+product+
-    ' for £'+prices[product]
-  );
-
-  updateHUD();
-
-  checkMissions();
-
+            item.animate(
+                [
+                    {transform:"scale(1)"},
+                    {transform:"scale(1.18)"},
+                    {transform:"scale(1)"}
+                ],
+                {
+                    duration:500
+                }
+            );
+        });
 }
 
-
-/* =========================
-   STOCK
-========================= */
-
-function buyStock(item){
-
-  const prices={
-
-    bread:5,
-    milk:4,
-    apple:3,
-    coffee:8,
-    cake:12,
-    medicine:15
-
-  };
-
-  const price=prices[item];
-
-  if(game.money<price){
-
-    showToast(
-      'Not enough money!'
-    );
-
-    playSound('wrong');
-
-    return;
-
-  }
-
-  game.money-=price;
-
-  game.totalSpent+=price;
-
-  game.stock[item]++;
-
-  playSound('coin');
-
-  showToast(
-    '+1 '+item
-  );
-
-  updateHUD();
-
-  updateInventory();
-
-}
-
-
-/* =========================
-   INVENTORY
-========================= */
-
-function openInventory(){
-
-  updateInventory();
-
-  document.getElementById(
-    'inventoryPanel'
-  ).classList.add('show');
-
-}
-
-
-function updateInventory(){
-
-  const names={
-
-    bread:'🍞 Bread',
-    milk:'🥛 Milk',
-    apple:'🍎 Apples',
-    coffee:'☕ Coffee',
-    cake:'🍰 Cake',
-    medicine:'💊 Medicine'
-
-  };
-
-  let html='';
-
-  Object.keys(game.stock)
-    .forEach(item=>{
-
-      html+=`
-
-        <div class="item">
-
-          <span>
-            ${names[item]}
-          </span>
-
-          <b>
-            ${game.stock[item]}
-          </b>
-
-        </div>
-
-      `;
-
-    });
-
-  document.getElementById(
-    'inventoryList'
-  ).innerHTML=html;
-
-}
-
-
-/* =========================
-   SHOP
-========================= */
+/* =========================================================
+   SHOP OPEN/CLOSE
+   ========================================================= */
 
 function openShop(){
 
-  document.getElementById(
-    'shopPanel'
-  ).classList.add('show');
+    shopOpen = !shopOpen;
 
+    if(shopOpen){
+
+        notify("🚪 Shop is OPEN!");
+
+    }else{
+
+        notify("🔒 Shop is CLOSED!");
+    }
 }
 
+/* =========================================================
+   UPGRADES
+   ========================================================= */
 
-function closePanels(){
+function upgradeShop(){
 
-  document
-    .querySelectorAll('.overlay')
-    .forEach(
-      x=>x.classList.remove('show')
-    );
+    const cost =
+        50 * shopLevel;
 
-}
+    if(money < cost){
 
+        notify("Not enough money.");
 
-/* =========================
-   MISSIONS
-========================= */
-
-function openMissions(){
-
-  updateMissions();
-
-  document.getElementById(
-    'missionPanel'
-  ).classList.add('show');
-
-}
-
-
-function updateMissions(){
-
-  let html='';
-
-  missions.forEach(m=>{
-
-    const value=
-      Math.min(
-        m.target,
-        m.get()
-      );
-
-    const percent=
-      Math.min(
-        100,
-        value/m.target*100
-      );
-
-    html+=`
-
-      <div class="mission">
-
-        <b>${m.title}</b>
-
-        <p>${m.description}</p>
-
-        <div class="progress">
-          <i style="width:${percent}%"></i>
-        </div>
-
-        <p>
-          ${value} / ${m.target}
-        </p>
-
-      </div>
-
-    `;
-
-  });
-
-  document.getElementById(
-    'missionList'
-  ).innerHTML=html;
-
-}
-
-
-function checkMissions(){
-
-  missions.forEach(m=>{
-
-    if(
-      m.get()>=m.target &&
-      !completedMissions[m.id]
-    ){
-
-      completedMissions[m.id]=true;
-
-      game.money+=m.reward;
-
-      game.reputation=
-        Math.min(
-          100,
-          game.reputation+3
-        );
-
-      showToast(
-        '🎯 Mission complete! +£'+
-        m.reward
-      );
-
-      playSound('win');
-
-      updateHUD();
-
+        return;
     }
 
-  });
+    money -= cost;
+    shopLevel++;
 
-}
-
-
-/* =========================
-   LEVEL SYSTEM
-========================= */
-
-function rewardExperience(amount){
-
-  game.experience+=amount;
-
-  const needed=
-    game.level*50;
-
-  if(game.experience>=needed){
-
-    game.experience-=needed;
-
-    game.level++;
-
-    game.money+=100;
-
-    game.reputation=
-      Math.min(
-        100,
-        game.reputation+5
-      );
-
-    showToast(
-      '⭐ LEVEL UP! Level '+
-      game.level
+    notify(
+        "⭐ Shop upgraded to level " +
+        shopLevel
     );
 
-    playSound('win');
-
-  }
-
-  updateHUD();
-
+    updateHUD();
 }
 
+function upgradeService(){
 
-/* =========================
-   DAY SYSTEM
-========================= */
+    const cost =
+        40 * serviceLevel;
 
-function newDay(){
+    if(money < cost){
 
-  game.day++;
+        notify("Not enough money.");
 
-  game.reputation=
-    Math.min(
-      100,
-      game.reputation+1
+        return;
+    }
+
+    money -= cost;
+    serviceLevel++;
+
+    notify(
+        "⚡ Service upgraded to level " +
+        serviceLevel
     );
 
-  showToast(
-    '🌅 Day '+game.day+
-    ' has started!'
-  );
-
-  updateHUD();
-
-  saveGame();
-
+    updateHUD();
 }
 
+function upgradeAttraction(){
 
-/* =========================
-   STATS
-========================= */
+    const cost =
+        60 * attractionLevel;
 
-function openStats(){
+    if(money < cost){
 
-  document.getElementById(
-    'statsContent'
-  ).innerHTML=`
+        notify("Not enough money.");
 
-    <div class="item">
-      <span>Days open</span>
-      <b>${game.day}</b>
-    </div>
+        return;
+    }
 
-    <div class="item">
-      <span>Customers served</span>
-      <b>${game.customersServed}</b>
-    </div>
+    money -= cost;
+    attractionLevel++;
 
-    <div class="item">
-      <span>Total sales</span>
-      <b>£${game.totalSales.toFixed(0)}</b>
-    </div>
-
-    <div class="item">
-      <span>Money spent</span>
-      <b>£${game.totalSpent.toFixed(0)}</b>
-    </div>
-
-    <div class="item">
-      <span>Reputation</span>
-      <b>${game.reputation}/100</b>
-    </div>
-
-    <div class="item">
-      <span>Experience</span>
-      <b>${game.experience}</b>
-    </div>
-
-    <div class="item">
-      <span>Level</span>
-      <b>${game.level}</b>
-    </div>
-
-  `;
-
-  document.getElementById(
-    'statsPanel'
-  ).classList.add('show');
-
-}
-
-
-/* =========================
-   SAVE
-========================= */
-
-function saveGame(){
-
-  localStorage.setItem(
-    'theLastShopSave',
-    JSON.stringify(game)
-  );
-
-  showToast(
-    '💾 Game saved!'
-  );
-
-}
-
-
-function loadGame(){
-
-  const saved=
-    localStorage.getItem(
-      'theLastShopSave'
+    notify(
+        "👥 More customers will visit!"
     );
 
-  if(!saved)
-    return;
-
-  try{
-
-    const data=
-      JSON.parse(saved);
-
-    Object.assign(
-      game,
-      data
-    );
-
-  }catch(e){
-
-    console.log(
-      'Save could not be loaded.'
-    );
-
-  }
-
+    updateHUD();
 }
 
-
-/* =========================
-   SOUND ENGINE
-========================= */
-
-let audioContext=null;
-
-
-function getAudio(){
-
-  if(!audioContext){
-
-    audioContext=
-      new(
-        window.AudioContext||
-        window.webkitAudioContext
-      )();
-
-  }
-
-  return audioContext;
-
-}
-
-
-function playSound(type){
-
-  if(!game.sound)
-    return;
-
-  try{
-
-    const ctx=getAudio();
-
-    const osc=
-      ctx.createOscillator();
-
-    const gain=
-      ctx.createGain();
-
-    let freq=440;
-
-    if(type==='coin')
-      freq=850;
-
-    if(type==='talk')
-      freq=520;
-
-    if(type==='wrong')
-      freq=160;
-
-    if(type==='win')
-      freq=1000;
-
-    osc.frequency.value=freq;
-
-    osc.type='sine';
-
-    gain.gain.setValueAtTime(
-      .08,
-      ctx.currentTime
-    );
-
-    gain.gain.exponentialRampToValueAtTime(
-      .001,
-      ctx.currentTime+.18
-    );
-
-    osc.connect(gain);
-
-    gain.connect(ctx.destination);
-
-    osc.start();
-
-    osc.stop(
-      ctx.currentTime+.18
-    );
-
-  }catch(e){}
-
-}
-
-
-function toggleMusic(){
-
-  game.sound=!game.sound;
-
-  showToast(
-    game.sound
-    ?'🔊 Sound ON'
-    :'🔇 Sound OFF'
-  );
-
-}
-
-
-/* =========================
-   TOAST
-========================= */
-
-let toastTimer=null;
-
-
-function showToast(text){
-
-  const t=
-    document.getElementById('toast');
-
-  t.textContent=text;
-
-  t.classList.add('show');
-
-  clearTimeout(toastTimer);
-
-  toastTimer=
-    setTimeout(
-      ()=>t.classList.remove('show'),
-      2200
-    );
-
-}
-
-
-/* =========================
-   ADS TIMER
-========================= */
-
-/*
-   You previously requested ads
-   after 120 seconds.
-
-   This timer prepares the ad
-   container after 120 seconds.
-
-   Once Google approves AdSense,
-   we put the official Google
-   ad code inside it.
-*/
-
-let adTimer=null;
-
-
-function startAdTimer(){
-
-  clearTimeout(adTimer);
-
-  adTimer=
-    setTimeout(
-      showAd,
-      120000
-    );
-
-}
-
-
-function showAd(){
-
-  document.getElementById(
-    'adContainer'
-  ).classList.add('show');
-
-}
-
-
-function closeAd(){
-
-  document.getElementById(
-    'adContainer'
-  ).classList.remove('show');
-
-  startAdTimer();
-
-}
-
-
-/* =========================
-   RANDOM CUSTOMER MOVEMENT
-========================= */
-
-function moveCharacters(){
-
-  characters.forEach((c,i)=>{
-
-    const el=
-      document.getElementById(
-        'char_'+c.id
-      );
-
-    if(!el)
-      return;
-
-    const x=
-      10+
-      Math.random()*75;
-
-    el.style.left=x+'%';
-
-  });
-
-}
-
+/* =========================================================
+   GAME CLOCK
+   ========================================================= */
 
 setInterval(()=>{
 
-  if(game.running){
+    if(paused) return;
 
-    moveCharacters();
+    minute += 5;
 
-  }
+    if(minute >= 60){
 
-},7000);
+        minute = 0;
+        hour++;
+    }
 
+    if(hour >= 18){
 
-/* =========================
-   AUTO CUSTOMER
-========================= */
+        endDay();
+    }
 
-setInterval(()=>{
+    updateHUD();
 
-  if(!game.running)
-    return;
+},5000);
 
-  if(
-    Math.random()<.65
-  ){
-
-    customerPurchase();
-
-  }
-
-},12000);
-
-
-/* =========================
-   AUTO SAVE
-========================= */
+/* =========================================================
+   CUSTOMER SPAWN
+   ========================================================= */
 
 setInterval(()=>{
 
-  if(game.running)
-    saveGame();
+    if(paused || !shopOpen) return;
 
-},30000);
+    const chance =
+        0.35 + attractionLevel * 0.08;
 
+    if(Math.random() < chance){
 
-/* =========================
-   DAY TIMER
-========================= */
+        createCustomer();
+    }
+
+},4000);
+
+/* =========================================================
+   CONVERSATION TIMER
+   ========================================================= */
 
 setInterval(()=>{
 
-  if(game.running){
+    if(!paused){
 
-    newDay();
+        customerConversation();
+    }
 
-  }
+},8000);
 
-},180000);
+/* =========================================================
+   PAUSE
+   ========================================================= */
 
+function togglePause(){
 
-/* =========================
-   START ADS
-========================= */
+    paused = !paused;
 
-startAdTimer();
+    document.getElementById("pauseBtn")
+        .textContent = paused ? "▶" : "Ⅱ";
 
+    notify(
+        paused ?
+        "⏸ Game paused" :
+        "▶ Game resumed"
+    );
+}
 
-/* =========================
-   INITIAL WORLD
-========================= */
+/* =========================================================
+   END DAY
+   ========================================================= */
 
-buildCity();
+function endDay(){
+
+    if(!shopOpen) return;
+
+    shopOpen = false;
+
+    document.getElementById("daySummary")
+        .textContent =
+        "Day " + day +
+        " finished. You served " +
+        served +
+        " customers and have £" +
+        Math.floor(money) +
+        ".";
+
+    document.getElementById("dayMessage")
+        .style.display = "flex";
+}
+
+/* =========================================================
+   NEXT DAY
+   ========================================================= */
+
+function nextDay(){
+
+    day++;
+
+    hour = 8;
+    minute = 0;
+
+    shopOpen = true;
+
+    document.getElementById("dayMessage")
+        .style.display = "none";
+
+    notify(
+        "🌅 Day " +
+        day +
+        " has started!"
+    );
+
+    updateHUD();
+
+    setTimeout(createCustomer,1000);
+    setTimeout(createCustomer,3000);
+}
+
+/* =========================================================
+   PLAYER MOVEMENT
+   ========================================================= */
+
+const player =
+    document.getElementById("player");
+
+let playerX = 50;
+let playerY = 68;
+
+function movePlayer(dx,dy){
+
+    playerX += dx;
+    playerY += dy;
+
+    playerX =
+        Math.max(3,Math.min(94,playerX));
+
+    playerY =
+        Math.max(5,Math.min(82,playerY));
+
+    player.style.left =
+        playerX + "%";
+
+    player.style.top =
+        playerY + "%";
+}
+
+document.addEventListener("keydown",e=>{
+
+    if(e.key==="ArrowLeft" || e.key==="a"){
+        movePlayer(-2,0);
+    }
+
+    if(e.key==="ArrowRight" || e.key==="d"){
+        movePlayer(2,0);
+    }
+
+    if(e.key==="ArrowUp" || e.key==="w"){
+        movePlayer(0,-2);
+    }
+
+    if(e.key==="ArrowDown" || e.key==="s"){
+        movePlayer(0,2);
+    }
+
+    if(e.key===" "){
+        talkToNearest();
+    }
+});
+
+/* =========================================================
+   TOUCH / CLICK MOVEMENT
+   ========================================================= */
+
+document.getElementById("world")
+.addEventListener("click",e=>{
+
+    if(
+        e.target.closest(".shelf") ||
+        e.target.closest(".counter") ||
+        e.target.closest(".speech")
+    ){
+        return;
+    }
+
+    const rect =
+        document.getElementById("world")
+        .getBoundingClientRect();
+
+    const x =
+        ((e.clientX-rect.left)/rect.width)*100;
+
+    const y =
+        ((e.clientY-rect.top)/rect.height)*100;
+
+    playerX =
+        Math.max(3,Math.min(94,x));
+
+    playerY =
+        Math.max(5,Math.min(82,y));
+
+    player.style.left =
+        playerX + "%";
+
+    player.style.top =
+        playerY + "%";
+});
+
+/* =========================================================
+   START GAME
+   ========================================================= */
+
+updateHUD();
+
+setTimeout(()=>{
+    createCustomer();
+},1200);
+
+setTimeout(()=>{
+    createCustomer();
+},3500);
+
+setTimeout(()=>{
+    createCustomer();
+},6000);
+
+notify("🏪 Welcome to The Last Shop!");
 
 </script>
 
