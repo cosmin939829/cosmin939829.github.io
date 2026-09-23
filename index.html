@@ -1,394 +1,419 @@
+from flask import Flask, render_template_string, send_from_directory
+import os
+
+app = Flask(__name__)
+
+# ============================================================
+# CONFIGURATION
+# ============================================================
+
+VIDEO_FOLDER = os.path.join(app.root_path, "static", "videos")
+os.makedirs(VIDEO_FOLDER, exist_ok=True)
+
+ADULT_VIDEO = "adult_learning.mp4"
+
+
+# ============================================================
+# MAIN PAGE
+# ============================================================
+
+PAGE = r"""
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-<title>Learn & Grow</title>
+<title>Learn & Play</title>
 
 <style>
-
-*{
-    box-sizing:border-box;
+* {
+    box-sizing: border-box;
 }
 
-body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:linear-gradient(135deg,#eef4ff,#f7fbff);
-    color:#172033;
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg,#eef6ff,#f9fbff);
+    color: #172033;
 }
 
-header{
-    background:linear-gradient(135deg,#0758e8,#1736c7);
-    color:white;
-    padding:28px 20px;
-    text-align:center;
+header {
+    background: linear-gradient(135deg,#1769ff,#6c35ff);
+    color: white;
+    padding: 25px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 5px 20px rgba(0,0,0,.15);
 }
 
-header h1{
-    margin:0;
-    font-size:34px;
+header h1 {
+    margin: 0;
+    font-size: 32px;
 }
 
-header p{
-    margin:8px 0 0;
-    opacity:.9;
+header p {
+    margin: 7px 0 15px;
+    opacity: .9;
 }
 
-.container{
-    max-width:1250px;
-    margin:auto;
-    padding:25px;
+.nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
-.section-title{
-    font-size:28px;
-    margin:35px 0 18px;
+.nav button {
+    border: none;
+    border-radius: 25px;
+    padding: 12px 22px;
+    background: rgba(255,255,255,.18);
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:18px;
+.nav button:hover {
+    background: white;
+    color: #1769ff;
 }
 
-.card{
-    background:white;
-    border-radius:18px;
-    padding:20px;
-    box-shadow:0 8px 25px rgba(0,0,0,.08);
-    border:1px solid #e2e8f5;
-    transition:.2s;
+.container {
+    max-width: 1250px;
+    margin: auto;
+    padding: 30px 20px 70px;
 }
 
-.card:hover{
-    transform:translateY(-3px);
-    box-shadow:0 12px 30px rgba(0,0,0,.12);
+.section {
+    display: none;
 }
 
-.card-icon{
-    font-size:42px;
+.section.active {
+    display: block;
 }
 
-.card h3{
-    margin:12px 0 8px;
+.hero {
+    text-align: center;
+    padding: 25px 10px;
 }
 
-.card p{
-    color:#596579;
-    min-height:50px;
+.hero h2 {
+    font-size: 34px;
+    margin-bottom: 8px;
 }
 
-button{
-    border:0;
-    border-radius:10px;
-    padding:12px 18px;
-    background:#1261e8;
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
-    font-size:15px;
+.hero p {
+    font-size: 17px;
+    color: #667085;
 }
 
-button:hover{
-    background:#084dcc;
+.games-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(250px,1fr));
+    gap: 20px;
 }
 
-.start-btn{
-    width:100%;
+.game-card {
+    background: white;
+    border-radius: 24px;
+    padding: 22px;
+    box-shadow: 0 8px 30px rgba(20,50,100,.10);
+    transition: .2s;
+    cursor: pointer;
+    border: 2px solid transparent;
 }
 
-.kids-card{
-    background:linear-gradient(145deg,#ffffff,#f3f8ff);
+.game-card:hover {
+    transform: translateY(-5px);
+    border-color: #367cff;
 }
 
-/* MODAL */
-
-.modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(5,15,40,.78);
-    z-index:1000;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
+.game-icon {
+    font-size: 55px;
+    margin-bottom: 10px;
 }
 
-.modal.show{
-    display:flex;
+.game-card h3 {
+    margin: 5px 0;
+    font-size: 21px;
 }
 
-.modal-box{
-    width:min(900px,100%);
-    max-height:92vh;
-    overflow:auto;
-    background:linear-gradient(145deg,#075ce8,#1644ce);
-    color:white;
-    border-radius:25px;
-    padding:28px;
-    position:relative;
-    box-shadow:0 25px 80px rgba(0,0,0,.4);
+.game-card p {
+    color: #667085;
+    min-height: 45px;
 }
 
-.close{
-    position:absolute;
-    right:18px;
-    top:15px;
-    width:42px;
-    height:42px;
-    border-radius:50%;
-    background:white;
-    color:#123;
-    font-size:24px;
-    padding:0;
+.play-button {
+    width: 100%;
+    border: none;
+    padding: 13px;
+    border-radius: 14px;
+    background: #1769ff;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
 }
 
-.progress{
-    height:10px;
-    background:rgba(255,255,255,.25);
-    border-radius:20px;
-    overflow:hidden;
-    margin:15px 0 25px;
+.play-button:hover {
+    background: #0d55d9;
 }
 
-.progress-bar{
-    height:100%;
-    background:white;
-    width:10%;
-    transition:.3s;
+/* GAME MODAL */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(5,15,40,.75);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    z-index: 999;
 }
 
-.lesson-number{
-    display:inline-block;
-    background:rgba(255,255,255,.2);
-    padding:8px 14px;
-    border-radius:20px;
-    font-weight:bold;
+.modal.show {
+    display: flex;
 }
 
-.learn-box{
-    background:rgba(255,255,255,.12);
-    padding:20px;
-    border-radius:18px;
-    margin:20px 0;
-    line-height:1.6;
+.game-window {
+    width: min(850px,96vw);
+    max-height: 92vh;
+    overflow-y: auto;
+    background: linear-gradient(135deg,#087cff,#542cff);
+    border-radius: 30px;
+    color: white;
+    padding: 22px;
+    position: relative;
+    box-shadow: 0 20px 70px rgba(0,0,0,.35);
 }
 
-.video-button{
-    background:#ff3048;
-    display:block;
-    margin:20px auto;
+.close {
+    position: absolute;
+    right: 18px;
+    top: 15px;
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 50%;
+    background: white;
+    color: #111;
+    font-size: 23px;
+    cursor: pointer;
 }
 
-.video-container{
-    display:none;
-    background:#000;
-    border-radius:15px;
-    overflow:hidden;
-    margin:20px 0;
+.game-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 55px;
 }
 
-.video-container video{
-    width:100%;
-    display:block;
-    max-height:480px;
+.score {
+    background: rgba(255,255,255,.15);
+    padding: 10px 15px;
+    border-radius: 15px;
+    font-weight: bold;
 }
 
-.question-box{
-    background:rgba(255,255,255,.12);
-    padding:20px;
-    border-radius:18px;
-    margin-top:20px;
+.game-area {
+    background: rgba(255,255,255,.12);
+    border-radius: 22px;
+    padding: 25px;
+    margin-top: 18px;
+    min-height: 400px;
 }
 
-.answer-buttons{
-    display:flex;
-    flex-wrap:wrap;
-    gap:12px;
-    margin-top:15px;
+.question {
+    font-size: 28px;
+    text-align: center;
+    margin: 15px 0 25px;
+    font-weight: bold;
 }
 
-.answer-buttons button{
-    background:white;
-    color:#17304f;
+.choices {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(130px,1fr));
+    gap: 15px;
 }
 
-.answer-buttons button:hover{
-    background:#dbe8ff;
+.choice {
+    border: none;
+    background: white;
+    color: #172033;
+    border-radius: 18px;
+    padding: 18px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    min-height: 65px;
 }
 
-.feedback{
-    margin-top:15px;
-    font-size:18px;
-    font-weight:bold;
-    min-height:25px;
+.choice:hover {
+    transform: scale(1.03);
 }
 
-/* KIDS GAME */
-
-.game-area{
-    background:rgba(255,255,255,.12);
-    border-radius:20px;
-    padding:25px;
-    text-align:center;
+.choice.correct {
+    background: #36d47a;
+    color: white;
 }
 
-.game-score{
-    font-size:22px;
-    font-weight:bold;
-    margin-bottom:15px;
+.choice.wrong {
+    background: #ff4f64;
+    color: white;
 }
 
-.game-question{
-    font-size:32px;
-    font-weight:bold;
-    margin:25px 0;
+.feedback {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    min-height: 35px;
+    margin-top: 20px;
 }
 
-.game-options{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(100px,1fr));
-    gap:15px;
+.next-button {
+    display: block;
+    margin: 20px auto 0;
+    border: none;
+    padding: 14px 30px;
+    border-radius: 16px;
+    background: #ffd43b;
+    color: #172033;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-.game-option{
-    background:white;
-    color:#172033;
-    min-height:70px;
-    font-size:24px;
-    border-radius:15px;
+/* SPECIAL GAME ELEMENTS */
+
+.memory-grid {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 12px;
+    max-width: 550px;
+    margin: auto;
 }
 
-.game-option:hover{
-    transform:scale(1.03);
+.memory-card {
+    height: 95px;
+    border: none;
+    border-radius: 15px;
+    background: #ffffff;
+    font-size: 35px;
+    cursor: pointer;
 }
 
-.number-slots{
-    display:flex;
-    justify-content:center;
-    gap:12px;
-    margin:25px 0;
-    flex-wrap:wrap;
+.memory-card.hidden {
+    background: #1737a5;
+    color: transparent;
 }
 
-.number-slot{
-    width:75px;
-    height:75px;
-    border:3px dashed white;
-    border-radius:15px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:32px;
-    background:rgba(255,255,255,.1);
+.memory-card.matched {
+    background: #36d47a;
 }
 
-.number-choice{
-    background:white;
-    color:#111;
-    font-size:26px;
-    min-width:70px;
+.race-track {
+    background: #12245e;
+    padding: 15px;
+    border-radius: 20px;
 }
 
-.color-circle{
-    width:150px;
-    height:150px;
-    border-radius:50%;
-    margin:25px auto;
-    box-shadow:0 10px 30px rgba(0,0,0,.2);
+.racer {
+    background: white;
+    color: #111;
+    border-radius: 15px;
+    padding: 12px;
+    margin: 10px 0;
+    font-size: 25px;
+    transition: .4s;
+    width: 15%;
 }
 
-.memory-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:10px;
-    max-width:500px;
-    margin:auto;
+.drag-box {
+    padding: 20px;
+    background: white;
+    color: #111;
+    border-radius: 18px;
+    text-align: center;
+    margin: 15px;
+    cursor: grab;
+    font-size: 30px;
 }
 
-.memory-card{
-    height:80px;
-    background:white;
-    color:#1760e8;
-    font-size:30px;
-    border-radius:12px;
+.drop-zone {
+    border: 3px dashed white;
+    border-radius: 20px;
+    min-height: 100px;
+    padding: 20px;
+    text-align: center;
+    margin: 15px;
 }
 
-.memory-card.hidden{
-    color:transparent;
+.pattern {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-size: 40px;
+    margin: 30px;
 }
 
-.drag-number{
-    background:white;
-    color:#222;
-    padding:15px;
-    border-radius:12px;
-    font-size:25px;
-    cursor:pointer;
+.timer {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
 }
 
-.feedback-good{
-    color:#8cff9a;
+/* ADULT LEARNING */
+
+.adult-box {
+    background: white;
+    border-radius: 28px;
+    padding: 25px;
+    box-shadow: 0 8px 35px rgba(20,50,100,.12);
 }
 
-.feedback-bad{
-    color:#ffb0b0;
+.video-container {
+    background: #10131a;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 20px;
 }
 
-/* AD */
-
-.ad-box{
-    position:fixed;
-    right:20px;
-    bottom:20px;
-    width:300px;
-    min-height:150px;
-    background:white;
-    border-radius:15px;
-    box-shadow:0 10px 40px rgba(0,0,0,.25);
-    padding:15px;
-    z-index:900;
-    display:none;
-    color:#333;
-    text-align:center;
+.video-container video {
+    width: 100%;
+    display: block;
+    background: black;
+    max-height: 600px;
 }
 
-.ad-box.show{
-    display:block;
+.video-error {
+    display: none;
+    padding: 25px;
+    background: #fff1f1;
+    color: #a60000;
+    text-align: center;
 }
 
-.ad-label{
-    font-size:12px;
-    color:#777;
-    margin-bottom:10px;
+.lesson-card {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f5f8ff;
+    border-radius: 18px;
 }
 
-@media(max-width:600px){
-
-    header h1{
-        font-size:26px;
-    }
-
-    .container{
-        padding:15px;
-    }
-
-    .modal-box{
-        padding:20px;
-    }
-
-    .game-question{
-        font-size:26px;
-    }
-
-    .memory-grid{
-        grid-template-columns:repeat(3,1fr);
-    }
-
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #667085;
 }
-
 </style>
 </head>
 
@@ -396,1955 +421,1653 @@ button:hover{
 
 <header>
 
-<h1>📚 Learn & Grow</h1>
+<h1>🎓 Learn & Play</h1>
+<p>Learn something new. Play something fun.</p>
 
-<p>Learn useful skills, play educational games and grow your knowledge.</p>
+<div class="nav">
 
+<button onclick="showSection('kids')">
+🎮 Kids Games
+</button>
+
+<button onclick="showSection('adults')">
+📚 Learning for Adults
+</button>
+
+</div>
 </header>
+
 
 <div class="container">
 
-<!-- ================= ADULTS ================= -->
+<!-- ======================================================
+     KIDS
+====================================================== -->
 
-<h2 class="section-title">🧑 Adult Learning</h2>
+<section id="kids" class="section active">
 
-<p>
-Learn practical skills step by step with lessons, explanations,
-videos and quizzes.
-</p>
-
-<div id="adultGrid" class="grid"></div>
-
-
-<!-- ================= KIDS ================= -->
-
-<h2 class="section-title">👧 Kids Education</h2>
+<div class="hero">
+<h2>🎮 Kids Game Zone</h2>
 
 <p>
-Fun educational games designed to make learning enjoyable.
+20 interactive educational games —
+play, learn, earn stars and improve your skills.
+</p>
+</div>
+
+<div class="games-grid" id="gamesGrid"></div>
+
+</section>
+
+
+<!-- ======================================================
+     ADULTS
+====================================================== -->
+
+<section id="adults" class="section">
+
+<div class="hero">
+
+<h2>📚 Learning for Adults</h2>
+
+<p>
+Watch lessons, learn useful skills and continue your learning.
 </p>
 
-<div id="kidsGrid" class="grid"></div>
+</div>
+
+<div class="adult-box">
+
+<h2>🎥 Adult Learning Video</h2>
+
+<p>
+Watch the lesson below. Use the controls to play, pause,
+change the volume and move through the video.
+</p>
+
+<div class="video-container">
+
+<video
+    id="adultVideo"
+    controls
+    playsinline
+    preload="metadata">
+
+    <source
+        src="/video/adult_learning.mp4"
+        type="video/mp4">
+
+    Your browser does not support HTML5 video.
+
+</video>
+
+<div id="videoError" class="video-error">
+⚠️ The video could not be loaded.
+
+<br><br>
+
+Make sure your video is called:
+
+<strong>adult_learning.mp4</strong>
+
+and is inside:
+
+<strong>static/videos/</strong>
+
+</div>
+
+</div>
+
+<div class="lesson-card">
+
+<h3>💡 Lesson</h3>
+
+<p>
+Watch the full video and then complete the lesson activity.
+More adult-learning courses can be added here later.
+</p>
+
+</div>
+
+</div>
+
+</section>
 
 </div>
 
 
-<!-- ================= MODAL ================= -->
+<!-- ======================================================
+     GAME MODAL
+====================================================== -->
 
-<div id="modal" class="modal">
+<div id="gameModal" class="modal">
 
-<div class="modal-box">
+<div class="game-window">
 
-<button class="close" onclick="closeModal()">×</button>
+<button class="close" onclick="closeGame()">×</button>
 
-<div id="modalContent"></div>
+<div class="game-top">
+
+<h2 id="gameTitle">Game</h2>
+
+<div class="score">
+⭐ <span id="score">0</span>
+</div>
+
+</div>
+
+<div id="gameArea" class="game-area"></div>
 
 </div>
 
 </div>
 
 
-<!-- ================= AD ================= -->
-
-<div id="adBox" class="ad-box">
-
-<div class="ad-label">ADVERTISEMENT</div>
-
-<strong>Advertisement</strong>
-
-<p>Your advertisement will appear here.</p>
-
-<button onclick="closeAd()">Continue</button>
-
-</div>
+<footer>
+© 2026 Learn & Play
+</footer>
 
 
 <script>
 
 /* =========================================================
-   SOUND SYSTEM
+   20 GAMES
 ========================================================= */
 
-let audioContext;
-
-function getAudio(){
-
-    if(!audioContext){
-        audioContext =
-        new (window.AudioContext || window.webkitAudioContext)();
-    }
-
-    return audioContext;
-}
-
-
-function playTone(
-    frequency=600,
-    duration=.15,
-    type="sine"
-){
-
-    try{
-
-        const ctx=getAudio();
-
-        const oscillator=ctx.createOscillator();
-        const gain=ctx.createGain();
-
-        oscillator.type=type;
-        oscillator.frequency.value=frequency;
-
-        gain.gain.setValueAtTime(.001,ctx.currentTime);
-
-        gain.gain.exponentialRampToValueAtTime(
-            .2,
-            ctx.currentTime+.02
-        );
-
-        gain.gain.exponentialRampToValueAtTime(
-            .001,
-            ctx.currentTime+duration
-        );
-
-        oscillator.connect(gain);
-        gain.connect(ctx.destination);
-
-        oscillator.start();
-
-        oscillator.stop(
-            ctx.currentTime+duration
-        );
-
-    }catch(e){}
-
-}
-
-
-function correctSound(){
-
-    playTone(700,.12);
-
-    setTimeout(
-        ()=>playTone(950,.18),
-        120
-    );
-
-}
-
-
-function wrongSound(){
-
-    playTone(220,.25,"sawtooth");
-
-}
-
-
-function clickSound(){
-
-    playTone(500,.06);
-
-}
-
-
-/* =========================================================
-   ADULT LESSONS
-========================================================= */
-
-const adultLessons=[
+const games = [
 
 {
-icon:"📈",
-title:"How Trading Works",
-description:"Understand buying and selling, price movements and risk.",
-text:"Trading means buying and selling an asset with the aim of benefiting from price movements. Prices can rise or fall and losses are possible.",
-question:"What can happen to a traded asset price?",
-answers:["It can only rise","It can only fall","It can rise or fall"],
-correct:2,
-video:"videos/trading-1.mp4"
+    title:"Number Race",
+    icon:"🏎️",
+    description:"Race to the correct number.",
+    type:"numberRace"
 },
 
 {
-icon:"📊",
-title:"Understanding Charts",
-description:"Learn how charts show price movement.",
-text:"Charts display historical price information. Traders can study trends, support, resistance and other information before making decisions.",
-question:"What does a trading chart show?",
-answers:["Historical price information","Only future prices","A guaranteed profit"],
-correct:0,
-video:"videos/trading-2.mp4"
+    title:"Colour Catcher",
+    icon:"🎨",
+    description:"Catch the correct colour.",
+    type:"colour"
 },
 
 {
-icon:"🛡️",
-title:"Risk Management",
-description:"Learn why protecting your trading account matters.",
-text:"Risk management helps control how much money could be lost on a trade. A trader should understand position size, stop losses and potential losses.",
-question:"Why is risk management important?",
-answers:["To guarantee profit","To control potential losses","To make every trade win"],
-correct:1,
-video:"videos/trading-3.mp4"
+    title:"Memory Match",
+    icon:"🧠",
+    description:"Find matching pairs.",
+    type:"memory"
 },
 
 {
-icon:"💰",
-title:"Saving & Budgeting",
-description:"Learn how to organise personal money.",
-text:"A budget helps you understand income, expenses and how much money can be saved.",
-question:"What does a budget help you understand?",
-answers:["Income and expenses","Only entertainment","Guaranteed investments"],
-correct:0,
-video:"videos/money-1.mp4"
+    title:"Word Builder",
+    icon:"🔤",
+    description:"Build words from letters.",
+    type:"word"
 },
 
 {
-icon:"📝",
-title:"Creating a Business Plan",
-description:"Learn how to plan a business from the beginning.",
-text:"A business plan explains the product or service, customers, costs, pricing and how the business intends to operate.",
-question:"What should a business plan describe?",
-answers:["Only the business logo","How the business will operate","Only the owner's name"],
-correct:1,
-video:"videos/business-1.mp4"
+    title:"Math Blaster",
+    icon:"🚀",
+    description:"Solve maths before the rocket launches.",
+    type:"math"
 },
 
 {
-icon:"💡",
-title:"Finding a Business Idea",
-description:"Learn how to identify problems that a business can solve.",
-text:"Many businesses start by solving a real problem for a particular group of customers.",
-question:"What can create a business opportunity?",
-answers:["Solving a real customer problem","Ignoring customers","Avoiding research"],
-correct:0,
-video:"videos/business-2.mp4"
+    title:"Shape Builder",
+    icon:"🔷",
+    description:"Choose the correct shape.",
+    type:"shape"
 },
 
 {
-icon:"📱",
-title:"Building an Online Business",
-description:"Learn about websites, online services and customers.",
-text:"An online business can sell products, provide services or create useful digital content.",
-question:"What can an online business provide?",
-answers:["Products or services","Only physical buildings","Nothing online"],
-correct:0,
-video:"videos/business-3.mp4"
+    title:"Animal Match",
+    icon:"🐶",
+    description:"Match animals with their homes.",
+    type:"animal"
 },
 
 {
-icon:"📣",
-title:"Marketing Basics",
-description:"Learn how businesses reach potential customers.",
-text:"Marketing communicates the value of a product or service to potential customers.",
-question:"What is marketing used for?",
-answers:["Reaching potential customers","Hiding a business","Avoiding customers"],
-correct:0,
-video:"videos/marketing-1.mp4"
+    title:"Counting Garden",
+    icon:"🌻",
+    description:"Count the objects in the garden.",
+    type:"count"
 },
 
 {
-icon:"⭐",
-title:"Building a Brand",
-description:"Learn how businesses create a recognisable identity.",
-text:"A brand can include a business name, visual identity, communication style and the experience customers associate with the business.",
-question:"What can be part of a brand?",
-answers:["Business identity","Only a bank account","Only a building"],
-correct:0,
-video:"videos/brand-1.mp4"
+    title:"Odd One Out",
+    icon:"🔎",
+    description:"Find the object that doesn't belong.",
+    type:"odd"
 },
 
 {
-icon:"🚀",
-title:"Growing a Business",
-description:"Learn about customers, systems, pricing and growth.",
-text:"Business growth can involve gaining customers, improving systems, managing costs and increasing value.",
-question:"What can help a business grow?",
-answers:["Understanding customers","Ignoring customers","Never improving"],
-correct:0,
-video:"videos/business-4.mp4"
+    title:"Pattern Master",
+    icon:"🧩",
+    description:"Complete the pattern.",
+    type:"pattern"
+},
+
+{
+    title:"Addition Adventure",
+    icon:"➕",
+    description:"Solve addition challenges.",
+    type:"addition"
+},
+
+{
+    title:"Subtraction Quest",
+    icon:"➖",
+    description:"Solve subtraction challenges.",
+    type:"subtraction"
+},
+
+{
+    title:"Spelling Star",
+    icon:"⭐",
+    description:"Choose the correctly spelled word.",
+    type:"spelling"
+},
+
+{
+    title:"Animal Sounds",
+    icon:"🐮",
+    description:"Match the animal to its sound.",
+    type:"sounds"
+},
+
+{
+    title:"World Explorer",
+    icon:"🌍",
+    description:"Learn countries and places.",
+    type:"world"
+},
+
+{
+    title:"Science Lab",
+    icon:"🔬",
+    description:"Test simple science facts.",
+    type:"science"
+},
+
+{
+    title:"Money Shop",
+    icon:"🛒",
+    description:"Learn simple money maths.",
+    type:"money"
+},
+
+{
+    title:"Clock Master",
+    icon:"⏰",
+    description:"Learn to read the clock.",
+    type:"clock"
+},
+
+{
+    title:"Fast Shapes",
+    icon:"⚡",
+    description:"React quickly and choose the right shape.",
+    type:"fastShape"
+},
+
+{
+    title:"Treasure Hunt",
+    icon:"🏴‍☠️",
+    description:"Solve clues to find the treasure.",
+    type:"treasure"
 }
 
 ];
 
 
 /* =========================================================
-   KIDS GAMES
+   GAME CARDS
 ========================================================= */
 
-const kidsGames=[
+const gamesGrid = document.getElementById("gamesGrid");
 
-{
-icon:"🔢",
-title:"Number Builder",
-description:"Put the numbers in the correct order.",
-type:"numbers"
-},
+games.forEach((game,index) => {
 
-{
-icon:"🎨",
-title:"What Colour Is This?",
-description:"Choose the correct colour.",
-type:"colors"
-},
+    const card = document.createElement("div");
 
-{
-icon:"➕",
-title:"Math Challenge",
-description:"Solve fun addition questions.",
-type:"math"
-},
+    card.className = "game-card";
 
-{
-icon:"🔺",
-title:"Shape Detective",
-description:"Learn and identify shapes.",
-type:"shapes"
-},
+    card.innerHTML = `
 
-{
-icon:"🔤",
-title:"Word Builder",
-description:"Learn letters and spelling.",
-type:"spelling"
-},
-
-{
-icon:"🧠",
-title:"Memory Match",
-description:"Find matching educational cards.",
-type:"memory"
-},
-
-{
-icon:"🕐",
-title:"Learn the Clock",
-description:"Learn to read the time.",
-type:"clock"
-},
-
-{
-icon:"💷",
-title:"Money Maths",
-description:"Learn simple money calculations.",
-type:"money"
-},
-
-{
-icon:"🔬",
-title:"Science Explorer",
-description:"Discover simple science facts.",
-type:"science"
-},
-
-{
-icon:"🌍",
-title:"World Explorer",
-description:"Learn countries and continents.",
-type:"geography"
-}
-
-];
-
-
-/* =========================================================
-   CREATE ADULT CARDS
-========================================================= */
-
-const adultGrid=
-document.getElementById("adultGrid");
-
-adultLessons.forEach(
-(lesson,index)=>{
-
-    const card=document.createElement("div");
-
-    card.className="card";
-
-    card.innerHTML=`
-
-        <div class="card-icon">
-            ${lesson.icon}
-        </div>
-
-        <h3>${index+1}. ${lesson.title}</h3>
-
-        <p>${lesson.description}</p>
-
-        <button
-            class="start-btn"
-            onclick="openAdultLesson(${index})">
-
-            🎓 Start Learning
-
-        </button>
-    `;
-
-    adultGrid.appendChild(card);
-
-});
-
-
-/* =========================================================
-   CREATE KIDS CARDS
-========================================================= */
-
-const kidsGrid=
-document.getElementById("kidsGrid");
-
-kidsGames.forEach(
-(game,index)=>{
-
-    const card=document.createElement("div");
-
-    card.className="card kids-card";
-
-    card.innerHTML=`
-
-        <div class="card-icon">
-            ${game.icon}
-        </div>
+        <div class="game-icon">${game.icon}</div>
 
         <h3>${index+1}. ${game.title}</h3>
 
         <p>${game.description}</p>
 
-        <button
-            class="start-btn"
-            onclick="openKidsGame(${index})">
-
-            🎮 Play Game
-
+        <button class="play-button"
+                onclick="startGame(${index})">
+            ▶ Play Game
         </button>
+
     `;
 
-    kidsGrid.appendChild(card);
-
+    gamesGrid.appendChild(card);
 });
 
 
 /* =========================================================
-   MODAL
+   GAME VARIABLES
 ========================================================= */
 
-const modal=
-document.getElementById("modal");
-
-const modalContent=
-document.getElementById("modalContent");
-
-
-function closeModal(){
-
-    modal.classList.remove("show");
-
-    modalContent.innerHTML="";
-
-}
+let currentGame = null;
+let score = 0;
+let round = 0;
+let gameData = {};
+let memoryFirst = null;
+let memoryLock = false;
 
 
-function openModal(){
+/* =========================================================
+   START GAME
+========================================================= */
 
-    modal.classList.add("show");
+function startGame(index) {
 
+    currentGame = games[index];
+
+    score = 0;
+    round = 0;
+    gameData = {};
+    memoryFirst = null;
+    memoryLock = false;
+
+    document.getElementById("gameTitle").textContent =
+        currentGame.icon + " " + currentGame.title;
+
+    document.getElementById("score").textContent = score;
+
+    document.getElementById("gameModal").classList.add("show");
+
+    nextRound();
 }
 
 
 /* =========================================================
-   ADULT LESSON
+   CLOSE
 ========================================================= */
 
-let currentAdult=0;
+function closeGame() {
 
-
-function openAdultLesson(index){
-
-    currentAdult=index;
-
-    const lesson=adultLessons[index];
-
-    const percent=
-        ((index+1)/adultLessons.length)*100;
-
-    modalContent.innerHTML=`
-
-        <span class="lesson-number">
-            Lesson ${index+1} of ${adultLessons.length}
-        </span>
-
-        <div class="progress">
-
-            <div
-                class="progress-bar"
-                style="width:${percent}%">
-            </div>
-
-        </div>
-
-        <h1>
-            ${lesson.icon}
-            ${lesson.title}
-        </h1>
-
-        <div class="learn-box">
-
-            <h3>📖 Learn:</h3>
-
-            <p>
-                ${lesson.text}
-            </p>
-
-        </div>
-
-        <button
-            class="video-button"
-            onclick="playLessonVideo()">
-
-            ▶ Watch Video Explanation
-
-        </button>
-
-        <div
-            id="videoContainer"
-            class="video-container">
-
-            <video
-                id="lessonVideo"
-                controls
-                playsinline
-                preload="metadata">
-
-                <source
-                    src="${lesson.video}"
-                    type="video/mp4">
-
-                Your browser does not support video playback.
-
-            </video>
-
-        </div>
-
-        <div class="question-box">
-
-            <h3>🧠 Check What You Learned</h3>
-
-            <p>${lesson.question}</p>
-
-            <div class="answer-buttons">
-
-                ${lesson.answers.map(
-                    (answer,i)=>`
-
-                    <button
-                        onclick="answerAdult(${i})">
-
-                        ${answer}
-
-                    </button>
-
-                    `
-                ).join("")}
-
-            </div>
-
-            <div
-                id="adultFeedback"
-                class="feedback">
-            </div>
-
-        </div>
-
-    `;
-
-    openModal();
-
+    document
+        .getElementById("gameModal")
+        .classList.remove("show");
 }
 
 
-function playLessonVideo(){
+/* =========================================================
+   SCORE
+========================================================= */
 
-    const container=
-        document.getElementById("videoContainer");
+function addScore(points=10) {
 
-    const video=
-        document.getElementById("lessonVideo");
+    score += points;
 
-    container.style.display="block";
-
-    video.load();
-
-    video.play().catch(
-        ()=>{
-            /*
-             The browser may require the user
-             to press the play button.
-            */
-        }
-    );
-
-    clickSound();
-
+    document.getElementById("score").textContent = score;
 }
 
 
-function answerAdult(answer){
+/* =========================================================
+   FEEDBACK
+========================================================= */
 
-    const lesson=
-        adultLessons[currentAdult];
+function feedback(message,good=true) {
 
-    const feedback=
-        document.getElementById("adultFeedback");
+    const old = document.querySelector(".feedback");
 
-    if(answer===lesson.correct){
+    if(old) old.remove();
 
-        feedback.innerHTML=
-            "✅ Correct! Great job.";
+    const div = document.createElement("div");
 
-        feedback.className=
-            "feedback feedback-good";
+    div.className = "feedback";
 
-        correctSound();
+    div.textContent = message;
 
-    }else{
+    div.style.color = good ? "#aaffc9" : "#ffd0d0";
 
-        feedback.innerHTML=
-            "❌ Not quite. Read the lesson again and try again.";
+    document.getElementById("gameArea").appendChild(div);
+}
 
-        feedback.className=
-            "feedback feedback-bad";
 
-        wrongSound();
+/* =========================================================
+   NEXT ROUND
+========================================================= */
 
+function nextRound() {
+
+    round++;
+
+    if(round > 10) {
+
+        document.getElementById("gameArea").innerHTML = `
+
+            <div style="text-align:center">
+
+                <div style="font-size:70px">🏆</div>
+
+                <h2>Fantastic!</h2>
+
+                <p>You completed the game.</p>
+
+                <h1>⭐ ${score} points</h1>
+
+                <button class="next-button"
+                        onclick="startGame(
+                        games.findIndex(
+                        g=>g.type==='${currentGame.type}'
+                        ))">
+                    🔄 Play Again
+                </button>
+
+            </div>
+        `;
+
+        return;
     }
 
+    renderGame();
 }
 
 
 /* =========================================================
-   KIDS GAME OPEN
+   GAME RENDERER
 ========================================================= */
 
-let currentGame=0;
-let gameScore=0;
+function renderGame() {
 
+    const type = currentGame.type;
 
-function openKidsGame(index){
-
-    currentGame=index;
-    gameScore=0;
-
-    const game=kidsGames[index];
-
-    modalContent.innerHTML=`
-
-        <span class="lesson-number">
-
-            Game ${index+1} of ${kidsGames.length}
-
-        </span>
-
-        <div class="progress">
-
-            <div
-                class="progress-bar"
-                style="width:${((index+1)/kidsGames.length)*100}%">
-            </div>
-
-        </div>
-
-        <h1>
-            ${game.icon}
-            ${game.title}
-        </h1>
-
-        <div id="gameArea"></div>
-
-    `;
-
-    openModal();
-
-    loadGame(game.type);
-
+    if(type === "numberRace") numberRace();
+    else if(type === "colour") colourGame();
+    else if(type === "memory") memoryGame();
+    else if(type === "word") wordGame();
+    else if(type === "math") mathGame();
+    else if(type === "shape") shapeGame();
+    else if(type === "animal") animalGame();
+    else if(type === "count") countGame();
+    else if(type === "odd") oddGame();
+    else if(type === "pattern") patternGame();
+    else if(type === "addition") additionGame();
+    else if(type === "subtraction") subtractionGame();
+    else if(type === "spelling") spellingGame();
+    else if(type === "sounds") soundsGame();
+    else if(type === "world") worldGame();
+    else if(type === "science") scienceGame();
+    else if(type === "money") moneyGame();
+    else if(type === "clock") clockGame();
+    else if(type === "fastShape") fastShapeGame();
+    else if(type === "treasure") treasureGame();
 }
 
 
 /* =========================================================
-   GAME LOADER
+   1. NUMBER RACE
 ========================================================= */
 
-function loadGame(type){
+function numberRace() {
 
-    switch(type){
-
-        case "numbers":
-            numberGame();
-            break;
-
-        case "colors":
-            colorGame();
-            break;
-
-        case "math":
-            mathGame();
-            break;
-
-        case "shapes":
-            shapeGame();
-            break;
-
-        case "spelling":
-            spellingGame();
-            break;
-
-        case "memory":
-            memoryGame();
-            break;
-
-        case "clock":
-            clockGame();
-            break;
-
-        case "money":
-            moneyGame();
-            break;
-
-        case "science":
-            scienceGame();
-            break;
-
-        case "geography":
-            geographyGame();
-            break;
-
-    }
-
-}
-
-
-/* =========================================================
-   NUMBER BUILDER
-========================================================= */
-
-function numberGame(){
-
-    const start=
-        Math.floor(Math.random()*5)+1;
-
-    const numbers=[
-        start,
-        start+1,
-        start+2
-    ];
-
-    const shuffled=
-        [...numbers].sort(
-            ()=>Math.random()-.5
-        );
-
-    document.getElementById("gameArea").innerHTML=`
-
-        <div class="game-area">
-
-            <div class="game-score">
-                ⭐ Score: ${gameScore}
-            </div>
-
-            <p>
-                Put the numbers in the correct order.
-            </p>
-
-            <div class="number-slots">
-
-                <div class="number-slot" id="slot1">?</div>
-                <div class="number-slot" id="slot2">?</div>
-                <div class="number-slot" id="slot3">?</div>
-
-            </div>
-
-            <div class="answer-buttons">
-
-                ${shuffled.map(
-                    n=>`
-
-                    <button
-                        class="number-choice"
-                        onclick="chooseNumber(${n})">
-
-                        ${n}
-
-                    </button>
-
-                    `
-                ).join("")}
-
-            </div>
-
-            <div id="gameFeedback" class="feedback"></div>
-
-        </div>
-    `;
-
-}
-
-
-let numberPosition=0;
-
-
-function chooseNumber(number){
-
-    const start=
-        parseInt(
-            document.getElementById("slot1")
-            .dataset.start || "0"
-        );
-
-    if(!numberPosition){
-
-        const slots=[
-            document.getElementById("slot1"),
-            document.getElementById("slot2"),
-            document.getElementById("slot3")
-        ];
-
-        slots[0].dataset.correct=
-            number;
-
-    }
-
-    const buttons=
-        document.querySelectorAll(".number-choice");
-
-    const currentExpected=
-        parseInt(
-            buttons[0]?.parentElement
-            ?.dataset?.dummy || number
-        );
-
-    /*
-       Simpler educational round:
-       after choosing a number, compare
-       with the smallest available number.
-    */
-
-    const allButtons=
-        [...document.querySelectorAll(".number-choice")];
-
-    const available=
-        allButtons
-        .filter(b=>!b.disabled)
-        .map(b=>parseInt(b.innerText));
-
-    const expected=
-        Math.min(...available);
-
-    const feedback=
-        document.getElementById("gameFeedback");
-
-    if(number===expected){
-
-        document.getElementById(
-            "slot"+(numberPosition+1)
-        ).innerText=number;
-
-        numberPosition++;
-
-        const btn=
-            allButtons.find(
-                b=>parseInt(b.innerText)===number
-            );
-
-        if(btn) btn.disabled=true;
-
-        correctSound();
-
-        if(numberPosition>=3){
-
-            gameScore++;
-
-            feedback.innerHTML=
-                "🎉 Amazing! You built the number sequence!";
-
-            setTimeout(
-                ()=>{
-                    numberPosition=0;
-                    numberGame();
-                },
-                1200
-            );
-
-        }else{
-
-            feedback.innerHTML=
-                "✅ Correct! Keep going!";
-
-        }
-
-    }else{
-
-        feedback.innerHTML=
-            "💡 Try the smallest number first.";
-
-        wrongSound();
-
-    }
-
-}
-
-
-/* =========================================================
-   COLOUR GAME
-========================================================= */
-
-const colours=[
-    ["Red","#ff3b30"],
-    ["Blue","#1677ff"],
-    ["Green","#21b85a"],
-    ["Yellow","#ffd400"],
-    ["Purple","#8e44ad"],
-    ["Orange","#ff851b"]
-];
-
-
-function colorGame(){
-
-    const target=
-        colours[
-            Math.floor(
-                Math.random()*colours.length
-            )
-        ];
-
-    const choices=
-        [...colours]
-        .sort(()=>Math.random()-.5)
-        .slice(0,4);
-
-    if(!choices.includes(target))
-        choices[0]=target;
-
-    document.getElementById("gameArea").innerHTML=`
-
-        <div class="game-area">
-
-            <div class="game-score">
-                ⭐ Score: ${gameScore}
-            </div>
-
-            <p>
-                What colour is this?
-            </p>
-
-            <div
-                class="color-circle"
-                style="background:${target[1]}">
-            </div>
-
-            <div class="game-options">
-
-                ${choices.map(
-                    c=>`
-
-                    <button
-                        class="game-option"
-                        onclick="answerColor('${c[0]}','${target[0]}')">
-
-                        ${c[0]}
-
-                    </button>
-
-                    `
-                ).join("")}
-
-            </div>
-
-            <div id="gameFeedback" class="feedback"></div>
-
-        </div>
-    `;
-
-}
-
-
-function answerColor(answer,correct){
-
-    const feedback=
-        document.getElementById("gameFeedback");
-
-    if(answer===correct){
-
-        gameScore++;
-
-        feedback.innerHTML=
-            "🎉 Correct colour!";
-
-        correctSound();
-
-        setTimeout(colorGame,900);
-
-    }else{
-
-        feedback.innerHTML=
-            "❌ Try again!";
-
-        wrongSound();
-
-    }
-
-}
-
-
-/* =========================================================
-   MATH GAME
-========================================================= */
-
-function mathGame(){
-
-    const a=
+    const answer =
         Math.floor(Math.random()*10)+1;
 
-    const b=
-        Math.floor(Math.random()*10)+1;
+    let nums = [answer];
 
-    const answer=a+b;
+    while(nums.length < 4) {
 
-    const options=
-        new Set([answer]);
+        let n =
+            Math.floor(Math.random()*10)+1;
 
-    while(options.size<3){
-
-        options.add(
-            Math.max(
-                0,
-                answer+
-                Math.floor(Math.random()*7)-3
-            )
-        );
-
+        if(!nums.includes(n))
+            nums.push(n);
     }
 
-    const choices=
-        [...options]
-        .sort(()=>Math.random()-.5);
+    nums.sort(()=>Math.random()-.5);
 
-    document.getElementById("gameArea").innerHTML=`
+    document.getElementById("gameArea").innerHTML = `
 
-        <div class="game-area">
+        <div class="question">
+            🏎️ Race to number ${answer}!
+        </div>
 
-            <div class="game-score">
-                ⭐ Score: ${gameScore}
-            </div>
+        <div class="race-track">
 
-            <div class="game-question">
-
-                ${a} + ${b} = ?
-
-            </div>
-
-            <div class="game-options">
-
-                ${choices.map(
-                    n=>`
-
-                    <button
-                        class="game-option"
-                        onclick="answerMath(${n},${answer})">
-
-                        ${n}
-
-                    </button>
-
-                    `
-                ).join("")}
-
-            </div>
-
-            <div id="gameFeedback" class="feedback"></div>
+            <div class="racer">🏎️</div>
 
         </div>
 
-    `;
+        <div class="choices">
 
+            ${nums.map(n=>`
+
+                <button class="choice"
+                        onclick="numberAnswer(this,${n},${answer})">
+                    ${n}
+                </button>
+
+            `).join("")}
+
+        </div>
+    `;
 }
 
 
-function answerMath(answer,correct){
+function numberAnswer(button,n,answer) {
 
-    const feedback=
-        document.getElementById("gameFeedback");
+    if(n === answer) {
 
-    if(answer===correct){
+        button.classList.add("correct");
 
-        gameScore++;
+        addScore();
 
-        feedback.innerHTML=
-            "🎉 Fantastic! That's correct!";
+        feedback("🏁 Great driving!");
 
-        correctSound();
+        setTimeout(nextRound,700);
 
-        setTimeout(mathGame,900);
+    } else {
 
-    }else{
+        button.classList.add("wrong");
 
-        feedback.innerHTML=
-            "💡 Try again. Count carefully!";
-
-        wrongSound();
-
+        feedback("Try again!",false);
     }
-
 }
 
 
 /* =========================================================
-   SHAPES
+   2. COLOUR
 ========================================================= */
 
-const shapes=[
-    ["🔵","Circle"],
-    ["🟥","Square"],
-    ["🔺","Triangle"],
-    ["⭐","Star"]
-];
-
-
-function shapeGame(){
-
-    const target=
-        shapes[
-            Math.floor(Math.random()*shapes.length)
-        ];
-
-    const choices=
-        [...shapes]
-        .sort(()=>Math.random()-.5);
-
-    document.getElementById("gameArea").innerHTML=`
-
-        <div class="game-area">
-
-            <div class="game-score">
-                ⭐ Score: ${gameScore}
-            </div>
-
-            <p>
-                What shape is this?
-            </p>
-
-            <div style="font-size:100px;">
-                ${target[0]}
-            </div>
-
-            <div class="game-options">
-
-                ${choices.map(
-                    s=>`
-
-                    <button
-                        class="game-option"
-                        onclick="answerShape('${s[1]}','${target[1]}')">
-
-                        ${s[1]}
-
-                    </button>
-
-                    `
-                ).join("")}
-
-            </div>
-
-            <div id="gameFeedback" class="feedback"></div>
-
-        </div>
-
-    `;
-
-}
-
-
-function answerShape(answer,correct){
-
-    const feedback=
-        document.getElementById("gameFeedback");
-
-    if(answer===correct){
-
-        gameScore++;
-
-        feedback.innerHTML=
-            "🎉 Correct shape!";
-
-        correctSound();
-
-        setTimeout(shapeGame,900);
-
-    }else{
-
-        feedback.innerHTML=
-            "❌ Try again.";
-
-        wrongSound();
-
-    }
-
-}
-
-
-/* =========================================================
-   SPELLING
-========================================================= */
-
-const spellingWords=[
-    ["CAT","🐱"],
-    ["DOG","🐶"],
-    ["SUN","☀️"],
-    ["FISH","🐟"],
-    ["TREE","🌳"]
-];
-
-
-function spellingGame(){
-
-    const item=
-        spellingWords[
-            Math.floor(
-                Math.random()*spellingWords.length
-            )
-        ];
-
-    const word=item[0];
-
-    const shuffled=
-        [...word]
-        .sort(()=>Math.random()-.5);
-
-    document.getElementById("gameArea").innerHTML=`
-
-        <div class="game-area">
-
-            <div class="game-score">
-                ⭐ Score: ${gameScore}
-            </div>
-
-            <div style="font-size:80px;">
-                ${item[1]}
-            </div>
-
-            <p>
-                Put the letters together to spell the word.
-            </p>
-
-            <div
-                id="spellWord"
-                class="game-question">
-            </div>
-
-            <div class="game-options">
-
-                ${shuffled.map(
-                    letter=>`
-
-                    <button
-                        class="game-option"
-                        onclick="addLetter('${letter}')">
-
-                        ${letter}
-
-                    </button>
-
-                    `
-                ).join("")}
-
-            </div>
-
-            <div id="gameFeedback" class="feedback"></div>
-
-        </div>
-
-    `;
-
-    window.currentSpell="";
-    window.currentWord=word;
-
-}
-
-
-function addLetter(letter){
-
-    currentSpell+=letter;
-
-    document.getElementById(
-        "spellWord"
-    ).innerText=currentSpell;
-
-    clickSound();
-
-    if(currentSpell.length===currentWord.length){
-
-        const feedback=
-            document.getElementById("gameFeedback");
-
-        if(currentSpell===currentWord){
-
-            gameScore++;
-
-            feedback.innerHTML=
-                "🎉 Great spelling!";
-
-            correctSound();
-
-            setTimeout(
-                spellingGame,
-                1000
-            );
-
-        }else{
-
-            feedback.innerHTML=
-                "❌ Try again!";
-
-            wrongSound();
-
-            setTimeout(
-                ()=>{
-                    currentSpell="";
-                    document.getElementById(
-                        "spellWord"
-                    ).innerText="";
-                },
-                800
-            );
-
-        }
-
-    }
-
-}
-
-
-/* =========================================================
-   MEMORY GAME
-========================================================= */
-
-function memoryGame(){
-
-    const symbols=[
-        "🍎","🍎",
-        "🐶","🐶",
-        "🚗","🚗",
-        "⭐","⭐",
-        "🌈","🌈",
-        "⚽","⚽"
+function colourGame() {
+
+    const colours = [
+        ["🔴","Red"],
+        ["🟢","Green"],
+        ["🔵","Blue"],
+        ["🟡","Yellow"],
+        ["🟣","Purple"],
+        ["🟠","Orange"]
     ];
 
-    symbols.sort(
-        ()=>Math.random()-.5
-    );
+    const target =
+        colours[Math.floor(Math.random()*colours.length)];
 
-    document.getElementById("gameArea").innerHTML=`
+    const options =
+        [...colours].sort(()=>Math.random()-.5).slice(0,4);
 
-        <div class="game-area">
+    if(!options.some(x=>x[1]===target[1]))
+        options[0]=target;
 
-            <div class="game-score">
-                ⭐ Score: ${gameScore}
-            </div>
+    document.getElementById("gameArea").innerHTML = `
 
-            <p>
-                Find the matching pictures!
-            </p>
-
-            <div
-                id="memoryGrid"
-                class="memory-grid">
-
-                ${symbols.map(
-                    (s,i)=>`
-
-                    <button
-                        class="memory-card hidden"
-                        data-symbol="${s}"
-                        onclick="memoryClick(this)">
-
-                        ${s}
-
-                    </button>
-
-                    `
-                ).join("")}
-
-            </div>
-
-            <div id="gameFeedback" class="feedback"></div>
-
+        <div class="question">
+            🎨 Find ${target[1]}
         </div>
 
+        <div style="text-align:center;font-size:100px">
+            ${target[0]}
+        </div>
+
+        <div class="choices">
+
+        ${options.map(c=>`
+
+            <button class="choice"
+                    onclick="colourAnswer(this,'${c[1]}','${target[1]}')">
+                ${c[0]} ${c[1]}
+            </button>
+
+        `).join("")}
+
+        </div>
     `;
-
-    window.memoryFirst=null;
-    window.memoryLocked=false;
-    window.memoryMatches=0;
-
 }
 
 
-function memoryClick(card){
+function colourAnswer(button,value,answer) {
 
-    if(
-        memoryLocked ||
-        !card.classList.contains("hidden")
-    ) return;
+    if(value === answer) {
+
+        button.classList.add("correct");
+        addScore();
+        feedback("🎨 Correct colour!");
+
+        setTimeout(nextRound,700);
+
+    } else {
+
+        button.classList.add("wrong");
+        feedback("Try another colour.",false);
+    }
+}
+
+
+/* =========================================================
+   3. MEMORY
+========================================================= */
+
+function memoryGame() {
+
+    const emojis =
+        ["🐶","🐱","🦊","🐸","🐵","🐼","🦁","🐯"];
+
+    let cards =
+        [...emojis,...emojis]
+        .sort(()=>Math.random()-.5);
+
+    document.getElementById("gameArea").innerHTML = `
+
+        <div class="question">
+            🧠 Find the matching pairs
+        </div>
+
+        <div class="memory-grid">
+
+        ${cards.map((e,i)=>`
+
+            <button
+                class="memory-card hidden"
+                data-value="${e}"
+                onclick="flipMemory(this)">
+                ${e}
+            </button>
+
+        `).join("")}
+
+        </div>
+    `;
+
+    gameData.matches=0;
+}
+
+
+function flipMemory(card) {
+
+    if(memoryLock ||
+       !card.classList.contains("hidden") ||
+       card.classList.contains("matched"))
+        return;
 
     card.classList.remove("hidden");
 
-    if(!memoryFirst){
+    if(!memoryFirst) {
 
         memoryFirst=card;
-        clickSound();
-        return;
 
+        return;
     }
 
-    if(
-        memoryFirst.dataset.symbol===
-        card.dataset.symbol
-    ){
+    if(memoryFirst.dataset.value === card.dataset.value) {
 
-        memoryMatches++;
-        gameScore++;
-
-        correctSound();
+        memoryFirst.classList.add("matched");
+        card.classList.add("matched");
 
         memoryFirst=null;
 
-        if(memoryMatches>=6){
+        gameData.matches++;
 
-            document.getElementById(
-                "gameFeedback"
-            ).innerHTML=
-                "🎉 You found all the matches!";
+        addScore(15);
 
-            setTimeout(
-                memoryGame,
-                1200
-            );
+        if(gameData.matches === 8)
+            setTimeout(nextRound,700);
 
-        }
+    } else {
 
-    }else{
+        memoryLock=true;
 
-        wrongSound();
+        setTimeout(()=>{
 
-        memoryLocked=true;
+            memoryFirst.classList.add("hidden");
+            card.classList.add("hidden");
 
-        setTimeout(
-            ()=>{
+            memoryFirst=null;
+            memoryLock=false;
 
-                memoryFirst.classList.add(
-                    "hidden"
-                );
-
-                card.classList.add(
-                    "hidden"
-                );
-
-                memoryFirst=null;
-                memoryLocked=false;
-
-            },
-            800
-        );
-
+        },650);
     }
-
 }
 
 
 /* =========================================================
-   CLOCK GAME
+   4. WORD BUILDER
 ========================================================= */
 
-function clockGame(){
+function wordGame() {
 
-    const hours=
-        Math.floor(Math.random()*12)+1;
+    const words =
+        ["FISH","FROG","TREE","BOOK","STAR","BALL"];
 
-    const minutes=
-        Math.random()<.5 ? 0 : 30;
+    const word =
+        words[Math.floor(Math.random()*words.length)];
 
-    const answer=
-        minutes===0
-        ? `${hours}:00`
-        : `${hours}:30`;
+    const letters =
+        word.split("").sort(()=>Math.random()-.5);
 
-    const options=[
-        answer,
-        `${hours}:15`,
-        `${hours}:45`
-    ];
+    gameData.word=word;
+    gameData.selected="";
 
-    document.getElementById("gameArea").innerHTML=`
+    document.getElementById("gameArea").innerHTML = `
 
-        <div class="game-area">
+        <div class="question">
+            🔤 Build the word
+        </div>
 
-            <div class="game-score">
-                ⭐ Score: ${gameScore}
-            </div>
+        <h1 style="text-align:center;letter-spacing:10px">
+            ${"_ ".repeat(word.length)}
+        </h1>
 
-            <p>
-                What time is it?
-            </p>
+        <div id="wordAnswer"
+             style="text-align:center;
+                    font-size:35px;
+                    min-height:50px">
+        </div>
 
-            <div style="font-size:100px;">
-                🕐
-            </div>
+        <div class="choices">
 
-            <div class="game-question">
-                ${hours}:${minutes===0?"00":"30"}
-            </div>
+        ${letters.map((l,i)=>`
 
-            <div class="game-options">
+            <button class="choice"
+                    onclick="letterClick(this,'${l}')">
+                ${l}
+            </button>
 
-                ${options.map(
-                    o=>`
-
-                    <button
-                        class="game-option"
-                        onclick="answerClock('${o}','${answer}')">
-
-                        ${o}
-
-                    </button>
-
-                    `
-                ).join("")}
-
-            </div>
-
-            <div id="gameFeedback" class="feedback"></div>
+        `).join("")}
 
         </div>
 
+        <button class="next-button"
+                onclick="checkWord()">
+            Check Word
+        </button>
     `;
-
 }
 
 
-function answerClock(answer,correct){
+function letterClick(button,l) {
 
-    const feedback=
-        document.getElementById("gameFeedback");
+    button.disabled=true;
 
-    if(answer===correct){
+    gameData.selected += l;
 
-        gameScore++;
+    document.getElementById("wordAnswer")
+        .textContent=gameData.selected;
+}
 
-        feedback.innerHTML=
-            "🎉 Great! You read the clock correctly.";
 
-        correctSound();
+function checkWord() {
 
-        setTimeout(clockGame,900);
+    if(gameData.selected === gameData.word) {
 
-    }else{
+        addScore(15);
 
-        feedback.innerHTML=
-            "💡 Look carefully at the time.";
+        feedback("🔤 Excellent spelling!");
 
-        wrongSound();
+        setTimeout(nextRound,800);
 
+    } else {
+
+        feedback("Not quite. Try the letters again.",false);
     }
-
 }
 
 
 /* =========================================================
-   MONEY GAME
+   5. MATH BLASTER
 ========================================================= */
 
-function moneyGame(){
+function mathGame() {
 
-    const a=
-        Math.floor(Math.random()*5)+1;
+    const a=Math.floor(Math.random()*10)+1;
+    const b=Math.floor(Math.random()*10)+1;
+    const answer=a+b;
 
-    const b=
-        Math.floor(Math.random()*5)+1;
+    const options =
+        [answer,answer+1,answer-1,answer+3]
+        .sort(()=>Math.random()-.5);
+
+    document.getElementById("gameArea").innerHTML=`
+
+        <div class="question">
+            🚀 Rocket maths!
+            <br>
+            ${a} + ${b} = ?
+        </div>
+
+        <div class="choices">
+
+        ${options.map(n=>`
+
+            <button class="choice"
+                    onclick="simpleAnswer(this,${n},${answer})">
+                ${n}
+            </button>
+
+        `).join("")}
+
+        </div>
+    `;
+}
+
+
+/* =========================================================
+   6. SHAPES
+========================================================= */
+
+function shapeGame() {
+
+    const shapes =
+        ["🔵","🟥","🔺","⭐","⬟"];
+
+    const target =
+        shapes[Math.floor(Math.random()*shapes.length)];
+
+    document.getElementById("gameArea").innerHTML=`
+
+        <div class="question">
+            🔷 Find the ${target}
+        </div>
+
+        <div class="choices">
+
+        ${[...shapes]
+            .sort(()=>Math.random()-.5)
+            .map(s=>`
+
+            <button class="choice"
+                    onclick="simpleTextAnswer(
+                        this,
+                        '${s}',
+                        '${target}')">
+                ${s}
+            </button>
+
+        `).join("")}
+
+        </div>
+    `;
+}
+
+
+/* =========================================================
+   7. ANIMAL MATCH
+========================================================= */
+
+function animalGame() {
+
+    const data = [
+        ["🐟","🌊","Ocean"],
+        ["🐦","🌳","Tree"],
+        ["🐝","🌸","Flower"],
+        ["🐄","🏠","Farm"]
+    ];
+
+    const item =
+        data[Math.floor(Math.random()*data.length)];
+
+    document.getElementById("gameArea").innerHTML=`
+
+        <div class="question">
+            🐾 Where does the ${item[0]} belong?
+        </div>
+
+        <div class="choices">
+
+            <button class="choice"
+                    onclick="simpleTextAnswer(this,'🌊','${item[1]}')">
+                🌊 Ocean
+            </button>
+
+            <button class="choice"
+                    onclick="simpleTextAnswer(this,'🌳','${item[1]}')">
+                🌳 Tree
+            </button>
+
+            <button class="choice"
+                    onclick="simpleTextAnswer(this,'🌸','${item[1]}')">
+                🌸 Flower
+            </button>
+
+            <button class="choice"
+                    onclick="simpleTextAnswer(this,'🏠','${item[1]}')">
+                🏠 Farm
+            </button>
+
+        </div>
+    `;
+}
+
+
+/* =========================================================
+   8. COUNTING GARDEN
+========================================================= */
+
+function countGame() {
+
+    const count =
+        Math.floor(Math.random()*9)+2;
+
+    const objects =
+        "🌻".repeat(count);
+
+    const options =
+        [count,count+1,count-1,count+2]
+        .sort(()=>Math.random()-.5);
+
+    document.getElementById("gameArea").innerHTML=`
+
+        <div class="question">
+            🌻 How many flowers?
+        </div>
+
+        <div style="font-size:50px;
+                    text-align:center;
+                    line-height:1.5">
+            ${objects}
+        </div>
+
+        <div class="choices">
+
+        ${options.map(n=>`
+
+            <button class="choice"
+                    onclick="simpleAnswer(this,${n},${count})">
+                ${n}
+            </button>
+
+        `).join("")}
+
+        </div>
+    `;
+}
+
+
+/* =========================================================
+   9. ODD ONE OUT
+========================================================= */
+
+function oddGame() {
+
+    const sets = [
+        ["🍎","🍎","🍎","🚗"],
+        ["🐶","🐶","🐱","🐶"],
+        ["⭐","⭐","🌙","⭐"],
+        ["🍌","🍌","🍌","🍕"]
+    ];
+
+    const set =
+        sets[Math.floor(Math.random()*sets.length)];
+
+    const odd =
+        set.find((x,i,a)=>a.indexOf(x)===a.lastIndexOf(x));
+
+    document.getElementById("gameArea").innerHTML=`
+
+        <div class="question">
+            🔎 Find the odd one
+        </div>
+
+        <div class="choices">
+
+        ${set.map(x=>`
+
+            <button class="choice"
+                    onclick="simpleTextAnswer(
+                        this,
+                        '${x}',
+                        '${odd}')">
+                ${x}
+            </button>
+
+        `).join("")}
+
+        </div>
+    `;
+}
+
+
+/* =========================================================
+   10. PATTERN
+========================================================= */
+
+function patternGame() {
+
+    const patterns = [
+        ["🔴","🔵","🔴","🔵","?","🔵","🔴"],
+        ["⭐","⭐","🌙","⭐","⭐","🌙","?"],
+        ["🍎","🍌","🍎","🍌","?","🍌"]
+    ];
+
+    const p =
+        patterns[Math.floor(Math.random()*patterns.length)];
+
+    let answer;
+
+    if(p[0]==="🔴") answer="🔴";
+    else if(p[2]==="🌙") answer="🌙";
+    else answer="🍎";
+
+    const options =
+        ["🔴","🔵","⭐","🌙","🍎","🍌"]
+        .sort(()=>Math.random()-.5)
+        .slice(0,4);
+
+    if(!options.includes(answer))
+        options[0]=answer;
+
+    document.getElementById("gameArea").innerHTML=`
+
+        <div class="question">
+            🧩 Complete the pattern
+        </div>
+
+        <div class="pattern">
+            ${p.map(x=>`<span>${x}</span>`).join("")}
+        </div>
+
+        <div class="choices">
+
+        ${options.map(x=>`
+
+            <button class="choice"
+                    onclick="simpleTextAnswer(
+                        this,
+                        '${x}',
+                        '${answer}')">
+                ${x}
+            </button>
+
+        `).join("")}
+
+        </div>
+    `;
+}
+
+
+/* =========================================================
+   11. ADDITION
+========================================================= */
+
+function additionGame() {
+
+    const a=Math.floor(Math.random()*20);
+    const b=Math.floor(Math.random()*20);
 
     const answer=a+b;
 
-    document.getElementById("gameArea").innerHTML=`
-
-        <div class="game-area">
-
-            <div class="game-score">
-                ⭐ Score: ${gameScore}
-            </div>
-
-            <p>
-                You have £${a}.
-                You receive £${b}.
-                How much do you have now?
-            </p>
-
-            <div style="font-size:80px;">
-                💷
-            </div>
-
-            <div class="game-options">
-
-                ${[answer,answer+1,Math.max(0,answer-1)]
-                .sort(()=>Math.random()-.5)
-                .map(
-                    n=>`
-
-                    <button
-                        class="game-option"
-                        onclick="answerMoney(${n},${answer})">
-
-                        £${n}
-
-                    </button>
-
-                    `
-                ).join("")}
-
-            </div>
-
-            <div id="gameFeedback" class="feedback"></div>
-
-        </div>
-
-    `;
-
-}
-
-
-function answerMoney(answer,correct){
-
-    const feedback=
-        document.getElementById("gameFeedback");
-
-    if(answer===correct){
-
-        gameScore++;
-
-        feedback.innerHTML=
-            "🎉 Excellent money maths!";
-
-        correctSound();
-
-        setTimeout(moneyGame,900);
-
-    }else{
-
-        feedback.innerHTML=
-            "💡 Add the two amounts together.";
-
-        wrongSound();
-
-    }
-
+    mathChoices(
+        `${a} + ${b} = ?`,
+        answer
+    );
 }
 
 
 /* =========================================================
-   SCIENCE GAME
+   12. SUBTRACTION
 ========================================================= */
 
-const scienceQuestions=[
+function subtractionGame() {
 
-[
-"What planet do we live on?",
-["Earth","Mars","Jupiter"],
-0
-],
+    const a=Math.floor(Math.random()*20)+10;
+    const b=Math.floor(Math.random()*10);
 
-[
-"What do plants need to grow?",
-["Sunlight","Television","Cars"],
-0
-],
+    const answer=a-b;
 
-[
-"Which animal can fly?",
-["Bird","Fish","Elephant"],
-0
-],
-
-[
-"What gives Earth light during the day?",
-["The Sun","The Moon","A lamp"],
-0
-]
-
-];
-
-
-function scienceGame(){
-
-    const q=
-        scienceQuestions[
-            Math.floor(
-                Math.random()*scienceQuestions.length
-            )
-        ];
-
-    document.getElementById("gameArea").innerHTML=`
-
-        <div class="game-area">
-
-            <div class="game-score">
-                ⭐ Score: ${gameScore}
-            </div>
-
-            <div class="game-question">
-                🔬 ${q[0]}
-            </div>
-
-            <div class="game-options">
-
-                ${q[1].map(
-                    (a,i)=>`
-
-                    <button
-                        class="game-option"
-                        onclick="answerScience(${i},${q[2]})">
-
-                        ${a}
-
-                    </button>
-
-                    `
-                ).join("")}
-
-            </div>
-
-            <div id="gameFeedback" class="feedback"></div>
-
-        </div>
-
-    `;
-
+    mathChoices(
+        `${a} − ${b} = ?`,
+        answer
+    );
 }
 
 
-function answerScience(answer,correct){
+function mathChoices(question,answer) {
 
-    const feedback=
-        document.getElementById("gameFeedback");
+    const choices =
+        [
+            answer,
+            answer+2,
+            Math.max(0,answer-2),
+            answer+5
+        ].sort(()=>Math.random()-.5);
 
-    if(answer===correct){
+    document.getElementById("gameArea").innerHTML=`
 
-        gameScore++;
+        <div class="question">
+            ${question}
+        </div>
 
-        feedback.innerHTML=
-            "🎉 Excellent science answer!";
+        <div class="choices">
 
-        correctSound();
+        ${choices.map(n=>`
 
-        setTimeout(scienceGame,900);
+            <button class="choice"
+                    onclick="simpleAnswer(
+                        this,
+                        ${n},
+                        ${answer})">
+                ${n}
+            </button>
 
-    }else{
+        `).join("")}
 
-        feedback.innerHTML=
-            "💡 Think about what you learned.";
-
-        wrongSound();
-
-    }
-
+        </div>
+    `;
 }
 
 
 /* =========================================================
-   GEOGRAPHY GAME
+   13. SPELLING
 ========================================================= */
 
-const geographyQuestions=[
+function spellingGame() {
 
-[
-"Which continent is the United Kingdom in?",
-["Europe","Asia","Africa"],
-0
-],
+    const correct =
+        ["APPLE","HOUSE","WATER","TRAIN","SCHOOL"]
+        [Math.floor(Math.random()*5)];
 
-[
-"Which is the largest ocean?",
-["Pacific Ocean","Atlantic Ocean","Indian Ocean"],
-0
-],
-
-[
-"Which country is famous for the Eiffel Tower?",
-["France","Brazil","Japan"],
-0
-],
-
-[
-"Which continent is Egypt in?",
-["Africa","Europe","Australia"],
-0
-]
-
-];
-
-
-function geographyGame(){
-
-    const q=
-        geographyQuestions[
-            Math.floor(
-                Math.random()*geographyQuestions.length
-            )
-        ];
-
-    document.getElementById("gameArea").innerHTML=`
-
-        <div class="game-area">
-
-            <div class="game-score">
-                ⭐ Score: ${gameScore}
-            </div>
-
-            <div class="game-question">
-                🌍 ${q[0]}
-            </div>
-
-            <div class="game-options">
-
-                ${q[1].map(
-                    (a,i)=>`
-
-                    <button
-                        class="game-option"
-                        onclick="answerGeography(${i},${q[2]})">
-
-                        ${a}
-
-                    </button>
-
-                    `
-                ).join("")}
-
-            </div>
-
-            <div id="gameFeedback" class="feedback"></div>
-
-        </div>
-
-    `;
-
-}
-
-
-function answerGeography(answer,correct){
-
-    const feedback=
-        document.getElementById("gameFeedback");
-
-    if(answer===correct){
-
-        gameScore++;
-
-        feedback.innerHTML=
-            "🎉 Correct! Great geography!";
-
-        correctSound();
-
-        setTimeout(
-            geographyGame,
-            900
+    const wrong1 =
+        correct.slice(0,-1) +
+        String.fromCharCode(
+            correct.charCodeAt(correct.length-1)+1
         );
 
-    }else{
+    const wrong2 =
+        correct.slice(0,2) + "X" + correct.slice(3);
 
-        feedback.innerHTML=
-            "💡 Try again.";
+    const options =
+        [correct,wrong1,wrong2]
+        .sort(()=>Math.random()-.5);
 
-        wrongSound();
+    document.getElementById("gameArea").innerHTML=`
 
-    }
+        <div class="question">
+            ⭐ Which word is spelled correctly?
+        </div>
 
+        <div class="choices">
+
+        ${options.map(x=>`
+
+            <button class="choice"
+                    onclick="simpleTextAnswer(
+                        this,
+                        '${x}',
+                        '${correct}')">
+                ${x}
+            </button>
+
+        `).join("")}
+
+        </div>
+    `;
 }
 
 
 /* =========================================================
-   120 SECOND AD TIMER
+   14. ANIMAL SOUNDS
 ========================================================= */
 
-let adTimer=null;
+function soundsGame() {
 
-const AD_SECONDS=120;
+    const animals = [
+        ["🐶","Woof","Dog"],
+        ["🐱","Meow","Cat"],
+        ["🐮","Moo","Cow"],
+        ["🐑","Baa","Sheep"]
+    ];
 
+    const item =
+        animals[Math.floor(Math.random()*animals.length)];
 
-function startAdTimer(){
+    document.getElementById("gameArea").innerHTML=`
 
-    clearTimeout(adTimer);
+        <div class="question">
+            ${item[0]} Which animal makes
+            "${item[1]}"?
+        </div>
 
-    adTimer=setTimeout(
-        showAd,
-        AD_SECONDS*1000
-    );
+        <div class="choices">
 
+        ${animals.map(a=>`
+
+            <button class="choice"
+                    onclick="simpleTextAnswer(
+                        this,
+                        '${a[2]}',
+                        '${item[2]}')">
+                ${a[0]} ${a[2]}
+            </button>
+
+        `).join("")}
+
+        </div>
+    `;
 }
 
 
-function showAd(){
+/* =========================================================
+   15. WORLD
+========================================================= */
+
+function worldGame() {
+
+    const questions = [
+        ["Which country is famous for the Eiffel Tower?","France"],
+        ["Which country has the pyramids of Giza?","Egypt"],
+        ["Which country is shaped like a boot?","Italy"],
+        ["Which country is famous for kangaroos?","Australia"]
+    ];
+
+    const q =
+        questions[Math.floor(Math.random()*questions.length)];
+
+    const options =
+        ["France","Egypt","Italy","Australia"];
+
+    document.getElementById("gameArea").innerHTML=`
+
+        <div class="question">
+            🌍 ${q[0]}
+        </div>
+
+        <div class="choices">
+
+        ${options.map(x=>`
+
+            <button class="choice"
+                    onclick="simpleTextAnswer(
+                        this,
+                        '${x}',
+                        '${q[1]}')">
+                ${x}
+            </button>
+
+        `).join("")}
+
+        </div>
+    `;
+}
+
+
+/* =========================================================
+   16. SCIENCE
+========================================================= */
+
+function scienceGame() {
+
+    const questions = [
+        ["What do plants need to grow?","Sunlight"],
+        ["What planet do we live on?","Earth"],
+        ["What do humans breathe?","Oxygen"],
+        ["What is frozen water called?","Ice"]
+    ];
+
+    const q =
+        questions[Math.floor(Math.random()*questions.length)];
+
+    let options =
+        ["Sunlight","Earth","Oxygen","Ice"];
+
+    document.getElementById("gameArea").innerHTML=`
+
+        <div class="question">
+            🔬 ${q[0]}
+        </div>
+
+        <div class="choices">
+
+        ${options.map(x=>`
+
+            <button class="choice"
+                    onclick="simpleTextAnswer(
+                        this,
+                        '${x}',
+                        '${q[1]}')">
+                ${x}
+            </button>
+
+        `).join("")}
+
+        </div>
+    `;
+}
+
+
+/* =========================================================
+   17. MONEY SHOP
+========================================================= */
+
+function moneyGame() {
+
+    const price =
+        [2,3,4,5][Math.floor(Math.random()*4)];
+
+    const paid=5;
+
+    const change=paid-price;
+
+    const options =
+        [change,change+1,Math.max(0,change-1),change+2]
+        .sort(()=>Math.random()-.5);
+
+    document.getElementById("gameArea").innerHTML=`
+
+        <div class="question">
+            🛒 A toy costs £${price}.
+            You pay £${paid}.
+            <br><br>
+            How much change?
+        </div>
+
+        <div class="choices">
+
+        ${options.map(n=>`
+
+            <button class="choice"
+                    onclick="simpleAnswer(
+                        this,
+                        ${n},
+                        ${change})">
+                £${n}
+            </button>
+
+        `).join("")}
+
+        </div>
+    `;
+}
+
+
+/* =========================================================
+   18. CLOCK
+========================================================= */
+
+function clockGame() {
+
+    const hours =
+        Math.floor(Math.random()*12)+1;
+
+    const answer =
+        hours + ":00";
+
+    const options =
+        [
+            answer,
+            ((hours%12)+1)+":00",
+            ((hours+2)%12||12)+":00",
+            ((hours+3)%12||12)+":00"
+        ];
+
+    document.getElementById("gameArea").innerHTML=`
+
+        <div class="question">
+            ⏰ What time is it?
+        </div>
+
+        <div style="text-align:center;
+                    font-size:100px">
+            🕐
+        </div>
+
+        <div style="text-align:center;
+                    font-size:35px;
+                    margin-bottom:20px">
+            ${hours}:00
+        </div>
+
+        <div class="choices">
+
+        ${options.map(x=>`
+
+            <button class="choice"
+                    onclick="simpleTextAnswer(
+                        this,
+                        '${x}',
+                        '${answer}')">
+                ${x}
+            </button>
+
+        `).join("")}
+
+        </div>
+    `;
+}
+
+
+/* =========================================================
+   19. FAST SHAPES
+========================================================= */
+
+function fastShapeGame() {
+
+    const shapes =
+        ["🔴","🔵","🟢","🟡"];
+
+    const answer =
+        shapes[Math.floor(Math.random()*shapes.length)];
+
+    document.getElementById("gameArea").innerHTML=`
+
+        <div class="question">
+            ⚡ QUICK!
+            <br>
+            Tap ${answer}
+        </div>
+
+        <div class="choices">
+
+        ${[...shapes]
+            .sort(()=>Math.random()-.5)
+            .map(x=>`
+
+            <button class="choice"
+                    style="font-size:50px"
+                    onclick="simpleTextAnswer(
+                        this,
+                        '${x}',
+                        '${answer}')">
+                ${x}
+            </button>
+
+        `).join("")}
+
+        </div>
+    `;
+}
+
+
+/* =========================================================
+   20. TREASURE HUNT
+========================================================= */
+
+function treasureGame() {
+
+    const clues = [
+        ["🏴‍☠️ The treasure is under something used for reading.","📚","📚 Books"],
+        ["🏴‍☠️ Find the thing that tells time.","⏰","⏰ Clock"],
+        ["🏴‍☠️ Find something used for writing.","✏️","✏️ Pencil"],
+        ["🏴‍☠️ Find something that shines at night.","🌙","🌙 Moon"]
+    ];
+
+    const q =
+        clues[Math.floor(Math.random()*clues.length)];
+
+    document.getElementById("gameArea").innerHTML=`
+
+        <div class="question">
+            ${q[0]}
+        </div>
+
+        <div class="choices">
+
+            <button class="choice"
+                    onclick="simpleTextAnswer(
+                        this,'📚','${q[1]}')">
+                📚 Books
+            </button>
+
+            <button class="choice"
+                    onclick="simpleTextAnswer(
+                        this,'⏰','${q[1]}')">
+                ⏰ Clock
+            </button>
+
+            <button class="choice"
+                    onclick="simpleTextAnswer(
+                        this,'✏️','${q[1]}')">
+                ✏️ Pencil
+            </button>
+
+            <button class="choice"
+                    onclick="simpleTextAnswer(
+                        this,'🌙','${q[1]}')">
+                🌙 Moon
+            </button>
+
+        </div>
+    `;
+}
+
+
+/* =========================================================
+   GENERIC ANSWERS
+========================================================= */
+
+function simpleAnswer(button,value,answer) {
+
+    if(value === answer) {
+
+        button.classList.add("correct");
+
+        addScore(10);
+
+        feedback("🎉 Correct!");
+
+        setTimeout(nextRound,700);
+
+    } else {
+
+        button.classList.add("wrong");
+
+        feedback("❌ Try again!",false);
+    }
+}
+
+
+function simpleTextAnswer(button,value,answer) {
+
+    if(value === answer) {
+
+        button.classList.add("correct");
+
+        addScore(10);
+
+        feedback("🌟 Brilliant!");
+
+        setTimeout(nextRound,700);
+
+    } else {
+
+        button.classList.add("wrong");
+
+        feedback("Try again!",false);
+    }
+}
+
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+function showSection(section) {
 
     document
-        .getElementById("adBox")
-        .classList.add("show");
-
-}
-
-
-function closeAd(){
+        .querySelectorAll(".section")
+        .forEach(s=>s.classList.remove("active"));
 
     document
-        .getElementById("adBox")
-        .classList.remove("show");
+        .getElementById(section)
+        .classList.add("active");
 
-    startAdTimer();
-
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
 }
 
 
 /* =========================================================
-   START AD TIMER
+   VIDEO ERROR CHECK
 ========================================================= */
 
-startAdTimer();
+const adultVideo =
+    document.getElementById("adultVideo");
 
+const videoError =
+    document.getElementById("videoError");
 
-/* =========================================================
-   RESET AD TIMER WHEN USER INTERACTS
-========================================================= */
+adultVideo.addEventListener("error",function() {
 
-document.addEventListener(
-    "click",
-    function(){
+    videoError.style.display="block";
 
-        /*
-        This keeps the application active.
-        The advertisement itself still appears
-        after 120 seconds.
-        */
+});
 
-    }
-);
+adultVideo.addEventListener("loadeddata",function() {
 
+    videoError.style.display="none";
 
-/* =========================================================
-   CLOSE MODAL WHEN CLICKING OUTSIDE
-========================================================= */
-
-modal.addEventListener(
-    "click",
-    function(e){
-
-        if(e.target===modal){
-            closeModal();
-        }
-
-    }
-);
+});
 
 </script>
 
 </body>
 </html>
+"""
+
+
+# ============================================================
+# ROUTES
+# ============================================================
+
+@app.route("/")
+def home():
+    return render_template_string(PAGE)
+
+
+# Serve the adult learning video
+@app.route("/video/<path:filename>")
+def video(filename):
+
+    return send_from_directory(
+        VIDEO_FOLDER,
+        filename,
+        conditional=True
+    )
+
+
+# ============================================================
+# START APP
+# ============================================================
+
+if __name__ == "__main__":
+
+    print("")
+    print("======================================")
+    print("       LEARN & PLAY STARTING")
+    print("======================================")
+    print("")
+    print("Kids Games: 20")
+    print("Adult Learning: Enabled")
+    print("")
+    print("Adult video location:")
+    print(VIDEO_FOLDER)
+    print("")
+    print("Open:")
+    print("http://127.0.0.1:5000")
+    print("")
+
+    app.run(
+        host="0.0.0.0",
+        port=5000,
+        debug=True
+    )
