@@ -3,20 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Learn & Play - Kids Learning Games</title>
-
-<meta name="description"
-content="Learn & Play - fun interactive educational games for children.">
-
-<!-- =========================================================
-     GOOGLE ADSENSE
-     Replace YOUR-PUBLISHER-ID with your real AdSense ID.
-     Example: ca-pub-1234567890123456
-     ========================================================= -->
-<script async
-src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR-PUBLISHER-ID"
-crossorigin="anonymous"></script>
+<title>The Last Shop</title>
 
 <style>
 * {
@@ -25,593 +12,380 @@ crossorigin="anonymous"></script>
     padding: 0;
 }
 
-:root {
-    --blue: #2563eb;
-    --purple: #7c3aed;
-    --pink: #ec4899;
-    --yellow: #f59e0b;
-    --green: #10b981;
-    --dark: #172554;
-    --light: #f5f7ff;
-    --card: #ffffff;
-}
-
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background:
-        radial-gradient(circle at 10% 10%, #dbeafe 0, transparent 25%),
-        radial-gradient(circle at 90% 20%, #fce7f3 0, transparent 25%),
-        #f5f7ff;
-    color: #172554;
-    min-height: 100vh;
+    background: #111827;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+    user-select: none;
 }
 
-/* ================= HEADER ================= */
-
-.header {
-    background: linear-gradient(135deg, #2563eb, #4f46e5, #7c3aed);
-    color: white;
-    padding: 24px 6%;
+#game {
+    width: 100vw;
+    height: 100vh;
     position: relative;
     overflow: hidden;
+    background:
+        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px),
+        #6b4f3a;
+    background-size: 40px 40px;
 }
 
-.header:before,
-.header:after {
-    content: "";
+/* TOP BAR */
+
+#topBar {
     position: absolute;
-    border-radius: 50%;
-    background: rgba(255,255,255,.12);
-}
-
-.header:before {
-    width: 240px;
-    height: 240px;
-    right: -80px;
-    top: -100px;
-}
-
-.header:after {
-    width: 160px;
-    height: 160px;
-    left: -70px;
-    bottom: -100px;
-}
-
-.header-inner {
-    max-width: 1250px;
-    margin: auto;
-    position: relative;
-    z-index: 2;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: rgba(17,24,39,.95);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    z-index: 20;
+    border-bottom: 2px solid #374151;
 }
 
 .logo {
-    font-size: 34px;
-    font-weight: 900;
-}
-
-.subtitle {
-    margin-top: 6px;
-    opacity: .9;
-}
-
-.top-buttons {
-    margin-top: 20px;
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.top-button {
-    border: 0;
-    padding: 12px 20px;
-    border-radius: 30px;
-    cursor: pointer;
+    font-size: 25px;
     font-weight: bold;
-    background: rgba(255,255,255,.18);
-    color: white;
-    transition: .2s;
 }
 
-.top-button:hover {
-    transform: translateY(-2px);
-    background: white;
-    color: #2563eb;
-}
-
-/* ================= PLAYER BAR ================= */
-
-.player {
-    max-width: 1250px;
-    margin: 22px auto;
-    padding: 0 20px;
-}
-
-.player-box {
-    background: white;
-    border-radius: 24px;
-    padding: 18px;
-    box-shadow: 0 10px 35px rgba(37,99,235,.10);
-    display: grid;
-    grid-template-columns: 90px 1fr;
-    gap: 18px;
-    align-items: center;
-}
-
-.avatar {
-    width: 78px;
-    height: 78px;
-    border-radius: 25px;
-    background: linear-gradient(135deg,#fde68a,#fb7185);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 44px;
-}
-
-.player-name {
-    font-size: 22px;
-    font-weight: 900;
+.logo span {
+    color: #fbbf24;
 }
 
 .stats {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 9px;
+    gap: 25px;
+    font-size: 17px;
 }
 
 .stat {
-    background: #f1f5ff;
-    border-radius: 14px;
-    padding: 8px 13px;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-/* ================= CONTENT ================= */
-
-.container {
-    max-width: 1250px;
-    margin: 30px auto 70px;
-    padding: 0 20px;
-}
-
-.section-title {
     display: flex;
-    justify-content: space-between;
+    gap: 7px;
     align-items: center;
-    margin: 30px 0 15px;
 }
 
-.section-title h2 {
+/* SHOP */
+
+#shop {
+    position: absolute;
+    left: 7%;
+    right: 7%;
+    top: 100px;
+    bottom: 50px;
+    background: #d6b98c;
+    border: 12px solid #3f2d20;
+    box-shadow: inset 0 0 0 5px #8b6a47,
+                0 20px 50px rgba(0,0,0,.45);
+}
+
+/* FLOOR */
+
+#floor {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 68%;
+    background:
+        linear-gradient(90deg, rgba(80,50,30,.25) 2px, transparent 2px),
+        linear-gradient(rgba(80,50,30,.25) 2px, transparent 2px),
+        #b8895d;
+    background-size: 70px 70px;
+}
+
+/* WALL */
+
+#wall {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 32%;
+    background: #cdb184;
+}
+
+/* WINDOWS */
+
+.window {
+    position: absolute;
+    top: 35px;
+    width: 150px;
+    height: 100px;
+    background: linear-gradient(#79b8e8,#d5efff);
+    border: 10px solid #553b27;
+}
+
+.window:before,
+.window:after {
+    content: "";
+    position: absolute;
+    background: #553b27;
+}
+
+.window:before {
+    width: 8px;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+}
+
+.window:after {
+    height: 8px;
+    left: 0;
+    right: 0;
+    top: 50%;
+}
+
+.window.left {
+    left: 8%;
+}
+
+.window.right {
+    right: 8%;
+}
+
+/* SIGN */
+
+#sign {
+    position: absolute;
+    top: 38px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #2b2119;
+    color: #fbbf24;
+    padding: 15px 35px;
+    border: 5px solid #705234;
+    font-size: 26px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+/* COUNTER */
+
+#counter {
+    position: absolute;
+    left: 7%;
+    right: 7%;
+    bottom: 18%;
+    height: 90px;
+    background: #67452c;
+    border: 8px solid #3e281a;
+    box-shadow: 0 10px 20px rgba(0,0,0,.3);
+}
+
+/* SHELVES */
+
+.shelf {
+    position: absolute;
+    width: 170px;
+    height: 100px;
+    background: #704a2d;
+    border: 8px solid #412818;
+}
+
+.shelf.left {
+    left: 5%;
+    top: 25%;
+}
+
+.shelf.right {
+    right: 5%;
+    top: 25%;
+}
+
+/* ITEMS */
+
+.item {
+    position: absolute;
+    font-size: 42px;
+    cursor: pointer;
+    transition: transform .15s;
+    z-index: 5;
+}
+
+.item:hover {
+    transform: scale(1.15);
+}
+
+#chair {
+    left: 25%;
+    bottom: 25%;
+}
+
+#lamp {
+    right: 25%;
+    bottom: 26%;
+}
+
+#box {
+    left: 45%;
+    bottom: 30%;
+    font-size: 55px;
+}
+
+/* PLAYER */
+
+#player {
+    position: absolute;
+    width: 45px;
+    height: 55px;
+    left: 50%;
+    bottom: 25%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.player-head {
+    width: 34px;
+    height: 34px;
+    background: #f2b880;
+    border-radius: 50%;
+    margin: auto;
+    border: 3px solid #39261b;
+}
+
+.player-body {
+    width: 40px;
+    height: 30px;
+    background: #2563eb;
+    border-radius: 10px 10px 5px 5px;
+    margin: -2px auto 0;
+    border: 3px solid #172554;
+}
+
+/* INTERACTION */
+
+#interaction {
+    position: absolute;
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%);
+    background: rgba(17,24,39,.95);
+    color: white;
+    padding: 12px 25px;
+    border-radius: 12px;
+    font-size: 16px;
+    display: none;
+    z-index: 30;
+}
+
+/* MESSAGE */
+
+#message {
+    position: absolute;
+    top: 85px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(17,24,39,.95);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 12px;
+    z-index: 40;
+    display: none;
+    max-width: 500px;
+    text-align: center;
+}
+
+#message button {
+    margin-top: 12px;
+    background: #fbbf24;
+    color: #111827;
+    border: 0;
+    padding: 9px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* MOBILE CONTROLS */
+
+#controls {
+    position: absolute;
+    bottom: 20px;
+    right: 25px;
+    display: grid;
+    grid-template-columns: 55px 55px 55px;
+    grid-template-rows: 55px 55px;
+    gap: 5px;
+    z-index: 25;
+}
+
+.control {
+    background: rgba(17,24,39,.75);
+    color: white;
+    border: 2px solid #6b7280;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 25px;
 }
 
-.section-title span {
-    color: #64748b;
-    font-size: 14px;
+.up {
+    grid-column: 2;
 }
 
-/* ================= CONTINUE CARD ================= */
-
-.continue {
-    background: linear-gradient(135deg,#111827,#312e81);
-    color: white;
-    border-radius: 28px;
-    padding: 25px;
-    min-height: 210px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 15px 40px rgba(30,41,59,.20);
+.left {
+    grid-column: 1;
 }
 
-.continue-info {
-    position: relative;
-    z-index: 2;
+.down {
+    grid-column: 2;
 }
 
-.continue h2 {
-    font-size: 31px;
-    margin-bottom: 8px;
+.right {
+    grid-column: 3;
 }
 
-.continue p {
-    opacity: .85;
-    margin-bottom: 18px;
-}
+@media(max-width:700px) {
 
-.continue-art {
-    font-size: 100px;
-    position: absolute;
-    right: 45px;
-    animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-12px); }
-}
-
-/* ================= GAME GRID ================= */
-
-.game-grid {
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    gap: 18px;
-}
-
-.game-card {
-    background: white;
-    border-radius: 24px;
-    padding: 18px;
-    min-height: 235px;
-    box-shadow: 0 8px 28px rgba(15,23,42,.08);
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    transition: .25s;
-    border: 2px solid transparent;
-}
-
-.game-card:hover {
-    transform: translateY(-7px) scale(1.01);
-    border-color: #bfdbfe;
-    box-shadow: 0 15px 35px rgba(37,99,235,.15);
-}
-
-.game-card .art {
-    height: 110px;
-    border-radius: 19px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 65px;
-    margin-bottom: 15px;
-}
-
-.game-card h3 {
-    font-size: 18px;
-    margin-bottom: 5px;
-}
-
-.game-card p {
-    color: #64748b;
-    font-size: 13px;
-    min-height: 35px;
-}
-
-.play {
-    width: 100%;
-    margin-top: 12px;
-    border: 0;
-    background: var(--blue);
-    color: white;
-    padding: 11px;
-    border-radius: 13px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.play:hover {
-    background: #1d4ed8;
-}
-
-.blue { background:#dbeafe; }
-.purple { background:#ede9fe; }
-.pink { background:#fce7f3; }
-.yellow { background:#fef3c7; }
-.green { background:#d1fae5; }
-.cyan { background:#cffafe; }
-.orange { background:#ffedd5; }
-.red { background:#fee2e2; }
-
-/* ================= REWARDS ================= */
-
-.rewards {
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    gap: 15px;
-}
-
-.reward {
-    background: white;
-    border-radius: 20px;
-    padding: 18px;
-    text-align: center;
-    box-shadow: 0 8px 25px rgba(15,23,42,.06);
-}
-
-.reward-icon {
-    font-size: 45px;
-    margin-bottom: 8px;
-}
-
-.reward.locked {
-    opacity: .45;
-}
-
-/* ================= MODAL ================= */
-
-.modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(15,23,42,.72);
-    backdrop-filter: blur(8px);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 15px;
-    z-index: 1000;
-}
-
-.modal.show {
-    display: flex;
-}
-
-.game-window {
-    width: min(850px,100%);
-    max-height: 92vh;
-    overflow-y: auto;
-    background: white;
-    border-radius: 30px;
-    box-shadow: 0 30px 100px rgba(0,0,0,.3);
-}
-
-.game-header {
-    padding: 18px 22px;
-    color: white;
-    background: linear-gradient(135deg,#2563eb,#7c3aed);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.game-header h2 {
-    font-size: 22px;
-}
-
-.close {
-    border: 0;
-    background: rgba(255,255,255,.2);
-    color: white;
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 20px;
-}
-
-.game-body {
-    padding: 25px;
-}
-
-/* ================= GAME UI ================= */
-
-.question {
-    text-align: center;
-    font-size: 35px;
-    font-weight: 900;
-    margin: 15px 0 25px;
-}
-
-.answers {
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-    gap: 15px;
-}
-
-.answer {
-    min-height: 75px;
-    border: 3px solid #e2e8f0;
-    background: white;
-    border-radius: 20px;
-    font-size: 22px;
-    font-weight: 900;
-    cursor: pointer;
-    transition: .2s;
-}
-
-.answer:hover {
-    border-color: #60a5fa;
-    background: #eff6ff;
-    transform: scale(1.02);
-}
-
-.answer.correct {
-    background: #dcfce7;
-    border-color: #22c55e;
-}
-
-.answer.wrong {
-    background: #fee2e2;
-    border-color: #ef4444;
-}
-
-.game-message {
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
-    margin-top: 20px;
-    min-height: 30px;
-}
-
-/* ================= MEMORY ================= */
-
-.memory-grid {
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    gap: 12px;
-    max-width: 620px;
-    margin: auto;
-}
-
-.memory-card {
-    aspect-ratio: 1;
-    border: 0;
-    border-radius: 18px;
-    background: linear-gradient(135deg,#2563eb,#7c3aed);
-    color: white;
-    font-size: 35px;
-    cursor: pointer;
-    transition: .2s;
-}
-
-.memory-card.flipped {
-    background: #f8fafc;
-    color: #172554;
-}
-
-.memory-card.matched {
-    background: #dcfce7;
-}
-
-/* ================= WORD GAME ================= */
-
-.word-stage {
-    background: linear-gradient(180deg,#bae6fd,#dbeafe);
-    border-radius: 25px;
-    padding: 35px;
-    text-align: center;
-}
-
-.word-character {
-    font-size: 90px;
-    animation: float 2s infinite;
-}
-
-.scramble {
-    font-size: 40px;
-    font-weight: 900;
-    letter-spacing: 8px;
-    margin: 15px;
-}
-
-.word-input {
-    padding: 15px;
-    border: 3px solid #bfdbfe;
-    border-radius: 15px;
-    width: min(350px,100%);
-    font-size: 22px;
-    text-align: center;
-    outline: none;
-}
-
-/* ================= NUMBER ADVENTURE ================= */
-
-.adventure {
-    background: linear-gradient(#bfdbfe,#dbeafe);
-    border-radius: 25px;
-    padding: 25px;
-    min-height: 380px;
-    position: relative;
-    overflow: hidden;
-}
-
-.sky {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-}
-
-.cloud {
-    position: absolute;
-    font-size: 55px;
-    opacity: .75;
-    animation: cloudMove 14s linear infinite;
-}
-
-.cloud.one { top:30px; left:5%; }
-.cloud.two { top:100px; left:65%; animation-delay:5s; }
-
-@keyframes cloudMove {
-    from { transform: translateX(-80px); }
-    to { transform: translateX(800px); }
-}
-
-.hero {
-    position: relative;
-    text-align: center;
-    font-size: 90px;
-    margin-top: 35px;
-}
-
-.adventure-question {
-    position: relative;
-    text-align: center;
-    font-size: 28px;
-    font-weight: 900;
-    margin: 5px;
-}
-
-/* ================= FOOTER ================= */
-
-footer {
-    text-align: center;
-    padding: 35px 20px;
-    color: #64748b;
-}
-
-.ad-space {
-    min-height: 90px;
-    max-width: 900px;
-    margin: 30px auto;
-    background: #f8fafc;
-    border-radius: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #94a3b8;
-}
-
-/* ================= RESPONSIVE ================= */
-
-@media(max-width:900px) {
-    .game-grid {
-        grid-template-columns: repeat(2,1fr);
+    #topBar {
+        height: 58px;
+        padding: 0 10px;
     }
 
-    .rewards {
-        grid-template-columns: repeat(2,1fr);
-    }
-}
-
-@media(max-width:600px) {
     .logo {
-        font-size: 27px;
+        font-size: 17px;
     }
 
-    .game-grid {
-        grid-template-columns: 1fr;
+    .stats {
+        gap: 8px;
+        font-size: 12px;
     }
 
-    .rewards {
-        grid-template-columns: 1fr 1fr;
+    #shop {
+        left: 2%;
+        right: 2%;
+        top: 75px;
+        bottom: 15px;
     }
 
-    .continue {
-        min-height: 250px;
+    #sign {
+        font-size: 17px;
+        padding: 9px 15px;
     }
 
-    .continue-art {
+    .window {
+        width: 90px;
+        height: 65px;
+    }
+
+    .shelf {
+        width: 100px;
+        height: 70px;
+    }
+
+    #controls {
         right: 10px;
         bottom: 10px;
-        opacity: .35;
-    }
-
-    .answers {
-        grid-template-columns: 1fr;
-    }
-
-    .memory-grid {
-        grid-template-columns: repeat(3,1fr);
-    }
-
-    .player-box {
-        grid-template-columns: 70px 1fr;
+        transform: scale(.8);
+        transform-origin: bottom right;
     }
 }
 </style>
@@ -619,1142 +393,262 @@ footer {
 
 <body>
 
-<header class="header">
-    <div class="header-inner">
+<div id="game">
 
-        <div class="logo">🎓 Learn & Play</div>
+    <div id="topBar">
+        <div class="logo">🏚️ THE <span>LAST SHOP</span></div>
 
-        <div class="subtitle">
-            Fun educational games for kids — play, learn and earn rewards!
+        <div class="stats">
+            <div class="stat">💷 <span id="money">2</span></div>
+            <div class="stat">⭐ <span id="reputation">0</span></div>
+            <div class="stat">📅 Day <span id="day">1</span></div>
         </div>
-
-        <div class="top-buttons">
-            <button class="top-button" onclick="scrollToGames()">
-                🎮 Games
-            </button>
-
-            <button class="top-button" onclick="showRewards()">
-                🏆 Rewards
-            </button>
-
-            <button class="top-button" onclick="dailyChallenge()">
-                ⭐ Daily Challenge
-            </button>
-        </div>
-
     </div>
-</header>
 
-<main>
+    <div id="shop">
 
-<section class="player">
+        <div id="wall"></div>
 
-    <div class="player-box">
+        <div id="floor"></div>
 
-        <div class="avatar">🧒</div>
+        <div id="sign">
+            THE LAST SHOP
+        </div>
 
-        <div>
-            <div class="player-name">
-                My Learning Adventure
-            </div>
+        <div class="window left"></div>
+        <div class="window right"></div>
 
-            <div class="stats">
+        <div class="shelf left"></div>
+        <div class="shelf right"></div>
 
-                <div class="stat">
-                    ⭐ Stars: <span id="stars">0</span>
-                </div>
+        <div id="counter"></div>
 
-                <div class="stat">
-                    🪙 Coins: <span id="coins">0</span>
-                </div>
+        <div id="chair" class="item" data-name="Broken Chair">🪑</div>
 
-                <div class="stat">
-                    🔥 Streak: <span id="streak">0</span>
-                </div>
+        <div id="lamp" class="item" data-name="Old Lamp">💡</div>
 
-                <div class="stat">
-                    🏆 Level: <span id="level">1</span>
-                </div>
+        <div id="box" class="item" data-name="Old Box">📦</div>
 
-            </div>
+        <div id="player">
+            <div class="player-head"></div>
+            <div class="player-body"></div>
         </div>
 
     </div>
 
-</section>
-
-<div class="container">
-
-    <!-- CONTINUE PLAYING -->
-
-    <div class="continue">
-
-        <div class="continue-info">
-
-            <div style="font-size:14px;opacity:.7;">
-                ⭐ RECOMMENDED FOR YOU
-            </div>
-
-            <h2>🚀 Space Maths Adventure</h2>
-
-            <p>
-                Fly through space, collect stars and solve maths missions!
-            </p>
-
-            <button class="top-button"
-                    style="background:white;color:#312e81;"
-                    onclick="openGame('space')">
-                ▶ Continue Playing
-            </button>
-
-        </div>
-
-        <div class="continue-art">
-            🚀
-        </div>
-
+    <div id="interaction">
+        Press <b>SPACE</b> to interact
     </div>
 
-    <!-- ADVERTISEMENT -->
+    <div id="message"></div>
 
-    <div class="ad-space">
-
-        <!-- AdSense responsive advertisement -->
-        <!-- Uncomment after your AdSense account is approved -->
-
-        <!--
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-YOUR-PUBLISHER-ID"
-             data-ad-slot="YOUR-AD-SLOT"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-        -->
-
-        Advertisement
-
-    </div>
-
-    <!-- GAMES -->
-
-    <div class="section-title" id="games">
-        <h2>🎮 Explore Game World</h2>
-        <span>Choose an adventure</span>
-    </div>
-
-    <div class="game-grid">
-
-        <div class="game-card" onclick="openGame('space')">
-            <div class="art blue">🚀</div>
-            <h3>Space Maths</h3>
-            <p>Fly through space and solve maths missions.</p>
-            <button class="play">PLAY 🚀</button>
-        </div>
-
-        <div class="game-card" onclick="openGame('memory')">
-            <div class="art purple">🧠</div>
-            <h3>Memory World</h3>
-            <p>Match magical characters and train your memory.</p>
-            <button class="play">PLAY 🧠</button>
-        </div>
-
-        <div class="game-card" onclick="openGame('words')">
-            <div class="art pink">🏝️</div>
-            <h3>Word Island</h3>
-            <p>Explore the island and discover hidden words.</p>
-            <button class="play">PLAY 🏝️</button>
-        </div>
-
-        <div class="game-card" onclick="openGame('spelling')">
-            <div class="art yellow">🐝</div>
-            <h3>Spelling Garden</h3>
-            <p>Help the bees find the correctly spelled word.</p>
-            <button class="play">PLAY 🐝</button>
-        </div>
-
-        <div class="game-card" onclick="openGame('shapes')">
-            <div class="art green">🔷</div>
-            <h3>Shape Safari</h3>
-            <p>Find shapes hidden around the colourful world.</p>
-            <button class="play">PLAY 🔷</button>
-        </div>
-
-        <div class="game-card" onclick="openGame('addition')">
-            <div class="art cyan">➕</div>
-            <h3>Math Mountain</h3>
-            <p>Climb the mountain by solving maths challenges.</p>
-            <button class="play">PLAY ⛰️</button>
-        </div>
-
-        <div class="game-card" onclick="openGame('animals')">
-            <div class="art orange">🦁</div>
-            <h3>Animal Explorer</h3>
-            <p>Discover animals and learn amazing facts.</p>
-            <button class="play">PLAY 🦁</button>
-        </div>
-
-        <div class="game-card" onclick="openGame('pattern')">
-            <div class="art red">🧩</div>
-            <h3>Pattern Quest</h3>
-            <p>Complete patterns and unlock treasure.</p>
-            <button class="play">PLAY 🧩</button>
-        </div>
-
-    </div>
-
-    <!-- REWARDS -->
-
-    <div class="section-title">
-        <h2>🏆 Achievements</h2>
-        <span>Keep playing to unlock them</span>
-    </div>
-
-    <div class="rewards" id="rewards">
-
-        <div class="reward">
-            <div class="reward-icon">🌟</div>
-            <b>First Star</b>
-            <p>Earn your first star</p>
-        </div>
-
-        <div class="reward">
-            <div class="reward-icon">🔥</div>
-            <b>Hot Streak</b>
-            <p>Get 5 correct answers</p>
-        </div>
-
-        <div class="reward">
-            <div class="reward-icon">🧠</div>
-            <b>Brain Master</b>
-            <p>Complete a memory game</p>
-        </div>
-
-        <div class="reward locked">
-            <div class="reward-icon">👑</div>
-            <b>Learning King</b>
-            <p>Reach level 10</p>
-        </div>
-
+    <div id="controls">
+        <div class="control up" data-key="ArrowUp">▲</div>
+        <div class="control left" data-key="ArrowLeft">◀</div>
+        <div class="control down" data-key="ArrowDown">▼</div>
+        <div class="control right" data-key="ArrowRight">▶</div>
     </div>
 
 </div>
-
-</main>
-
-<footer>
-    🎓 Learn & Play © 2026
-    <br>
-    Learn • Play • Explore • Grow
-</footer>
-
-
-<!-- =========================================================
-                         GAME MODAL
-     ========================================================= -->
-
-<div class="modal" id="modal">
-
-    <div class="game-window">
-
-        <div class="game-header">
-
-            <h2 id="gameTitle">Game</h2>
-
-            <button class="close" onclick="closeGame()">
-                ✕
-            </button>
-
-        </div>
-
-        <div class="game-body" id="gameBody">
-        </div>
-
-    </div>
-
-</div>
-
 
 <script>
 
-/* =========================================================
-                     PLAYER DATA
-   ========================================================= */
+let playerX = 50;
+let playerY = 65;
 
-let stars = Number(localStorage.getItem("stars") || 0);
-let coins = Number(localStorage.getItem("coins") || 0);
-let streak = Number(localStorage.getItem("streak") || 0);
+let money = 2;
+let reputation = 0;
+let day = 1;
 
-function getLevel() {
-    return Math.floor(stars / 10) + 1;
+let nearbyItem = null;
+
+const player = document.getElementById("player");
+const interaction = document.getElementById("interaction");
+const message = document.getElementById("message");
+
+function updatePlayer() {
+
+    player.style.left = playerX + "%";
+    player.style.bottom = playerY + "%";
+
+    checkNearby();
 }
 
-function updateStats() {
+function move(direction) {
 
-    document.getElementById("stars").textContent = stars;
-    document.getElementById("coins").textContent = coins;
-    document.getElementById("streak").textContent = streak;
-    document.getElementById("level").textContent = getLevel();
+    const speed = 2;
 
-    localStorage.setItem("stars", stars);
-    localStorage.setItem("coins", coins);
-    localStorage.setItem("streak", streak);
-}
-
-updateStats();
-
-
-/* =========================================================
-                         SOUND
-   ========================================================= */
-
-function sound(type) {
-
-    try {
-
-        const AudioContext =
-            window.AudioContext ||
-            window.webkitAudioContext;
-
-        const ctx = new AudioContext();
-
-        const oscillator = ctx.createOscillator();
-        const gain = ctx.createGain();
-
-        oscillator.connect(gain);
-        gain.connect(ctx.destination);
-
-        if (type === "correct") {
-            oscillator.frequency.value = 700;
-        } else {
-            oscillator.frequency.value = 180;
-        }
-
-        gain.gain.value = .08;
-
-        oscillator.start();
-
-        setTimeout(() => {
-            oscillator.stop();
-            ctx.close();
-        }, 130);
-
-    } catch(e) {}
-
-}
-
-
-/* =========================================================
-                         REWARDS
-   ========================================================= */
-
-function rewardCorrect() {
-
-    stars += 1;
-    coins += 5;
-    streak += 1;
-
-    updateStats();
-
-    sound("correct");
-}
-
-function rewardWrong() {
-
-    streak = 0;
-
-    updateStats();
-
-    sound("wrong");
-}
-
-
-/* =========================================================
-                       OPEN GAME
-   ========================================================= */
-
-function openGame(game) {
-
-    document.getElementById("modal").classList.add("show");
-
-    if (game === "space") spaceGame();
-    if (game === "memory") memoryGame();
-    if (game === "words") wordGame();
-    if (game === "spelling") spellingGame();
-    if (game === "shapes") shapeGame();
-    if (game === "addition") additionGame();
-    if (game === "animals") animalGame();
-    if (game === "pattern") patternGame();
-}
-
-
-/* =========================================================
-                       CLOSE GAME
-   ========================================================= */
-
-function closeGame() {
-    document.getElementById("modal").classList.remove("show");
-}
-
-
-/* =========================================================
-                     SPACE MATHS
-   ========================================================= */
-
-function spaceGame() {
-
-    document.getElementById("gameTitle").textContent =
-        "🚀 Space Maths Adventure";
-
-    let a = Math.floor(Math.random()*10)+1;
-    let b = Math.floor(Math.random()*10)+1;
-    let answer = a+b;
-
-    let options = [
-        answer,
-        answer+1,
-        answer-1,
-        answer+3
-    ];
-
-    options.sort(() => Math.random()-.5);
-
-    document.getElementById("gameBody").innerHTML = `
-
-        <div class="adventure">
-
-            <div class="sky">
-                <div class="cloud one">☁️</div>
-                <div class="cloud two">☁️</div>
-            </div>
-
-            <div class="hero">🚀</div>
-
-            <div class="adventure-question">
-                🚀 Mission:
-                <br>
-                What is ${a} + ${b}?
-            </div>
-
-            <div class="answers" style="margin-top:25px;position:relative;">
-
-                ${options.map(x => `
-                    <button class="answer"
-                    onclick="spaceAnswer(this,${x},${answer})">
-                        ${x}
-                    </button>
-                `).join("")}
-
-            </div>
-
-            <div id="gameMessage" class="game-message"></div>
-
-        </div>
-    `;
-}
-
-function spaceAnswer(button, selected, correct) {
-
-    if (selected === correct) {
-
-        button.classList.add("correct");
-
-        document.getElementById("gameMessage").innerHTML =
-            "🎉 Great job! Your rocket is flying! 🚀";
-
-        rewardCorrect();
-
-        setTimeout(spaceGame,1000);
-
-    } else {
-
-        button.classList.add("wrong");
-
-        document.getElementById("gameMessage").innerHTML =
-            "💡 Try again!";
-
-        rewardWrong();
-    }
-}
-
-
-/* =========================================================
-                         MEMORY
-   ========================================================= */
-
-function memoryGame() {
-
-    document.getElementById("gameTitle").textContent =
-        "🧠 Memory World";
-
-    const items = ["🐶","🐱","🦁","🐸","🐶","🐱","🦁","🐸"];
-
-    items.sort(() => Math.random()-.5);
-
-    document.getElementById("gameBody").innerHTML = `
-
-        <p style="text-align:center;margin-bottom:20px;">
-            Find all the matching animals!
-        </p>
-
-        <div class="memory-grid">
-
-            ${items.map((x,i) => `
-                <button class="memory-card"
-                        data-value="${x}"
-                        onclick="flipMemory(this)">
-                    ❓
-                </button>
-            `).join("")}
-
-        </div>
-
-        <div id="memoryMessage"
-             class="game-message">
-        </div>
-    `;
-
-    window.memoryFirst = null;
-    window.memoryLock = false;
-    window.memoryMatches = 0;
-}
-
-function flipMemory(card) {
-
-    if (memoryLock ||
-        card.classList.contains("flipped") ||
-        card.classList.contains("matched")) return;
-
-    card.classList.add("flipped");
-    card.textContent = card.dataset.value;
-
-    if (!memoryFirst) {
-
-        memoryFirst = card;
-        return;
+    if(direction === "up") {
+        playerY = Math.min(playerY + speed, 75);
     }
 
-    if (memoryFirst.dataset.value === card.dataset.value) {
-
-        memoryFirst.classList.add("matched");
-        card.classList.add("matched");
-
-        memoryFirst = null;
-
-        memoryMatches++;
-
-        rewardCorrect();
-
-        if (memoryMatches === 4) {
-
-            document.getElementById("memoryMessage").textContent =
-                "🏆 Amazing! You matched everything!";
-
-        }
-
-    } else {
-
-        memoryLock = true;
-
-        const first = memoryFirst;
-
-        setTimeout(() => {
-
-            first.classList.remove("flipped");
-            card.classList.remove("flipped");
-
-            first.textContent = "❓";
-            card.textContent = "❓";
-
-            memoryFirst = null;
-            memoryLock = false;
-
-        },800);
-
-        rewardWrong();
+    if(direction === "down") {
+        playerY = Math.max(playerY - speed, 8);
     }
-}
 
-
-/* =========================================================
-                         WORD ISLAND
-   ========================================================= */
-
-function wordGame() {
-
-    document.getElementById("gameTitle").textContent =
-        "🏝️ Word Island";
-
-    const words = [
-        "APPLE",
-        "HOUSE",
-        "TIGER",
-        "WATER",
-        "TRAIN",
-        "MOUSE"
-    ];
-
-    const word =
-        words[Math.floor(Math.random()*words.length)];
-
-    const scrambled =
-        word.split("")
-        .sort(() => Math.random()-.5)
-        .join("");
-
-    document.getElementById("gameBody").innerHTML = `
-
-        <div class="word-stage">
-
-            <div class="word-character">
-                🏝️
-            </div>
-
-            <p>
-                Help the explorer unscramble the hidden word!
-            </p>
-
-            <div class="scramble">
-                ${scrambled}
-            </div>
-
-            <input
-                id="wordInput"
-                class="word-input"
-                placeholder="Type the word..."
-                autocomplete="off"
-            >
-
-            <br><br>
-
-            <button class="play"
-                    onclick="checkWord('${word}')">
-                🏴‍☠️ FIND THE WORD
-            </button>
-
-            <div id="wordMessage"
-                 class="game-message">
-            </div>
-
-        </div>
-    `;
-}
-
-function checkWord(correct) {
-
-    const input =
-        document.getElementById("wordInput")
-        .value
-        .trim()
-        .toUpperCase();
-
-    if (input === correct) {
-
-        document.getElementById("wordMessage").textContent =
-            "🎉 You found the treasure! 🪙";
-
-        rewardCorrect();
-
-        setTimeout(wordGame,1000);
-
-    } else {
-
-        document.getElementById("wordMessage").textContent =
-            "🌴 Keep exploring — try again!";
-
-        rewardWrong();
+    if(direction === "left") {
+        playerX = Math.max(playerX - speed, 7);
     }
-}
 
-
-/* =========================================================
-                       SPELLING
-   ========================================================= */
-
-function spellingGame() {
-
-    document.getElementById("gameTitle").textContent =
-        "🐝 Spelling Garden";
-
-    const questions = [
-
-        ["BEAUTIFUL",
-         ["BEUTIFUL","BEAUTIFUL","BEATIFUL","BEAUTIFULL"]],
-
-        ["ELEPHANT",
-         ["ELEFANT","ELEPHANT","ELIPHANT","ELEPHENT"]],
-
-        ["RAINBOW",
-         ["RAINBOW","RAINBOWW","RANBOW","RAINBOWE"]],
-
-        ["BUTTERFLY",
-         ["BUTERFLY","BUTTERFLY","BUTTERFLIE","BUTTERFLYY"]]
-
-    ];
-
-    const q =
-        questions[Math.floor(Math.random()*questions.length)];
-
-    let options = [...q[1]];
-
-    options.sort(() => Math.random()-.5);
-
-    document.getElementById("gameBody").innerHTML = `
-
-        <div style="text-align:center">
-
-            <div style="font-size:90px">
-                🐝
-            </div>
-
-            <h2>
-                Which word is spelled correctly?
-            </h2>
-
-            <div class="answers" style="margin-top:25px">
-
-                ${options.map(word => `
-
-                    <button
-                        class="answer"
-                        onclick="spellingAnswer(this,'${word}','${q[0]}')">
-
-                        ${word}
-
-                    </button>
-
-                `).join("")}
-
-            </div>
-
-            <div id="spellingMessage"
-                 class="game-message">
-            </div>
-
-        </div>
-    `;
-}
-
-function spellingAnswer(button,word,correct) {
-
-    if (word === correct) {
-
-        button.classList.add("correct");
-
-        document.getElementById("spellingMessage").textContent =
-            "🐝 Perfect spelling!";
-
-        rewardCorrect();
-
-        setTimeout(spellingGame,1000);
-
-    } else {
-
-        button.classList.add("wrong");
-
-        document.getElementById("spellingMessage").textContent =
-            "💡 Try another one!";
-
-        rewardWrong();
+    if(direction === "right") {
+        playerX = Math.min(playerX + speed, 93);
     }
+
+    updatePlayer();
 }
 
+document.addEventListener("keydown", function(e) {
 
-/* =========================================================
-                         SHAPES
-   ========================================================= */
-
-function shapeGame() {
-
-    document.getElementById("gameTitle").textContent =
-        "🔷 Shape Safari";
-
-    const shapes = [
-        ["⭐","star"],
-        ["🔵","circle"],
-        ["🟥","square"],
-        ["🔺","triangle"]
-    ];
-
-    const target =
-        shapes[Math.floor(Math.random()*shapes.length)];
-
-    let options = [...shapes];
-
-    options.sort(() => Math.random()-.5);
-
-    document.getElementById("gameBody").innerHTML = `
-
-        <div style="text-align:center">
-
-            <div style="font-size:28px;font-weight:bold;margin:20px">
-                Find the ${target[1]}!
-            </div>
-
-            <div class="answers">
-
-                ${options.map(x => `
-
-                    <button
-                        class="answer"
-                        style="font-size:55px"
-                        onclick="shapeAnswer(this,'${x[1]}','${target[1]}')">
-
-                        ${x[0]}
-
-                    </button>
-
-                `).join("")}
-
-            </div>
-
-            <div id="shapeMessage"
-                 class="game-message">
-            </div>
-
-        </div>
-    `;
-}
-
-function shapeAnswer(button,selected,target) {
-
-    if (selected === target) {
-
-        button.classList.add("correct");
-
-        document.getElementById("shapeMessage").textContent =
-            "🌟 Fantastic! You found it!";
-
-        rewardCorrect();
-
-        setTimeout(shapeGame,1000);
-
-    } else {
-
-        button.classList.add("wrong");
-
-        document.getElementById("shapeMessage").textContent =
-            "🔎 Look carefully!";
-
-        rewardWrong();
+    if(e.key === "ArrowUp" || e.key.toLowerCase() === "w") {
+        move("up");
     }
-}
 
-
-/* =========================================================
-                       ADDITION
-   ========================================================= */
-
-function additionGame() {
-
-    document.getElementById("gameTitle").textContent =
-        "⛰️ Math Mountain";
-
-    let a = Math.floor(Math.random()*20)+1;
-    let b = Math.floor(Math.random()*20)+1;
-    let answer = a+b;
-
-    let options = [
-        answer,
-        answer+2,
-        answer-2,
-        answer+5
-    ];
-
-    options.sort(() => Math.random()-.5);
-
-    document.getElementById("gameBody").innerHTML = `
-
-        <div style="text-align:center">
-
-            <div style="font-size:100px">
-                ⛰️
-            </div>
-
-            <div class="question">
-                ${a} + ${b} = ?
-            </div>
-
-            <div class="answers">
-
-                ${options.map(x => `
-
-                    <button
-                        class="answer"
-                        onclick="mathAnswer(this,${x},${answer})">
-
-                        ${x}
-
-                    </button>
-
-                `).join("")}
-
-            </div>
-
-            <div id="mathMessage"
-                 class="game-message">
-            </div>
-
-        </div>
-    `;
-}
-
-function mathAnswer(button,selected,correct) {
-
-    if (selected === correct) {
-
-        button.classList.add("correct");
-
-        document.getElementById("mathMessage").textContent =
-            "🏆 You climbed higher!";
-
-        rewardCorrect();
-
-        setTimeout(additionGame,1000);
-
-    } else {
-
-        button.classList.add("wrong");
-
-        document.getElementById("mathMessage").textContent =
-            "💡 Try again!";
-
-        rewardWrong();
+    if(e.key === "ArrowDown" || e.key.toLowerCase() === "s") {
+        move("down");
     }
-}
 
-
-/* =========================================================
-                     ANIMAL EXPLORER
-   ========================================================= */
-
-function animalGame() {
-
-    document.getElementById("gameTitle").textContent =
-        "🦁 Animal Explorer";
-
-    const animals = [
-
-        {
-            emoji:"🦁",
-            name:"Lion",
-            fact:"Lions live in groups called prides."
-        },
-
-        {
-            emoji:"🐘",
-            name:"Elephant",
-            fact:"Elephants are the largest land animals."
-        },
-
-        {
-            emoji:"🐧",
-            name:"Penguin",
-            fact:"Penguins are birds that cannot fly."
-        },
-
-        {
-            emoji:"🐬",
-            name:"Dolphin",
-            fact:"Dolphins are highly intelligent marine mammals."
-        }
-
-    ];
-
-    const animal =
-        animals[Math.floor(Math.random()*animals.length)];
-
-    document.getElementById("gameBody").innerHTML = `
-
-        <div style="text-align:center">
-
-            <div style="font-size:130px">
-                ${animal.emoji}
-            </div>
-
-            <h1>${animal.name}</h1>
-
-            <p style="
-                max-width:500px;
-                margin:15px auto;
-                font-size:20px;
-                line-height:1.6;
-            ">
-                ${animal.fact}
-            </p>
-
-            <button
-                class="play"
-                onclick="animalGame();rewardCorrect()">
-
-                🔎 Discover Another Animal
-
-            </button>
-
-        </div>
-    `;
-}
-
-
-/* =========================================================
-                       PATTERN QUEST
-   ========================================================= */
-
-function patternGame() {
-
-    document.getElementById("gameTitle").textContent =
-        "🧩 Pattern Quest";
-
-    const patterns = [
-
-        {
-            display:"🔴 🔵 🔴 🔵 ?",
-            answer:"🔴",
-            options:["🔴","🟢","⭐","🟡"]
-        },
-
-        {
-            display:"⭐ ⭐ 🟢 ⭐ ⭐ ?",
-            answer:"🟢",
-            options:["🔵","🟢","🔴","🟡"]
-        },
-
-        {
-            display:"🐶 🐱 🐶 🐱 ?",
-            answer:"🐶",
-            options:["🐱","🐶","🐸","🦁"]
-        }
-
-    ];
-
-    const p =
-        patterns[Math.floor(Math.random()*patterns.length)];
-
-    document.getElementById("gameBody").innerHTML = `
-
-        <div style="text-align:center">
-
-            <div style="
-                font-size:42px;
-                padding:30px;
-                background:#f8fafc;
-                border-radius:20px;
-                margin-bottom:25px;
-            ">
-                ${p.display}
-            </div>
-
-            <div class="answers">
-
-                ${p.options.map(x => `
-
-                    <button
-                        class="answer"
-                        style="font-size:45px"
-                        onclick="patternAnswer(this,'${x}','${p.answer}')">
-
-                        ${x}
-
-                    </button>
-
-                `).join("")}
-
-            </div>
-
-            <div id="patternMessage"
-                 class="game-message">
-            </div>
-
-        </div>
-    `;
-}
-
-function patternAnswer(button,selected,correct) {
-
-    if (selected === correct) {
-
-        button.classList.add("correct");
-
-        document.getElementById("patternMessage").textContent =
-            "🧩 Pattern solved! Treasure unlocked! 💎";
-
-        rewardCorrect();
-
-        setTimeout(patternGame,1000);
-
-    } else {
-
-        button.classList.add("wrong");
-
-        document.getElementById("patternMessage").textContent =
-            "🔎 Look at the pattern again!";
-
-        rewardWrong();
+    if(e.key === "ArrowLeft" || e.key.toLowerCase() === "a") {
+        move("left");
     }
-}
 
+    if(e.key === "ArrowRight" || e.key.toLowerCase() === "d") {
+        move("right");
+    }
 
-/* =========================================================
-                       DAILY CHALLENGE
-   ========================================================= */
-
-function dailyChallenge() {
-
-    openGame("space");
-
-}
-
-
-/* =========================================================
-                         REWARDS
-   ========================================================= */
-
-function showRewards() {
-
-    document.getElementById("rewards")
-        .scrollIntoView({
-            behavior:"smooth"
-        });
-
-}
-
-
-/* =========================================================
-                       SCROLL GAMES
-   ========================================================= */
-
-function scrollToGames() {
-
-    document.getElementById("games")
-        .scrollIntoView({
-            behavior:"smooth"
-        });
-
-}
-
-
-/* =========================================================
-                  CLOSE MODAL OUTSIDE
-   ========================================================= */
-
-document.getElementById("modal")
-.addEventListener("click",function(e) {
-
-    if (e.target === this) {
-        closeGame();
+    if(e.code === "Space") {
+        interact();
     }
 
 });
 
+document.querySelectorAll(".control").forEach(button => {
 
-/* =========================================================
-                        START
-   ========================================================= */
+    button.addEventListener("click", function() {
 
-updateStats();
+        const key = this.dataset.key;
+
+        if(key === "ArrowUp") move("up");
+        if(key === "ArrowDown") move("down");
+        if(key === "ArrowLeft") move("left");
+        if(key === "ArrowRight") move("right");
+
+    });
+
+});
+
+function checkNearby() {
+
+    const items = document.querySelectorAll(".item");
+
+    nearbyItem = null;
+
+    items.forEach(item => {
+
+        const rect = item.getBoundingClientRect();
+        const playerRect = player.getBoundingClientRect();
+
+        const distanceX =
+            Math.abs(rect.left - playerRect.left);
+
+        const distanceY =
+            Math.abs(rect.top - playerRect.top);
+
+        if(distanceX < 80 && distanceY < 80) {
+            nearbyItem = item;
+        }
+
+    });
+
+    if(nearbyItem) {
+        interaction.style.display = "block";
+        interaction.innerHTML =
+            "Press <b>SPACE</b> to interact with " +
+            nearbyItem.dataset.name;
+    } else {
+        interaction.style.display = "none";
+    }
+}
+
+function interact() {
+
+    if(!nearbyItem) return;
+
+    const name = nearbyItem.dataset.name;
+
+    if(name === "Old Box") {
+
+        showMessage(
+            "📦 You found an old box!<br><br>" +
+            "There might be something useful inside..."
+        );
+
+        nearbyItem.innerHTML = "🧰";
+        nearbyItem.dataset.name = "Tool Box";
+
+        reputation += 1;
+
+    }
+
+    else if(name === "Broken Chair") {
+
+        if(money >= 1) {
+
+            money -= 1;
+            reputation += 5;
+
+            nearbyItem.innerHTML = "🪑✨";
+            nearbyItem.dataset.name = "Repaired Chair";
+
+            showMessage(
+                "🔨 You repaired the chair!<br><br>" +
+                "It looks good enough to sell."
+            );
+
+        } else {
+
+            showMessage(
+                "💷 You need £1 to repair this chair."
+            );
+
+        }
+
+    }
+
+    else if(name === "Old Lamp") {
+
+        showMessage(
+            "💡 The lamp is broken.<br><br>" +
+            "You need to find some parts before you can repair it."
+        );
+
+    }
+
+    updateStats();
+
+}
+
+function showMessage(text) {
+
+    message.innerHTML =
+        text +
+        '<br><button onclick="closeMessage()">OK</button>';
+
+    message.style.display = "block";
+}
+
+function closeMessage() {
+    message.style.display = "none";
+}
+
+function updateStats() {
+
+    document.getElementById("money").textContent = money;
+    document.getElementById("reputation").textContent = reputation;
+    document.getElementById("day").textContent = day;
+
+}
+
+updatePlayer();
 
 </script>
 
