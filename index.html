@@ -7,443 +7,454 @@
 <title>Learn & Grow</title>
 
 <style>
-* {
-    box-sizing: border-box;
+
+*{
+    box-sizing:border-box;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f7fb;
-    color: #172033;
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:linear-gradient(135deg,#eef4ff,#f7fbff);
+    color:#172033;
 }
 
-header {
-    background: linear-gradient(135deg, #075bea, #173bbd);
-    color: white;
-    padding: 25px;
-    text-align: center;
+header{
+    background:linear-gradient(135deg,#0758e8,#1736c7);
+    color:white;
+    padding:28px 20px;
+    text-align:center;
 }
 
-header h1 {
-    margin: 0;
-    font-size: 30px;
+header h1{
+    margin:0;
+    font-size:34px;
 }
 
-header p {
-    margin: 8px 0 0;
-    opacity: .9;
+header p{
+    margin:8px 0 0;
+    opacity:.9;
 }
 
-.container {
-    max-width: 1200px;
-    margin: auto;
-    padding: 25px;
+.container{
+    max-width:1250px;
+    margin:auto;
+    padding:25px;
 }
 
-.section-title {
-    margin-top: 20px;
-    margin-bottom: 15px;
+.section-title{
+    font-size:28px;
+    margin:35px 0 18px;
 }
 
-.section-title h2 {
-    margin-bottom: 5px;
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:18px;
 }
 
-.section-title p {
-    color: #64748b;
+.card{
+    background:white;
+    border-radius:18px;
+    padding:20px;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+    border:1px solid #e2e8f5;
+    transition:.2s;
 }
 
-.lesson-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-    gap: 18px;
+.card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 12px 30px rgba(0,0,0,.12);
 }
 
-.lesson-card {
-    background: white;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 4px 18px rgba(0,0,0,.08);
-    border: 1px solid #e4e9f2;
+.card-icon{
+    font-size:42px;
 }
 
-.lesson-icon {
-    font-size: 35px;
-    margin-bottom: 10px;
+.card h3{
+    margin:12px 0 8px;
 }
 
-.lesson-card h3 {
-    margin: 5px 0 10px;
+.card p{
+    color:#596579;
+    min-height:50px;
 }
 
-.lesson-card p {
-    color: #667085;
-    min-height: 55px;
+button{
+    border:0;
+    border-radius:10px;
+    padding:12px 18px;
+    background:#1261e8;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    font-size:15px;
 }
 
-.learn-btn {
-    width: 100%;
-    border: 0;
-    background: #1261e8;
-    color: white;
-    padding: 13px;
-    border-radius: 9px;
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: bold;
+button:hover{
+    background:#084dcc;
 }
 
-.learn-btn:hover {
-    background: #084dcc;
+.start-btn{
+    width:100%;
 }
 
-/* LESSON MODAL */
-
-.modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.75);
-    z-index: 1000;
-    padding: 20px;
-    overflow-y: auto;
+.kids-card{
+    background:linear-gradient(145deg,#ffffff,#f3f8ff);
 }
 
-.modal-box {
-    max-width: 850px;
-    margin: 20px auto;
-    background: linear-gradient(135deg,#075bea,#1745c5);
-    border-radius: 18px;
-    color: white;
-    padding: 25px;
-    position: relative;
+/* MODAL */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(5,15,40,.78);
+    z-index:1000;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
 }
 
-.close-btn {
-    position: absolute;
-    right: 15px;
-    top: 12px;
-    border: 0;
-    background: white;
-    color: #111;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    font-size: 22px;
-    cursor: pointer;
+.modal.show{
+    display:flex;
 }
 
-.lesson-number {
-    display: inline-block;
-    background: rgba(255,255,255,.2);
-    padding: 7px 15px;
-    border-radius: 20px;
-    font-weight: bold;
+.modal-box{
+    width:min(900px,100%);
+    max-height:92vh;
+    overflow:auto;
+    background:linear-gradient(145deg,#075ce8,#1644ce);
+    color:white;
+    border-radius:25px;
+    padding:28px;
+    position:relative;
+    box-shadow:0 25px 80px rgba(0,0,0,.4);
 }
 
-.progress {
-    height: 9px;
-    background: rgba(255,255,255,.25);
-    border-radius: 10px;
-    margin: 18px 0;
-    overflow: hidden;
+.close{
+    position:absolute;
+    right:18px;
+    top:15px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:white;
+    color:#123;
+    font-size:24px;
+    padding:0;
 }
 
-.progress-bar {
-    height: 100%;
-    background: white;
-    width: 50%;
+.progress{
+    height:10px;
+    background:rgba(255,255,255,.25);
+    border-radius:20px;
+    overflow:hidden;
+    margin:15px 0 25px;
 }
 
-.lesson-content {
-    background: rgba(255,255,255,.12);
-    padding: 18px;
-    border-radius: 13px;
-    margin-top: 15px;
+.progress-bar{
+    height:100%;
+    background:white;
+    width:10%;
+    transition:.3s;
 }
 
-.video-btn {
-    display: block;
-    margin: 18px auto;
-    background: #ff1744;
-    color: white;
-    border: 0;
-    padding: 14px 25px;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
+.lesson-number{
+    display:inline-block;
+    background:rgba(255,255,255,.2);
+    padding:8px 14px;
+    border-radius:20px;
+    font-weight:bold;
 }
 
-/* VIDEO MODAL */
-
-.video-modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 2000;
-    background: rgba(0,0,0,.9);
-    padding: 20px;
+.learn-box{
+    background:rgba(255,255,255,.12);
+    padding:20px;
+    border-radius:18px;
+    margin:20px 0;
+    line-height:1.6;
 }
 
-.video-box {
-    max-width: 900px;
-    margin: 30px auto;
-    background: #111;
-    border-radius: 15px;
-    padding: 15px;
-    position: relative;
+.video-button{
+    background:#ff3048;
+    display:block;
+    margin:20px auto;
 }
 
-.video-box iframe {
-    width: 100%;
-    height: 500px;
-    border: 0;
-    border-radius: 10px;
+.video-container{
+    display:none;
+    background:#000;
+    border-radius:15px;
+    overflow:hidden;
+    margin:20px 0;
 }
 
-.video-close {
-    position: absolute;
-    right: 10px;
-    top: -45px;
-    background: white;
-    color: black;
-    border: 0;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    font-size: 22px;
-    cursor: pointer;
+.video-container video{
+    width:100%;
+    display:block;
+    max-height:480px;
 }
 
-/* QUIZ */
-
-.quiz {
-    background: rgba(255,255,255,.12);
-    padding: 20px;
-    border-radius: 14px;
-    margin-top: 20px;
+.question-box{
+    background:rgba(255,255,255,.12);
+    padding:20px;
+    border-radius:18px;
+    margin-top:20px;
 }
 
-.answer-btn {
-    background: white;
-    color: #172033;
-    border: 0;
-    padding: 11px 18px;
-    margin: 5px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
+.answer-buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-top:15px;
 }
 
-.answer-btn:hover {
-    background: #e7efff;
+.answer-buttons button{
+    background:white;
+    color:#17304f;
 }
 
-.feedback {
-    margin-top: 15px;
-    font-weight: bold;
+.answer-buttons button:hover{
+    background:#dbe8ff;
+}
+
+.feedback{
+    margin-top:15px;
+    font-size:18px;
+    font-weight:bold;
+    min-height:25px;
+}
+
+/* KIDS GAME */
+
+.game-area{
+    background:rgba(255,255,255,.12);
+    border-radius:20px;
+    padding:25px;
+    text-align:center;
+}
+
+.game-score{
+    font-size:22px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+.game-question{
+    font-size:32px;
+    font-weight:bold;
+    margin:25px 0;
+}
+
+.game-options{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(100px,1fr));
+    gap:15px;
+}
+
+.game-option{
+    background:white;
+    color:#172033;
+    min-height:70px;
+    font-size:24px;
+    border-radius:15px;
+}
+
+.game-option:hover{
+    transform:scale(1.03);
+}
+
+.number-slots{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    margin:25px 0;
+    flex-wrap:wrap;
+}
+
+.number-slot{
+    width:75px;
+    height:75px;
+    border:3px dashed white;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+    background:rgba(255,255,255,.1);
+}
+
+.number-choice{
+    background:white;
+    color:#111;
+    font-size:26px;
+    min-width:70px;
+}
+
+.color-circle{
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    margin:25px auto;
+    box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+
+.memory-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    max-width:500px;
+    margin:auto;
+}
+
+.memory-card{
+    height:80px;
+    background:white;
+    color:#1760e8;
+    font-size:30px;
+    border-radius:12px;
+}
+
+.memory-card.hidden{
+    color:transparent;
+}
+
+.drag-number{
+    background:white;
+    color:#222;
+    padding:15px;
+    border-radius:12px;
+    font-size:25px;
+    cursor:pointer;
+}
+
+.feedback-good{
+    color:#8cff9a;
+}
+
+.feedback-bad{
+    color:#ffb0b0;
 }
 
 /* AD */
 
-.ad-modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.8);
-    z-index: 3000;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+.ad-box{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    width:300px;
+    min-height:150px;
+    background:white;
+    border-radius:15px;
+    box-shadow:0 10px 40px rgba(0,0,0,.25);
+    padding:15px;
+    z-index:900;
+    display:none;
+    color:#333;
+    text-align:center;
 }
 
-.ad-box {
-    background: white;
-    color: #222;
-    width: 100%;
-    max-width: 500px;
-    min-height: 300px;
-    border-radius: 15px;
-    padding: 25px;
-    text-align: center;
+.ad-box.show{
+    display:block;
 }
 
-.ad-label {
-    color: #888;
-    font-size: 12px;
-    margin-bottom: 15px;
+.ad-label{
+    font-size:12px;
+    color:#777;
+    margin-bottom:10px;
 }
 
-.ad-space {
-    min-height: 170px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #f4f4f4;
-    border-radius: 10px;
-    margin-bottom: 20px;
-}
+@media(max-width:600px){
 
-.continue-btn {
-    border: 0;
-    background: #1261e8;
-    color: white;
-    padding: 12px 25px;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-@media(max-width:700px) {
-
-    .modal-box {
-        margin: 5px auto;
-        padding: 18px;
+    header h1{
+        font-size:26px;
     }
 
-    .video-box iframe {
-        height: 250px;
+    .container{
+        padding:15px;
     }
 
-    header h1 {
-        font-size: 24px;
+    .modal-box{
+        padding:20px;
     }
+
+    .game-question{
+        font-size:26px;
+    }
+
+    .memory-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
 }
+
 </style>
 </head>
 
 <body>
 
 <header>
-    <h1>📚 Learn & Grow</h1>
-    <p>Learn useful skills through lessons, videos and quizzes</p>
+
+<h1>📚 Learn & Grow</h1>
+
+<p>Learn useful skills, play educational games and grow your knowledge.</p>
+
 </header>
 
 <div class="container">
 
-    <!-- ADULT SECTION -->
+<!-- ================= ADULTS ================= -->
 
-    <div class="section-title">
-        <h2>🧑 Adult Learning</h2>
-        <p>Learn practical skills for business, money and personal development.</p>
-    </div>
+<h2 class="section-title">🧑 Adult Learning</h2>
 
-    <div class="lesson-grid" id="adultLessons"></div>
+<p>
+Learn practical skills step by step with lessons, explanations,
+videos and quizzes.
+</p>
 
-
-    <!-- KIDS SECTION -->
-
-    <div class="section-title">
-        <h2>👦 Kids Education</h2>
-        <p>Fun educational lessons to help children learn.</p>
-    </div>
-
-    <div class="lesson-grid" id="kidsLessons"></div>
-
-</div>
+<div id="adultGrid" class="grid"></div>
 
 
-<!-- LESSON MODAL -->
+<!-- ================= KIDS ================= -->
 
-<div class="modal" id="lessonModal">
+<h2 class="section-title">👧 Kids Education</h2>
 
-    <div class="modal-box">
+<p>
+Fun educational games designed to make learning enjoyable.
+</p>
 
-        <button class="close-btn" onclick="closeLesson()">×</button>
-
-        <div class="lesson-number" id="lessonNumber">
-            Lesson 1 of 10
-        </div>
-
-        <div class="progress">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
-
-        <h1 id="lessonTitle"></h1>
-
-        <div class="lesson-content">
-            <h3>📖 Learn:</h3>
-
-            <p id="lessonText"></p>
-        </div>
-
-        <button class="video-btn" onclick="openVideo()">
-            ▶ Watch Video Explanation
-        </button>
-
-        <div class="quiz">
-
-            <h3>🧠 Check What You Learned</h3>
-
-            <p id="question"></p>
-
-            <div id="answers"></div>
-
-            <div class="feedback" id="feedback"></div>
-
-        </div>
-
-    </div>
+<div id="kidsGrid" class="grid"></div>
 
 </div>
 
 
-<!-- VIDEO MODAL -->
+<!-- ================= MODAL ================= -->
 
-<div class="video-modal" id="videoModal">
+<div id="modal" class="modal">
 
-    <div class="video-box">
+<div class="modal-box">
 
-        <button class="video-close" onclick="closeVideo()">×</button>
+<button class="close" onclick="closeModal()">×</button>
 
-        <iframe
-            id="videoFrame"
-            src=""
-            title="Learning Video"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-        </iframe>
+<div id="modalContent"></div>
 
-    </div>
+</div>
 
 </div>
 
 
-<!-- AD MODAL -->
+<!-- ================= AD ================= -->
 
-<div class="ad-modal" id="adModal">
+<div id="adBox" class="ad-box">
 
-    <div class="ad-box">
+<div class="ad-label">ADVERTISEMENT</div>
 
-        <div class="ad-label">
-            Advertisement
-        </div>
+<strong>Advertisement</strong>
 
-        <h2>📚 Keep Learning!</h2>
+<p>Your advertisement will appear here.</p>
 
-        <div class="ad-space">
-
-            <!--
-            PUT YOUR REAL AD CODE HERE.
-
-            Example:
-
-            <div id="your-ad-code">
-                YOUR AD NETWORK CODE
-            </div>
-            -->
-
-            <span>Your advertisement will appear here.</span>
-
-        </div>
-
-        <button class="continue-btn" onclick="closeAd()">
-            Continue Learning ▶
-        </button>
-
-    </div>
+<button onclick="closeAd()">Continue</button>
 
 </div>
 
@@ -451,543 +462,555 @@ header p {
 <script>
 
 /* =========================================================
+   SOUND SYSTEM
+========================================================= */
+
+let audioContext;
+
+function getAudio(){
+
+    if(!audioContext){
+        audioContext =
+        new (window.AudioContext || window.webkitAudioContext)();
+    }
+
+    return audioContext;
+}
+
+
+function playTone(
+    frequency=600,
+    duration=.15,
+    type="sine"
+){
+
+    try{
+
+        const ctx=getAudio();
+
+        const oscillator=ctx.createOscillator();
+        const gain=ctx.createGain();
+
+        oscillator.type=type;
+        oscillator.frequency.value=frequency;
+
+        gain.gain.setValueAtTime(.001,ctx.currentTime);
+
+        gain.gain.exponentialRampToValueAtTime(
+            .2,
+            ctx.currentTime+.02
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            .001,
+            ctx.currentTime+duration
+        );
+
+        oscillator.connect(gain);
+        gain.connect(ctx.destination);
+
+        oscillator.start();
+
+        oscillator.stop(
+            ctx.currentTime+duration
+        );
+
+    }catch(e){}
+
+}
+
+
+function correctSound(){
+
+    playTone(700,.12);
+
+    setTimeout(
+        ()=>playTone(950,.18),
+        120
+    );
+
+}
+
+
+function wrongSound(){
+
+    playTone(220,.25,"sawtooth");
+
+}
+
+
+function clickSound(){
+
+    playTone(500,.06);
+
+}
+
+
+/* =========================================================
    ADULT LESSONS
 ========================================================= */
 
-const adultLessons = [
+const adultLessons=[
 
 {
-    title: "How Trading Works",
-    icon: "📈",
-    description: "Understand buying, selling, price movements and risk.",
-    text: "Trading means buying and selling an asset with the aim of benefiting from price movements. Prices can rise or fall, and losses are possible.",
-    question: "What can happen to a traded asset price?",
-    answers: [
-        "It can only rise",
-        "It can only fall",
-        "It can rise or fall"
-    ],
-    correct: 2,
-
-    /* Replace this video ID with your own video */
-    video: "VIDEO_ID_1"
+icon:"📈",
+title:"How Trading Works",
+description:"Understand buying and selling, price movements and risk.",
+text:"Trading means buying and selling an asset with the aim of benefiting from price movements. Prices can rise or fall and losses are possible.",
+question:"What can happen to a traded asset price?",
+answers:["It can only rise","It can only fall","It can rise or fall"],
+correct:2,
+video:"videos/trading-1.mp4"
 },
 
 {
-    title: "Understanding Trading Charts",
-    icon: "📊",
-    description: "Learn candles, trends, support and resistance.",
-    text: "Charts show how prices have moved over time. Candlesticks can help traders study price movements and identify possible trends.",
-    question: "What does a chart show?",
-    answers: [
-        "Price information",
-        "Only the weather",
-        "Nothing useful"
-    ],
-    correct: 0,
-    video: "VIDEO_ID_2"
+icon:"📊",
+title:"Understanding Charts",
+description:"Learn how charts show price movement.",
+text:"Charts display historical price information. Traders can study trends, support, resistance and other information before making decisions.",
+question:"What does a trading chart show?",
+answers:["Historical price information","Only future prices","A guaranteed profit"],
+correct:0,
+video:"videos/trading-2.mp4"
 },
 
 {
-    title: "Risk Management",
-    icon: "🛡️",
-    description: "Learn why protecting your money matters.",
-    text: "Risk management means deciding how much money you are willing to risk before entering a trade. Never assume a trade is guaranteed to make money.",
-    question: "Why is risk management important?",
-    answers: [
-        "To eliminate every loss",
-        "To control potential losses",
-        "To guarantee profit"
-    ],
-    correct: 1,
-    video: "VIDEO_ID_3"
+icon:"🛡️",
+title:"Risk Management",
+description:"Learn why protecting your trading account matters.",
+text:"Risk management helps control how much money could be lost on a trade. A trader should understand position size, stop losses and potential losses.",
+question:"Why is risk management important?",
+answers:["To guarantee profit","To control potential losses","To make every trade win"],
+correct:1,
+video:"videos/trading-3.mp4"
 },
 
 {
-    title: "How to Start a Business",
-    icon: "💼",
-    description: "Learn how to start a business from scratch.",
-    text: "Starting a business begins with identifying a problem, creating a useful solution, understanding customers and planning how the business will make money.",
-    question: "What should you understand before starting a business?",
-    answers: [
-        "Your customers and their needs",
-        "Only your logo",
-        "Only your business name"
-    ],
-    correct: 0,
-    video: "VIDEO_ID_4"
+icon:"💰",
+title:"Saving & Budgeting",
+description:"Learn how to organise personal money.",
+text:"A budget helps you understand income, expenses and how much money can be saved.",
+question:"What does a budget help you understand?",
+answers:["Income and expenses","Only entertainment","Guaranteed investments"],
+correct:0,
+video:"videos/money-1.mp4"
 },
 
 {
-    title: "Creating a Business Plan",
-    icon: "📝",
-    description: "Learn how to plan your business step by step.",
-    text: "A business plan can describe your product or service, customers, costs, pricing, marketing and financial goals.",
-    question: "What can a business plan contain?",
-    answers: [
-        "Only a logo",
-        "Customers, costs and goals",
-        "Only your address"
-    ],
-    correct: 1,
-    video: "VIDEO_ID_5"
+icon:"📝",
+title:"Creating a Business Plan",
+description:"Learn how to plan a business from the beginning.",
+text:"A business plan explains the product or service, customers, costs, pricing and how the business intends to operate.",
+question:"What should a business plan describe?",
+answers:["Only the business logo","How the business will operate","Only the owner's name"],
+correct:1,
+video:"videos/business-1.mp4"
 },
 
 {
-    title: "How Money Works",
-    icon: "💰",
-    description: "Understand income, spending, saving and budgeting.",
-    text: "Managing money starts with understanding how much you earn, how much you spend and how much you can save.",
-    question: "What is a budget useful for?",
-    answers: [
-        "Tracking income and spending",
-        "Guaranteeing wealth",
-        "Avoiding all expenses"
-    ],
-    correct: 0,
-    video: "VIDEO_ID_6"
+icon:"💡",
+title:"Finding a Business Idea",
+description:"Learn how to identify problems that a business can solve.",
+text:"Many businesses start by solving a real problem for a particular group of customers.",
+question:"What can create a business opportunity?",
+answers:["Solving a real customer problem","Ignoring customers","Avoiding research"],
+correct:0,
+video:"videos/business-2.mp4"
 },
 
 {
-    title: "Online Business",
-    icon: "🌐",
-    description: "Learn websites, online services and customers.",
-    text: "An online business can sell products or provide services through the internet. Understanding your target customers is important.",
-    question: "What can an online business provide?",
-    answers: [
-        "Products or services",
-        "Only games",
-        "Nothing"
-    ],
-    correct: 0,
-    video: "VIDEO_ID_7"
+icon:"📱",
+title:"Building an Online Business",
+description:"Learn about websites, online services and customers.",
+text:"An online business can sell products, provide services or create useful digital content.",
+question:"What can an online business provide?",
+answers:["Products or services","Only physical buildings","Nothing online"],
+correct:0,
+video:"videos/business-3.mp4"
 },
 
 {
-    title: "Digital Marketing",
-    icon: "📱",
-    description: "Learn how businesses find customers online.",
-    text: "Digital marketing can include websites, social media, email and online advertising. The goal is to communicate with potential customers.",
-    question: "What is digital marketing used for?",
-    answers: [
-        "Finding and communicating with customers",
-        "Only playing games",
-        "Turning off the internet"
-    ],
-    correct: 0,
-    video: "VIDEO_ID_8"
+icon:"📣",
+title:"Marketing Basics",
+description:"Learn how businesses reach potential customers.",
+text:"Marketing communicates the value of a product or service to potential customers.",
+question:"What is marketing used for?",
+answers:["Reaching potential customers","Hiding a business","Avoiding customers"],
+correct:0,
+video:"videos/marketing-1.mp4"
 },
 
 {
-    title: "Building a Brand",
-    icon: "⭐",
-    description: "Learn how businesses create a recognisable identity.",
-    text: "A brand includes how customers recognise and experience a business. Consistent quality and communication can help build trust.",
-    question: "What can help build a brand?",
-    answers: [
-        "Consistent customer experience",
-        "Changing everything every day",
-        "Ignoring customers"
-    ],
-    correct: 0,
-    video: "VIDEO_ID_9"
+icon:"⭐",
+title:"Building a Brand",
+description:"Learn how businesses create a recognisable identity.",
+text:"A brand can include a business name, visual identity, communication style and the experience customers associate with the business.",
+question:"What can be part of a brand?",
+answers:["Business identity","Only a bank account","Only a building"],
+correct:0,
+video:"videos/brand-1.mp4"
 },
 
 {
-    title: "Growing a Business",
-    icon: "🚀",
-    description: "Learn customers, systems, pricing and growth.",
-    text: "Business growth can involve finding more customers, improving systems, controlling costs and delivering good products or services.",
-    question: "What can help a business grow?",
-    answers: [
-        "More customers and better systems",
-        "Ignoring customers",
-        "Increasing costs without a plan"
-    ],
-    correct: 0,
-    video: "VIDEO_ID_10"
+icon:"🚀",
+title:"Growing a Business",
+description:"Learn about customers, systems, pricing and growth.",
+text:"Business growth can involve gaining customers, improving systems, managing costs and increasing value.",
+question:"What can help a business grow?",
+answers:["Understanding customers","Ignoring customers","Never improving"],
+correct:0,
+video:"videos/business-4.mp4"
 }
 
 ];
 
 
 /* =========================================================
-   KIDS EDUCATION
+   KIDS GAMES
 ========================================================= */
 
-const kidsLessons = [
+const kidsGames=[
 
 {
-    title: "Maths Basics",
-    icon: "🔢",
-    description: "Learn numbers, addition and subtraction.",
-    text: "Numbers help us count and measure. Addition combines numbers and subtraction takes one amount away from another.",
-    question: "What is 5 + 3?",
-    answers: ["6", "8", "10"],
-    correct: 1,
-    video: "KIDS_VIDEO_1"
+icon:"🔢",
+title:"Number Builder",
+description:"Put the numbers in the correct order.",
+type:"numbers"
 },
 
 {
-    title: "Science Basics",
-    icon: "🔬",
-    description: "Discover how the world around us works.",
-    text: "Science helps us understand the world by asking questions, making observations and testing ideas.",
-    question: "What does science help us understand?",
-    answers: [
-        "The world around us",
-        "Only games",
-        "Only music"
-    ],
-    correct: 0,
-    video: "KIDS_VIDEO_2"
+icon:"🎨",
+title:"What Colour Is This?",
+description:"Choose the correct colour.",
+type:"colors"
 },
 
 {
-    title: "The Solar System",
-    icon: "🌍",
-    description: "Learn about planets and space.",
-    text: "Our solar system contains the Sun and objects that orbit it, including planets, moons and smaller bodies.",
-    question: "What is at the centre of our solar system?",
-    answers: [
-        "The Moon",
-        "The Sun",
-        "Mars"
-    ],
-    correct: 1,
-    video: "KIDS_VIDEO_3"
+icon:"➕",
+title:"Math Challenge",
+description:"Solve fun addition questions.",
+type:"math"
 },
 
 {
-    title: "English Vocabulary",
-    icon: "📚",
-    description: "Improve vocabulary and reading skills.",
-    text: "Vocabulary means the words we understand and use. Learning new words can help us communicate more clearly.",
-    question: "What does vocabulary mean?",
-    answers: [
-        "Words we understand and use",
-        "Only numbers",
-        "Only pictures"
-    ],
-    correct: 0,
-    video: "KIDS_VIDEO_4"
+icon:"🔺",
+title:"Shape Detective",
+description:"Learn and identify shapes.",
+type:"shapes"
 },
 
 {
-    title: "Geography",
-    icon: "🌎",
-    description: "Learn about countries, continents and maps.",
-    text: "Geography studies places, people, environments and the Earth. Maps help us understand locations.",
-    question: "What can a map show?",
-    answers: [
-        "Locations",
-        "Only music",
-        "Only food"
-    ],
-    correct: 0,
-    video: "KIDS_VIDEO_5"
+icon:"🔤",
+title:"Word Builder",
+description:"Learn letters and spelling.",
+type:"spelling"
 },
 
 {
-    title: "History",
-    icon: "🏛️",
-    description: "Learn about important events from the past.",
-    text: "History is the study of people and events from the past. It helps us understand how societies changed.",
-    question: "What does history study?",
-    answers: [
-        "The past",
-        "Only the future",
-        "Only mathematics"
-    ],
-    correct: 0,
-    video: "KIDS_VIDEO_6"
+icon:"🧠",
+title:"Memory Match",
+description:"Find matching educational cards.",
+type:"memory"
 },
 
 {
-    title: "Computer Skills",
-    icon: "💻",
-    description: "Learn basic computer and internet skills.",
-    text: "Computers can be used for learning, creating, communicating and solving problems.",
-    question: "What can computers be used for?",
-    answers: [
-        "Learning and creating",
-        "Nothing",
-        "Only sleeping"
-    ],
-    correct: 0,
-    video: "KIDS_VIDEO_7"
+icon:"🕐",
+title:"Learn the Clock",
+description:"Learn to read the time.",
+type:"clock"
 },
 
 {
-    title: "Healthy Habits",
-    icon: "🥗",
-    description: "Learn about healthy everyday habits.",
-    text: "Healthy habits can include eating a balanced diet, being physically active, sleeping well and keeping clean.",
-    question: "Which is a healthy habit?",
-    answers: [
-        "Getting enough sleep",
-        "Never sleeping",
-        "Never drinking water"
-    ],
-    correct: 0,
-    video: "KIDS_VIDEO_8"
+icon:"💷",
+title:"Money Maths",
+description:"Learn simple money calculations.",
+type:"money"
 },
 
 {
-    title: "Problem Solving",
-    icon: "🧩",
-    description: "Learn how to think through problems.",
-    text: "Problem solving means understanding a problem, thinking about possible solutions and testing an appropriate solution.",
-    question: "What is a useful first step?",
-    answers: [
-        "Understand the problem",
-        "Give up immediately",
-        "Ignore it"
-    ],
-    correct: 0,
-    video: "KIDS_VIDEO_9"
+icon:"🔬",
+title:"Science Explorer",
+description:"Discover simple science facts.",
+type:"science"
 },
 
 {
-    title: "Money Basics for Kids",
-    icon: "💷",
-    description: "Learn simple ideas about saving and spending.",
-    text: "Money can be used to buy things and pay for services. Saving means keeping some money for later.",
-    question: "What does saving mean?",
-    answers: [
-        "Keeping money for later",
-        "Spending everything immediately",
-        "Losing money"
-    ],
-    correct: 0,
-    video: "KIDS_VIDEO_10"
+icon:"🌍",
+title:"World Explorer",
+description:"Learn countries and continents.",
+type:"geography"
 }
 
 ];
 
 
 /* =========================================================
-   DISPLAY LESSON CARDS
+   CREATE ADULT CARDS
 ========================================================= */
 
-function displayLessons() {
+const adultGrid=
+document.getElementById("adultGrid");
 
-    const adultContainer =
-        document.getElementById("adultLessons");
+adultLessons.forEach(
+(lesson,index)=>{
 
-    adultLessons.forEach((lesson, index) => {
+    const card=document.createElement("div");
 
-        adultContainer.innerHTML += `
+    card.className="card";
 
-        <div class="lesson-card">
+    card.innerHTML=`
 
-            <div class="lesson-icon">
-                ${lesson.icon}
-            </div>
-
-            <h3>
-                ${index + 1}. ${lesson.title}
-            </h3>
-
-            <p>
-                ${lesson.description}
-            </p>
-
-            <button
-                class="learn-btn"
-                onclick="openLesson('adult', ${index})">
-
-                🎓 Start Learning
-
-            </button>
-
+        <div class="card-icon">
+            ${lesson.icon}
         </div>
 
-        `;
-    });
+        <h3>${index+1}. ${lesson.title}</h3>
 
-
-    const kidsContainer =
-        document.getElementById("kidsLessons");
-
-    kidsLessons.forEach((lesson, index) => {
-
-        kidsContainer.innerHTML += `
-
-        <div class="lesson-card">
-
-            <div class="lesson-icon">
-                ${lesson.icon}
-            </div>
-
-            <h3>
-                ${index + 1}. ${lesson.title}
-            </h3>
-
-            <p>
-                ${lesson.description}
-            </p>
-
-            <button
-                class="learn-btn"
-                onclick="openLesson('kids', ${index})">
-
-                🎓 Start Learning
-
-            </button>
-
-        </div>
-
-        `;
-    });
-
-}
-
-
-/* =========================================================
-   CURRENT LESSON
-========================================================= */
-
-let currentLesson = null;
-
-
-/* =========================================================
-   OPEN LESSON
-========================================================= */
-
-function openLesson(type, index) {
-
-    const list =
-        type === "adult"
-        ? adultLessons
-        : kidsLessons;
-
-    currentLesson = list[index];
-
-    document.getElementById("lessonNumber").innerText =
-        "Lesson " + (index + 1) + " of " + list.length;
-
-    document.getElementById("progressBar").style.width =
-        ((index + 1) / list.length * 100) + "%";
-
-    document.getElementById("lessonTitle").innerText =
-        currentLesson.icon + " " + currentLesson.title;
-
-    document.getElementById("lessonText").innerText =
-        currentLesson.text;
-
-    document.getElementById("question").innerText =
-        currentLesson.question;
-
-    document.getElementById("feedback").innerText = "";
-
-    const answers =
-        document.getElementById("answers");
-
-    answers.innerHTML = "";
-
-    currentLesson.answers.forEach((answer, i) => {
-
-        answers.innerHTML += `
+        <p>${lesson.description}</p>
 
         <button
-            class="answer-btn"
-            onclick="checkAnswer(${i})">
+            class="start-btn"
+            onclick="openAdultLesson(${index})">
 
-            ${answer}
+            🎓 Start Learning
+
+        </button>
+    `;
+
+    adultGrid.appendChild(card);
+
+});
+
+
+/* =========================================================
+   CREATE KIDS CARDS
+========================================================= */
+
+const kidsGrid=
+document.getElementById("kidsGrid");
+
+kidsGames.forEach(
+(game,index)=>{
+
+    const card=document.createElement("div");
+
+    card.className="card kids-card";
+
+    card.innerHTML=`
+
+        <div class="card-icon">
+            ${game.icon}
+        </div>
+
+        <h3>${index+1}. ${game.title}</h3>
+
+        <p>${game.description}</p>
+
+        <button
+            class="start-btn"
+            onclick="openKidsGame(${index})">
+
+            🎮 Play Game
+
+        </button>
+    `;
+
+    kidsGrid.appendChild(card);
+
+});
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+const modal=
+document.getElementById("modal");
+
+const modalContent=
+document.getElementById("modalContent");
+
+
+function closeModal(){
+
+    modal.classList.remove("show");
+
+    modalContent.innerHTML="";
+
+}
+
+
+function openModal(){
+
+    modal.classList.add("show");
+
+}
+
+
+/* =========================================================
+   ADULT LESSON
+========================================================= */
+
+let currentAdult=0;
+
+
+function openAdultLesson(index){
+
+    currentAdult=index;
+
+    const lesson=adultLessons[index];
+
+    const percent=
+        ((index+1)/adultLessons.length)*100;
+
+    modalContent.innerHTML=`
+
+        <span class="lesson-number">
+            Lesson ${index+1} of ${adultLessons.length}
+        </span>
+
+        <div class="progress">
+
+            <div
+                class="progress-bar"
+                style="width:${percent}%">
+            </div>
+
+        </div>
+
+        <h1>
+            ${lesson.icon}
+            ${lesson.title}
+        </h1>
+
+        <div class="learn-box">
+
+            <h3>📖 Learn:</h3>
+
+            <p>
+                ${lesson.text}
+            </p>
+
+        </div>
+
+        <button
+            class="video-button"
+            onclick="playLessonVideo()">
+
+            ▶ Watch Video Explanation
 
         </button>
 
-        `;
+        <div
+            id="videoContainer"
+            class="video-container">
 
-    });
+            <video
+                id="lessonVideo"
+                controls
+                playsinline
+                preload="metadata">
 
-    document.getElementById("lessonModal").style.display =
-        "block";
+                <source
+                    src="${lesson.video}"
+                    type="video/mp4">
+
+                Your browser does not support video playback.
+
+            </video>
+
+        </div>
+
+        <div class="question-box">
+
+            <h3>🧠 Check What You Learned</h3>
+
+            <p>${lesson.question}</p>
+
+            <div class="answer-buttons">
+
+                ${lesson.answers.map(
+                    (answer,i)=>`
+
+                    <button
+                        onclick="answerAdult(${i})">
+
+                        ${answer}
+
+                    </button>
+
+                    `
+                ).join("")}
+
+            </div>
+
+            <div
+                id="adultFeedback"
+                class="feedback">
+            </div>
+
+        </div>
+
+    `;
+
+    openModal();
+
 }
 
 
-/* =========================================================
-   CLOSE LESSON
-========================================================= */
+function playLessonVideo(){
 
-function closeLesson() {
+    const container=
+        document.getElementById("videoContainer");
 
-    document.getElementById("lessonModal").style.display =
-        "none";
+    const video=
+        document.getElementById("lessonVideo");
 
-    closeVideo();
+    container.style.display="block";
+
+    video.load();
+
+    video.play().catch(
+        ()=>{
+            /*
+             The browser may require the user
+             to press the play button.
+            */
+        }
+    );
+
+    clickSound();
+
 }
 
 
-/* =========================================================
-   OPEN VIDEO INSIDE APP
-========================================================= */
+function answerAdult(answer){
 
-function openVideo() {
+    const lesson=
+        adultLessons[currentAdult];
 
-    if (!currentLesson) return;
+    const feedback=
+        document.getElementById("adultFeedback");
 
-    let videoId = currentLesson.video;
+    if(answer===lesson.correct){
 
-    /*
-       IMPORTANT:
-
-       Replace VIDEO_ID_1 etc. with the ID of the video.
-
-       Example YouTube link:
-
-       https://www.youtube.com/watch?v=ABC123XYZ
-
-       The video ID is:
-
-       ABC123XYZ
-    */
-
-    const videoURL =
-        "https://www.youtube-nocookie.com/embed/"
-        + videoId
-        + "?autoplay=1&rel=0";
-
-    document.getElementById("videoFrame").src =
-        videoURL;
-
-    document.getElementById("videoModal").style.display =
-        "block";
-}
-
-
-/* =========================================================
-   CLOSE VIDEO
-========================================================= */
-
-function closeVideo() {
-
-    document.getElementById("videoModal").style.display =
-        "none";
-
-    document.getElementById("videoFrame").src = "";
-}
-
-
-/* =========================================================
-   QUIZ
-========================================================= */
-
-function checkAnswer(selected) {
-
-    const feedback =
-        document.getElementById("feedback");
-
-    if (selected === currentLesson.correct) {
-
-        feedback.innerText =
+        feedback.innerHTML=
             "✅ Correct! Great job.";
 
-    } else {
+        feedback.className=
+            "feedback feedback-good";
 
-        feedback.innerText =
-            "❌ Not quite. Take another look at the lesson.";
+        correctSound();
+
+    }else{
+
+        feedback.innerHTML=
+            "❌ Not quite. Read the lesson again and try again.";
+
+        feedback.className=
+            "feedback feedback-bad";
+
+        wrongSound();
 
     }
 
@@ -995,58 +1018,1286 @@ function checkAnswer(selected) {
 
 
 /* =========================================================
-   AD TIMER
-   120 SECONDS = 2 MINUTES
+   KIDS GAME OPEN
 ========================================================= */
 
-let adSeconds = 120;
+let currentGame=0;
+let gameScore=0;
 
-let adTimer = null;
+
+function openKidsGame(index){
+
+    currentGame=index;
+    gameScore=0;
+
+    const game=kidsGames[index];
+
+    modalContent.innerHTML=`
+
+        <span class="lesson-number">
+
+            Game ${index+1} of ${kidsGames.length}
+
+        </span>
+
+        <div class="progress">
+
+            <div
+                class="progress-bar"
+                style="width:${((index+1)/kidsGames.length)*100}%">
+            </div>
+
+        </div>
+
+        <h1>
+            ${game.icon}
+            ${game.title}
+        </h1>
+
+        <div id="gameArea"></div>
+
+    `;
+
+    openModal();
+
+    loadGame(game.type);
+
+}
 
 
-function startAdTimer() {
+/* =========================================================
+   GAME LOADER
+========================================================= */
 
-    clearInterval(adTimer);
+function loadGame(type){
 
-    adSeconds = 120;
+    switch(type){
 
-    adTimer = setInterval(function() {
+        case "numbers":
+            numberGame();
+            break;
 
-        adSeconds--;
+        case "colors":
+            colorGame();
+            break;
 
-        if (adSeconds <= 0) {
+        case "math":
+            mathGame();
+            break;
 
-            clearInterval(adTimer);
+        case "shapes":
+            shapeGame();
+            break;
 
-            showAd();
+        case "spelling":
+            spellingGame();
+            break;
+
+        case "memory":
+            memoryGame();
+            break;
+
+        case "clock":
+            clockGame();
+            break;
+
+        case "money":
+            moneyGame();
+            break;
+
+        case "science":
+            scienceGame();
+            break;
+
+        case "geography":
+            geographyGame();
+            break;
+
+    }
+
+}
+
+
+/* =========================================================
+   NUMBER BUILDER
+========================================================= */
+
+function numberGame(){
+
+    const start=
+        Math.floor(Math.random()*5)+1;
+
+    const numbers=[
+        start,
+        start+1,
+        start+2
+    ];
+
+    const shuffled=
+        [...numbers].sort(
+            ()=>Math.random()-.5
+        );
+
+    document.getElementById("gameArea").innerHTML=`
+
+        <div class="game-area">
+
+            <div class="game-score">
+                ⭐ Score: ${gameScore}
+            </div>
+
+            <p>
+                Put the numbers in the correct order.
+            </p>
+
+            <div class="number-slots">
+
+                <div class="number-slot" id="slot1">?</div>
+                <div class="number-slot" id="slot2">?</div>
+                <div class="number-slot" id="slot3">?</div>
+
+            </div>
+
+            <div class="answer-buttons">
+
+                ${shuffled.map(
+                    n=>`
+
+                    <button
+                        class="number-choice"
+                        onclick="chooseNumber(${n})">
+
+                        ${n}
+
+                    </button>
+
+                    `
+                ).join("")}
+
+            </div>
+
+            <div id="gameFeedback" class="feedback"></div>
+
+        </div>
+    `;
+
+}
+
+
+let numberPosition=0;
+
+
+function chooseNumber(number){
+
+    const start=
+        parseInt(
+            document.getElementById("slot1")
+            .dataset.start || "0"
+        );
+
+    if(!numberPosition){
+
+        const slots=[
+            document.getElementById("slot1"),
+            document.getElementById("slot2"),
+            document.getElementById("slot3")
+        ];
+
+        slots[0].dataset.correct=
+            number;
+
+    }
+
+    const buttons=
+        document.querySelectorAll(".number-choice");
+
+    const currentExpected=
+        parseInt(
+            buttons[0]?.parentElement
+            ?.dataset?.dummy || number
+        );
+
+    /*
+       Simpler educational round:
+       after choosing a number, compare
+       with the smallest available number.
+    */
+
+    const allButtons=
+        [...document.querySelectorAll(".number-choice")];
+
+    const available=
+        allButtons
+        .filter(b=>!b.disabled)
+        .map(b=>parseInt(b.innerText));
+
+    const expected=
+        Math.min(...available);
+
+    const feedback=
+        document.getElementById("gameFeedback");
+
+    if(number===expected){
+
+        document.getElementById(
+            "slot"+(numberPosition+1)
+        ).innerText=number;
+
+        numberPosition++;
+
+        const btn=
+            allButtons.find(
+                b=>parseInt(b.innerText)===number
+            );
+
+        if(btn) btn.disabled=true;
+
+        correctSound();
+
+        if(numberPosition>=3){
+
+            gameScore++;
+
+            feedback.innerHTML=
+                "🎉 Amazing! You built the number sequence!";
+
+            setTimeout(
+                ()=>{
+                    numberPosition=0;
+                    numberGame();
+                },
+                1200
+            );
+
+        }else{
+
+            feedback.innerHTML=
+                "✅ Correct! Keep going!";
 
         }
 
-    }, 1000);
+    }else{
+
+        feedback.innerHTML=
+            "💡 Try the smallest number first.";
+
+        wrongSound();
+
+    }
 
 }
 
 
 /* =========================================================
-   SHOW AD
+   COLOUR GAME
 ========================================================= */
 
-function showAd() {
+const colours=[
+    ["Red","#ff3b30"],
+    ["Blue","#1677ff"],
+    ["Green","#21b85a"],
+    ["Yellow","#ffd400"],
+    ["Purple","#8e44ad"],
+    ["Orange","#ff851b"]
+];
 
-    document.getElementById("adModal").style.display =
-        "flex";
+
+function colorGame(){
+
+    const target=
+        colours[
+            Math.floor(
+                Math.random()*colours.length
+            )
+        ];
+
+    const choices=
+        [...colours]
+        .sort(()=>Math.random()-.5)
+        .slice(0,4);
+
+    if(!choices.includes(target))
+        choices[0]=target;
+
+    document.getElementById("gameArea").innerHTML=`
+
+        <div class="game-area">
+
+            <div class="game-score">
+                ⭐ Score: ${gameScore}
+            </div>
+
+            <p>
+                What colour is this?
+            </p>
+
+            <div
+                class="color-circle"
+                style="background:${target[1]}">
+            </div>
+
+            <div class="game-options">
+
+                ${choices.map(
+                    c=>`
+
+                    <button
+                        class="game-option"
+                        onclick="answerColor('${c[0]}','${target[0]}')">
+
+                        ${c[0]}
+
+                    </button>
+
+                    `
+                ).join("")}
+
+            </div>
+
+            <div id="gameFeedback" class="feedback"></div>
+
+        </div>
+    `;
+
+}
+
+
+function answerColor(answer,correct){
+
+    const feedback=
+        document.getElementById("gameFeedback");
+
+    if(answer===correct){
+
+        gameScore++;
+
+        feedback.innerHTML=
+            "🎉 Correct colour!";
+
+        correctSound();
+
+        setTimeout(colorGame,900);
+
+    }else{
+
+        feedback.innerHTML=
+            "❌ Try again!";
+
+        wrongSound();
+
+    }
 
 }
 
 
 /* =========================================================
-   CLOSE AD
+   MATH GAME
 ========================================================= */
 
-function closeAd() {
+function mathGame(){
 
-    document.getElementById("adModal").style.display =
-        "none";
+    const a=
+        Math.floor(Math.random()*10)+1;
+
+    const b=
+        Math.floor(Math.random()*10)+1;
+
+    const answer=a+b;
+
+    const options=
+        new Set([answer]);
+
+    while(options.size<3){
+
+        options.add(
+            Math.max(
+                0,
+                answer+
+                Math.floor(Math.random()*7)-3
+            )
+        );
+
+    }
+
+    const choices=
+        [...options]
+        .sort(()=>Math.random()-.5);
+
+    document.getElementById("gameArea").innerHTML=`
+
+        <div class="game-area">
+
+            <div class="game-score">
+                ⭐ Score: ${gameScore}
+            </div>
+
+            <div class="game-question">
+
+                ${a} + ${b} = ?
+
+            </div>
+
+            <div class="game-options">
+
+                ${choices.map(
+                    n=>`
+
+                    <button
+                        class="game-option"
+                        onclick="answerMath(${n},${answer})">
+
+                        ${n}
+
+                    </button>
+
+                    `
+                ).join("")}
+
+            </div>
+
+            <div id="gameFeedback" class="feedback"></div>
+
+        </div>
+
+    `;
+
+}
+
+
+function answerMath(answer,correct){
+
+    const feedback=
+        document.getElementById("gameFeedback");
+
+    if(answer===correct){
+
+        gameScore++;
+
+        feedback.innerHTML=
+            "🎉 Fantastic! That's correct!";
+
+        correctSound();
+
+        setTimeout(mathGame,900);
+
+    }else{
+
+        feedback.innerHTML=
+            "💡 Try again. Count carefully!";
+
+        wrongSound();
+
+    }
+
+}
+
+
+/* =========================================================
+   SHAPES
+========================================================= */
+
+const shapes=[
+    ["🔵","Circle"],
+    ["🟥","Square"],
+    ["🔺","Triangle"],
+    ["⭐","Star"]
+];
+
+
+function shapeGame(){
+
+    const target=
+        shapes[
+            Math.floor(Math.random()*shapes.length)
+        ];
+
+    const choices=
+        [...shapes]
+        .sort(()=>Math.random()-.5);
+
+    document.getElementById("gameArea").innerHTML=`
+
+        <div class="game-area">
+
+            <div class="game-score">
+                ⭐ Score: ${gameScore}
+            </div>
+
+            <p>
+                What shape is this?
+            </p>
+
+            <div style="font-size:100px;">
+                ${target[0]}
+            </div>
+
+            <div class="game-options">
+
+                ${choices.map(
+                    s=>`
+
+                    <button
+                        class="game-option"
+                        onclick="answerShape('${s[1]}','${target[1]}')">
+
+                        ${s[1]}
+
+                    </button>
+
+                    `
+                ).join("")}
+
+            </div>
+
+            <div id="gameFeedback" class="feedback"></div>
+
+        </div>
+
+    `;
+
+}
+
+
+function answerShape(answer,correct){
+
+    const feedback=
+        document.getElementById("gameFeedback");
+
+    if(answer===correct){
+
+        gameScore++;
+
+        feedback.innerHTML=
+            "🎉 Correct shape!";
+
+        correctSound();
+
+        setTimeout(shapeGame,900);
+
+    }else{
+
+        feedback.innerHTML=
+            "❌ Try again.";
+
+        wrongSound();
+
+    }
+
+}
+
+
+/* =========================================================
+   SPELLING
+========================================================= */
+
+const spellingWords=[
+    ["CAT","🐱"],
+    ["DOG","🐶"],
+    ["SUN","☀️"],
+    ["FISH","🐟"],
+    ["TREE","🌳"]
+];
+
+
+function spellingGame(){
+
+    const item=
+        spellingWords[
+            Math.floor(
+                Math.random()*spellingWords.length
+            )
+        ];
+
+    const word=item[0];
+
+    const shuffled=
+        [...word]
+        .sort(()=>Math.random()-.5);
+
+    document.getElementById("gameArea").innerHTML=`
+
+        <div class="game-area">
+
+            <div class="game-score">
+                ⭐ Score: ${gameScore}
+            </div>
+
+            <div style="font-size:80px;">
+                ${item[1]}
+            </div>
+
+            <p>
+                Put the letters together to spell the word.
+            </p>
+
+            <div
+                id="spellWord"
+                class="game-question">
+            </div>
+
+            <div class="game-options">
+
+                ${shuffled.map(
+                    letter=>`
+
+                    <button
+                        class="game-option"
+                        onclick="addLetter('${letter}')">
+
+                        ${letter}
+
+                    </button>
+
+                    `
+                ).join("")}
+
+            </div>
+
+            <div id="gameFeedback" class="feedback"></div>
+
+        </div>
+
+    `;
+
+    window.currentSpell="";
+    window.currentWord=word;
+
+}
+
+
+function addLetter(letter){
+
+    currentSpell+=letter;
+
+    document.getElementById(
+        "spellWord"
+    ).innerText=currentSpell;
+
+    clickSound();
+
+    if(currentSpell.length===currentWord.length){
+
+        const feedback=
+            document.getElementById("gameFeedback");
+
+        if(currentSpell===currentWord){
+
+            gameScore++;
+
+            feedback.innerHTML=
+                "🎉 Great spelling!";
+
+            correctSound();
+
+            setTimeout(
+                spellingGame,
+                1000
+            );
+
+        }else{
+
+            feedback.innerHTML=
+                "❌ Try again!";
+
+            wrongSound();
+
+            setTimeout(
+                ()=>{
+                    currentSpell="";
+                    document.getElementById(
+                        "spellWord"
+                    ).innerText="";
+                },
+                800
+            );
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   MEMORY GAME
+========================================================= */
+
+function memoryGame(){
+
+    const symbols=[
+        "🍎","🍎",
+        "🐶","🐶",
+        "🚗","🚗",
+        "⭐","⭐",
+        "🌈","🌈",
+        "⚽","⚽"
+    ];
+
+    symbols.sort(
+        ()=>Math.random()-.5
+    );
+
+    document.getElementById("gameArea").innerHTML=`
+
+        <div class="game-area">
+
+            <div class="game-score">
+                ⭐ Score: ${gameScore}
+            </div>
+
+            <p>
+                Find the matching pictures!
+            </p>
+
+            <div
+                id="memoryGrid"
+                class="memory-grid">
+
+                ${symbols.map(
+                    (s,i)=>`
+
+                    <button
+                        class="memory-card hidden"
+                        data-symbol="${s}"
+                        onclick="memoryClick(this)">
+
+                        ${s}
+
+                    </button>
+
+                    `
+                ).join("")}
+
+            </div>
+
+            <div id="gameFeedback" class="feedback"></div>
+
+        </div>
+
+    `;
+
+    window.memoryFirst=null;
+    window.memoryLocked=false;
+    window.memoryMatches=0;
+
+}
+
+
+function memoryClick(card){
+
+    if(
+        memoryLocked ||
+        !card.classList.contains("hidden")
+    ) return;
+
+    card.classList.remove("hidden");
+
+    if(!memoryFirst){
+
+        memoryFirst=card;
+        clickSound();
+        return;
+
+    }
+
+    if(
+        memoryFirst.dataset.symbol===
+        card.dataset.symbol
+    ){
+
+        memoryMatches++;
+        gameScore++;
+
+        correctSound();
+
+        memoryFirst=null;
+
+        if(memoryMatches>=6){
+
+            document.getElementById(
+                "gameFeedback"
+            ).innerHTML=
+                "🎉 You found all the matches!";
+
+            setTimeout(
+                memoryGame,
+                1200
+            );
+
+        }
+
+    }else{
+
+        wrongSound();
+
+        memoryLocked=true;
+
+        setTimeout(
+            ()=>{
+
+                memoryFirst.classList.add(
+                    "hidden"
+                );
+
+                card.classList.add(
+                    "hidden"
+                );
+
+                memoryFirst=null;
+                memoryLocked=false;
+
+            },
+            800
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   CLOCK GAME
+========================================================= */
+
+function clockGame(){
+
+    const hours=
+        Math.floor(Math.random()*12)+1;
+
+    const minutes=
+        Math.random()<.5 ? 0 : 30;
+
+    const answer=
+        minutes===0
+        ? `${hours}:00`
+        : `${hours}:30`;
+
+    const options=[
+        answer,
+        `${hours}:15`,
+        `${hours}:45`
+    ];
+
+    document.getElementById("gameArea").innerHTML=`
+
+        <div class="game-area">
+
+            <div class="game-score">
+                ⭐ Score: ${gameScore}
+            </div>
+
+            <p>
+                What time is it?
+            </p>
+
+            <div style="font-size:100px;">
+                🕐
+            </div>
+
+            <div class="game-question">
+                ${hours}:${minutes===0?"00":"30"}
+            </div>
+
+            <div class="game-options">
+
+                ${options.map(
+                    o=>`
+
+                    <button
+                        class="game-option"
+                        onclick="answerClock('${o}','${answer}')">
+
+                        ${o}
+
+                    </button>
+
+                    `
+                ).join("")}
+
+            </div>
+
+            <div id="gameFeedback" class="feedback"></div>
+
+        </div>
+
+    `;
+
+}
+
+
+function answerClock(answer,correct){
+
+    const feedback=
+        document.getElementById("gameFeedback");
+
+    if(answer===correct){
+
+        gameScore++;
+
+        feedback.innerHTML=
+            "🎉 Great! You read the clock correctly.";
+
+        correctSound();
+
+        setTimeout(clockGame,900);
+
+    }else{
+
+        feedback.innerHTML=
+            "💡 Look carefully at the time.";
+
+        wrongSound();
+
+    }
+
+}
+
+
+/* =========================================================
+   MONEY GAME
+========================================================= */
+
+function moneyGame(){
+
+    const a=
+        Math.floor(Math.random()*5)+1;
+
+    const b=
+        Math.floor(Math.random()*5)+1;
+
+    const answer=a+b;
+
+    document.getElementById("gameArea").innerHTML=`
+
+        <div class="game-area">
+
+            <div class="game-score">
+                ⭐ Score: ${gameScore}
+            </div>
+
+            <p>
+                You have £${a}.
+                You receive £${b}.
+                How much do you have now?
+            </p>
+
+            <div style="font-size:80px;">
+                💷
+            </div>
+
+            <div class="game-options">
+
+                ${[answer,answer+1,Math.max(0,answer-1)]
+                .sort(()=>Math.random()-.5)
+                .map(
+                    n=>`
+
+                    <button
+                        class="game-option"
+                        onclick="answerMoney(${n},${answer})">
+
+                        £${n}
+
+                    </button>
+
+                    `
+                ).join("")}
+
+            </div>
+
+            <div id="gameFeedback" class="feedback"></div>
+
+        </div>
+
+    `;
+
+}
+
+
+function answerMoney(answer,correct){
+
+    const feedback=
+        document.getElementById("gameFeedback");
+
+    if(answer===correct){
+
+        gameScore++;
+
+        feedback.innerHTML=
+            "🎉 Excellent money maths!";
+
+        correctSound();
+
+        setTimeout(moneyGame,900);
+
+    }else{
+
+        feedback.innerHTML=
+            "💡 Add the two amounts together.";
+
+        wrongSound();
+
+    }
+
+}
+
+
+/* =========================================================
+   SCIENCE GAME
+========================================================= */
+
+const scienceQuestions=[
+
+[
+"What planet do we live on?",
+["Earth","Mars","Jupiter"],
+0
+],
+
+[
+"What do plants need to grow?",
+["Sunlight","Television","Cars"],
+0
+],
+
+[
+"Which animal can fly?",
+["Bird","Fish","Elephant"],
+0
+],
+
+[
+"What gives Earth light during the day?",
+["The Sun","The Moon","A lamp"],
+0
+]
+
+];
+
+
+function scienceGame(){
+
+    const q=
+        scienceQuestions[
+            Math.floor(
+                Math.random()*scienceQuestions.length
+            )
+        ];
+
+    document.getElementById("gameArea").innerHTML=`
+
+        <div class="game-area">
+
+            <div class="game-score">
+                ⭐ Score: ${gameScore}
+            </div>
+
+            <div class="game-question">
+                🔬 ${q[0]}
+            </div>
+
+            <div class="game-options">
+
+                ${q[1].map(
+                    (a,i)=>`
+
+                    <button
+                        class="game-option"
+                        onclick="answerScience(${i},${q[2]})">
+
+                        ${a}
+
+                    </button>
+
+                    `
+                ).join("")}
+
+            </div>
+
+            <div id="gameFeedback" class="feedback"></div>
+
+        </div>
+
+    `;
+
+}
+
+
+function answerScience(answer,correct){
+
+    const feedback=
+        document.getElementById("gameFeedback");
+
+    if(answer===correct){
+
+        gameScore++;
+
+        feedback.innerHTML=
+            "🎉 Excellent science answer!";
+
+        correctSound();
+
+        setTimeout(scienceGame,900);
+
+    }else{
+
+        feedback.innerHTML=
+            "💡 Think about what you learned.";
+
+        wrongSound();
+
+    }
+
+}
+
+
+/* =========================================================
+   GEOGRAPHY GAME
+========================================================= */
+
+const geographyQuestions=[
+
+[
+"Which continent is the United Kingdom in?",
+["Europe","Asia","Africa"],
+0
+],
+
+[
+"Which is the largest ocean?",
+["Pacific Ocean","Atlantic Ocean","Indian Ocean"],
+0
+],
+
+[
+"Which country is famous for the Eiffel Tower?",
+["France","Brazil","Japan"],
+0
+],
+
+[
+"Which continent is Egypt in?",
+["Africa","Europe","Australia"],
+0
+]
+
+];
+
+
+function geographyGame(){
+
+    const q=
+        geographyQuestions[
+            Math.floor(
+                Math.random()*geographyQuestions.length
+            )
+        ];
+
+    document.getElementById("gameArea").innerHTML=`
+
+        <div class="game-area">
+
+            <div class="game-score">
+                ⭐ Score: ${gameScore}
+            </div>
+
+            <div class="game-question">
+                🌍 ${q[0]}
+            </div>
+
+            <div class="game-options">
+
+                ${q[1].map(
+                    (a,i)=>`
+
+                    <button
+                        class="game-option"
+                        onclick="answerGeography(${i},${q[2]})">
+
+                        ${a}
+
+                    </button>
+
+                    `
+                ).join("")}
+
+            </div>
+
+            <div id="gameFeedback" class="feedback"></div>
+
+        </div>
+
+    `;
+
+}
+
+
+function answerGeography(answer,correct){
+
+    const feedback=
+        document.getElementById("gameFeedback");
+
+    if(answer===correct){
+
+        gameScore++;
+
+        feedback.innerHTML=
+            "🎉 Correct! Great geography!";
+
+        correctSound();
+
+        setTimeout(
+            geographyGame,
+            900
+        );
+
+    }else{
+
+        feedback.innerHTML=
+            "💡 Try again.";
+
+        wrongSound();
+
+    }
+
+}
+
+
+/* =========================================================
+   120 SECOND AD TIMER
+========================================================= */
+
+let adTimer=null;
+
+const AD_SECONDS=120;
+
+
+function startAdTimer(){
+
+    clearTimeout(adTimer);
+
+    adTimer=setTimeout(
+        showAd,
+        AD_SECONDS*1000
+    );
+
+}
+
+
+function showAd(){
+
+    document
+        .getElementById("adBox")
+        .classList.add("show");
+
+}
+
+
+function closeAd(){
+
+    document
+        .getElementById("adBox")
+        .classList.remove("show");
 
     startAdTimer();
 
@@ -1054,18 +2305,44 @@ function closeAd() {
 
 
 /* =========================================================
-   START APP
+   START AD TIMER
 ========================================================= */
-
-displayLessons();
 
 startAdTimer();
 
 
-/*
-   If the user closes the page or reloads it,
-   the timer starts again from 120 seconds.
-*/
+/* =========================================================
+   RESET AD TIMER WHEN USER INTERACTS
+========================================================= */
+
+document.addEventListener(
+    "click",
+    function(){
+
+        /*
+        This keeps the application active.
+        The advertisement itself still appears
+        after 120 seconds.
+        */
+
+    }
+);
+
+
+/* =========================================================
+   CLOSE MODAL WHEN CLICKING OUTSIDE
+========================================================= */
+
+modal.addEventListener(
+    "click",
+    function(e){
+
+        if(e.target===modal){
+            closeModal();
+        }
+
+    }
+);
 
 </script>
 
