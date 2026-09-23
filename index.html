@@ -2,391 +2,431 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>The Last Shop</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+*{box-sizing:border-box}
+
+html,body{
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:Arial,sans-serif;
+    background:#111827;
 }
 
-body {
-    background: #111827;
-    font-family: Arial, sans-serif;
-    overflow: hidden;
-    user-select: none;
+#game{
+    position:relative;
+    width:100vw;
+    height:100vh;
+    overflow:hidden;
+    background:#d9c0a9;
 }
 
-#game {
-    width: 100vw;
-    height: 100vh;
-    position: relative;
-    overflow: hidden;
-    background:
-        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px),
-        #6b4f3a;
-    background-size: 40px 40px;
+/* TOP HUD */
+#hud{
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:72px;
+    background:linear-gradient(90deg,#171923,#292c3b);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 18px;
+    z-index:20;
+    box-shadow:0 3px 12px #0008;
 }
 
-/* TOP BAR */
-
-#topBar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 70px;
-    background: rgba(17,24,39,.95);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 25px;
-    z-index: 20;
-    border-bottom: 2px solid #374151;
+.logo{
+    font-size:21px;
+    font-weight:900;
+    color:#ffd166;
 }
 
-.logo {
-    font-size: 25px;
-    font-weight: bold;
+.stats{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    flex-wrap:wrap;
 }
 
-.logo span {
-    color: #fbbf24;
+.stat{
+    background:#ffffff12;
+    border:1px solid #ffffff20;
+    border-radius:12px;
+    padding:9px 13px;
+    font-size:14px;
 }
 
-.stats {
-    display: flex;
-    gap: 25px;
-    font-size: 17px;
-}
-
-.stat {
-    display: flex;
-    gap: 7px;
-    align-items: center;
+#openBtn{
+    border:0;
+    border-radius:12px;
+    padding:10px 16px;
+    background:#22c55e;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
 }
 
 /* SHOP */
-
-#shop {
-    position: absolute;
-    left: 7%;
-    right: 7%;
-    top: 100px;
-    bottom: 50px;
-    background: #d6b98c;
-    border: 12px solid #3f2d20;
-    box-shadow: inset 0 0 0 5px #8b6a47,
-                0 20px 50px rgba(0,0,0,.45);
-}
-
-/* FLOOR */
-
-#floor {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 68%;
+#shop{
+    position:absolute;
+    top:72px;
+    left:0;
+    right:0;
+    bottom:0;
+    overflow:hidden;
     background:
-        linear-gradient(90deg, rgba(80,50,30,.25) 2px, transparent 2px),
-        linear-gradient(rgba(80,50,30,.25) 2px, transparent 2px),
-        #b8895d;
-    background-size: 70px 70px;
+        linear-gradient(#ffffff18 1px,transparent 1px),
+        linear-gradient(90deg,#ffffff18 1px,transparent 1px),
+        #d6bca5;
+    background-size:42px 42px;
 }
 
-/* WALL */
-
-#wall {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 32%;
-    background: #cdb184;
+/* BACK WALL */
+.wall{
+    position:absolute;
+    left:0;
+    right:0;
+    top:0;
+    height:42%;
+    background:
+        linear-gradient(#ffffff25 1px,transparent 1px),
+        linear-gradient(90deg,#ffffff25 1px,transparent 1px),
+        #eee4d5;
+    background-size:55px 55px;
+    border-bottom:8px solid #8e6654;
 }
 
-/* WINDOWS */
-
-.window {
-    position: absolute;
-    top: 35px;
-    width: 150px;
-    height: 100px;
-    background: linear-gradient(#79b8e8,#d5efff);
-    border: 10px solid #553b27;
-}
-
-.window:before,
-.window:after {
-    content: "";
-    position: absolute;
-    background: #553b27;
-}
-
-.window:before {
-    width: 8px;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-}
-
-.window:after {
-    height: 8px;
-    left: 0;
-    right: 0;
-    top: 50%;
-}
-
-.window.left {
-    left: 8%;
-}
-
-.window.right {
-    right: 8%;
-}
-
-/* SIGN */
-
-#sign {
-    position: absolute;
-    top: 38px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #2b2119;
-    color: #fbbf24;
-    padding: 15px 35px;
-    border: 5px solid #705234;
-    font-size: 26px;
-    font-weight: bold;
-    letter-spacing: 2px;
-}
-
-/* COUNTER */
-
-#counter {
-    position: absolute;
-    left: 7%;
-    right: 7%;
-    bottom: 18%;
-    height: 90px;
-    background: #67452c;
-    border: 8px solid #3e281a;
-    box-shadow: 0 10px 20px rgba(0,0,0,.3);
+/* SHOP SIGN */
+.sign{
+    position:absolute;
+    top:28px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#252936;
+    color:#ffd166;
+    padding:12px 30px;
+    border:4px solid #765447;
+    border-radius:8px;
+    font-size:22px;
+    font-weight:900;
+    letter-spacing:2px;
+    box-shadow:0 5px 12px #0004;
 }
 
 /* SHELVES */
-
-.shelf {
-    position: absolute;
-    width: 170px;
-    height: 100px;
-    background: #704a2d;
-    border: 8px solid #412818;
+.shelf{
+    position:absolute;
+    height:115px;
+    width:31%;
+    min-width:260px;
+    background:#9b654f;
+    border:6px solid #67483e;
+    border-radius:8px;
+    box-shadow:0 7px 0 #52372f,0 12px 20px #0003;
 }
 
-.shelf.left {
-    left: 5%;
-    top: 25%;
+.shelf1{left:4%;top:48%}
+.shelf2{right:4%;top:48%}
+
+.shelfTitle{
+    position:absolute;
+    top:-31px;
+    left:5px;
+    color:#3b2923;
+    font-weight:bold;
 }
 
-.shelf.right {
-    right: 5%;
-    top: 25%;
+/* PRODUCTS */
+.product{
+    position:absolute;
+    bottom:17px;
+    width:55px;
+    height:65px;
+    border-radius:8px 8px 4px 4px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    box-shadow:inset 0 -7px #0002,0 4px 5px #0004;
 }
 
-/* ITEMS */
-
-.item {
-    position: absolute;
-    font-size: 42px;
-    cursor: pointer;
-    transition: transform .15s;
-    z-index: 5;
+.product small{
+    position:absolute;
+    bottom:-25px;
+    font-size:11px;
+    color:white;
+    background:#222;
+    padding:3px 5px;
+    border-radius:4px;
+    white-space:nowrap;
 }
 
-.item:hover {
-    transform: scale(1.15);
-}
+.p1{left:10%;background:#ef4444}
+.p2{left:35%;background:#facc15}
+.p3{left:60%;background:#60a5fa}
 
-#chair {
-    left: 25%;
-    bottom: 25%;
-}
+.p4{left:10%;background:#a78bfa}
+.p5{left:35%;background:#fb923c}
+.p6{left:60%;background:#34d399}
 
-#lamp {
-    right: 25%;
-    bottom: 26%;
-}
-
-#box {
-    left: 45%;
-    bottom: 30%;
-    font-size: 55px;
+/* FLOOR */
+.floorLine{
+    position:absolute;
+    left:0;
+    right:0;
+    top:73%;
+    height:10px;
+    background:#765447;
 }
 
 /* PLAYER */
-
-#player {
-    position: absolute;
-    width: 45px;
-    height: 55px;
-    left: 50%;
-    bottom: 25%;
-    transform: translateX(-50%);
-    z-index: 10;
+#player{
+    position:absolute;
+    width:42px;
+    height:58px;
+    z-index:10;
+    transition:left .06s linear,top .06s linear;
 }
 
-.player-head {
-    width: 34px;
-    height: 34px;
-    background: #f2b880;
-    border-radius: 50%;
-    margin: auto;
-    border: 3px solid #39261b;
+.head{
+    width:25px;
+    height:25px;
+    background:#f2bd91;
+    border-radius:50%;
+    margin:auto;
+    border:2px solid #7a4e3c;
 }
 
-.player-body {
-    width: 40px;
-    height: 30px;
-    background: #2563eb;
-    border-radius: 10px 10px 5px 5px;
-    margin: -2px auto 0;
-    border: 3px solid #172554;
+.body{
+    width:31px;
+    height:30px;
+    background:#2563eb;
+    border-radius:8px 8px 5px 5px;
+    margin:0 auto;
+    border:2px solid #173b86;
 }
 
-/* INTERACTION */
+.playerName{
+    position:absolute;
+    top:-23px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#111827;
+    color:white;
+    font-size:10px;
+    padding:3px 7px;
+    border-radius:8px;
+    white-space:nowrap;
+}
 
-#interaction {
-    position: absolute;
-    left: 50%;
-    bottom: 20px;
-    transform: translateX(-50%);
-    background: rgba(17,24,39,.95);
-    color: white;
-    padding: 12px 25px;
-    border-radius: 12px;
-    font-size: 16px;
-    display: none;
-    z-index: 30;
+/* CUSTOMERS */
+.customer{
+    position:absolute;
+    width:40px;
+    height:57px;
+    z-index:8;
+    transition:left .4s linear,top .4s linear;
+}
+
+.customer .head{
+    width:23px;
+    height:23px;
+}
+
+.customer .body{
+    width:29px;
+    height:29px;
+    background:#e879f9;
+}
+
+.customer.c2 .body{background:#f97316}
+.customer.c3 .body{background:#14b8a6}
+.customer.c4 .body{background:#8b5cf6}
+
+.customerBubble{
+    position:absolute;
+    top:-38px;
+    left:50%;
+    transform:translateX(-50%);
+    background:white;
+    color:#222;
+    padding:5px 8px;
+    border-radius:9px;
+    font-size:11px;
+    white-space:nowrap;
+    box-shadow:0 3px 8px #0003;
+}
+
+/* ACTION BUTTONS */
+#actions{
+    position:absolute;
+    left:50%;
+    bottom:20px;
+    transform:translateX(-50%);
+    display:flex;
+    gap:9px;
+    z-index:30;
+}
+
+.action{
+    border:0;
+    border-radius:12px;
+    padding:12px 16px;
+    background:#202536;
+    color:white;
+    font-weight:bold;
+    box-shadow:0 4px 10px #0005;
+    cursor:pointer;
+}
+
+.action:hover{
+    transform:translateY(-2px);
+    background:#30364d;
+}
+
+.action:active{
+    transform:translateY(1px);
 }
 
 /* MESSAGE */
-
-#message {
-    position: absolute;
-    top: 85px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(17,24,39,.95);
-    color: white;
-    padding: 15px 25px;
-    border-radius: 12px;
-    z-index: 40;
-    display: none;
-    max-width: 500px;
-    text-align: center;
+#message{
+    position:absolute;
+    left:50%;
+    top:88px;
+    transform:translateX(-50%);
+    background:#111827ee;
+    color:white;
+    padding:12px 18px;
+    border-radius:14px;
+    font-weight:bold;
+    z-index:50;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
 }
 
-#message button {
-    margin-top: 12px;
-    background: #fbbf24;
-    color: #111827;
-    border: 0;
-    padding: 9px 20px;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
+#message.show{
+    opacity:1;
+}
+
+/* CUSTOMER PANEL */
+#customerPanel{
+    position:absolute;
+    right:18px;
+    bottom:20px;
+    width:220px;
+    background:#ffffffee;
+    border-radius:16px;
+    padding:15px;
+    z-index:25;
+    box-shadow:0 6px 20px #0004;
+    display:none;
+}
+
+#customerPanel h3{
+    margin:0 0 8px;
+}
+
+#serveBtn{
+    width:100%;
+    border:0;
+    padding:10px;
+    background:#22c55e;
+    color:white;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* START SCREEN */
+#start{
+    position:absolute;
+    inset:0;
+    z-index:100;
+    background:linear-gradient(135deg,#111827,#312e81);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.startBox{
+    width:min(520px,90%);
+    text-align:center;
+    background:#ffffff12;
+    border:1px solid #ffffff25;
+    backdrop-filter:blur(12px);
+    padding:40px 25px;
+    border-radius:25px;
+    box-shadow:0 20px 60px #0007;
+}
+
+.startBox h1{
+    margin:0;
+    font-size:48px;
+    color:#ffd166;
+}
+
+.startBox p{
+    color:#d1d5db;
+    line-height:1.6;
+}
+
+#startBtn{
+    border:0;
+    padding:15px 35px;
+    border-radius:14px;
+    background:#22c55e;
+    color:white;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:15px;
 }
 
 /* MOBILE CONTROLS */
-
-#controls {
-    position: absolute;
-    bottom: 20px;
-    right: 25px;
-    display: grid;
-    grid-template-columns: 55px 55px 55px;
-    grid-template-rows: 55px 55px;
-    gap: 5px;
-    z-index: 25;
+#mobileControls{
+    display:none;
+    position:absolute;
+    left:15px;
+    bottom:20px;
+    z-index:40;
 }
 
-.control {
-    background: rgba(17,24,39,.75);
-    color: white;
-    border: 2px solid #6b7280;
-    border-radius: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 25px;
+.controlRow{
+    display:flex;
+    gap:7px;
+    justify-content:center;
 }
 
-.up {
-    grid-column: 2;
+.move{
+    width:48px;
+    height:42px;
+    border:0;
+    border-radius:10px;
+    background:#202536dd;
+    color:white;
+    font-size:20px;
 }
 
-.left {
-    grid-column: 1;
-}
-
-.down {
-    grid-column: 2;
-}
-
-.right {
-    grid-column: 3;
-}
-
-@media(max-width:700px) {
-
-    #topBar {
-        height: 58px;
-        padding: 0 10px;
-    }
-
-    .logo {
-        font-size: 17px;
-    }
-
-    .stats {
-        gap: 8px;
-        font-size: 12px;
-    }
-
-    #shop {
-        left: 2%;
-        right: 2%;
-        top: 75px;
-        bottom: 15px;
-    }
-
-    #sign {
-        font-size: 17px;
-        padding: 9px 15px;
-    }
-
-    .window {
-        width: 90px;
-        height: 65px;
-    }
-
-    .shelf {
-        width: 100px;
-        height: 70px;
-    }
-
-    #controls {
-        right: 10px;
-        bottom: 10px;
-        transform: scale(.8);
-        transform-origin: bottom right;
-    }
+@media(max-width:700px){
+    .logo{font-size:16px}
+    .stat{padding:6px 8px;font-size:11px}
+    #openBtn{padding:7px 9px}
+    .sign{font-size:15px;padding:9px 15px}
+    .shelf{min-width:0;width:40%;height:100px}
+    #mobileControls{display:block}
+    #actions{right:10px;left:auto;transform:none;flex-direction:column}
+    .action{padding:9px}
+    #customerPanel{right:10px;bottom:145px;width:190px}
 }
 </style>
 </head>
@@ -395,260 +435,551 @@ body {
 
 <div id="game">
 
-    <div id="topBar">
-        <div class="logo">🏚️ THE <span>LAST SHOP</span></div>
+<div id="start">
+    <div class="startBox">
+        <h1>🏪 THE LAST SHOP</h1>
+        <p>
+            The town is almost empty.<br>
+            Your shop is the last one still open.
+        </p>
+        <p>
+            Stock the shelves. Help customers. Make money.
+            Upgrade the shop. Survive the day.
+        </p>
+        <button id="startBtn">START THE SHOP</button>
+    </div>
+</div>
 
-        <div class="stats">
-            <div class="stat">💷 <span id="money">2</span></div>
-            <div class="stat">⭐ <span id="reputation">0</span></div>
-            <div class="stat">📅 Day <span id="day">1</span></div>
-        </div>
+<div id="hud">
+    <div class="logo">🏪 THE LAST SHOP</div>
+
+    <div class="stats">
+        <div class="stat">💰 £<span id="money">100</span></div>
+        <div class="stat">📦 <span id="stock">12</span></div>
+        <div class="stat">⭐ <span id="rep">50</span></div>
+        <div class="stat">🕐 <span id="time">08:00</span></div>
     </div>
 
-    <div id="shop">
+    <button id="openBtn">SHOP OPEN</button>
+</div>
 
-        <div id="wall"></div>
+<div id="shop">
 
-        <div id="floor"></div>
+    <div class="wall"></div>
 
-        <div id="sign">
-            THE LAST SHOP
-        </div>
+    <div class="sign">THE LAST SHOP</div>
 
-        <div class="window left"></div>
-        <div class="window right"></div>
+    <div class="shelf shelf1">
+        <div class="shelfTitle">🥫 FOOD</div>
 
-        <div class="shelf left"></div>
-        <div class="shelf right"></div>
-
-        <div id="counter"></div>
-
-        <div id="chair" class="item" data-name="Broken Chair">🪑</div>
-
-        <div id="lamp" class="item" data-name="Old Lamp">💡</div>
-
-        <div id="box" class="item" data-name="Old Box">📦</div>
-
-        <div id="player">
-            <div class="player-head"></div>
-            <div class="player-body"></div>
-        </div>
-
+        <div class="product p1">🍎<small>£3</small></div>
+        <div class="product p2">🥖<small>£2</small></div>
+        <div class="product p3">🥛<small>£2</small></div>
     </div>
 
-    <div id="interaction">
-        Press <b>SPACE</b> to interact
+    <div class="shelf shelf2">
+        <div class="shelfTitle">🧰 SUPPLIES</div>
+
+        <div class="product p4">🔋<small>£5</small></div>
+        <div class="product p5">🔦<small>£8</small></div>
+        <div class="product p6">🧼<small>£4</small></div>
     </div>
 
-    <div id="message"></div>
+    <div class="floorLine"></div>
 
-    <div id="controls">
-        <div class="control up" data-key="ArrowUp">▲</div>
-        <div class="control left" data-key="ArrowLeft">◀</div>
-        <div class="control down" data-key="ArrowDown">▼</div>
-        <div class="control right" data-key="ArrowRight">▶</div>
+    <div id="customers"></div>
+
+    <div id="player">
+        <div class="playerName">YOU</div>
+        <div class="head"></div>
+        <div class="body"></div>
     </div>
 
 </div>
 
+<div id="customerPanel">
+    <h3 id="customerName">Customer</h3>
+    <p id="customerRequest">Looking for something...</p>
+    <button id="serveBtn">SERVE CUSTOMER</button>
+</div>
+
+<div id="message"></div>
+
+<div id="actions">
+    <button class="action" id="restockBtn">📦 RESTOCK £20</button>
+    <button class="action" id="upgradeBtn">⬆️ UPGRADE £100</button>
+</div>
+
+<div id="mobileControls">
+    <div class="controlRow">
+        <button class="move" data-key="ArrowUp">▲</button>
+    </div>
+    <div class="controlRow">
+        <button class="move" data-key="ArrowLeft">◀</button>
+        <button class="move" data-key="ArrowDown">▼</button>
+        <button class="move" data-key="ArrowRight">▶</button>
+    </div>
+</div>
+
+</div>
+
 <script>
+/* =========================
+   THE LAST SHOP
+   STEP 3 GAME ENGINE
+========================= */
 
-let playerX = 50;
-let playerY = 65;
+let gameStarted=false;
 
-let money = 2;
-let reputation = 0;
-let day = 1;
+let money=100;
+let stock=12;
+let reputation=50;
 
-let nearbyItem = null;
+let gameMinutes=8*60;
 
-const player = document.getElementById("player");
-const interaction = document.getElementById("interaction");
-const message = document.getElementById("message");
+let playerX=50;
+let playerY=58;
 
-function updatePlayer() {
+let selectedCustomer=null;
 
-    player.style.left = playerX + "%";
-    player.style.bottom = playerY + "%";
+const player=document.getElementById("player");
+const customersBox=document.getElementById("customers");
+const message=document.getElementById("message");
 
-    checkNearby();
-}
+const moneyEl=document.getElementById("money");
+const stockEl=document.getElementById("stock");
+const repEl=document.getElementById("rep");
+const timeEl=document.getElementById("time");
 
-function move(direction) {
+const customerPanel=document.getElementById("customerPanel");
+const customerName=document.getElementById("customerName");
+const customerRequest=document.getElementById("customerRequest");
 
-    const speed = 2;
-
-    if(direction === "up") {
-        playerY = Math.min(playerY + speed, 75);
+const customerTypes=[
+    {
+        name:"Emma",
+        request:"🍎 I need some apples!",
+        price:3
+    },
+    {
+        name:"Jack",
+        request:"🥖 Do you have bread?",
+        price:2
+    },
+    {
+        name:"Sophie",
+        request:"🔦 I need a torch.",
+        price:8
+    },
+    {
+        name:"Tom",
+        request:"🧼 I need soap!",
+        price:4
     }
+];
 
-    if(direction === "down") {
-        playerY = Math.max(playerY - speed, 8);
-    }
+let customers=[];
 
-    if(direction === "left") {
-        playerX = Math.max(playerX - speed, 7);
-    }
+/* START */
 
-    if(direction === "right") {
-        playerX = Math.min(playerX + speed, 93);
-    }
+document.getElementById("startBtn").onclick=()=>{
+    document.getElementById("start").style.display="none";
+    gameStarted=true;
 
-    updatePlayer();
-}
+    showMessage("🏪 Your shop is open!");
 
-document.addEventListener("keydown", function(e) {
+    spawnCustomer();
+    spawnCustomer();
+};
 
-    if(e.key === "ArrowUp" || e.key.toLowerCase() === "w") {
-        move("up");
-    }
+/* PLAYER */
 
-    if(e.key === "ArrowDown" || e.key.toLowerCase() === "s") {
-        move("down");
-    }
+function updatePlayer(){
 
-    if(e.key === "ArrowLeft" || e.key.toLowerCase() === "a") {
-        move("left");
-    }
+    playerX=Math.max(2,Math.min(96,playerX));
+    playerY=Math.max(35,Math.min(80,playerY));
 
-    if(e.key === "ArrowRight" || e.key.toLowerCase() === "d") {
-        move("right");
-    }
-
-    if(e.code === "Space") {
-        interact();
-    }
-
-});
-
-document.querySelectorAll(".control").forEach(button => {
-
-    button.addEventListener("click", function() {
-
-        const key = this.dataset.key;
-
-        if(key === "ArrowUp") move("up");
-        if(key === "ArrowDown") move("down");
-        if(key === "ArrowLeft") move("left");
-        if(key === "ArrowRight") move("right");
-
-    });
-
-});
-
-function checkNearby() {
-
-    const items = document.querySelectorAll(".item");
-
-    nearbyItem = null;
-
-    items.forEach(item => {
-
-        const rect = item.getBoundingClientRect();
-        const playerRect = player.getBoundingClientRect();
-
-        const distanceX =
-            Math.abs(rect.left - playerRect.left);
-
-        const distanceY =
-            Math.abs(rect.top - playerRect.top);
-
-        if(distanceX < 80 && distanceY < 80) {
-            nearbyItem = item;
-        }
-
-    });
-
-    if(nearbyItem) {
-        interaction.style.display = "block";
-        interaction.innerHTML =
-            "Press <b>SPACE</b> to interact with " +
-            nearbyItem.dataset.name;
-    } else {
-        interaction.style.display = "none";
-    }
-}
-
-function interact() {
-
-    if(!nearbyItem) return;
-
-    const name = nearbyItem.dataset.name;
-
-    if(name === "Old Box") {
-
-        showMessage(
-            "📦 You found an old box!<br><br>" +
-            "There might be something useful inside..."
-        );
-
-        nearbyItem.innerHTML = "🧰";
-        nearbyItem.dataset.name = "Tool Box";
-
-        reputation += 1;
-
-    }
-
-    else if(name === "Broken Chair") {
-
-        if(money >= 1) {
-
-            money -= 1;
-            reputation += 5;
-
-            nearbyItem.innerHTML = "🪑✨";
-            nearbyItem.dataset.name = "Repaired Chair";
-
-            showMessage(
-                "🔨 You repaired the chair!<br><br>" +
-                "It looks good enough to sell."
-            );
-
-        } else {
-
-            showMessage(
-                "💷 You need £1 to repair this chair."
-            );
-
-        }
-
-    }
-
-    else if(name === "Old Lamp") {
-
-        showMessage(
-            "💡 The lamp is broken.<br><br>" +
-            "You need to find some parts before you can repair it."
-        );
-
-    }
-
-    updateStats();
-
-}
-
-function showMessage(text) {
-
-    message.innerHTML =
-        text +
-        '<br><button onclick="closeMessage()">OK</button>';
-
-    message.style.display = "block";
-}
-
-function closeMessage() {
-    message.style.display = "none";
-}
-
-function updateStats() {
-
-    document.getElementById("money").textContent = money;
-    document.getElementById("reputation").textContent = reputation;
-    document.getElementById("day").textContent = day;
-
+    player.style.left=playerX+"%";
+    player.style.top=playerY+"%";
 }
 
 updatePlayer();
+
+document.addEventListener("keydown",e=>{
+
+    if(!gameStarted)return;
+
+    const speed=1.8;
+
+    if(e.key==="ArrowLeft" || e.key==="a"){
+        playerX-=speed;
+    }
+
+    if(e.key==="ArrowRight" || e.key==="d"){
+        playerX+=speed;
+    }
+
+    if(e.key==="ArrowUp" || e.key==="w"){
+        playerY-=speed;
+    }
+
+    if(e.key==="ArrowDown" || e.key==="s"){
+        playerY+=speed;
+    }
+
+    updatePlayer();
+
+    checkNearbyCustomer();
+});
+
+/* MOBILE */
+
+document.querySelectorAll(".move").forEach(btn=>{
+
+    btn.addEventListener("touchstart",e=>{
+        e.preventDefault();
+
+        const key=btn.dataset.key;
+
+        if(key==="ArrowLeft")playerX-=2;
+        if(key==="ArrowRight")playerX+=2;
+        if(key==="ArrowUp")playerY-=2;
+        if(key==="ArrowDown")playerY+=2;
+
+        updatePlayer();
+        checkNearbyCustomer();
+    });
+});
+
+/* CUSTOMERS */
+
+function spawnCustomer(){
+
+    if(!gameStarted)return;
+
+    if(customers.length>=5)return;
+
+    const type=
+        customerTypes[
+            Math.floor(Math.random()*customerTypes.length)
+        ];
+
+    const el=document.createElement("div");
+
+    el.className=
+        "customer c"+(Math.floor(Math.random()*4)+1);
+
+    el.innerHTML=`
+        <div class="customerBubble">💭</div>
+        <div class="head"></div>
+        <div class="body"></div>
+    `;
+
+    customersBox.appendChild(el);
+
+    const customer={
+        el:el,
+        name:type.name,
+        request:type.request,
+        price:type.price,
+        x:10+Math.random()*80,
+        y:60+Math.random()*17,
+        targetX:10+Math.random()*80,
+        targetY:55+Math.random()*20,
+        wait:0
+    };
+
+    customers.push(customer);
+
+    drawCustomer(customer);
+}
+
+function drawCustomer(c){
+
+    c.el.style.left=c.x+"%";
+    c.el.style.top=c.y+"%";
+}
+
+/* CUSTOMER MOVEMENT */
+
+setInterval(()=>{
+
+    if(!gameStarted)return;
+
+    customers.forEach(c=>{
+
+        c.wait++;
+
+        if(Math.random()<0.15){
+
+            c.targetX=10+Math.random()*80;
+            c.targetY=55+Math.random()*20;
+        }
+
+        const dx=c.targetX-c.x;
+        const dy=c.targetY-c.y;
+
+        c.x+=Math.sign(dx)*0.7;
+        c.y+=Math.sign(dy)*0.35;
+
+        drawCustomer(c);
+    });
+
+    checkNearbyCustomer();
+
+},500);
+
+/* DETECT PLAYER */
+
+function checkNearbyCustomer(){
+
+    if(!gameStarted)return;
+
+    let nearest=null;
+    let distance=999;
+
+    customers.forEach(c=>{
+
+        const dx=playerX-c.x;
+        const dy=playerY-c.y;
+
+        const d=Math.sqrt(dx*dx+dy*dy);
+
+        if(d<12 && d<distance){
+
+            nearest=c;
+            distance=d;
+        }
+    });
+
+    if(nearest){
+
+        selectedCustomer=nearest;
+
+        customerPanel.style.display="block";
+
+        customerName.textContent=
+            "👤 "+nearest.name;
+
+        customerRequest.textContent=
+            nearest.request;
+
+    }else{
+
+        selectedCustomer=null;
+        customerPanel.style.display="none";
+    }
+}
+
+/* SERVE */
+
+document.getElementById("serveBtn").onclick=()=>{
+
+    if(!selectedCustomer)return;
+
+    if(stock<=0){
+
+        showMessage("❌ You're out of stock!");
+
+        reputation=Math.max(0,reputation-3);
+
+        updateHUD();
+
+        return;
+    }
+
+    money+=selectedCustomer.price;
+
+    stock--;
+
+    reputation=Math.min(100,reputation+2);
+
+    const served=selectedCustomer;
+
+    customers=customers.filter(c=>c!==served);
+
+    served.el.remove();
+
+    selectedCustomer=null;
+
+    customerPanel.style.display="none";
+
+    showMessage(
+        "💰 Sale! +£"+served.price
+    );
+
+    updateHUD();
+
+    setTimeout(spawnCustomer,1200);
+};
+
+/* RESTOCK */
+
+document.getElementById("restockBtn").onclick=()=>{
+
+    if(money<20){
+
+        showMessage("❌ You need £20.");
+
+        return;
+    }
+
+    money-=20;
+    stock+=10;
+
+    showMessage("📦 10 items delivered!");
+
+    updateHUD();
+};
+
+/* UPGRADE */
+
+let shopLevel=1;
+
+document.getElementById("upgradeBtn").onclick=()=>{
+
+    const cost=100*shopLevel;
+
+    if(money<cost){
+
+        showMessage(
+            "❌ Upgrade costs £"+cost
+        );
+
+        return;
+    }
+
+    money-=cost;
+
+    shopLevel++;
+
+    reputation=Math.min(100,reputation+5);
+
+    showMessage(
+        "⬆️ Shop upgraded to Level "+shopLevel+"!"
+    );
+
+    updateHUD();
+};
+
+/* CLOCK */
+
+setInterval(()=>{
+
+    if(!gameStarted)return;
+
+    gameMinutes+=2;
+
+    if(gameMinutes>=22*60){
+
+        gameMinutes=8*60;
+
+        showMessage(
+            "🌙 Day finished! The shop opens again."
+        );
+
+        reputation=Math.max(
+            0,
+            reputation+Math.floor(Math.random()*6)
+        );
+    }
+
+    updateHUD();
+
+},1000);
+
+/* HUD */
+
+function updateHUD(){
+
+    moneyEl.textContent=Math.floor(money);
+    stockEl.textContent=stock;
+    repEl.textContent=reputation;
+
+    const hours=
+        Math.floor(gameMinutes/60);
+
+    const mins=
+        gameMinutes%60;
+
+    timeEl.textContent=
+        String(hours).padStart(2,"0")+
+        ":"+
+        String(mins).padStart(2,"0");
+}
+
+/* MESSAGE */
+
+let messageTimer;
+
+function showMessage(text){
+
+    message.textContent=text;
+
+    message.classList.add("show");
+
+    clearTimeout(messageTimer);
+
+    messageTimer=setTimeout(()=>{
+        message.classList.remove("show");
+    },2200);
+}
+
+/* SAVE GAME */
+
+function saveGame(){
+
+    localStorage.setItem(
+        "lastShopSave",
+        JSON.stringify({
+            money,
+            stock,
+            reputation,
+            shopLevel,
+            gameMinutes
+        })
+    );
+}
+
+function loadGame(){
+
+    const saved=
+        localStorage.getItem("lastShopSave");
+
+    if(!saved)return;
+
+    try{
+
+        const data=JSON.parse(saved);
+
+        money=data.money ?? money;
+        stock=data.stock ?? stock;
+        reputation=data.reputation ?? reputation;
+        shopLevel=data.shopLevel ?? shopLevel;
+        gameMinutes=data.gameMinutes ?? gameMinutes;
+
+        updateHUD();
+
+    }catch(e){}
+}
+
+setInterval(saveGame,5000);
+
+loadGame();
+
+/* START CUSTOMERS */
+
+setInterval(()=>{
+
+    if(gameStarted){
+
+        if(customers.length<5){
+
+            spawnCustomer();
+        }
+    }
+
+},4500);
 
 </script>
 
