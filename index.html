@@ -985,3 +985,386 @@ setInterval(()=>{
 
 </body>
 </html>
+<!-- =========================
+     THE LAST SHOP - CUSTOMERS
+     ========================= -->
+
+<style>
+.customer {
+    position: absolute;
+    width: 42px;
+    height: 58px;
+    z-index: 50;
+    transition: left 1.8s linear, top 1.8s linear;
+    cursor: pointer;
+}
+
+.customer .head {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #ffd0aa;
+    border: 2px solid #593b35;
+    margin: auto;
+}
+
+.customer .body {
+    width: 34px;
+    height: 30px;
+    margin: -2px auto 0;
+    border-radius: 9px 9px 5px 5px;
+    border: 2px solid #593b35;
+}
+
+.customer-name {
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(20,20,30,.9);
+    color: white;
+    padding: 3px 7px;
+    border-radius: 8px;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.customer-request {
+    position: absolute;
+    top: -48px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border: 2px solid #333;
+    border-radius: 12px;
+    padding: 5px 8px;
+    font-size: 14px;
+    white-space: nowrap;
+    box-shadow: 0 3px 8px #0004;
+}
+
+.customer-happy {
+    animation: happyCustomer .35s infinite alternate;
+}
+
+@keyframes happyCustomer {
+    from { transform: translateY(0); }
+    to { transform: translateY(-7px); }
+}
+
+.customer-angry {
+    animation: angryCustomer .2s infinite alternate;
+}
+
+@keyframes angryCustomer {
+    from { transform: rotate(-3deg); }
+    to { transform: rotate(3deg); }
+}
+
+.customer-panel {
+    position: fixed;
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%);
+    background: rgba(20,25,35,.96);
+    color: white;
+    padding: 12px 18px;
+    border-radius: 16px;
+    z-index: 999;
+    display: none;
+    text-align: center;
+    box-shadow: 0 5px 25px #0008;
+}
+
+.customer-panel button {
+    border: 0;
+    border-radius: 10px;
+    padding: 9px 18px;
+    margin: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    background: #35d07f;
+    color: white;
+}
+
+.customer-panel button:hover {
+    transform: scale(1.05);
+}
+</style>
+
+<div id="customerPanel" class="customer-panel">
+    <div id="customerMessage">Customer wants something.</div>
+    <button onclick="serveCustomer()">SERVE CUSTOMER 🛍️</button>
+    <button onclick="closeCustomerPanel()">CLOSE</button>
+</div>
+
+<script>
+/* =========================
+   CUSTOMER SYSTEM
+   ========================= */
+
+const lastShopCustomers = [];
+
+const customerTypes = [
+    {
+        name: "Emma",
+        request: "🥤 Drink",
+        reward: 12,
+        colour: "#4da6ff"
+    },
+    {
+        name: "Jack",
+        request: "🍞 Food",
+        reward: 15,
+        colour: "#ff9f43"
+    },
+    {
+        name: "Sophie",
+        request: "🎁 Gift",
+        reward: 20,
+        colour: "#d66bff"
+    },
+    {
+        name: "Leo",
+        request: "🧸 Toy",
+        reward: 18,
+        colour: "#35d07f"
+    },
+    {
+        name: "Mia",
+        request: "📦 Supplies",
+        reward: 25,
+        colour: "#ff6b6b"
+    }
+];
+
+let activeCustomer = null;
+let customerMoney = 100;
+let customerScore = 0;
+
+function createCustomer() {
+
+    if (lastShopCustomers.length >= 6) return;
+
+    const data =
+        customerTypes[
+            Math.floor(Math.random() * customerTypes.length)
+        ];
+
+    const customer = document.createElement("div");
+
+    customer.className = "customer";
+
+    const startX = 5 + Math.random() * 90;
+
+    customer.style.left = startX + "%";
+    customer.style.top = "72%";
+
+    customer.innerHTML = `
+        <div class="customer-request">${data.request}</div>
+        <div class="customer-name">${data.name}</div>
+        <div class="head"></div>
+        <div class="body" style="background:${data.colour}"></div>
+    `;
+
+    document.body.appendChild(customer);
+
+    const info = {
+        element: customer,
+        data: data,
+        served: false
+    };
+
+    lastShopCustomers.push(info);
+
+    customer.addEventListener("click", function(e) {
+
+        e.stopPropagation();
+
+        activeCustomer = info;
+
+        document.getElementById("customerMessage").innerHTML =
+            `<strong>${data.name}</strong> wants ${data.request}<br>
+             Serve them and earn <strong>£${data.reward}</strong>`;
+
+        document.getElementById("customerPanel").style.display = "block";
+    });
+
+    /* Customer walks into the shop */
+    setTimeout(() => {
+
+        const targetX = 15 + Math.random() * 70;
+
+        customer.style.left = targetX + "%";
+        customer.style.top = "48%";
+
+    }, 300);
+
+    /* Customer waits */
+    setTimeout(() => {
+
+        if (!info.served) {
+
+            customer.querySelector(".customer-request")
+                .style.background = "#fff3a6";
+
+        }
+
+    }, 7000);
+
+    /* Customer gets impatient */
+    setTimeout(() => {
+
+        if (!info.served) {
+
+            customer.classList.add("customer-angry");
+
+        }
+
+    }, 12000);
+
+    /* Customer leaves */
+    setTimeout(() => {
+
+        if (!info.served) {
+
+            removeCustomer(info);
+
+        }
+
+    }, 18000);
+}
+
+
+function serveCustomer() {
+
+    if (!activeCustomer) return;
+
+    const customer = activeCustomer;
+
+    if (customer.served) return;
+
+    customer.served = true;
+
+    customer.element.classList.remove("customer-angry");
+    customer.element.classList.add("customer-happy");
+
+    customerMoney += customer.data.reward;
+    customerScore += 10;
+
+    document.getElementById("customerMessage").innerHTML =
+        `🎉 <strong>${customer.data.name}</strong> is happy!<br>
+         +£${customer.data.reward} 💰 &nbsp; +10 ⭐`;
+
+    updateShopMoney();
+
+    setTimeout(() => {
+
+        removeCustomer(customer);
+
+        closeCustomerPanel();
+
+    }, 1200);
+}
+
+
+function removeCustomer(customer) {
+
+    if (!customer || !customer.element) return;
+
+    customer.element.style.left = "-15%";
+
+    setTimeout(() => {
+
+        if (customer.element.parentNode) {
+            customer.element.parentNode.removeChild(customer.element);
+        }
+
+        const index = lastShopCustomers.indexOf(customer);
+
+        if (index !== -1) {
+            lastShopCustomers.splice(index, 1);
+        }
+
+    }, 1800);
+}
+
+
+function closeCustomerPanel() {
+
+    document.getElementById("customerPanel").style.display = "none";
+
+    activeCustomer = null;
+}
+
+
+function updateShopMoney() {
+
+    /*
+      If the existing game has a money display,
+      update it automatically when possible.
+    */
+
+    const possibleMoneyIds = [
+        "money",
+        "coins",
+        "cash",
+        "balance",
+        "playerMoney"
+    ];
+
+    for (const id of possibleMoneyIds) {
+
+        const element = document.getElementById(id);
+
+        if (element) {
+
+            element.textContent =
+                "£" + customerMoney;
+
+            break;
+        }
+    }
+}
+
+
+/* Customers arrive automatically */
+
+setInterval(() => {
+
+    if (Math.random() < 0.75) {
+        createCustomer();
+    }
+
+}, 5000);
+
+
+/* First customers */
+
+setTimeout(createCustomer, 1500);
+setTimeout(createCustomer, 4000);
+
+
+/* Make the shop feel alive */
+
+setInterval(() => {
+
+    const customers =
+        document.querySelectorAll(".customer");
+
+    customers.forEach(customer => {
+
+        if (Math.random() < 0.35) {
+
+            const newX =
+                15 + Math.random() * 70;
+
+            customer.style.left =
+                newX + "%";
+        }
+
+    });
+
+}, 7000);
+
+</script>
